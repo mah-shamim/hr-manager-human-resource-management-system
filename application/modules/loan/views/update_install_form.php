@@ -54,7 +54,7 @@
                             <div class="col-sm-9">
                                <!--  <input type="text" name="received_by" class="form-control"  placeholder="<?php echo display('received_by') ?>" id="received_by" value="<?php echo $data->received_by; ?>"> -->
                                   <?php
-        echo form_dropdown('received_by', $gndloan,(!empty($data->received_by)?$data->received_by:null), 'class="form-control"');
+        echo form_dropdown('received_by', $receiver,(!empty($data->received_by)?$data->received_by:null), 'class="form-control"');
         ?>
                             </div>
                         </div>   

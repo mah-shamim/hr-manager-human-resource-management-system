@@ -1,3 +1,42 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="header-icon">
+            <i class="pe-7s-note2"></i>
+        </div>
+        <div class="header-title">
+            <h1><?php echo display('accounts') ?></h1>
+            <small><?php echo display('journal_voucher') ?></small>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="pe-7s-home"></i> <?php echo display('home') ?></a></li>
+                <li><a href="#"><?php echo display('accounts') ?></a></li>
+                <li class="active"><?php echo display('journal_voucher') ?></li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="content">
+            <?php
+        $message = $this->session->userdata('message');
+        if (isset($message)) {
+            ?>
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <?php echo $message ?>                    
+            </div>
+            <?php
+            $this->session->unset_userdata('message');
+        }
+        $error_message = $this->session->userdata('error_message');
+        if (isset($error_message)) {
+            ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <?php echo $error_message ?>                    
+            </div>
+            <?php
+            $this->session->unset_userdata('error_message');
+        }
+        ?>
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd lobidrag">
@@ -9,40 +48,12 @@
                 </div>
             </div>
             <div class="panel-body">
-                  <!--  <div class="row" id="">
-                     <div class="col-sm-4">
-                    <div class="form-group row">
-                                <label for="proposal_code" class="col-sm-5 col-form-label">Select Voucher</label>
-                                    <div class="col-sm-7">
-                                  <select class="form-control" name="vo_no">
-                                    <option>Select voucher</option>
-                                  </select>
-                                    </div> 
-                                </div> 
-                            </div>
-                           
-                            <div class="col-sm-4">
-                               <div class="form-group row">
-                                    <div class="col-sm-12">
-                                       <input type="text" name="txtSearch" id="txtSearch" class="form-control">
-                                    </div>
-                                </div> 
-                            </div>
-                             <div class="col-sm-4">
-                               <div class="form-group row">
-                               
-                                    <div class="col-sm-4">
-                                      <input type="submit" name="formsearchh" value="search" class="form-control btn btn-info" >
-                                    </div>
-                                </div> 
-                            </div>
-                        </div> -->
-                         <?= form_open_multipart('accounts/accounts/create_journal_voucher') ?>
+                         <?= form_open_multipart('accounts/create_journal_voucher') ?>
                      <div class="form-group row">
                         <label for="vo_no" class="col-sm-2 col-form-label">Voucher No</label>
                         <div class="col-sm-4">
-                             <input type="text" name="txtVNo" id="txtVNo" value="<?php if(!empty($voucher_no->voucher)){
-                               $vn = substr($voucher_no->voucher,8)+1;
+                             <input type="text" name="txtVNo" id="txtVNo" value="<?php if(!empty($voucher_no[0]['voucher'])){
+                               $vn = substr($voucher_no[0]['voucher'],8)+1;
                               echo $voucher_n = 'Journal-'.$vn;
                              }else{
                                echo $voucher_n = 'Journal-1';
@@ -85,9 +96,9 @@
 
                                          </td>
                                         <td><input type="text" name="txtCode[]"  class="form-control "  id="txtCode_1" ></td>
-                                        <td><input type="text" name="txtAmount[]" value="0" class="form-control total_price"  id="txtAmount_1" onkeyup="calculation(1)" >
+                                        <td><input type="number" name="txtAmount[]" value="0" class="form-control total_price text-right"  id="txtAmount_1" onkeyup="calculation(1)" >
                                            </td>
-                                            <td ><input type="text" name="txtAmountcr[]" value="0" class="form-control total_price1"  id="txtAmount1_1" onkeyup="calculation(1)" >
+                                            <td ><input type="number" name="txtAmountcr[]" value="0" class="form-control total_price1 text-right"  id="txtAmount1_1" onkeyup="calculation(1)" >
                                            </td>
                                        <td>
                                                 <button style="text-align: right;" class="btn btn-danger red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)"><i class="fa fa-trash-o"></i></button>
@@ -125,13 +136,15 @@
         </div>
     </div>
 </div>
+</section>
+</div>
 
 <script type="text/javascript">
 
   function load_code(id,sl){
 
     $.ajax({
-        url : "<?php echo site_url('accounts/accounts/debtvouchercode/')?>" + id,
+        url : "<?php echo site_url('accounts/debtvouchercode/')?>" + id,
         type: "GET",
         dataType: "json",
         success: function(data)
@@ -157,7 +170,7 @@
           var tabindex = count * 2;
           newdiv = document.createElement("tr");
            
-          newdiv.innerHTML ="<td> <select name='cmbCode[]' id='cmbCode_"+ count +"' class='form-control' onchange='load_code(this.value,"+ count +")'><?php foreach ($acc as $acc2) {?><option value='<?php echo $acc2->HeadCode;?>'><?php echo $acc2->HeadName;?></option><?php }?></select></td><td><input type='text' name='txtCode[]' class='form-control'  id='txtCode_"+ count +"' ></td><td><input type='text' name='txtAmount[]' class='form-control total_price' value='0' id='txtAmount_"+ count +"' onkeyup='calculation("+ count +")'></td><td><input type='text' name='txtAmountcr[]' class='form-control total_price1' id='txtAmount1_"+ count +"' value='0' onkeyup='calculation("+ count +")'></td><td><button style='text-align: right;' class='btn btn-danger red' type='button' value='<?php echo display("delete")?>' onclick='deleteRow(this)'><i class='fa fa-trash-o'></i></button></td>";
+          newdiv.innerHTML ="<td> <select name='cmbCode[]' id='cmbCode_"+ count +"' class='form-control' onchange='load_code(this.value,"+ count +")'><?php foreach ($acc as $acc2) {?><option value='<?php echo $acc2->HeadCode;?>'><?php echo $acc2->HeadName;?></option><?php }?></select></td><td><input type='text' name='txtCode[]' class='form-control'  id='txtCode_"+ count +"' ></td><td><input type='number' name='txtAmount[]' class='form-control total_price text-right' value='0' id='txtAmount_"+ count +"' onkeyup='calculation("+ count +")'></td><td><input type='number' name='txtAmountcr[]' class='form-control total_price1 text-right' id='txtAmount1_"+ count +"' value='0' onkeyup='calculation("+ count +")'></td><td><button style='text-align: right;' class='btn btn-danger red' type='button' value='<?php echo display("delete")?>' onclick='deleteRow(this)'><i class='fa fa-trash-o'></i></button></td>";
           document.getElementById(divName).appendChild(newdiv);
           document.getElementById(tabin).focus();
           count++;

@@ -306,9 +306,13 @@ ul li a{
                                         <option value="2" <?php if($data->pay_frequency ==2){
                                             echo 'selected';
                                         }?>>Biweekly</option>
+                                         <option value="4" <?php if($data->pay_frequency ==4){
+                                            echo 'selected';
+                                        }?>>Monthly</option>
                                         <option value="3" <?php if($data->pay_frequency ==3){
                                             echo 'selected';
                                         }?>>Annual</option>
+
                                     </select>
                                     <span id="frequ"></span>
                                     </div>

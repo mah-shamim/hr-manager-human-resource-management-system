@@ -6,10 +6,12 @@ class Employee_controller extends MX_Controller {
     public function __construct()
     {
       parent::__construct();
-
+     $this->db->query('SET SESSION sql_mode = ""');
       $this->load->model(array(
          'report_model'
-     ));		 
+     ));
+     if (! $this->session->userdata('isLogIn'))
+            redirect('login');		 
   }
 
   public function demographic_list(){   

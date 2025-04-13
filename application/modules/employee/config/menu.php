@@ -35,6 +35,17 @@ $HmvcMenu["employee"] = array(
        
        
     ), 
+    
+//   "device_user" => array(
+//         //menu name
+//  //menu name
+  
+//             "controller" => "Employees",
+//             "method"     => "device_user",
+//             "permission" => "read"
+       
+       
+//     ),
        
     ), 
     
@@ -50,14 +61,7 @@ $HmvcMenu["employee"] = array(
         
     ),     
 
-      "emp_sal_payment" => array(
   
-            
-            "controller" => "Employees",
-            "method"     => "emp_payment_view",
-            "permission" => "view"
-     
-    ),     
 
 );
 

@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd lobidrag">
@@ -38,7 +39,7 @@
                         <thead>
                         <tr>
                             <th><?php echo display('voucher_no') ?></th>
-                            <th><?php echo display('remarks') ?></th>
+                            <th><?php echo display('remark') ?></th>
                             <th><?php echo display('amount') ?></th>
                             <th><?php echo display('date') ?></th>
                         </tr>
@@ -49,7 +50,7 @@
                      ?>
                               <tr id="show_vouchar">
                                   <td>
-                                     <a href="<?php echo base_url("accounts/accounts/vouchar_cash/".$date) ?>">
+                                     <a href="<?php echo base_url("accounts/vouchar_cash/".$date) ?>">
                                           <?php echo "CV-BAC-".$date;?>
                                      </a>
                                   </td>
@@ -66,7 +67,7 @@
 
                               ?>
                               <tr>
-                                  <td><a href="<?php echo base_url("accounts/accounts/vouchar_view/$v_data->VNo") ?>"><?php echo $v_data->VNo;;?></a></td>
+                                  <td><a href="<?php echo base_url("accounts/vouchar_view/$v_data->VDate") ?>"><?php echo $v_data->VNo;;?></a></td>
                                   <td><?php echo $v_data->Narration;?></td>
                                   <td><?php echo number_format($v_data->Amount); ?></td>
                                   <td><?php echo $v_data->VDate;?></td>
@@ -83,6 +84,7 @@
         </div>
     </div>
 </div>
+
 
 <script type="text/javascript">
     $(document).ready(function(){

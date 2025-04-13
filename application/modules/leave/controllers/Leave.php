@@ -6,10 +6,12 @@ class Leave extends MX_Controller {
 public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'Leave_model'
-		));		 
+		));	
+		if (! $this->session->userdata('isLogIn'))
+			redirect('login');	 
 	}
 
 public function weekly_leave_view()

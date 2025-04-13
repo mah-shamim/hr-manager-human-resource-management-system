@@ -11,6 +11,26 @@ $HmvcMenu["accounts"] = array(
         "method"     => "show_tree",
         "permission" => "read"
     ), 
+    "balance_adjustment" => array( 
+        "controller" => "accounts",
+        "method"     => "balance_adjustment",
+        "permission" => "create"
+    ),
+    "cash_adjustment" => array( 
+        "controller" => "accounts",
+        "method"     => "cash_adjustment",
+        "permission" => "create"
+    ), 
+      "bank_adjustment" => array( 
+        "controller" => "accounts",
+        "method"     => "bank_adjustment",
+        "permission" => "create"
+    ),
+     "payment_type" => array( 
+        "controller" => "accounts",
+        "method"     => "payment_type",
+        "permission" => "create"
+    ),  
    
       "debit_voucher" => array( 
         "controller" => "accounts",
@@ -39,11 +59,7 @@ $HmvcMenu["accounts"] = array(
     ), 
       
        "account_report" => array( 
-				        "voucher_report" => array( 
-				          "controller" => "accounts",
-				          "method"     => "voucher_report",
-				          "permission" => "read"
-				    ), 
+				       
 
 				         "cash_book" => array( 
 					        "controller" => "accounts",

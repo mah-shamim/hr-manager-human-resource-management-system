@@ -6,50 +6,99 @@ class Accounts extends MX_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'accounts_model'
-		));	
+		));
+    if (! $this->session->userdata('isLogIn'))
+      redirect('login');	
 	}
 
 
 		public function C_O_A() 
 	{ 
-    $this->permission->method('accounts','read')->redirect();
-    $data['title'] = display('accounts_form');
-		$data['module'] = "accounts";
-		$data['page']   = "coa";   
-		echo Modules::run('template/layout', $data); 
+    $data['title']  = display('accounts_form');
+    $data['module'] = "accounts";
+    $data['page']   = "coa";   
+    echo Modules::run('template/layout', $data); 
 	}
 
+// payment type add
+  public function payment_type(){
+    $data['title']  = display('payment_type');
+    $data['paytype']= $this->accounts_model->paytype();
+    $data['module'] = "accounts";
+    $data['page']   = "payment_type";   
+    echo Modules::run('template/layout', $data);
+  }
 
-    // tree view controller
+
+
+public function add_paymenttype(){
+     $parent_type = $this->input->post('parent_type');
+     if(empty($parent_type)){
+     $coa = $this->accounts_model->paymentparentcode();
+   }else{
+    $coa = $this->accounts_model->paymenchildcode();
+   }
+      if($coa->HeadCode!=NULL){
+        $headcode=$coa->HeadCode+1;
+      }else{
+        if(empty($parent_type)){
+        $headcode="102010001";
+      }else{
+      $headcode="10201020001";
+        }
+      }
+
+      $headname = $this->input->post('typename');
+      $createby = $this->session->userdata('fullname');
+      $createdate = date('Y-m-d H:i:s');
+      $data['aco']  = (Object) $coaData = [
+        'HeadCode'         => $headcode,
+        'HeadName'         => $headname,
+        'PHeadName'        => (!empty($parent_type)?$parent_type:'Cash & Cash Equivalent'),
+        'HeadLevel'        => (!empty($parent_type)?4:3),
+        'IsActive'         => '1',
+        'IsTransaction'    => '1',
+        'IsGL'             => '0',
+        'HeadType'         => 'A',
+        'IsBudget'         => '0',
+        'IsDepreciation'   => '0',
+        'DepreciationRate' => '0',
+        'CreateBy'         => $createby,
+        'CreateDate'       => $createdate,
+      ];
+
+      $this->accounts_model->create_coa($coaData);
+
+  $this->session->set_flashdata('message', display('save_successfully'));
+
+     redirect('accounts/accounts/payment_type');
+}
+//     // tree view controller
     public function show_tree($id = null){
-    	$this->permission->method('accounts','read')->redirect();
+		  $this->permission->method('accounts','read')->redirect();
         $data['title'] = display('accounts_form');
         $id      = ($id ?$id :2);
 
         $data = array(
             'userList' => $this->accounts_model->get_userlist(),
-            'userID' => set_value('userID'),
+            'userID'   => set_value('userID'),
         );
-		$data['module'] = "accounts";
-		$data['page']   = "treeview";   
-		echo Modules::run('template/layout', $data); 
+    $data['module'] = "accounts";
+    $data['page']   = "treeview";   
+    echo Modules::run('template/layout', $data); 
     }
   
 
   public function selectedform($id){
+    
+		   $role_reult = $this->accounts_model->treeview_selectform($id);
+					$baseurl = base_url().'accounts/accounts/insert_coa';
 
-		$role_reult = $this->db->select('*')
-						->from('acc_coa')
-						->where('HeadCode',$id)
-						->get()
-						->row();
 
-					$baseurl = base_url().'/'.'accounts/accounts/insert_coa';
-
-		if ($role_reult) {
+		if ($role_reult){
 			$html = "";
 			$html .= "
         <form name=\"form\" id=\"form\" action=\"".$baseurl."\" method=\"post\" enctype=\"multipart/form-data\">
@@ -81,37 +130,38 @@ class Accounts extends MX_Controller {
       </tr>
 
        <tr>
-        <td>&nbsp;</td>
-        <td><input type=\"checkbox\" name=\"IsTransaction\" value=\"1\" id=\"IsTransaction\" size=\"28\"  onchange=\"IsTransaction_change();\"";
-        	if($role_reult->IsTransaction==1){ $html .="checked";}
-
-        $html .="/><label for=\"IsTransaction\"> IsTransaction</label>
-        <input type=\"checkbox\" value=\"1\" name=\"IsActive\" id=\"IsActive\"";
-       if($role_reult->IsActive==1){ $html .="checked";}
-         $html .=" size=\"28\" checked=\"".$isactive."\" /><label for=\"IsActive\"> IsActive</label>
-        <input type=\"checkbox\" value=\"1\" name=\"IsGL\" id=\"IsGL\" size=\"28\"";
+         <td>&nbsp;</td>
+         <td><input type=\"checkbox\" name=\"IsTransaction\" value=\"1\" id=\"IsTransaction\" size=\"28\"  onchange=\"IsTransaction_change()\"";
+         if($role_reult->IsTransaction==1){ $html .="checked";}
+          $html .= "/><label for=\"IsTransaction\"> IsTransaction</label>
+         <input type=\"checkbox\" value=\"1\" name=\"IsActive\" id=\"IsActive\" size=\"28\"";
+          if($role_reult->IsActive==1){ $html .="checked";}
+          $html .= "/><label for=\"IsActive\"> IsActive</label>
+         <input type=\"checkbox\" value=\"1\" name=\"IsGL\" id=\"IsGL\" size=\"28\" onchange=\"IsGL_change();\"";
          if($role_reult->IsGL==1){ $html .="checked";}
-        $html .=" onchange=\"IsGL_change();\"/><label for=\"IsGL\"> IsGL</label>
+          $html .= "/><label for=\"IsGL\"> IsGL</label>
 
-        </td>
-      </tr>
+        </td>";
+      $html .= "</tr>
        <tr>
                     <td>&nbsp;</td>
                     <td>";
-                   if( $this->permission->method('accounts','create')->access()):
-                    $html .="<input type=\"button\" name=\"btnNew\" id=\"btnNew\" value=\"New\" onClick=\"newdata(".$role_reult->HeadCode.")\" />
-                     <input type=\"submit\" name=\"btnSave\" id=\"btnSave\" value=\"Save\" disabled=\"disabled\"/>";
-                     endif;
-               if($this->permission->method('accounts','update')->access()):
-           $html .=" <input type=\"submit\" name=\"btnUpdate\" id=\"btnUpdate\" value=\"Update\" />";
-              endif;
-                   $html .=" </td>
-                  </tr>
+            
+             // if( $this->permission->method('accounts','create')->access()):
+                     $html .="<input type=\"button\" name=\"btnNew\" id=\"btnNew\" value=\"New\" onClick=\"newdata(".$role_reult->HeadCode.")\" />
+                      <input type=\"submit\" name=\"btnSave\" id=\"btnSave\" value=\"Save\" disabled=\"disabled\"/>";
+                     // endif;
+            // if($this->permission->method('accounts','update')->access()):
+          $html .=" <input type=\"submit\" name=\"btnUpdate\" id=\"btnUpdate\" value=\"Update\" />";
+      //         // endif;
+      //              $html .=" </td>
+      //             </tr>
       
-    </table>
+    $html .= "</tr></table>
  </form>
 			";
 		}
+
 		echo json_encode($html);
 	}
 
@@ -144,18 +194,18 @@ else
   }
 
   public function insert_coa(){
-    $headcode =$this->input->post('txtHeadCode');
-    $HeadName =$this->input->post('txtHeadName');
-    $PHeadName =$this->input->post('txtPHead');
-    $HeadLevel =$this->input->post('txtHeadLevel');
-    $txtHeadType =$this->input->post('txtHeadType');
-    $isact =$this->input->post('IsActive');
-    $IsActive = (!empty($isact)?$isact:0);
-    $trns =$this->input->post('IsTransaction');
+    $headcode    = $this->input->post('txtHeadCode');
+    $HeadName    = $this->input->post('txtHeadName');
+    $PHeadName   = $this->input->post('txtPHead');
+    $HeadLevel   = $this->input->post('txtHeadLevel');
+    $txtHeadType = $this->input->post('txtHeadType');
+    $isact       = $this->input->post('IsActive');
+    $IsActive    = (!empty($isact)?$isact:0);
+    $trns        = $this->input->post('IsTransaction');
     $IsTransaction = (!empty($trns)?$trns:0);
-    $isgl=$this->input->post('IsGL');
-     $IsGL = (!empty($isgl)?$isgl:0);
-    $createby=$this->session->userdata('id');
+    $isgl        = $this->input->post('IsGL');
+    $IsGL        = (!empty($isgl)?$isgl:0);
+    $createby    = $this->session->userdata('id');
     //$updateby=$this->session->userdata('id');
     $createdate=date('Y-m-d H:i:s');
        $postData = array(
@@ -194,19 +244,76 @@ $updata = array(
     redirect($_SERVER['HTTP_REFERER']);
   }
 
-  // Debit voucher Create 
+//   // Debit voucher Create 
   public function debit_voucher(){
-    $this->permission->method('accounts','create')->redirect();
-    $data['title'] = display('debit_voucher');
-    $data['acc'] = $this->accounts_model->Transacc();
+    // $this->permission->method('accounts','create')->redirect();
+    $data['title']      = display('debit_voucher');
+    $data['acc']        = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->voNO();
-    $data['crcc'] = $this->accounts_model->Cracc();
-    $data['module'] = "accounts";
-    $data['page']   = "debit_voucher";   
+    $data['crcc']       = $this->accounts_model->Cracc();
+    $data['module']     = "accounts";
+    $data['page']       = "debit_voucher";   
+    echo Modules::run('template/layout', $data);
+  }
+
+  // cash adjustment
+  public function cash_adjustment(){
+    $data['title']      = display('cash_adjustment');
+    $data['voucher_no'] = $this->accounts_model->Cashvoucher();
+    $data['module']     = "accounts";
+    $data['page']       = "cash_adjustment";   
     echo Modules::run('template/layout', $data); 
   }
 
-  // Debit voucher code select onchange
+  //Bank Adjustment
+ public function bank_adjustment(){
+    $data['title']      = display('bank_adjustment');
+    $data['voucher_no'] = $this->accounts_model->bankvoucher();
+    $data['banks']      = $this->accounts_model->banklist();
+    $data['module']     = "accounts";
+    $data['page']       = "bank_adjustment";   
+    echo Modules::run('template/layout', $data); 
+  }
+
+    //Create Cash Adjustment
+ public function create_cash_adjustment(){
+   // $this->permission->method('accounts','create')->redirect();
+    $this->form_validation->set_rules('txtAmount', display('amount')  ,'max_length[100]');
+         if ($this->form_validation->run()) { 
+        if ($this->accounts_model->insert_cashadjustment()) { 
+          $this->session->set_flashdata('message', display('save_successfully'));
+          redirect('accounts/cash_adjustment/');
+        }else{
+          $this->session->set_flashdata('exception',  display('please_try_again'));
+        }
+        redirect("accounts/accounts/cash_adjustment");
+    }else{
+      $this->session->set_flashdata('exception',  display('please_try_again'));
+      redirect("accounts/accounts/cash_adjustment");
+     }
+
+}
+
+
+// Create Bank Adjustment
+ public function create_bank_adjustment(){
+    $this->form_validation->set_rules('txtAmount', display('amount')  ,'max_length[100]');
+         if ($this->form_validation->run()) { 
+        if ($this->accounts_model->insert_bankadjustment()) { 
+          $this->session->set_flashdata('message', display('save_successfully'));
+          redirect('accounts/accounts/bank_adjustment/');
+        }else{
+          $this->session->set_flashdata('exception',  display('please_try_again'));
+        }
+        redirect("accounts/accounts/bank_adjustment");
+    }else{
+      $this->session->set_flashdata('exception',  display('please_try_again'));
+      redirect("accounts/accounts/bank_adjustment");
+     }
+
+}
+
+//   // Debit voucher code select onchange
   public function debtvouchercode($id){
 
     $debitvcode = $this->db->select('*')
@@ -217,165 +324,177 @@ $updata = array(
       $code = $debitvcode->HeadCode;       
 echo json_encode($code);
 
-  }
-  //Create Debit Voucher
+   }
+   //Supplier code 
+    public function supplier_headcode($id){
+$supplier_info = $this->db->select('supplier_name')->from('supplier_information')->where('supplier_id',$id)->get()->row();
+$head_name =$id.'-'.$supplier_info->supplier_name;
+    $supplierhcode = $this->db->select('*')
+            ->from('acc_coa')
+            ->where('HeadName',$head_name)
+            ->get()
+            ->row();
+      $code = $supplierhcode->HeadCode;       
+echo json_encode($code);
+
+   }
+   //Create Debit Voucher
  public function create_debit_voucher(){
-   $this->permission->method('accounts','create')->redirect();
+   // $this->permission->method('accounts','create')->redirect();
     $this->form_validation->set_rules('cmbDebit', display('cmbDebit')  ,'max_length[100]');
          if ($this->form_validation->run()) { 
         if ($this->accounts_model->insert_debitvoucher()) { 
           $this->session->set_flashdata('message', display('save_successfully'));
-          redirect('accounts/accounts/debit_voucher/');
+          redirect('accounts/debit_voucher/');
         }else{
-          $this->session->set_flashdata('exception',  display('please_try_again'));
+          $this->session->set_flashdata('error_message',  display('please_try_again'));
         }
-        redirect("accounts/accounts/debit_voucher");
+        redirect("accounts/debit_voucher");
     }else{
-      $this->session->set_flashdata('exception',  display('please_try_again'));
-      redirect("accounts/accounts/debit_voucher");
+      $this->session->set_flashdata('error_message',  display('please_try_again'));
+      redirect("accounts/debit_voucher");
      }
 
 }
 
-// Update Debit voucher 
+// // Update Debit voucher 
 public function update_debit_voucher(){
-   $this->permission->method('accounts','create')->redirect();
+   // $this->permission->method('accounts','create')->redirect();
     $this->form_validation->set_rules('cmbDebit', display('cmbDebit')  ,'max_length[100]');
          if ($this->form_validation->run()) { 
         if ($this->accounts_model->update_debitvoucher()) { 
           $this->session->set_flashdata('message', display('update_successfully'));
-          redirect('accounts/accounts/aprove_v/');
+          redirect('accounts/aprove_v/');
         }else{
-          $this->session->set_flashdata('exception',  display('please_try_again'));
+          $this->session->set_flashdata('error_message',  display('please_try_again'));
         }
-        redirect("accounts/accounts/aprove_v");
+        redirect("accounts/aprove_v");
     }else{
-      $this->session->set_flashdata('exception',  display('please_try_again'));
+      $this->session->set_flashdata('error_message',  display('please_try_again'));
       redirect("accounts/accounts/aprove_v");
      }
 
 }
 
-//Credit voucher 
+// //Credit voucher 
  public function credit_voucher(){
-    $this->permission->method('accounts','create')->redirect();
-    $data['title'] = display('credit_voucher');
-    $data['acc'] = $this->accounts_model->Transacc();
+    // $this->permission->method('accounts','create')->redirect();
+    $data['title']      = display('credit_voucher');
+    $data['acc']        = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->crVno();
-    $data['crcc'] = $this->accounts_model->Cracc();
-    $data['module'] = "accounts";
-    $data['page']   = "credit_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['crcc']       = $this->accounts_model->Cracc();
+    $data['module']     = "accounts";
+    $data['page']       = "credit_voucher";   
+    echo Modules::run('template/layout', $data);  
   }
 
-  //Create Credit Voucher
+//   //Create Credit Voucher
  public function create_credit_voucher(){
-   $this->permission->method('accounts','create')->redirect();
+   // $this->permission->method('accounts','create')->redirect();
     $this->form_validation->set_rules('cmbDebit', display('cmbDebit')  ,'max_length[100]');
          if ($this->form_validation->run()) { 
         if ($this->accounts_model->insert_creditvoucher()) { 
           $this->session->set_flashdata('message', display('save_successfully'));
-          redirect('accounts/accounts/credit_voucher/');
+          redirect('accounts/credit_voucher/');
         }else{
-          $this->session->set_flashdata('exception',  display('please_try_again'));
+          $this->session->set_flashdata('error_message',  display('please_try_again'));
         }
-        redirect("accounts/accounts/credit_voucher");
+        redirect("accounts/credit_voucher");
     }else{
-      $this->session->set_flashdata('exception',  display('please_try_again'));
-      redirect("accounts/accounts/credit_voucher");
+      $this->session->set_flashdata('error_message',  display('please_try_again'));
+      redirect("accounts/credit_voucher");
      }
 
 }
-// Contra Voucher form
+// // Contra Voucher form
  public function contra_voucher(){
-    $this->permission->method('accounts','create')->redirect();
-    $data['title'] = display('contra_voucher');
-    $data['acc'] = $this->accounts_model->Transacc();
+    // $this->permission->method('accounts','create')->redirect();
+    $data['title']      = display('contra_voucher');
+    $data['acc']        = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->contra();
-    $data['module'] = "accounts";
-    $data['page']   = "contra_voucher";   
+    $data['module']     = "accounts";
+    $data['page']       = "contra_voucher";   
     echo Modules::run('template/layout', $data); 
   }
 
-  //Create Contra Voucher
+//   //Create Contra Voucher
  public function create_contra_voucher(){
-   $this->permission->method('accounts','create')->redirect();
+   // $this->permission->method('accounts','create')->redirect();
     $this->form_validation->set_rules('cmbDebit', display('cmbDebit')  ,'max_length[100]');
          if ($this->form_validation->run()) { 
         if ($this->accounts_model->insert_contravoucher()) { 
           $this->session->set_flashdata('message', display('save_successfully'));
-          redirect('accounts/accounts/contra_voucher/');
+          redirect('accounts/contra_voucher/');
         }else{
-          $this->session->set_flashdata('exception',  display('please_try_again'));
+          $this->session->set_flashdata('error_message',  display('please_try_again'));
         }
-        redirect("accounts/accounts/contra_voucher");
+        redirect("accounts/contra_voucher");
     }else{
-      $this->session->set_flashdata('exception',  display('please_try_again'));
-      redirect("accounts/accounts/contra_voucher");
+      $this->session->set_flashdata('error_message',  display('please_try_again'));
+      redirect("accounts/contra_voucher");
      }
 
 }
-// Journal voucher
+// // Journal voucher
  public function journal_voucher(){
-    $this->permission->method('accounts','create')->redirect();
-    $data['title'] = display('journal_voucher');
-    $data['acc'] = $this->accounts_model->Transacc();
+    // $this->permission->method('accounts','create')->redirect();
+    $data['title']      = display('journal_voucher');
+    $data['acc']        = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->journal();
-    $data['module'] = "accounts";
-    $data['page']   = "journal_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $content            = $this->parser->parse('newaccount/journal_voucher', $data, true);
+    $this->template->full_admin_html_view($content); 
   }
 
-   //Create Journal Voucher
+//    //Create Journal Voucher
  public function create_journal_voucher(){
-   $this->permission->method('accounts','create')->redirect();
+   // $this->permission->method('accounts','create')->redirect();
     $this->form_validation->set_rules('cmbDebit', display('cmbDebit')  ,'max_length[100]');
          if ($this->form_validation->run()) { 
         if ($this->accounts_model->insert_journalvoucher()) { 
           $this->session->set_flashdata('message', display('save_successfully'));
-          redirect('accounts/accounts/journal_voucher/');
+          redirect('accounts/journal_voucher/');
         }else{
-          $this->session->set_flashdata('exception',  display('please_try_again'));
+          $this->session->set_flashdata('error_message',  display('please_try_again'));
         }
-        redirect("accounts/accounts/journal_voucher");
+        redirect("accounts/journal_voucher");
     }else{
-      $this->session->set_flashdata('exception',  display('please_try_again'));
-      redirect("accounts/accounts/journal_voucher");
+      $this->session->set_flashdata('error_message',  display('please_try_again'));
+      redirect("accounts/journal_voucher");
      }
 
 }
-//Aprove voucher
+// //Aprove voucher
   public function aprove_v(){
-   $this->permission->method('accounts','create')->redirect();
-    $data['title'] = display('voucher_approve');
-    $data['aprrove'] = $this->accounts_model->approve_voucher();
-    $data['module'] = "accounts";
-    $data['page']   = "voucher_approve";   
-    echo Modules::run('template/layout', $data); 
+   // $this->permission->method('accounts','create')->redirect();
+    $data['title']   = display('voucher_approve');
+    $data['aprrove'] = $this->accounts_model->approve_voucher();  
+    $data['module']  = "accounts";
+    $data['page']    = "voucher_approve";   
+    echo Modules::run('template/layout', $data);
 }
-// isApprove
+// // isApprove
  public function isactive($id = null, $action = null)
   {
 
     $action = ($action=='active'?1:0);
 
     $postData = array(
-      'VNo'     => $id,
+      'VNo'      => $id,
       'IsAppove' => $action
     );
 
     if ($this->accounts_model->approved($postData)) {
       $this->session->set_flashdata('message', display('successfully_approved'));
     } else {
-      $this->session->set_flashdata('exception', display('please_try_again'));
+      $this->session->set_flashdata('error_message', display('please_try_again'));
     }
 
     redirect($_SERVER['HTTP_REFERER']);
   }
 
-  //Update voucher 
+//   //Update voucher 
   public function voucher_update($id= null){
-    $this->permission->method('accounts','Update')->redirect();
+    // $this->permission->method('accounts','Update')->redirect();
     $vtype =$this->db->select('*')
                     ->from('acc_transaction')
                     ->where('VNo',$id)
@@ -383,52 +502,53 @@ public function update_debit_voucher(){
                     ->row();
                    
                     if($vtype->Vtype =="DV"){
-    $data['title'] = display('update_debit_voucher');
+    $data['title']          = display('update_debit_voucher');
     $data['dbvoucher_info'] = $this->accounts_model->dbvoucher_updata($id);
-    $data['credit_info'] = $this->accounts_model->crvoucher_updata($id);
-    $data['page']   = "update_dbt_crtvoucher";   
+    $data['credit_info']    = $this->accounts_model->crvoucher_updata($id);
+    $page                   =  'newaccount/update_dbt_crtvoucher';    
     } 
     if($vtype->Vtype =="CV"){
        //print_r($vtype);exit;
-    $data['title'] = display('update_credit_voucher');
+    $data['title']          = display('update_credit_voucher');
     $data['crvoucher_info'] = $this->accounts_model->crdtvoucher_updata($id);
-    $data['debit_info'] = $this->accounts_model->debitvoucher_updata($id);
-    $data['page']   = "update_credit_bdtvoucher";   
+    $data['debit_info']     = $this->accounts_model->debitvoucher_updata($id);
+    $page                   =  'newaccount/update_credit_bdtvoucher';  
     }
-    $data['crcc'] = $this->accounts_model->Cracc();
-    $data['acc'] = $this->accounts_model->Transacc();
-    $data['module'] = "accounts";
-   
-    echo Modules::run('template/layout', $data); 
+    $data['crcc']           = $this->accounts_model->Cracc();
+    $data['acc']            = $this->accounts_model->Transacc();
+     $content = $this->parser->parse($page, $data, true);
+    $this->template->full_admin_html_view($content); 
   }
   // update credit voucher 
   public function update_credit_voucher(){
-   $this->permission->method('accounts','create')->redirect();
+   // $this->permission->method('accounts','create')->redirect();
     $this->form_validation->set_rules('cmbDebit', display('cmbDebit')  ,'max_length[100]');
          if ($this->form_validation->run()) { 
         if ($this->accounts_model->update_creditvoucher()) { 
           $this->session->set_flashdata('message', display('save_successfully'));
-          redirect('accounts/accounts/aprove_v/');
+          redirect('accounts/aprove_v/');
         }else{
-          $this->session->set_flashdata('exception',  display('please_try_again'));
+          $this->session->set_flashdata('error_message',  display('please_try_again'));
         }
-        redirect("accounts/accounts/aprove_v");
+        redirect("accounts/aprove_v");
     }else{
-      $this->session->set_flashdata('exception',  display('please_try_again'));
-      redirect("accounts/accounts/aprove_v");
+      $this->session->set_flashdata('error_message',  display('please_try_again'));
+      redirect("accounts/aprove_v");
      }
 
 }
 
- //Trial Balannce
+//  //Trial Balannce
     public function trial_balance(){
         $data['title']  = display('trial_balance');
         $data['module'] = "accounts";
         $data['page']   = "trial_balance";
-        echo Modules::run('template/layout', $data);
-    }
-    //Trial Balance Report
+        echo Modules::run('template/layout', $data); 
+        }
+//     //Trial Balance Report
     public function trial_balance_report(){
+
+      $data['software_info'] = '';
        $dtpFromDate     = $this->input->post('dtpFromDate');
        $dtpToDate       = $this->input->post('dtpToDate');
        $chkWithOpening  = $this->input->post('chkWithOpening');
@@ -440,6 +560,7 @@ public function update_debit_voucher(){
             $data['oResultInEx']  = $results['oResultInEx'];
             $data['dtpFromDate']  = $dtpFromDate;
             $data['dtpToDate']    = $dtpToDate;
+            $data['setting'] = $this->accounts_model->setting();
 
             // PDF Generator 
             $this->load->library('pdfgenerator');
@@ -462,9 +583,9 @@ public function update_debit_voucher(){
             $data['oResultInEx']  = $results['oResultInEx'];
             $data['dtpFromDate']  = $dtpFromDate;
             $data['dtpToDate']    = $dtpToDate;
-
+            $data['setting'] = $this->accounts_model->setting();
             // PDF Generator 
-            $this->load->library('pdfgenerator');
+             $this->load->library('pdfgenerator');
             $dompdf = new DOMPDF();
             $page = $this->load->view('accounts/trial_balance_without_opening_pdf',$data,true);
             $dompdf->load_html($page);
@@ -472,7 +593,7 @@ public function update_debit_voucher(){
             $output = $dompdf->output();
             file_put_contents('assets/data/pdf/Trial Balance As On '.$dtpFromDate.' To '.$dtpToDate.'.pdf', $output);
             $data['pdf']    = 'assets/data/pdf/Trial Balance As On '.$dtpFromDate.' To '.$dtpToDate.'.pdf';
-
+     
             $data['title']  = display('trial_balance_report');
             $data['module'] = "accounts";
             $data['page']   = "trial_balance_without_opening";
@@ -481,19 +602,18 @@ public function update_debit_voucher(){
 
     }
 
-     //al hassan working
+//      //al hassan working
     public function vouchar_cash($date){
         $vouchar_view = $this->accounts_model->get_vouchar_view($date);
         $data = array(
             'vouchar_view' => $vouchar_view,
         );
 
-        $data['title'] = display('accounts_form');
-        $data['module'] = "accounts";
-        $data['page']   = "vouchar_cash";
-        echo Modules::run('template/layout', $data);
+    $data['title'] = display('accounts_form');
+     $content = $this->parser->parse('newaccount/vouchar_cash', $data, true);
+    $this->template->full_admin_html_view($content);
     }
-//alhassan working
+// // working
     public function general_ledger(){
 
         $general_ledger = $this->accounts_model->get_general_ledger();
@@ -501,12 +621,12 @@ public function update_debit_voucher(){
             'general_ledger' => $general_ledger,
         );
 
-        $data['title'] = display('general_ledger');
+        $data['title']  = display('general_ledger');
         $data['module'] = "accounts";
         $data['page']   = "general_ledger";
         echo Modules::run('template/layout', $data);
     }
-    //alhassan working
+//     // working
     public function general_led($Headid = NULL){
         $Headid = $this->input->post('Headid');
         $HeadName = $this->accounts_model->general_led_get($Headid);
@@ -518,7 +638,7 @@ public function update_debit_voucher(){
         }
         echo $html;
     }
-    //al hassan working
+//      working
     public function voucher_report_serach($vouchar=NULL){
        echo $vouchar = $this->input->post('vouchar');
 
@@ -529,7 +649,7 @@ public function update_debit_voucher(){
         }else{
              $pay=$voucher_report_serach->Amount;
         }
-        $baseurl = base_url().'accounts/accounts/vouchar_cash/'.$vouchar;
+        $baseurl = base_url().'accounts/vouchar_cash/'.$vouchar;
          $html = "";
          $html.="<td>
                    <a href=\"$baseurl\">CV-BAC-$vouchar</a>
@@ -539,102 +659,93 @@ public function update_debit_voucher(){
                  <td align=\"center\">$vouchar</td>";
          echo $html;
     }
-    //alhassan working
+    //general ledger working
     public function accounts_report_search(){
-
-        $cmbGLCode = $this->input->post('cmbGLCode');
-        $cmbCode = $this->input->post('cmbCode');
-
+        $cmbGLCode   = $this->input->post('cmbGLCode');
+        $cmbCode     = $this->input->post('cmbCode');
         $dtpFromDate = $this->input->post('dtpFromDate');
-        $dtpToDate = $this->input->post('dtpToDate');
+        $dtpToDate   = $this->input->post('dtpToDate');
         $chkIsTransction = $this->input->post('chkIsTransction');
-      
-
-        $HeadName = $this->accounts_model->general_led_report_headname($cmbGLCode);
-        $HeadName2 = $this->accounts_model->general_led_report_headname2($cmbGLCode,$cmbCode,$dtpFromDate,$dtpToDate,$chkIsTransction);
+        $HeadName    = $this->accounts_model->general_led_report_headname($cmbGLCode);
+        $HeadName2   = $this->accounts_model->general_led_report_headname2($cmbGLCode,$cmbCode,$dtpFromDate,$dtpToDate,$chkIsTransction);
          $pre_balance = $this->accounts_model->general_led_report_prebalance($cmbCode,$dtpFromDate);
 
         $data = array(
             'dtpFromDate' => $dtpFromDate,
-            'dtpToDate' => $dtpToDate,
-            'HeadName' => $HeadName,
-            'HeadName2' => $HeadName2,
-            'prebalance' =>  $pre_balance,
+            'dtpToDate'   => $dtpToDate,
+            'HeadName'    => $HeadName,
+            'HeadName2'   => $HeadName2,
+            'prebalance'  =>  $pre_balance,
             'chkIsTransction' => $chkIsTransction,
 
         );
-        $data['ledger'] = $this->db->select('*')->from('acc_coa')->where('HeadCode',$cmbCode)->get()->row();
-        $data['title'] = display('general_ledger_report');
+        $data['ledger'] = $this->db->select('*')->from('acc_coa')->where('HeadCode',$cmbCode)->get()->result_array();
+        $data['title']  = display('general_ledger_report');
         $data['module'] = "accounts";
         $data['page']   = "general_ledger_report";
         echo Modules::run('template/layout', $data);
 
     }
 
-    //alhassan working
-    public function check_status_report(){
-        $get_status = $this->accounts_model->get_status();
-        $data = array(
-            'get_status' => $get_status,
-        );
-
-        $data['title'] = display('general_ledger_report');
-        $data['module'] = "accounts";
-        $data['page']   = "check_status_report";
-        echo Modules::run('template/layout', $data);
-    }
-
-
 
     public function cash_book(){
-        $data['title'] = display('cash_book');
-        $data['module'] = "accounts";
-        $data['page']   = "cash_book";
+        $data['title']   = display('cash_book');
+        $data['module']  = "accounts";
+        $data['company'] = '';
+        $data['setting'] = $this->accounts_model->setting();
+        $data['page']    = "cash_book";
         echo Modules::run('template/layout', $data);
     }
     public function bank_book(){
-        $data['title'] = display('cash_book');
-        $data['module'] = "accounts";
-        $data['page']   = "bank_book";
+       $data['title']    = display('cash_book');
+        $data['module']  = "accounts";
+        $data['setting'] = $this->accounts_model->setting();
+        $data['page']    = "bank_book";
         echo Modules::run('template/layout', $data);
     }
+    // Inventory Report
+     public function inventory_ledger(){
+      $data['software_info'] = $this->Accounts_model->software_setting_info();
+      $data['title'] = display('Inventory_ledger');
+      $content = $this->parser->parse('newaccount/inventory_ledger', $data, true);
+    $this->template->full_admin_html_view($content);
+    }
      public function voucher_report(){
-        $this->permission->method('accounts','read')->redirect();
+        // $this->permission->method('accounts','read')->redirect();
         //al hassan working
         $get_cash = $this->accounts_model->get_cash();
         $get_vouchar= $this->accounts_model->get_vouchar();
         $data = array(
-            'get_cash' => $get_cash,
+            'get_cash'    => $get_cash,
             'get_vouchar' => $get_vouchar,
         );
-        $data['title']  = display('accounts_form');
+        $data['title']  = display('voucher_report');
         $data['module'] = "accounts";
         $data['page']   = "coa";   
-    echo Modules::run('template/layout', $data); 
+    echo Modules::run('template/layout', $data);
   }
    public function coa_print(){
-       
-
+     
         $data['title'] = display('accounts_form');
         $data['module'] = "accounts";
         $data['page']   = "coa_print";
         echo Modules::run('template/layout', $data);
     }
-     //Profit loss report page
+//      //Profit loss report page
     public function profit_loss_report(){
-        $data['title'] = display('general_ledger_report');
+       $data['title']   = display('general_ledger_report');
         $data['module'] = "accounts";
         $data['page']   = "profit_loss_report";
         echo Modules::run('template/layout', $data);
     }
-    //Profit loss serch result
+//     //Profit loss serch result
     public function profit_loss_report_search(){
         $dtpFromDate = $this->input->post('dtpFromDate');
         $dtpToDate   = $this->input->post('dtpToDate');
 
         $get_profit  = $this->accounts_model->profit_loss_serach();
 
-        $data['oResultAsset'] = $get_profit['oResultAsset'];
+        $data['oResultAsset']      = $get_profit['oResultAsset'];
         $data['oResultLiability']  = $get_profit['oResultLiability'];
         $data['dtpFromDate']  = $dtpFromDate;
         $data['dtpToDate']    = $dtpToDate;
@@ -644,15 +755,16 @@ public function update_debit_voucher(){
         $data['page']   = "profit_loss_report_search";
         echo Modules::run('template/layout', $data);
     }
-    //Cash flow page
+//     //Cash flow page
     public function cash_flow_report(){
-        $data['title']  = display('general_ledger_report');
+        $data['title']  = display('cash_flow_report');
         $data['module'] = "accounts";
         $data['page']   = "cash_flow_report";
         echo Modules::run('template/layout', $data);
     }
-    //Cash flow report search
+//     //Cash flow report search
     public function cash_flow_report_search(){
+      $data['software_info'] ='';
         $dtpFromDate = $this->input->post('dtpFromDate');
         $dtpToDate   = $this->input->post('dtpToDate');
 
@@ -660,7 +772,7 @@ public function update_debit_voucher(){
         $data['dtpToDate']    = $dtpToDate;
 
         // PDF Generator 
-        $this->load->library('pdfgenerator');
+       $this->load->library('pdfgenerator');
         $dompdf = new DOMPDF();
         $page = $this->load->view('accounts/cash_flow_report_search_pdf',$data,true);
         $dompdf->load_html($page);
@@ -672,6 +784,39 @@ public function update_debit_voucher(){
         $data['title']  = display('general_ledger_report');
         $data['module'] = "accounts";
         $data['page']   = "cash_flow_report_search";
-        echo Modules::run('template/layout', $data);
+        echo Modules::run('template/layout', $data);;
     }
+
+public function balance_adjustment(){
+    $data['title']      = display('cash_adjustment');
+    $data['voucher_no'] = $this->accounts_model->balanceadjvoucher();
+    $data['paytype']    = $this->accounts_model->paytype();
+    $data['module']     = "accounts";
+    $data['page']       = "balance_adjustment";   
+    echo Modules::run('template/layout', $data); 
+
+}
+
+/// Balance Adjustment Create
+public function create_balance_adjustment(){
+
+   $this->form_validation->set_rules('type', display('adjustment_type')  ,'required');
+   $this->form_validation->set_rules('parent_type', display('parent_head')  ,'required');
+   $this->form_validation->set_rules('parent_type', display('parent_head')  ,'required');
+   $this->form_validation->set_rules('amount', display('amount')  ,'required');
+         if ($this->form_validation->run()) { 
+        if ($this->accounts_model->insert_balanceadjustment()) { 
+          $this->session->set_flashdata('message', display('save_successfully'));
+          redirect('accounts/accounts/balance_adjustment/');
+        }else{
+          $this->session->set_flashdata('exception',  display('please_try_again'));
+        }
+        redirect("accounts/accounts/balance_adjustment");
+    }else{
+      $this->session->set_flashdata('exception',  display('please_try_again'));
+      redirect("accounts/accounts/balance_adjustment");
+     }
+}
+
+  
 }

@@ -3,7 +3,7 @@
         <div class="panel panel-bd ">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <a href="<?php echo base_url()?>dashboard/Permission_setup/menu_item_list" class="btn btn-sm btn-info pull-right "> <?php echo display('menu_item_list')?></a>
+                    <a href="<?php echo base_url()?>dashboard/Permission_setup/menu_item_list" class="btn btn-sm btn-success pull-right " style="color:#fff"> <?php echo display('menu_item_list')?></a>
                     <h4><?php echo display('ins_menu_for_application')?></h4>
                 </div>
             </div>

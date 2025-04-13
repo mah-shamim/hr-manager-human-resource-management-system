@@ -17,7 +17,7 @@
                         <label for="type" class="col-sm-2 col-form-label"><?php echo display('employee') ?>*</label>
                         <div class="col-sm-8">
                             <input type="hidden" name="old_emp_id" value="<?php echo $empselect->employee_id;?>">
-                             <?php echo form_dropdown('employee_id',$employee,(!empty($empselect->employee_id)?$empselect->employee_id:null),'class="form-control" required') ?>
+                             <?php echo form_dropdown('employee_id',$employee,$empselect->employee_id,'class="form-control" required') ?>
 
                         </div>
                         

@@ -185,7 +185,7 @@ if(isset($_POST['btnSave']))
 
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <div class="panel panel-bd lobidrag">
+        <div class="panel panel-bd">
             <div class="panel-body">
                 <tr align="center">
                     <td id="ReportName" style="font:'Times New Roman', Times, serif; font-size:20px;"><b><?php echo display('cash_book_voucher')?></b></td>
@@ -208,14 +208,14 @@ if(isset($_POST['btnSave']))
                             <td width="11%" align="right"><?php echo number_format($PreBalance,2,'.',','); ?></td>
                         </tr>
                         <tr class="table_head">
-                            <td height="25"><strong><?php echo display('sl')?></strong></td>
-                            <td align="center"><strong><?php echo display('transaction_date')?></strong></td>
-                            <td align="center" ><strong><?php echo display('voucher_no')?></strong></td>
-                            <td align="center"><strong><?php echo display('voucher_type')?></strong></td>
-                            <td align="center"><strong><?php echo display('particulars')?></strong></td>
-                            <td width="11%" align="right"><strong><?php echo display('debit')?></strong></td>
-                            <td width="11%" align="right"><strong><?php echo display('credit')?></strong></td>
-                            <td align="right" ><strong><?php echo display('balance')?></strong></td>
+                            <th height="25"><strong><?php echo display('sl')?></strong></th>
+                            <th align="center"><strong><?php echo display('date')?></strong></th>
+                            <th align="center" ><strong><?php echo display('voucher_no')?></strong></th>
+                            <th align="center"><strong><?php echo display('voucher_type')?></strong></th>
+                            <th align="center"><strong><?php echo display('particulars')?></strong></th>
+                            <th width="11%" align="right"><strong><?php echo display('debit')?></strong></th>
+                            <th width="11%" align="right"><strong><?php echo display('credit')?></strong></th>
+                            <th align="right" ><strong><?php echo display('balance')?></strong></th>
                         </tr>
                         <?php
                         $TotalCredit=0;

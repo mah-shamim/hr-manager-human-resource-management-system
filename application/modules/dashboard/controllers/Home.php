@@ -6,7 +6,8 @@ class Home extends MX_Controller {
  	public function __construct()
  	{
  		parent::__construct();
-      $this->load->model('evencal_model', 'evencal');
+ 		$this->db->query('SET SESSION sql_mode = ""');
+        $this->load->model('evencal_model', 'evencal');
 		$this->load->library('calendar', $this->_setting());
  		$this->load->model('home_model'); 
 
@@ -19,13 +20,12 @@ class Home extends MX_Controller {
 		$month = (is_numeric($month) &&  $month > 0 && $month < 13)? $month : date('m');
 		$day   = (is_numeric($day) &&  $day > 0 && $day < 31)?  $day : date('d');
 		$d=date('Y-m-d');
-		
 		$date      = $this->evencal->getDateEvent($year, $month);
 		$notice = $this->evencal->getNotice($year, $month, $day);
 		$cur_event = $this->evencal->getEvent($year, $month, $day);
 		$leave = $this->evencal->getLeave($year, $month, $day);
 		$loans = $this->evencal->getLoan($year, $month, $day);
-
+        $leave_employee = $this->evencal->leave_employee()->leave_total;
 		$data      = array(
 						'notes' => $this->calendar->generate($year, $month, $date),
 						'year'  => $year, 
@@ -33,6 +33,7 @@ class Home extends MX_Controller {
 						'month' => $this->_month($month),
 						'day'   => $day,
 						'leave' => $leave,
+						'leave_total' => $leave_employee,
 						'loans'  => $loans,
 						'events'=> $cur_event,
 					    'notice'=> $notice,
@@ -43,8 +44,8 @@ class Home extends MX_Controller {
 		$data['atn']   = $this->home_model->atntd();
 		$data['atnworkhour']   = $this->home_model->atnwork();
 		$data['lnamount']   = $this->home_model->loanamnt();
-		$data['transaction']   = $this->home_model->totaltransaction();
-		$data['transactiondduct']   = $this->home_model->totaltransactiondeduct();
+		//$data['transaction']   = $this->home_model->totaltransaction();
+		//$data['transactiondduct']   = $this->home_model->totaltransactiondeduct();
 		echo Modules::run('template/layout', $data); 
 	}
 	
@@ -292,5 +293,8 @@ class Home extends MX_Controller {
     }
 
 
-	
+	public function incomeinfo(){
+     $year = $this->input->post('year');
+     echo json_encode($year);
+	}
 }

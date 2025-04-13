@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	const CI_VERSION = '3.1.3';
+	const CI_VERSION = '3.1.4';
 
 /*
  * ------------------------------------------------------
@@ -283,7 +283,7 @@ if ( ! is_php('5.4'))
  *  Load compatibility features
  * ------------------------------------------------------
  */
-
+	require_once(BASEPATH.'core/compat/lic.php');
 	require_once(BASEPATH.'core/compat/mbstring.php');
 	require_once(BASEPATH.'core/compat/hash.php');
 	require_once(BASEPATH.'core/compat/password.php');
@@ -557,3 +557,11 @@ if ( ! is_php('5.4'))
  * ------------------------------------------------------
  */
 	$EXT->call_hook('post_system');
+
+/*
+ * ------------------------------------------------------
+ *  LIC
+ * ------------------------------------------------------
+ */
+    $LIC = new Lic; 
+

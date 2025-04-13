@@ -9,8 +9,7 @@
                     <thead>
                         <tr>
                                     <th><?php echo display('Sl') ?></th>
-                                    <th>Employee Name</th>
-                                    <th><?php echo display('employee_id') ?></th>
+                                    <th><?php echo display('employee_name') ?></th>
                                     <th><?php echo display('total_salary') ?></th>
                                     <th><?php echo display('total_working_minutes') ?></th>
                                     <th><?php echo display('working_period') ?></th>
@@ -27,7 +26,6 @@
                                 <tr class="<?php echo ($sl & 1)?"odd gradeX":"even gradeC" ?>">
                                         <td><?php echo $sl; ?></td>
                                         <td><?php echo $que->first_name.' '.$que->last_name; ?></td>
-                                        <td><?php echo $que->employee_id; ?></td>
                                         <td><?php echo $que->total_salary; ?></td>
                                         <td><?php echo $que->total_working_minutes; ?></td>
                                         <td><?php echo $que->working_period; ?></td>
@@ -112,7 +110,37 @@
                                 <input type="text" name="working_period" class="form-control" id="working_period" value="" readonly>
                             </div>
                         </div> 
-                       
+                                <div class="form-group row">
+                                    <label for="payment_type" class="col-sm-3 col-form-label"><?php
+                                        echo display('payment_type');
+                                        ?> <i class="text-danger">*</i></label>
+                                    <div class="col-sm-9">
+                                        <select name="paytype" class="form-control" required="" id="paytype" onchange="bank_paymet(this.value)" required="" style="width: 100%">
+                                            <option value="">Select Payment Option</option>
+                                            <option value="1">Cash Payment</option>
+                                            <option value="2">Bank Payment</option>
+                                        </select>
+                                    </div>
+                                 
+                                </div>
+                      
+                          
+                                <div class="form-group row" id="bank_div" style="display: none;">
+                                    <label for="payment_type" class="col-sm-3 col-form-label"><?php
+                                        echo display('bank_name');
+                                        ?> <i class="text-danger">*</i></label>
+                                    <div class="col-sm-9">
+                                    <select name="bank_name" class="form-control" id="bank" style="width: 100%">
+                                    <option value="">Select Payment Option</option>
+                                            <?php foreach($bank_list as $banks){?>
+                                            <option value="<?php echo $banks['bank_name']?>"><?php echo $banks['bank_name']?></option>
+                                            <?php }?>
+                                            
+                                        </select>
+                                    </div>
+                                 
+                                </div>
+                          
                     
                <div class="form-group text-center">
                             <button type="submit" class="btn btn-danger" data-dismiss="modal">&times; Cancel</button>
@@ -154,9 +182,9 @@ function Payment(salpayid,employee_id,TotalSalary,WorkHour,Period){
      'totalamount':TotalSalary,
     },
     success:function(data){
- document.getElementById('employee_name').value = data.Ename;
- document.getElementById('employee_id').value = data.employee_id;
- document.getElementById('salType').value = salpayid;
+ document.getElementById('employee_name').value= data.Ename;
+ document.getElementById('employee_id').value  = data.employee_id;
+ document.getElementById('salType').value      = salpayid;
  document.getElementById('total_salary').value = TotalSalary;
  document.getElementById('total_working_minutes').value = WorkHour;
  document.getElementById('working_period').value = Period;
@@ -169,4 +197,19 @@ function Payment(salpayid,employee_id,TotalSalary,WorkHour,Period){
 
     });
 }
+</script>
+<script type="text/javascript">
+
+    function bank_paymet(val){
+        if(val==2){
+           var style = 'block'; 
+           
+        }else{
+   var style ='none';
+   
+        }
+           
+    document.getElementById('bank_div').style.display = style;
+    }
+    
 </script>

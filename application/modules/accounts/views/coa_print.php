@@ -22,9 +22,36 @@ include ('Class/CAccount.php');
             <div class="panel-heading">
                 <div class="panel-body"  id="printArea">
                     <tr align="center">
-                        <td id="ReportName" style="font:'Times New Roman', Times, serif; font-size:20px;"><b>Bank Book Voucher</b></td>
+                        <td id="ReportName" style="font:'Times New Roman', Times, serif; font-size:20px;"><b></b></td>
                     </tr>
                     <div class="">
+                          <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
+                                                
+                                                <tr>
+                                                    <td align="left" style="border-bottom:2px #333 solid;">
+                                                        <!-- <img src="<?php echo $software_info[0]->logo;?>" alt="logo"> -->
+                                                    </td>
+                                                    <td align="left" style="border-bottom:2px #333 solid;">
+                                                        <span style="font-size: 17pt; font-weight:bold;">
+                                                    <!--         <?php echo $company[0]['company_name'];?>
+                                                           
+                                                        </span><br>
+                                                        <?php echo $company[0]['address'];?>
+                                                        <br>
+                                                         <?php echo $company[0]['mobile'];?> -->
+                                                        
+                                                    </td>
+                                                   
+                                                     <td align="right" style="border-bottom:2px #333 solid;">
+                                                        <date>
+                                                        <?php echo display('date')?>: <?php
+                                                        echo date('d-M-Y');
+                                                        ?> 
+                                                    </date>
+                                                    </td>
+                                                </tr>            
+                                   
+                                </table>
                         <table cellpadding="0" cellspacing="0" border="1px solid #000" width="99%" style="text-align: left" >
                             <?php
                             $oResult=new CResult();

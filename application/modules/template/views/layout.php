@@ -6,6 +6,7 @@
     </head>
 
     <body class="hold-transition sidebar-mini">
+      
         <!-- Site wrapper -->
         <div class="wrapper">
 
@@ -26,7 +27,7 @@
                 <section class="content-header">
                     <div class="header-icon"><i class="pe-7s-home"></i></div>
                     <div class="header-title">
-                        <h1><?php echo (!empty($this->uri->segment(1))?ucfirst($this->uri->segment(1)):null) ?> / <?php echo (!empty($this->uri->segment(2))?ucwords(str_replace("_", " ", $this->uri->segment(2))):null) ?></h1>
+                        <h1><?php echo (!empty($this->uri->segment(1))?ucfirst($this->uri->segment(1)):null) ?> </h1>
                         <small><?php echo (!empty($title)?$title:null) ?></small>
                     </div>
                 </section>
@@ -34,8 +35,10 @@
 
                 <!-- Main content -->
                 <div class="content">
+
                     <!-- load messages -->
                     <?php $this->load->view('includes/messages') ?>
+                    <div class="se-pre-con"></div>
                     <!-- load custom page -->
                     <?php echo $this->load->view($module.'/'.$page) ?>
                 </div> <!-- /.content -->
@@ -62,5 +65,10 @@
         <!-- Start Core Plugins-->
         <?php $this->load->view('includes/js') ?>
         
+        <script type="text/javascript">
+    $(document).ready(function () {
+        $("form :input").attr("autocomplete", "off");
+    })
+</script>
     </body>
 </html>

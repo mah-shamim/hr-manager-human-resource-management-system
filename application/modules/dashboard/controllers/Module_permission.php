@@ -6,6 +6,7 @@ class Module_permission extends MX_Controller {
  	public function __construct()
  	{
  		parent::__construct();
+ 		 $this->db->query('SET SESSION sql_mode = ""');
  		$this->load->model(array(
  			'module_permission_model',
  			'module_model', 

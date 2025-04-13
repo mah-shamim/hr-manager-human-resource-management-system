@@ -115,11 +115,11 @@ if it's not present, don't show loader */
 
 .cardbox {
     border: 0;
-    min-height: 122px;
+    min-height: 100px;
     overflow: hidden;
     border-radius: 4px;
 }.cardbox .panel-body {
-    min-height: 130px;
+    min-height: 100px;
     position: relative;
 }.refresh, .refresh2 {
     color: #000;
@@ -151,19 +151,19 @@ if it's not present, don't show loader */
     font-family: 'Alegreya Sans', sans-serif;
 }
 .cardbox-icon {
-    font-size: 96px;
+    font-size: 40px;
     color: #000;
     opacity: .25;
     position: absolute;
-    right: -20px;
+    right: 20px;
     top: 35%;
     overflow: hidden;
 }
 .cardbox-icon i{
-    font-size: 96px;
+    font-size: 40px;
 }
 .card-details{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 .card-details h4 {
     font-size: 19px;

@@ -47,7 +47,9 @@
 
 
  <table class="table table-hover" width="100%">
-   <caption style="text-align:right"><a href="<?php echo base_url("noticeboard/Notice_controller/download?file=$row->notice_attachment") ?>" tareget="_blank" class="btn btn-xs btn-primary"><i class="fa fa-download"></i>Download Notice!!</a></caption>
+   <caption style="text-align:right">
+    <?php if(!empty($row->notice_attachment)){?><a href="<?php echo base_url("noticeboard/Notice_controller/download?file=$row->notice_attachment") ?>" tareget="_blank" class="btn btn-xs btn-primary"><i class="fa fa-download"></i>Download Notice!!</a>
+<?php }?></caption>
 
 <tr>
         

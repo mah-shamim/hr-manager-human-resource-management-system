@@ -11,6 +11,8 @@
 <!-- Start Global Mandatory Style -->
 <!-- jquery-ui css -->
 <link href="<?php echo base_url('assets/css/jquery-ui.min.css') ?>" rel="stylesheet" type="text/css"/>
+<!-- <link href="<?php echo base_url('assets/css/animate.css') ?>" rel="stylesheet" type="text/css"/> -->
+<link href="<?php echo base_url('assets/css/pageloader.css') ?>" rel="stylesheet" type="text/css"/>
 
 <!-- Bootstrap -->
 <link href="<?php echo base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet" type="text/css"/>
@@ -45,7 +47,7 @@
 <!-- Date range style --> 
 <link href="<?php echo base_url('assets/css/custom.css') ?>" rel="stylesheet" type="text/css"/>
 
-<link href="<?php echo base_url('assets/css/bootstrap-timepicker.min.css') ?>" rel="stylesheet" type="text/css"/>
+<!-- <link href="<?php echo base_url('assets/css/bootstrap-timepicker.min.css') ?>" rel="stylesheet" type="text/css"/> -->
 <link href="<?php echo base_url('assets/dist/css/styleBD.css') ?>" rel="stylesheet" type="text/css"/>
 
 

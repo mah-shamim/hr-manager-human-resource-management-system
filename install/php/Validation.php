@@ -26,6 +26,7 @@ class Validation
             $database = $this->filterInput('Database Name', $data['database']);
             $username = $this->filterInput('Username', $data['username']);
             $password = $this->filterPassword('Password', $data['password']);
+            $hostname = $this->requiredInput('Host Name', $data['hostname']);
 
             //if $database, $username, $password and $hostname contain string data then set it as error message
             if (is_string($database)) {
@@ -36,16 +37,85 @@ class Validation
             }
             if (is_string($password)) {
                 $message .= "<li>$password</li>";
-            } 
+            }
+            if (is_string($hostname)) {
+                $message .= "<li>$hostname</li>";
+            }
 
             //if return true 
             if ($database === true 
                 && $username === true 
                 && $password === true 
+                && $hostname === true
                 && $token    === true
             ) { 
                 return true;
             } 
+
+        } else {
+            $message .= "<li>Please fillup all required fields*</li>";
+        }
+        return $message;
+    }
+
+    //validate get data
+    public function validate($data = [])
+    {  
+
+        $message = null;
+        $token   = false;
+
+        //server requiest post
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+            // validation for each posted data
+            $userid = $this->filterInput('User ID', $data['userid']);
+            $purchase_key = $this->filterInput('Purchase Key', $data['purchase_key']);
+
+
+            if (is_string($userid)) {
+                $message .= "<li>$userid</li>";
+            }
+            if (is_string($purchase_key)) {
+                $message .= "<li>$purchase_key</li>";
+            }
+
+
+            if($userid && $purchase_key){
+                $message = true;
+            }
+
+        } else {
+            $message .= "<li>Please fillup all required fields*</li>";
+        }
+        return $message;
+    }
+
+    //validate login data
+    public function validate_login($data = [])
+    {  
+
+        $message = null;
+
+        //server requiest post
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            // validation for each posted data
+            $email = $this->filterInput('Email ', $data['email']);
+            $password = $this->filterInput('Password', $data['password']);
+
+
+            if (is_string($email)) {
+                $message .= "<li>$email</li>";
+            }
+            if (is_string($password)) {
+                $message .= "<li>$password</li>";
+            }
+
+
+            if($email && $password){
+                $message = true;
+            }
 
         } else {
             $message .= "<li>Please fillup all required fields*</li>";
@@ -75,6 +145,17 @@ class Validation
                     return true;
                 }
             }   
+        } else {
+            return "$title is required";
+        }
+    } 
+
+    //filter all input data
+    public function requiredInput($title = null, $data = null)
+    { 
+        //if not empty posted data
+        if (!empty($data)) {  
+                return true;
         } else {
             return "$title is required";
         }

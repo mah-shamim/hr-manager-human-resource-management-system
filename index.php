@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -130,6 +130,8 @@ switch (ENVIRONMENT)
  * NO TRAILING SLASH!
  */
 	$view_folder = '';
+	
+	
 
 
 /*
@@ -312,4 +314,28 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+ /*******
+----------------------------
+Check Database Connection
+----------------------------
+*********/
+include('application/config/database.php');
+$mysqli = new mysqli($db['default']['hostname'],$db['default']['username'],$db['default']['password'],$db['default']['database']);
+
+// Check connection
+if ($mysqli -> connect_errno) {
+ $https = false;
+ if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+  $protocol = 'https://';
+}
+else {
+  $protocol = 'http://';
+}
+$dirname = rtrim(dirname($_SERVER['PHP_SELF']), '/').'/';
+    if(isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] != 'off') $https = true;
+$installerurl=$protocol.$_SERVER['HTTP_HOST'].$dirname;
+header('Location: '.$installerurl.'install');
+exit;
+}
+
 require_once BASEPATH.'core/CodeIgniter.php';

@@ -5,7 +5,7 @@
             <div class="panel-heading">
                 <div class="panel-title">
 
-                    <a href="<?php echo base_url('dashboard/role/assign_role_to_user');?>" class="btn btn-primary my-modal pull-right" onclick="add_access()" >
+                    <a href="<?php echo base_url('dashboard/role/assign_role_to_user');?>" class="btn btn-success my-modal pull-right" onclick="add_access()" style="color:#fff">
                       <i class="fa fa-plus"></i><?=display('add_role')?>
                     </a>
 

@@ -1,6 +1,7 @@
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <div class="panel panel-bd lobidrag">
+        <div class="panel panel-bd">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4>
@@ -10,7 +11,7 @@
             </div>
             <div class="panel-body">
               
-                         <?= form_open_multipart('accounts/accounts/create_debit_voucher') ?>
+                         <?= form_open_multipart('accounts/create_debit_voucher') ?>
                      <div class="form-group row">
                         <label for="vo_no" class="col-sm-2 col-form-label"><?php echo display('voucher_no')?></label>
                         <div class="col-sm-4">
@@ -61,13 +62,14 @@
                                     <tr>
                                         <td class="" style="width: 200px;">  
        <select name="cmbCode[]" id="cmbCode_1" class="form-control" onchange="load_code(this.value,1)">
+        <option value="">Please select One</option>
          <?php foreach ($acc as $acc1) {?>
    <option value="<?php echo $acc1->HeadCode;?>"><?php echo $acc1->HeadName;?></option>
          <?php }?>
        </select>
 
                                          </td>
-                                        <td><input type="text" name="txtCode[]" value="" class="form-control "  id="txtCode_1" ></td>
+                                        <td><input type="text" name="txtCode[]" value="" class="form-control "  id="txtCode_1" readonly=""></td>
                                         <td><input type="text" name="txtAmount[]" value="" class="form-control total_price"  id="txtAmount_1" onkeyup="calculation(1)" >
                                            </td>
                                        <td>
@@ -109,7 +111,7 @@
   function load_code(id,sl){
 
     $.ajax({
-        url : "<?php echo site_url('accounts/accounts/debtvouchercode/')?>" + id,
+        url : "<?php echo site_url('accounts/debtvouchercode/')?>" + id,
         type: "GET",
         dataType: "json",
         success: function(data)

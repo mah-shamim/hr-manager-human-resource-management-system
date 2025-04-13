@@ -11,7 +11,7 @@ class Requirements
         $dir      = "./sql";
         //variable declaration
         $directories   = null;
-        $not_writeable = null;
+        $not_writeable = [];
         $writeable     = null;
         $writeable_success = null;
         $writeable_error   = null;

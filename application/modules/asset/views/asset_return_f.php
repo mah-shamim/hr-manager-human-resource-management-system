@@ -37,6 +37,7 @@
                               </thead>
                                 <tbody id="equipmnet_info">
                                     <?php
+                                    if(!empty($maping_info)){
                                     $sl=1;
                                      foreach($maping_info as $map){?>
                                     <tr class="">
@@ -54,7 +55,9 @@
                                         </td>
                                     </tr>
                                 <?php $sl++;
-                              } ?>
+                              }}else{?>
+                                <tr><td colspan="4" class="text-center">No Equiments For Return !!</td></tr>
+                              <?php }?>
                                 </tbody>
                             </table>
                         </div>

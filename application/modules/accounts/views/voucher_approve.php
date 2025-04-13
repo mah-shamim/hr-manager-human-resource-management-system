@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd lobidrag">
@@ -34,15 +35,17 @@
                                 <td><?php echo $approve->Credit; ?></td>
                                 <td>
 
-                                <a href="<?php echo base_url("accounts/accounts/isactive/$approve->VNo/active") ?>" onclick="return confirm('<?php echo display("are_you_sure") ?>')" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="right" title="Inactive"><?php echo display('approved')?></a>
-                                <a href="<?php echo base_url("accounts/accounts/voucher_update/$approve->VNo") ?>" class="btn btn-info btn-sm" title="Update"><i class="fa fa-edit"></i></a>
+                                <a href="<?php echo base_url("accounts/isactive/$approve->VNo/active") ?>" onclick="return confirm('<?php echo display("are_you_sure") ?>')" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="right" title="Inactive"><?php echo display('approved')?></a>
+                                <?php if($this->permission1->method('aprove_v','update')->access()){ ?>
+                                <a href="<?php echo base_url("accounts/voucher_update/$approve->VNo") ?>" class="btn btn-info btn-sm" title="Update"><i class="fa fa-edit"></i></a>
+                            <?php }?>
                                 
                                 </td>
                             </tr>
                             <?php } ?> 
                         </tbody>
                     </table>
-                    <?= $links ?>
+                   <!--  <?= $links ?> -->
                 </div>
             </div> 
         </div>

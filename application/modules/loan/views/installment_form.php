@@ -1,9 +1,9 @@
  <div class="form-group text-right">
-<?php if($this->permission->method('loan','create')->access()): ?>
+<?php if($this->permission->method('loan_installment','create')->access()): ?>
 <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
 <?php echo display('add_installment')?></button> 
 <?php endif; ?>
-<?php if($this->permission->method('loan','read')->access()): ?>
+<?php if($this->permission->method('loan_installment','read')->access()): ?>
 <a href="<?php echo base_url();?>/loan/Loan/installmentView" class="btn btn-primary"><?php echo display('manage_installment')?></a>
 <?php endif; ?>
 </div>
@@ -52,6 +52,13 @@
                                  echo display('installment_amount') ?>" id="installment_amount">
                             </div>
                         </div>
+                         <div class="form-group row">
+                            <label for="due_amount" class="col-sm-3 col-form-label"><?php echo display('due_amount') ?> *</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="due_amount" class="form-control" placeholder="<?php 
+                                 echo display('due_amount') ?>" id="due_amount" readonly>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="payment" class="col-sm-3 col-form-label"><?php echo display('payment') ?> *</label>
                             <div class="col-sm-9">
@@ -70,7 +77,7 @@
                             <label for="received_by" class="col-sm-3 col-form-label"><?php echo display('received_by') ?> *</label>
                             <div class="col-sm-9">
                               <!--   <input type="text" name="received_by" class="form-control"  placeholder="<?php echo display('received_by') ?>" id="received_by" > -->
-                                 <?php echo form_dropdown('received_by',$gndloan,null, 'class="form-control"  id="received_by" style="width:400px"') ?>
+                                 <?php echo form_dropdown('received_by',$receiver,null, 'class="form-control"  id="received_by" style="width:400px"') ?>
                             </div>
                         </div>   
                          <div class="form-group row">
@@ -200,8 +207,8 @@ function SelectToname(id){
         dataType: "JSON",
         success: function(data)
         {
-            
               $('[name="installment_amount"]').val(data.installment);
+              $('[name="due_amount"]').val(data.due);
         
         },
         error: function (jqXHR, textStatus, errorThrown)

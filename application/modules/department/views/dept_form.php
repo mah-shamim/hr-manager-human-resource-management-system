@@ -6,6 +6,12 @@
  <?php if($this->permission->method('department','read')->access()): ?>  
 <a href="<?php echo base_url();?>/department/Department_controller/dept_view" class="btn btn-primary"><?php echo display('manage_dept')?></a>
 <?php endif; ?>
+ <?php if($this->permission->method('add_division','create')->access()): ?>  
+<a href="<?php echo base_url();?>/department/Division_controller/division_form" class="btn btn-info"><?php echo display('add_division')?></a>
+<?php endif; ?>
+<?php if($this->permission->method('division_list','read')->access()): ?>  
+<a href="<?php echo base_url();?>/department/Division_controller/index" class="btn btn-info"><?php echo display('division_list')?></a>
+<?php endif; ?>
 </div>
 <!--  -->
 

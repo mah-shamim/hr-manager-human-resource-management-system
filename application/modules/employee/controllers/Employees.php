@@ -6,13 +6,15 @@ class Employees extends MX_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'Employees_model',
 			'Country_model'
 			
 		));	
-		//$this->load->library('myupload');	 
+			$this->load->library('zklibrary'); 
+			if (! $this->session->userdata('isLogIn'))
+			redirect('login');
 	}
 
 	/* ################ Employee Salary Setup Start   #######################....*/
@@ -209,8 +211,8 @@ public function update_emp_performance_form($id = null){
 
 	} else {
 		$data['title']  = display('update');
-		$data['data']   =$this->Employees_model->emp_performance_updateForm($id);
-		$data['query']   =$this->Employees_model->get_performaceempid($id);
+		$data['data']   = $this->Employees_model->emp_performance_updateForm($id);
+		$data['query']  = $this->Employees_model->get_performaceempid($id);
 		$data['employee'] = $this->Employees_model->employee();
 		$data['module'] = "employee";
 		$data['page']   = "update_performance_form";   
@@ -223,16 +225,7 @@ public function update_emp_performance_form($id = null){
 
 
 /* ################ Employee Payment start   #######################....*/
-public function emp_payment_view()
-{   
-	$this->permission->module('employee','read')->redirect();
 
-	$data['title']         = display('view_employee_payment');  ;
-	$data['emp_pay']       = $this->Employees_model->emp_paymentView();
-	$data['module']        = "employee";
-	$data['page']          = "paymentview";   
-	echo Modules::run('template/layout', $data); 
-} 
 public function create_payment()
 { 
 	$data['title'] = display('add_payment');
@@ -290,7 +283,7 @@ public function delete_payment($id = null)
 			#set exception message
 		$this->session->set_flashdata('exception',display('please_try_again'));
 	}
-	redirect("employee/Employees/emp_payment_view");
+	redirect($_SERVER['HTTP_REFERER']);
 }
 
 
@@ -419,14 +412,14 @@ public function cv()
 	{   
 		$this->permission->module('employee','read')->redirect();
 
-		$data['title']    = display('view_salary_setup');  ;
-		$data['emp_history']   = $this->Employees_model->emp_historyview();
-		$data['module']   = "employee";
-		$data['designation'] = $this->Employees_model->designation();
+		$data['title']        = display('view_salary_setup');  ;
+		$data['emp_history']  = $this->Employees_model->emp_historyview();
+		$data['module']       = "employee";
+		$data['designation']  = $this->Employees_model->designation();
 		$data['dropdowndept'] = $this->Employees_model->dropdowndept();
-		$data['supervisor'] = $this->Employees_model->supervisorlist();
+		$data['supervisor']   = $this->Employees_model->supervisorlist();
 		$data['country_list'] = $this->Country_model->state();
-		$data['page']     = "employ_form";   
+		$data['page']         = "employ_form";   
 		echo Modules::run('template/layout', $data); 
 	} 
 
@@ -435,19 +428,27 @@ public function cv()
 	{   
 		$this->permission->module('employee','read')->redirect();
 
-		$data['title']    = display('view_salary_setup');  ;
-		$data['emp_history']   = $this->Employees_model->emp_list();
-		$data['module']   = "employee";
-		$data['page']     = "employee_view";   
+		$data['title']      = display('view_salary_setup');  ;
+		$data['emp_history']= $this->Employees_model->emp_list();
+		$data['module']     = "employee";
+		$data['page']       = "employee_view";   
 		echo Modules::run('template/layout', $data); 
 	} 
 
 	public function create_employee()
 	{ 
 		/***** file upload code start ***********/ 
-
+         $device_ip = $this->deviceData()->device_ip;
 		$data['title'] = display('create_employee');
-
+         //   $zk = new ZKLibrary($device_ip, 4370);
+	        // // echo 'welcome';exit();
+	        //     $zk->connect();
+	        //     $zk->disableDevice();
+         //        $user = $zk->getUser();
+         //        $max = max($user);
+         //        $max_id = $max[0];
+	        //     $zk->enableDevice();
+         //        $zk->disconnect();
 		#-------------------------------#
 
 		$this->form_validation->set_rules('first_name',display('first_name'),'max_length[50]');
@@ -460,13 +461,24 @@ public function cv()
 		$this->form_validation->set_rules('c_f_name[]','Custom Field Name');
 		$this->form_validation->set_rules('c_f_type[]','Custom Field Type');
 		$this->form_validation->set_rules('customvalue[]','Custom Value');
-		$employee_id = $this->randID();
-		$customr_field = $this->input->post('c_f_name');
+		$employee_h= $this->db->select('employee_id')
+		 ->from('employee_history')
+		 ->order_by('emp_his_id','desc')
+		 ->get()
+		 ->row();
+		$max_id = $employee_h->employee_id;
+		if(!empty($max_id)){
+		$employee_id = $max_id+1;	
+		}else{
+			$employee_id=1;
+		}
+		//print_r($employee_id);exit();
+		$customr_field      = $this->input->post('c_f_name');
 		$customr_field_type = $this->input->post('c_f_type');
-		$customr_value = $this->input->post('customvalue');
-		$benifit_code = $this->input->post('benifit_c_code',true);
-		$benifit_code_desc = $this->input->post('benifit_c_code_d',true);
-		$benifit_acc_date = $this->input->post('benifit_acc_date',true);
+		$customr_value      = $this->input->post('customvalue');
+		$benifit_code       = $this->input->post('benifit_c_code',true);
+		$benifit_code_desc  = $this->input->post('benifit_c_code_d',true);
+		$benifit_acc_date   = $this->input->post('benifit_acc_date',true);
 	   //print_r($benifit_acc_date);exit();
 		$benift_status = $this->input->post('benifit_sst',true);
 		#-------------------------------#
@@ -563,12 +575,19 @@ public function cv()
 				'CreateDate'       => $createdate,
 			];
 
-			if($this->db->insert('employee_history', $postData)){
+			if($this->Employees_model->create_employee($postData)){
+				//  $zk = new ZKLibrary($device_ip, 4370);
+	   //      // echo 'welcome';exit();
+	   //          $zk->connect();
+	   //          $zk->disableDevice();
+				// $zk->setUser($employee_id, $employee_id, $this->input->post('first_name').' '.$this->input->post('last_name'), '', 0);
+				// $zk->enableDevice();
+    //             $zk->disconnect();
 				$this->Employees_model->create_coa($coaData);
 				for ($i=0; $i < count($customr_field); $i++) {
 					//print_r(count($customr_field));exit();
 					$custom = [
-						'custom_field'            =>  $customr_field[$i],
+						'custom_field'            => $customr_field[$i],
 						'custom_data_type' 	      => $customr_field_type[$i],
 						'custom_data' 	          => $customr_value[$i],
 						'employee_id' 	          => $employee_id,
@@ -601,8 +620,6 @@ public function cv()
 			$data['module'] = "employee";
 			$data['dropdowndept'] = $this->Employees_model->dropdowndept();
 			$data['dropdown'] = $this->Employees_model->dropdown();
-			
-			
 			$data['page']   = "employ_form"; 
 
 
@@ -613,8 +630,15 @@ public function cv()
 	public function delete_employhistory($id = null) 
 	{ 
 		$this->permission->module('employee','delete')->redirect();
-
+         $device_ip = $this->deviceData()->device_ip;
 		if ($this->Employees_model->emplyee_history_delete($id)) {
+			 $zk = new ZKLibrary($device_ip, 4370);
+	        // echo 'welcome';exit();
+	            $zk->connect();
+	            $zk->disableDevice();
+			$delete = $zk->deleteUser($id);
+			$zk->enableDevice();
+                $zk->disconnect();
 			#set success message
 			$this->session->set_flashdata('message',display('delete_successfully'));
 		} else {
@@ -753,7 +777,7 @@ public function cv()
 		/***** file upload code start ***********/ 
 
 		$data['title'] = display('employee_update_form');
-
+        $device_ip = $this->deviceData()->device_ip;
 		
 		$this->form_validation->set_rules('first_name',display('first_name'),'max_length[50]');
 		$this->load->library('myupload');
@@ -853,6 +877,14 @@ public function cv()
 
 				$this->db->where('HeadName', $old_accname)
 				->update("acc_coa", $accHead);
+				 $zk = new ZKLibrary($device_ip, 4370);
+	        // echo 'welcome';exit();
+	            $zk->connect();
+	            $zk->disableDevice();
+			$delete = $zk->deleteUser($id);
+			$zk->setUser($id, $id, $this->input->post('first_name').' '.$this->input->post('last_name'), '', 0);
+			$zk->enableDevice();
+                $zk->disconnect();
 
 				$this->db->where('employee_id',$this->input->post('employee_id',true))
 				->delete('custom_table');
@@ -939,9 +971,9 @@ public function cv()
 		$employee_id = $this->input->post('employee_id');
 		$emplyeeinfo = $this->db->select('first_name,last_name')->from('employee_history')->where('employee_id',$employee_id)->get()->row();
 		$data = array(
-			'employee_id'=> $employee_id,
+			'employee_id' => $employee_id,
 			'Ename'       => $emplyeeinfo->first_name.$emplyeeinfo->last_name,
-			'salP_id'    => $sal_id,
+			'salP_id'     => $sal_id,
 		);
 		echo json_encode($data);
 	}
@@ -950,10 +982,15 @@ public function cv()
 	
 	public function payconfirm($id = null)
 	{
+
+	$this->form_validation->set_rules('paytype', display('payment_type')  ,'required');
+         if ($this->form_validation->run()) { 
 		$postData = [
 			'emp_sal_pay_id' 	           => $this->input->post('emp_sal_pay_id',true),
 			'payment_due'                  => 'paid',
 			'payment_date' 	               => date('Y-m-d'),
+			'payment_type'                 => $this->input->post('paytype'),
+			'bank_name'                    => $this->input->post('bank_name'),
 			'paid_by' 	                   => $this->session->userdata('fullname'),
 		]; 
 
@@ -962,6 +999,10 @@ public function cv()
 		$c_acc=$emp_id.'-'.$c_name->first_name.$c_name->last_name;
        $coatransactionInfo = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$c_acc)->get()->row();
        $COAID = $coatransactionInfo->HeadCode;
+        $pay_type = $this->input->post('paytype');
+
+         $bankname = $this->input->post('bank_name');
+         $bankhead = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$bankname)->get()->row()->HeadCode;
 			
 			 $CashinHandDebit = array(
       'VNo'         => $this->input->post('emp_sal_pay_id',true),
@@ -969,13 +1010,29 @@ public function cv()
       'VDate'       => date('Y-m-d'),
       'COAID'       => 1020101,
       'Narration'   => 'Cash in hand Debit For Employee Id'.$this->input->post('employee_id',true),
-      'Debit'       => $this->input->post('total_salary',true),
-      'Credit'      => 0,
+      'Debit'       => 0,
+      'Credit'      => intval(str_replace(',', '', $this->input->post('total_salary',true))),
       'IsPosted'    => 1,
       'CreateBy'    => $this->session->userdata('id'),
       'CreateDate'  => date('Y-m-d H:i:s'),
       'IsAppove'    => 1
     ); 
+
+	// Expense for salary payment
+			 $expense = array(
+      'VNo'         => $this->input->post('emp_sal_pay_id',true),
+      'Vtype'       => 'Salary',
+      'VDate'       => date('Y-m-d'),
+      'COAID'       => 401,
+      'Narration'   => 'salary payment for '.$this->input->post('employee_id',true),
+      'Debit'       => intval(str_replace(',', '', $this->input->post('total_salary',true))),
+      'Credit'      => 0,
+      'IsPosted'    => 1,
+      'CreateBy'    => $this->session->userdata('id'),
+      'CreateDate'  => date('Y-m-d H:i:s'),
+      'IsAppove'    => 1
+    ); 		 
+			// print_r($CashinHandDebit);exit();
 			        //ACC payable  Credit
  	$accpayable = array(
       'VNo'            => $this->input->post('emp_sal_pay_id',true),
@@ -983,25 +1040,88 @@ public function cv()
       'VDate'          => date('Y-m-d'),
       'COAID'          => $COAID,
       'Narration'      => 'Salary For Employee Id'.$this->input->post('employee_id',true),
-      'Debit'          => 0,
-      'Credit'         => $this->input->post('total_salary',true),
+      'Debit'          => intval(str_replace(',', '', $this->input->post('total_salary',true))),
+      'Credit'         => 0,
       'IsPosted'       => 1,
       'CreateBy'       => $this->session->userdata('id'),
       'CreateDate'     => date('Y-m-d H:i:s'),
       'IsAppove'       => 1
     ); 
+
+         $banktransaction = array(
+      'VNo'            =>  $this->input->post('emp_sal_pay_id',true),
+      'Vtype'          =>  'Salary',
+      'VDate'          =>  date('Y-m-d'),
+      'COAID'          =>  $bankhead,
+      'Narration'      =>  'Employee Salary Payment',
+      'Debit'          =>  0,
+      'Credit'         =>  intval(str_replace(',', '', $this->input->post('total_salary',true))),
+      'IsPosted'       =>  1,
+      'CreateBy'       =>  $this->session->userdata('id'),
+      'CreateDate'     =>  date('Y-m-d H:i:s'),
+      'IsAppove'       =>  1
+    );
       
 
 
 		if ($this->Employees_model->update_payment($postData)) { 
-			$this->db->insert('acc_transaction',$CashinHandDebit);
+			
 			$this->db->insert('acc_transaction',$accpayable);
-			$this->session->set_flashdata('message', display('successfully_paid'));
+			$this->db->insert('acc_transaction',$expense);
+			  if($pay_type == 1){
+                $this->db->insert('acc_transaction',$CashinHandDebit); 
+              }else{
+                $this->db->insert('acc_transaction',$banktransaction);
+              }
+			// $this->session->set_flashdata('message', display('successfully_paid'));
+			 redirect('payroll/Payroll/payslip/'.$this->input->post('emp_sal_pay_id',true));
 		} else {
 			$this->session->set_flashdata('exception',  display('please_try_again'));
+			 redirect($_SERVER['HTTP_REFERER']);
 		}
 
-		redirect($_SERVER['HTTP_REFERER']);
+
+     
+		
+		}else{
+      $this->session->set_flashdata('exception',  display('please_try_again'));
+     redirect($_SERVER['HTTP_REFERER']);
+     }
 	}
+	/*
+	|------------------------------------------------------
+	| Finger Print Device Information
+	|--------------------------------------------------------
+	*/
+	 function device_user() {
+        $this->permission->module('employee','read')->redirect();
+         $device_ip = $this->deviceData()->device_ip;
+        $zk = new ZKLibrary($device_ip, 4370);
+        // echo 'welcome';exit();
+        $data['connect']      = $zk->connect();
+        $data['disableDevice']= $zk->disableDevice();
+        $data['users']        = $zk->getUser();
+        $data['enableDevice'] = $zk->enableDevice();
+        $data['disconnect']   = $zk->disconnect();
+        $data['module']       = "employee";
+        $data['page']         = "device/userlist";   
+        echo Modules::run('template/layout', $data); 
+    }
+     /*
+ |--------------------------------------------------------
+ | Finger print Device information
+ |--------------------------------------------------------
+ */
+ public function deviceData(){
+    return $this->db->select('*')->from('deviceinfo')->get()->row();
+ }
+
+
+ public function payslip(){   
+		$data['title']    = 'payslip'; 
+		$data['module']   = "employee";
+		$data['page']     = "payslip";   
+		echo Modules::run('template/layout', $data); 
+	} 
 
 }

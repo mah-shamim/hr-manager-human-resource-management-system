@@ -1,35 +1,93 @@
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <div class="panel panel-bd lobidrag">
+        <div class="panel panel-bd">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4>
-                       <!--  <a href="<?php echo base_url('department/division_controller/index') ?>" class="btn btn-sm btn-success" title="List"> <i class="fa fa-list"></i> <?php echo display('list') ?></a> 
-                        <?php if($customers->customer_id): ?>
-                        <a href="<?php echo base_url('department/division_controller/form') ?>" class="btn btn-sm btn-info" title="Add"><i class="fa fa-plus"></i> <?php echo display('add') ?></a> 
-                        <?php endif; ?> -->
                     </h4>
                 </div>
             </div>
             <div class="panel-body">
-
-                <?= form_open('asset/type_controller/type_form') ?>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <h3><center><?= display('add_type')?></center></h3>
+                          <?= form_open('asset/type_controller/type_form') ?>
                     <?php echo form_hidden('type_id', (!empty($typeinfo->type_id)?$typeinfo->type_id:null)) ?>
 
                     <div class="form-group row">
                         <label for="type_name" class="col-sm-3 col-form-label"><?php echo display('type_name') ?> *</label>
                         <div class="col-sm-9">
-                                    <input name="type_name" class="form-control" type="text" placeholder="<?php echo display('type_name') ?>" id="type_name" value="<?php echo (!empty($typeinfo->type_name)?$typeinfo->type_name:null) ?>" required >
+                                    <input name="type_name" class="form-control" type="text" placeholder="<?php echo display('type_name') ?>" id="type_name" value="<?php echo (!empty($typeinfo->type_name)?$typeinfo->type_name:null) ?>" autocomplete="off" required >
                         </div>
                     </div> 
                      
                     <div class="form-group text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
-                        <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
+                        <button type="submit" class="btn btn-success w-md m-b-5"><?php
+                        echo (!empty($typeinfo->type_id)?display('update'):display('save'))  ?></button>
                     </div>
-                <?php echo form_close() ?>
+                <?php echo form_close() ?></div>
+                        <div class="col-sm-8">
+                            <h3><center><?= display('type_list')?></center></h3>
+                                <table width="100%" id="datatable1" class=" table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                           <th><?php echo display('cid') ?></th>
+                            <th><?php echo display('type_name') ?></th>
+                           <th><?php echo display('action') ?></th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($type)) { ?>
+                            <?php $sl = 1; ?>
+                            <?php foreach ($type as $row) { ?>
+                                <tr class="<?php echo ($sl & 1)?"odd gradeX":"even gradeC" ?>">
+                                    <td><?php echo $sl; ?></td>
+                               <td><?php echo $row->type_name; ?></td>
+                                
+                                                           
+                                   <td class="center">
+                                  
+                                    <?php if($this->permission->method('asset_type','update')->access()): ?>
+                                        <a href="<?php echo base_url("asset/Type_controller/type_form/$row->type_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
+                                        <?php endif; ?>
+                                    
+                                    <?php if($this->permission->method('asset_type','delete')->access()): ?>  
+                                        <a href="<?php echo base_url("asset/Type_controller/delete_type/$row->type_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-close"></i></a>
+                                         <?php endif; ?> 
+                                    </td>
+                                </tr>
+                                <?php $sl++; ?>
+                            <?php } ?> 
+                        <?php } ?> 
+                    </tbody>
+                </table>  <!-- /.table-responsive -->
+                        </div>
+                     </div>
+                </div>
+
+              
 
             </div>  
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#datatable1').DataTable({ 
+        responsive: true, 
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp", 
+        "lengthMenu": [[ 25, 50, 100, 150, 200, 500, -1], [ 25, 50, 100, 150, 200, 500, "All"]], 
+        buttons: [   
+            {extend: 'csv', title: 'Equipment List', className: 'btn-sm'}, 
+            {extend: 'excel', title: 'Equipment List', className: 'btn-sm', title: 'exportTitle'}, 
+            {extend: 'pdf', title: 'Equipment List', className: 'btn-sm'}, 
+            {extend: 'print', className: 'btn-sm'} 
+        ] 
+    });
+          });
+</script>
+

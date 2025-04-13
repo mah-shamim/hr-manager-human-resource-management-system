@@ -5,7 +5,7 @@
             <div class="panel-heading">
                 <div class="panel-title">
 
-                    <button type="button" class="btn btn-primary my-modal pull-right" onclick="add_role()" >
+                    <button type="button" class="btn btn-success my-modal pull-right" onclick="add_role()" >
                       <?=display('add_role')?>
                     </button>
 

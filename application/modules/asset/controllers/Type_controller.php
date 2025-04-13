@@ -6,10 +6,12 @@ class Type_controller extends MX_Controller {
 public function __construct()
 	{
 		parent::__construct();
-		
+		 $this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'asset_model'
-		));		 
+		));	
+    if (! $this->session->userdata('isLogIn'))
+      redirect('login');	 
 	}
 
 public function type_list()
@@ -65,7 +67,7 @@ public function type_form($id = null)
   #-------------------------------#
    $data['division']   = (Object) $postData = [
    'type_id'          => $this->input->post('type_id'), 
-   'type_name'    => $this->input->post('type_name')
+   'type_name'        => $this->input->post('type_name')
   ];
 
 
@@ -76,7 +78,7 @@ public function type_form($id = null)
           $this->permission->method('asset','create')->redirect();
     if ($this->asset_model->type_create($postData)) { 
      $this->session->set_flashdata('message', display('save_successfully'));
-     redirect('asset/Type_controller/type_list');
+     redirect('asset/Type_controller/type_form');
     } else {
      $this->session->set_flashdata('exception',  display('please_try_again'));
     }
@@ -100,7 +102,8 @@ public function type_form($id = null)
     $data['typeinfo']   = $this->asset_model->findById_type($id);
    }
    $data['module'] = "asset";
-   $data['page']   = "type_form";   
+   $data['page']   = "type_form";
+    $data["type"] = $this->asset_model->type_list();   
    echo Modules::run('template/layout', $data); 
    }   
  }
@@ -115,7 +118,7 @@ public function type_form($id = null)
             #set exception message
             $this->session->set_flashdata('exception',display('please_try_again'));
         }
-        redirect('asset/Type_controller/type_list');
+        redirect('asset/Type_controller/type_form');
     }
 
     

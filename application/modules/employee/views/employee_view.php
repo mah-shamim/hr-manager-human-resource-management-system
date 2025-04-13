@@ -137,9 +137,13 @@
 
 
                                     <td class="center">
+                                      <?php if($this->permission->method('manage_employee','update')->access()): ?>
                                       <a href="<?php echo base_url("employee/Employees/update_employee_form/$row->employee_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a> 
+                                       <?php endif; ?>
+                                        <?php if($this->permission->method('manage_employee','delete')->access()): ?>
                                         <a href="<?php echo base_url("employee/Employees/delete_employhistory/$row->employee_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a> 
-                                        <a href="<?php echo base_url("employee/Employees/cv/$row->employee_id");?>" class="btn btn-default"><i class="fa fa-user"></i></a>
+                                         <?php endif; ?>
+                                        <a href="<?php echo base_url("employee/Employees/cv/$row->employee_id");?>" class="btn btn-default btn-xs"><i class="fa fa-user"></i></a>
                                        
                                     </td>
                                 </tr>

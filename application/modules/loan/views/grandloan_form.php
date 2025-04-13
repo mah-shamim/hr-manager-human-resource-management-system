@@ -1,9 +1,9 @@
  <div class="form-group text-right">
-  <?php if($this->permission->method('loan','create')->access()): ?>
+  <?php if($this->permission->method('loan_grand','create')->access()): ?>
 <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
 <?php echo display('add_loan')?></button> 
 <?php endif; ?>
-  <?php if($this->permission->method('loan','read')->access()): ?>
+  <?php if($this->permission->method('loan_grand','read')->access()): ?>
 <a href="<?php echo base_url();?>loan/Loan/loan_view" class="btn btn-primary"><?php echo display('manage_granted_loan')?></a>
 <?php endif; ?>
 </div>
@@ -40,7 +40,7 @@
                         <div class="form-group row">
                             <label for="permission_by" class="col-sm-3 col-form-label"><?php echo display('permission_by') ?> *</label>
                             <div class="col-sm-9">
-                                   <?php echo form_dropdown('permission_by',$gndloan,null,'class="form-control" id="permission_by" style="width:617px"') ?>
+                                   <?php echo form_dropdown('permission_by',$supervisor,null,'class="form-control" id="permission_by" style="width:617px"') ?>
                             </div>
                         </div>
                         <div class="form-group row">

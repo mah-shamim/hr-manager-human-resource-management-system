@@ -6,10 +6,12 @@ class Equipment_maping extends MX_Controller {
 public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'asset_model'
-		));		 
+		));	
+    if (! $this->session->userdata('isLogIn'))
+      redirect('login');	 
 	}
 
    public function maping_list()
@@ -68,7 +70,7 @@ public function maping_form()
       $this->permission->method('asset','create')->redirect();
     if ($this->asset_model->maping_create()) { 
      $this->session->set_flashdata('message', display('save_successfully'));
-     redirect('asset/Equipment_maping/maping_list');
+     redirect('asset/Equipment_maping/maping_form');
     } else {
      $this->session->set_flashdata('exception',  display('please_try_again'));
     }
@@ -76,6 +78,7 @@ public function maping_form()
 
   } else { 
    $data['equipment']   =  $this->asset_model->equipment_dropdown();
+   $data['mappinglist'] =  $this->asset_model->eq_mapping_list();
    $data['employee']    = $this->asset_model->employee_dropdown();
    $data['module'] = "asset";
    $data['page']   = "maping_form";   
@@ -93,7 +96,7 @@ public function maping_form()
             #set exception message
             $this->session->set_flashdata('exception',display('please_try_again'));
         }
-        redirect('asset/Equipment_maping/maping_list');
+        redirect('asset/Equipment_maping/maping_form');
     }
 //update maping
     public function maping_update($id = null)
@@ -108,7 +111,7 @@ public function maping_form()
       $this->permission->method('asset','update')->redirect();
     if ($this->asset_model->maping_update()) { 
      $this->session->set_flashdata('message', display('successfully_updated'));
-     redirect('asset/Equipment_maping/maping_list');
+     redirect('asset/Equipment_maping/maping_form');
     } else {
      $this->session->set_flashdata('exception',  display('please_try_again'));
     }

@@ -6,10 +6,12 @@ class Division_controller extends MX_Controller {
 public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'Department_model',
-		));		 
+		));	
+    if (! $this->session->userdata('isLogIn'))
+      redirect('login');	 
 	}
 
 public function index()

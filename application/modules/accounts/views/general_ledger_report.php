@@ -9,6 +9,7 @@ function printDiv() {
     document.body.innerHTML = originalContents;
 }
 </script>
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd lobidrag">
@@ -25,13 +26,14 @@ function printDiv() {
                 <thead>
                 <tr align="center">
 
-                    <td colspan="7"><font size="+1" style="font-family:'Arial'"> <strong><?php echo display('general_ledger_of').' '.$ledger->HeadName.' on '.$dtpFromDate. ' To '  .$dtpToDate;?></strong></font><strong></th></strong>
+                    <td colspan="8"><font size="+1" style="font-family:'Arial'"> <strong><?php echo display('general_ledger_of').' '.$ledger[0]['HeadName'].' on '.$dtpFromDate. ' To '  .$dtpToDate;?></strong></font><strong></th></strong>
                 </tr>
 
                 <tr>
                     <td height="25"><strong><?php echo display('sl');?></strong></td>
-                    <td><strong><?php echo $Trans?"Transaction Date":"Head Code";?></strong></td>
-                    <td><strong><?php echo $Trans?"Voucher No":"Head Name";?></strong></td>
+                    <td><strong><?php echo "Transaction Date";?></strong></td>
+                    <td><strong><?php echo !empty($Trans)?"Transaction Date":"Head Code";?></strong></td>
+                    <td><strong><?php echo !empty($Trans)?"Voucher No":"Head Name";?></strong></td>
                     <?php
                     if($chkIsTransction){
                         ?>
@@ -47,7 +49,7 @@ function printDiv() {
                 <tbody>
 
                 <?php
-                if($error){
+                if((!empty($error)?$error:'')){
                     ?>
 
                     <tr>
@@ -61,20 +63,23 @@ function printDiv() {
                             <?php
                         }
                         ?>
+
                         <td align="right"></td>
                         <td align="right"></td>
-						<td align="right"></td>
+                        <td align="right"></td>
                     </tr>
 
                     <?php
                 }
                 else{
                 $TotalCredit=0;
+                $TotalDebit=0;
                 $CurBalance =$prebalance;
                 foreach($HeadName2 as $key=>$data) {
                     ?>
                     <tr>
                         <td height="25"><?php echo ++$key;?></td>
+                        <td><?php echo $data->VDate; ?></td>
                         <td><?php echo $data->COAID; ?></td>
                         <td><?php echo $data->HeadName; ?></td>
                         <?php
@@ -103,9 +108,9 @@ function printDiv() {
                 <tr class="table_data">
                     <?php
                         if($chkIsTransction)
-							$colspan=4;
-						else
-							$colspan=3;
+                            $colspan=5;
+                        else
+                            $colspan=4;
                             ?>
                     <td colspan="<?php echo $colspan;?>" align="right"><strong><?php echo display('total')?></strong></td>                    
                     <td align="right"><strong><?php echo number_format($TotalDebit,2,'.',','); ?></strong></td>

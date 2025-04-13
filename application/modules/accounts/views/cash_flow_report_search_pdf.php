@@ -9,6 +9,33 @@
             <div id="printArea">
                 <div class="panel-body">
                   <div>
+                       <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
+                                                
+                                                <tr>
+                                                    <td align="left" style="border-bottom:2px #333 solid;">
+                                                      <!--   <img src="<?php echo $software_info[0]->logo;?>" alt="logo"> -->
+                                                    </td>
+                                                    <td align="left" style="border-bottom:2px #333 solid;">
+                                                        <span style="font-size: 17pt; font-weight:bold;">
+                                                            <!-- <?php echo $company[0]['company_name'];?>
+                                                           
+                                                        </span><br>
+                                                        <?php echo $company[0]['address'];?>
+                                                        <br>
+                                                         <?php echo $company[0]['mobile'];?> -->
+                                                        
+                                                    </td>
+                                                   
+                                                     <td align="right" style="border-bottom:2px #333 solid;">
+                                                        <date>
+                                                        <?php echo display('date')?>: <?php
+                                                        echo date('d-M-Y');
+                                                        ?> 
+                                                    </date>
+                                                    </td>
+                                                </tr>            
+                                   
+                                </table>
                       <table width="100%" class="table_boxnew" style="padding: 5px">
                         <tr>
                             <td colspan="3" align="center"><h2 style="margin: 0;"><?php echo display('cash_flow_statement');?>  </h2></td>

@@ -17,10 +17,24 @@ class Accounts_model extends CI_Model {
         }
     }
 
+    public function paytype(){
+        $this->db->select('*');
+        $this->db->from('acc_coa');
+        $this->db->where('PHeadName','Cash & Cash Equivalent');
+        $this->db->order_by('HeadName','asc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
     function dfs($HeadName,$HeadCode,$oResult,$visit,$d)
     {
-        if($d==0) echo "<li>$HeadName";
-        else      echo "<li><a href='javascript:' onclick=\"loadData('".$HeadCode."')\">$HeadName</a>";
+        if($d==0) echo "<li class=\"jstree-open \">$HeadName";
+        else if($d==1) echo "<li class=\"jstree-open\"><a href='javascript:' onclick=\"loadData('".$HeadCode."')\">$HeadName</a>";
+        else echo "<li><a href='javascript:' onclick=\"loadData('".$HeadCode."')\">$HeadName</a>";
         $p=0;
         for($i=0;$i< count($oResult);$i++)
         {
@@ -79,22 +93,7 @@ class Accounts_model extends CI_Model {
             $CreateBy=$this->session->userdata('id');
            $createdate=date('Y-m-d H:i:s');
 
-            $cinsert = array(
-      'VNo'            =>  $voucher_no,
-      'Vtype'          =>  $Vtype,
-      'VDate'          =>  $VDate,
-      'COAID'          =>  $cAID,
-      'Narration'      =>  $Narration,
-      'Debit'          =>  0,
-      'Credit'         =>  $Credit,
-      'StoreID'        => $this->session->userdata('store_id'),
-      'IsPosted'       => $IsPosted,
-      'CreateBy'       => $CreateBy,
-      'CreateDate'     => $createdate,
-      'IsAppove'       => 0
-    ); 
-
-       $this->db->insert('acc_transaction',$cinsert);
+           
             for ($i=0; $i < count($dAID); $i++) {
                 $dbtid=$dAID[$i];
                 $Damnt=$Debit[$i];
@@ -107,7 +106,6 @@ class Accounts_model extends CI_Model {
       'Narration'      =>  $Narration,
       'Debit'          =>  $Damnt,
       'Credit'         =>  0,
-      'StoreID'        => $this->session->userdata('store_id'),
       'IsPosted'       => $IsPosted,
       'CreateBy'       => $CreateBy,
       'CreateDate'     => $createdate,
@@ -115,6 +113,23 @@ class Accounts_model extends CI_Model {
     ); 
            // print_r($debitinsert);exit;
               $this->db->insert('acc_transaction',$debitinsert);
+              $headinfo = $this->db->select('HeadName')->from('acc_coa')->where('HeadCode',$dbtid)->get()->row()->HeadName;
+              
+    $cinsert = array(
+      'VNo'            =>  $voucher_no,
+      'Vtype'          =>  $Vtype,
+      'VDate'          =>  $VDate,
+      'COAID'          =>  1020101,
+      'Narration'      =>  'Debit voucher from '.$headinfo,
+      'Debit'          =>  0,
+      'Credit'         =>  $Damnt,
+      'IsPosted'       => $IsPosted,
+      'CreateBy'       => $CreateBy,
+      'CreateDate'     => $createdate,
+      'IsAppove'       => 1
+    ); 
+  
+       $this->db->insert('acc_transaction',$cinsert);
 
     }
     return true;
@@ -135,24 +150,11 @@ class Accounts_model extends CI_Model {
             $CreateBy=$this->session->userdata('id');
            $createdate=date('Y-m-d H:i:s');
 
-            $cinsert = array(
-      'VNo'            =>  $voucher_no,
-      'Vtype'          =>  $Vtype,
-      'VDate'          =>  $VDate,
-      'COAID'          =>  $cAID,
-      'Narration'      =>  $Narration,
-      'Debit'          =>  0,
-      'Credit'         =>  $Credit,
-      'StoreID'        => $this->session->userdata('store_id'),
-      'IsPosted'       => $IsPosted,
-      'CreateBy'       => $CreateBy,
-      'CreateDate'     => $createdate,
-      'IsAppove'       => 0
-    ); 
+            
             $this->db->where('VNo',$voucher_no)
             ->delete('acc_transaction');
 
-       $this->db->insert('acc_transaction',$cinsert);
+  
             for ($i=0; $i < count($dAID); $i++) {
                 $dbtid=$dAID[$i];
                 $Damnt=$Debit[$i];
@@ -165,7 +167,6 @@ class Accounts_model extends CI_Model {
       'Narration'      =>  $Narration,
       'Debit'          =>  $Damnt,
       'Credit'         =>  0,
-      'StoreID'        => $this->session->userdata('store_id'),
       'IsPosted'       => $IsPosted,
       'CreateBy'       => $CreateBy,
       'CreateDate'     => $createdate,
@@ -173,6 +174,23 @@ class Accounts_model extends CI_Model {
     ); 
            // print_r($debitinsert);exit;
               $this->db->insert('acc_transaction',$debitinsert);
+              $headinfo = $this->db->select('HeadName')->from('acc_coa')->where('HeadCode',$dbtid)->get()->row()->HeadName;
+              
+    $cinsert = array(
+      'VNo'            =>  $voucher_no,
+      'Vtype'          =>  $Vtype,
+      'VDate'          =>  $VDate,
+      'COAID'          =>  1020101,
+      'Narration'      =>  'Debit voucher from '.$headinfo,
+      'Debit'          =>  0,
+      'Credit'         =>  $Damnt,
+      'IsPosted'       => $IsPosted,
+      'CreateBy'       => $CreateBy,
+      'CreateDate'     => $createdate,
+      'IsAppove'       => 1
+    ); 
+  
+       $this->db->insert('acc_transaction',$cinsert);
 
     }
     return true;
@@ -180,19 +198,56 @@ class Accounts_model extends CI_Model {
 //Generate Voucher No
 public function voNO()
     {
-      return  $data = $this->db->select("Max(VNo) as voucher")
+      return  $data = $this->db->select("VNo as voucher")
             ->from('acc_transaction') 
             ->like('VNo', 'DV-', 'after')
+            ->order_by('ID','desc')
             ->get()
             ->row();
            // print_r($data);exit;
     }
+
+    public function Cashvoucher()
+    {
+      return  $data = $this->db->select("VNo as voucher")
+            ->from('acc_transaction') 
+            ->like('VNo', 'CHV-', 'after')
+            ->order_by('ID','desc')
+            ->get()
+            ->row();
+           // print_r($data);exit;
+    }
+// balance Adjustment voucher
+        public function balanceadjvoucher()
+    {
+      return  $data = $this->db->select("VNo as voucher")
+            ->from('acc_transaction') 
+            ->like('VNo', 'BLA-', 'after')
+            ->order_by('ID','desc')
+            ->get()
+            ->row();
+           // print_r($data);exit;
+    }
+
+// bank voucher
+       public function bankvoucher()
+    {
+      return  $data = $this->db->select("VNo as voucher")
+            ->from('acc_transaction') 
+            ->like('VNo', 'BAD-', 'after')
+            ->order_by('ID','desc')
+            ->get()
+            ->row();
+           // print_r($data);exit;
+    }
+
     // Credit voucher no
     public function crVno()
     {
-      return  $data = $this->db->select("Max(VNo) as voucher")
+      return  $data = $this->db->select("VNo as voucher")
             ->from('acc_transaction') 
             ->like('VNo', 'CV-', 'after')
+            ->order_by('ID','desc')
             ->get()
             ->row();
            // print_r($data);exit;
@@ -205,8 +260,9 @@ public function voNO()
       return  $data = $this->db->select("Max(VNo) as voucher")
             ->from('acc_transaction') 
             ->like('VNo', 'Contra-', 'after')
+            ->order_by('ID','desc')
             ->get()
-            ->row();
+            ->result_array();
            // print_r($data);exit;
     }
 
@@ -226,22 +282,7 @@ public function voNO()
             $CreateBy=$this->session->userdata('id');
            $createdate=date('Y-m-d H:i:s');
 
-            $cinsert = array(
-      'VNo'            =>  $voucher_no,
-      'Vtype'          =>  $Vtype,
-      'VDate'          =>  $VDate,
-      'COAID'          =>  $dAID,
-      'Narration'      =>  $Narration,
-      'Debit'          =>  $debit,
-      'Credit'         =>  0,
-      'StoreID'        => $this->session->userdata('store_id'),
-      'IsPosted'       => $IsPosted,
-      'CreateBy'       => $CreateBy,
-      'CreateDate'     => $createdate,
-      'IsAppove'       => 0
-    ); 
-
-       $this->db->insert('acc_transaction',$cinsert);
+            
             for ($i=0; $i < count($cAID); $i++) {
                 $crtid=$cAID[$i];
                 $Cramnt=$Credit[$i];
@@ -254,7 +295,6 @@ public function voNO()
       'Narration'      =>  $Narration,
       'Debit'          =>  0,
       'Credit'         =>  $Cramnt,
-      'StoreID'        => $this->session->userdata('store_id'),
       'IsPosted'       => $IsPosted,
       'CreateBy'       => $CreateBy,
       'CreateDate'     => $createdate,
@@ -262,6 +302,24 @@ public function voNO()
     ); 
            // print_r($debitinsert);exit;
               $this->db->insert('acc_transaction',$debitinsert);
+              $this->db->insert('acc_transaction',$debitinsert);
+    $headinfo = $this->db->select('HeadName')->from('acc_coa')->where('HeadCode',$crtid)->get()->row()->HeadName;
+    
+      $cinsert = array(
+      'VNo'            =>  $voucher_no,
+      'Vtype'          =>  $Vtype,
+      'VDate'          =>  $VDate,
+      'COAID'          =>  1020101,
+      'Narration'      =>  'Credit Vourcher from '.$headinfo,
+      'Debit'          =>  $Cramnt,
+      'Credit'         =>  0,
+      'IsPosted'       => $IsPosted,
+      'CreateBy'       => $CreateBy,
+      'CreateDate'     => $createdate,
+      'IsAppove'       => 1
+    ); 
+
+       $this->db->insert('acc_transaction',$cinsert);
 
     }
     return true;
@@ -295,7 +353,6 @@ public function voNO()
       'Narration'      =>  $Narration,
       'Debit'          =>  $debit,
       'Credit'         =>  $Cramnt,
-      'StoreID'        => $this->session->userdata('store_id'),
       'IsPosted'       => $IsPosted,
       'CreateBy'       => $CreateBy,
       'CreateDate'     => $createdate,
@@ -335,7 +392,6 @@ public function voNO()
       'Narration'      =>  $Narration,
       'Debit'          =>  $debit,
       'Credit'         =>  $Cramnt,
-      'StoreID'        => $this->session->userdata('store_id'),
       'IsPosted'       => $IsPosted,
       'CreateBy'       => $CreateBy,
       'CreateDate'     => $createdate,
@@ -353,8 +409,9 @@ public function journal()
       return  $data = $this->db->select("Max(VNo) as voucher")
             ->from('acc_transaction') 
             ->like('VNo', 'Journal-', 'after')
+            ->order_by('ID','desc')
             ->get()
-            ->row();
+            ->result_array();
            // print_r($data);exit;
     }
 
@@ -437,20 +494,7 @@ public function journal()
             $CreateBy=$this->session->userdata('id');
            $createdate=date('Y-m-d H:i:s');
 
-            $cinsert = array(
-      'VNo'            =>  $voucher_no,
-      'Vtype'          =>  $Vtype,
-      'VDate'          =>  $VDate,
-      'COAID'          =>  $dAID,
-      'Narration'      =>  $Narration,
-      'Debit'          =>  $debit,
-      'Credit'         =>  0,
-      'StoreID'        => $this->session->userdata('store_id'),
-      'IsPosted'       => $IsPosted,
-      'CreateBy'       => $CreateBy,
-      'CreateDate'     => $createdate,
-      'IsAppove'       => 0
-    ); 
+          
               $this->db->where('VNo',$voucher_no)
             ->delete('acc_transaction');
 
@@ -467,7 +511,6 @@ public function journal()
       'Narration'      =>  $Narration,
       'Debit'          =>  0,
       'Credit'         =>  $Cramnt,
-      'StoreID'        => $this->session->userdata('store_id'),
       'IsPosted'       => $IsPosted,
       'CreateBy'       => $CreateBy,
       'CreateDate'     => $createdate,
@@ -475,6 +518,24 @@ public function journal()
     ); 
            // print_r($debitinsert);exit;
               $this->db->insert('acc_transaction',$debitinsert);
+              $this->db->insert('acc_transaction',$debitinsert);
+    $headinfo = $this->db->select('HeadName')->from('acc_coa')->where('HeadCode',$crtid)->get()->row()->HeadName;
+    
+      $cinsert = array(
+      'VNo'            =>  $voucher_no,
+      'Vtype'          =>  $Vtype,
+      'VDate'          =>  $VDate,
+      'COAID'          =>  1020101,
+      'Narration'      =>  'Credit Vourcher from '.$headinfo,
+      'Debit'          =>  $Cramnt,
+      'Credit'         =>  0,
+      'IsPosted'       => $IsPosted,
+      'CreateBy'       => $CreateBy,
+      'CreateDate'     => $createdate,
+      'IsAppove'       => 1
+    ); 
+
+       $this->db->insert('acc_transaction',$cinsert);
 
     }
     return true;
@@ -508,7 +569,7 @@ public function journal()
 
 
          $date=date('Y-m-d');
-          $sql="SELECT VNo, Vtype,VDate, SUM(Debit+Credit)/2 as Amount FROM acc_transaction  WHERE VDate='$date' AND VType IN ('DV','JV','CV') GROUP BY VNO, Vtype, VDate ORDER BY VDate";
+          $sql="SELECT *, VNo, Vtype,VDate, SUM(Debit+Credit)/2 as Amount FROM acc_transaction  WHERE VDate='$date' AND VType IN ('DV','JV','CV') GROUP BY VNO, Vtype, VDate ORDER BY VDate";
          // $sql="SELECT VNo, Vtype,VDate, SUM(Debit+Credit)/2 as Amount FROM acc_transaction where Vdate='$date' AND VType IN('DV','JV','CV') GROUP BY VNo, Vtype, VDate ORDER BY VDate";
           $query = $this->db->query($sql);
           return $query->result();
@@ -568,7 +629,7 @@ public function journal()
         $this->db->from('acc_coa');
         $this->db->where('HeadCode',$cmbGLCode);
         $query = $this->db->get();
-        return $query->row();
+        return $query->result_array();
     }
     public function general_led_report_headname2($cmbGLCode,$cmbCode,$dtpFromDate,$dtpToDate,$chkIsTransction){
 
@@ -653,4 +714,237 @@ public function journal()
        return $query->result();
     }
 
+    public function treeview_selectform($id){
+     $data = $this->db->select('*')
+            ->from('acc_coa')
+            ->where('HeadCode',$id)
+            ->get()
+            ->row();
+            return $data;
+
+    }
+     public function get_supplier(){
+        $this->db->select('*');
+        $this->db->from('supplier_information');
+        $this->db->where('status',1);
+        $this->db->order_by('id', 'desc');
+        $query = $this->db->get();
+        return $query->result();  
+    }
+  
+
+    public function Spayment()
+    {
+      return  $data = $this->db->select("VNo as voucher")
+            ->from('acc_transaction') 
+            ->like('VNo', 'PM-', 'after')
+            ->order_by('ID','desc')
+            ->get()
+            ->result_array();
+           // print_r($data);exit;
+    }
+// customer code
+     public function Creceive()
+    {
+      return  $data = $this->db->select("VNo as voucher")
+            ->from('acc_transaction') 
+            ->like('VNo', 'CR-', 'after')
+            ->order_by('ID','desc')
+            ->get()
+            ->result_array();
+           // print_r($data);exit;
+    }
+
+public function insert_cashadjustment(){
+           $voucher_no = $this->input->post('txtVNo');
+            $Vtype="AD";
+            $amount =$this->input->post('txtAmount');
+            $type = $this->input->post('type');
+            if($type == 1){
+              $debit = $amount;
+              $credit = 0;
+            }
+            if($type == 2){
+              $debit = 0;
+              $credit = $amount;
+            }
+            $VDate = $this->input->post('dtpDate');
+            $Narration=$this->input->post('txtRemarks');
+            $IsPosted=1;
+            $IsAppove=1;
+            $CreateBy=$this->session->userdata('user_id');
+           $createdate=date('Y-m-d H:i:s');
+ 
+     $cc = array(
+      'VNo'            =>  $voucher_no,
+      'Vtype'          =>  $Vtype,
+      'VDate'          =>  $VDate,
+      'COAID'          =>  1020101,
+      'Narration'      =>  'Cash Adjustment ',
+      'Debit'          =>  $debit,
+      'Credit'         =>  $credit,
+      'IsPosted'       =>  1,
+      'CreateBy'       =>  $CreateBy,
+      'CreateDate'     =>  $createdate,
+      'IsAppove'       =>  1
+    ); 
+
+              $this->db->insert('acc_transaction',$cc);
+          
+ return true;
+
+}
+
+//insert bank adjustment
+public function insert_bankadjustment(){
+           $voucher_no = $this->input->post('txtVNo');
+           $headname = $this->input->post('bank_name');
+           $headcode = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$headname)->get()->row()->HeadCode;
+            $Vtype="BAD";
+            $amount =$this->input->post('txtAmount');
+            $type = $this->input->post('type');
+            if($type == 1){
+              $debit = $amount;
+              $credit = 0;
+            }
+            if($type == 2){
+              $debit = 0;
+              $credit = $amount;
+            }
+            $VDate = $this->input->post('dtpDate');
+            $Narration=$this->input->post('txtRemarks');
+            $IsPosted=1;
+            $IsAppove=1;
+            $CreateBy=$this->session->userdata('user_id');
+           $createdate=date('Y-m-d H:i:s');
+ 
+     $cc = array(
+      'VNo'            =>  $voucher_no,
+      'Vtype'          =>  $Vtype,
+      'VDate'          =>  $VDate,
+      'COAID'          =>  $headcode,
+      'Narration'      =>  'Bank Adjustment ',
+      'Debit'          =>  $debit,
+      'Credit'         =>  $credit,
+      'IsPosted'       =>  1,
+      'CreateBy'       =>  $CreateBy,
+      'CreateDate'     =>  $createdate,
+      'IsAppove'       =>  1
+    ); 
+
+              $this->db->insert('acc_transaction',$cc);
+          
+ return true;
+
+}
+
+public function supplierinfo($supplier_id){
+  return $this->db->select('*')
+                  ->from('supplier_information')
+                  ->where('supplier_id',$supplier_id)
+                  ->get()
+                  ->result_array();
+}
+
+public function supplierpaymentinfo($voucher_no,$coaid){
+  return   $this->db->select('*')
+                  ->from('acc_transaction')
+                  ->where('VNo',$voucher_no)
+                  ->where('COAID',$coaid)
+                  ->get()
+                  ->result_array();
+
+}
+
+
+
+public function banklist(){
+  return $this->db->select('*')
+                  ->from('bank_information')
+                  ->order_by('bank_name','asc')
+                  ->get()
+                  ->result_array();
+}
+
+
+// =================== Settings data ==============================
+public function software_setting_info(){
+        $this->db->select('*');
+        $this->db->from('web_setting');
+        $this->db->where('setting_id', 1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return false;
+}
+
+public function setting()
+  {
+    return $this->db->get('setting')->row();
+  }
+
+    public function paymentparentcode(){
+        $query=$this->db->query("SELECT MAX(HeadCode) as HeadCode FROM acc_coa WHERE HeadLevel='3' And HeadCode LIKE '10201000%'");
+        return $query->row();
+
+       
+
+    }
+
+     public function paymenchildcode(){
+         $query=$this->db->query("SELECT MAX(HeadCode) as HeadCode FROM acc_coa WHERE HeadLevel='4' And HeadCode LIKE '1020102000%'");
+        return $query->row();
+
+    }
+
+    public function create_coa($data = [])
+    {
+        $this->db->insert('acc_coa',$data);
+        return true;
+    }
+
+  // Balance Adjustment
+  public function insert_balanceadjustment(){
+           $voucher_no = $this->input->post('txtVNo');
+            $Vtype="ADJ";
+            $amount = $this->input->post('amount');
+            $parenthead = $this->input->post('parent_type');
+            $parentheadcode = $this->db->select('*')->from('acc_coa')->where('HeadName',$parenthead)->get()->row()->HeadCode;
+            $childheadcodes   = $this->input->post('headcode');
+            $type = $this->input->post('type');
+            if($type == 1){
+              $debit = intval(str_replace(',', '', $amount));
+              $credit = 0;
+            }
+            if($type == 2){
+              $debit = 0;
+              $credit = intval(str_replace(',', '', $amount));
+            }
+            $VDate = $this->input->post('dtpDate');
+            $Narration=$this->input->post('txtRemarks');
+            $IsPosted=1;
+            $IsAppove=1;
+            $CreateBy=$this->session->userdata('user_id');
+           $createdate=date('Y-m-d H:i:s');
+ 
+     $cc = array(
+      'VNo'            =>  $voucher_no,
+      'Vtype'          =>  $Vtype,
+      'VDate'          =>  $VDate,
+      'COAID'          =>  (!empty($childheadcodes)?$childheadcodes:$parentheadcode),
+      'Narration'      =>  $Narration,
+      'Debit'          =>  $debit,
+      'Credit'         =>  $credit,
+      'IsPosted'       =>  1,
+      'CreateBy'       =>  $CreateBy,
+      'CreateDate'     =>  $createdate,
+      'IsAppove'       =>  1
+    ); 
+
+    $this->db->insert('acc_transaction',$cc);
+          
+ return true;
+
+}    
 }

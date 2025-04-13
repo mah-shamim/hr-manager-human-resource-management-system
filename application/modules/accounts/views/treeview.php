@@ -1,3 +1,6 @@
+
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/js/dist/themes/default/style.min.css" />
+
  <style type="text/css">
      .fa-folder{
         color:#D4AC0D;
@@ -6,9 +9,8 @@
         color:#D4AC0D;
      }
  </style>
- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">            
-             <div class="row">
+
+         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-bd lobidrag">
                     <div class="panel-heading">
@@ -18,10 +20,14 @@
                     </div>
 
                     <div class="panel-body">
+
+
+                        
                         <div class="row">
                 <div class="col-md-6">
-                    <ul id="tree3">
-                   <?php
+                    <div id="jstree1">
+                        <ul>
+                         <?php
 
                     $visit=array();
                     for ($i = 0; $i < count($userList); $i++)
@@ -32,7 +38,8 @@
                     $this->accounts_model->dfs("COA","0",$userList,$visit,0);
                     
                     ?>
-                    </ul>
+                        </ul>
+                    </div>
                 </div> 
 <?php if($this->permission->method('accounts','update')->access() || $this->permission->method('accounts','create')->access()): ?>
                 <div class="col-md-6" id="newform"></div>
@@ -42,72 +49,39 @@
 </div>
  </div> 
 </div>
-        <script>
-            $(document).ready(function () {
-                "use strict"; // Start of use strict
-                
-                $.fn.extend({
-                    treed: function (o) {
+ <script src="<?php echo base_url() ?>assets/js/dist/jstree.min.js" ></script>
 
-                        var openedClass = 'fa-folder-open-o';
-                        var closedClass = 'fa-folder-o';
+<script type="text/javascript">
+$(document).ready(function () {
+  $('#jstree1').jstree({
+            'core' : {
+                'check_callback' : true
+            },
+            'plugins' : [ 'types', 'dnd' ],
+            'types' : {
+                'default' : {
+                    'icon' : 'fa fa-folder'
+                },
+                'html' : {
+                    'icon' : 'fa fa-file-code-o'
+                },
+                'svg' : {
+                    'icon' : 'fa fa-file-picture-o'
+                },
+                'css' : {
+                    'icon' : 'fa fa-file-code-o'
+                },
+                'img' : {
+                    'icon' : 'fa fa-file-image-o'
+                },
+                'js' : {
+                    'icon' : 'fa fa-file-text-o'
+                }
 
-                        if (typeof o !== 'undefined') {
-                            if (typeof o.openedClass !== 'undefined') {
-                                openedClass = o.openedClass;
-                            }
-                            if (typeof o.closedClass !== 'undefined') {
-                                closedClass = o.closedClass;
-                            }
-                        }
-                        ;
-
-                        //initialize each of the top levels
-                        var tree = $(this);
-                        tree.addClass("tree");
-                        tree.find('li').has("ul").each(function () {
-                            var branch = $(this); //li with children ul
-                            branch.prepend("<i class='indicator fa " + closedClass + "'></i>");
-                            branch.addClass('branch');
-                            branch.on('click', function (e) {
-                                if (this === e.target) {
-                                    var icon = $(this).children('i:first');
-                                    icon.toggleClass(openedClass + " " + closedClass);
-                                    $(this).children().children().toggle();
-                                }
-                            });
-                            branch.children().children().toggle();
-                        });
-                        //fire event from the dynamically added icon
-                        tree.find('.branch .indicator').each(function () {
-                            $(this).on('click', function () {
-                                $(this).closest('li').click();
-                            });
-                        });
-                        //fire event to open branch if the li contains an anchor instead of text
-                        tree.find('.branch>a').each(function () {
-                            $(this).on('click', function (e) {
-                                $(this).closest('li').click();
-                                e.preventDefault();
-                            });
-                        });
-                        //fire event to open branch if the li contains a button instead of text
-                        tree.find('.branch>button').each(function () {
-                            $(this).on('click', function (e) {
-                                $(this).closest('li').click();
-                                e.preventDefault();
-                            });
-                        });
-                    }
-                });
-
-                //Initialization of treeviews
-            
-                $('#tree3').treed({openedClass: 'fa-folder-open-o', closedClass: 'fa-folder'});
-
-            });
-
-        </script>
+            }
+        });
+  });
+</script>
      
  <script type="text/javascript">
 function loadData(id){
