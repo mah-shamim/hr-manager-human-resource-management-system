@@ -2,7 +2,15 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd">
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('manage_salary_setup')?>
+                  </h4>
+              </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">

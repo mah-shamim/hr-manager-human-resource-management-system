@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
               
-                         <?= form_open_multipart('accounts/accounts/create_balance_adjustment') ?>
+                         <?php echo  form_open_multipart('accounts/accounts/create_balance_adjustment') ?>
                      <div class="form-group row">
                         <label for="vo_no" class="col-sm-2 col-form-label"><?php echo display('voucher_no')?></label>
                         <div class="col-sm-4">
@@ -30,14 +30,14 @@
                         </div>
                     </div> 
                   <div class="form-group row">
-                        <label for="amount" class="col-sm-2 col-form-label"><?php echo display('amount')?></label>
+                        <label for="amount" class="col-sm-2 col-form-label"><?php echo display('amount')?> *</label>
                         <div class="col-sm-4">
                              <input type="text" name="amount" id="amount" class="form-control" onkeyup="formatcheck(this)" value="">
                         </div>
                     </div> 
 
                     <div class="form-group row">
-                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('adjustment_type')?></label>
+                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('adjustment_type')?> *</label>
                         <div class="col-sm-4">
                          <select name="type" class="form-control">
                           <option value=""><?php echo display('adjustment_type')?></option>
@@ -49,7 +49,7 @@
 
 
                           <div class="form-group row">
-                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('parent_head')?></label>
+                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('parent_head')?> *</label>
                         <div class="col-sm-4">
                          <select name="parent_type" class="form-control" onchange="parentchange()" id="paytype">
                <option value=""><?php echo display('parent_head')?></option>
@@ -90,48 +90,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    function parentchange() {
-            var  hdcode     = $('#paytype').val();
-            var dataString  = 'paytype='+ hdcode;
-            var base_url    = $('#baseUrl').val();
-            var paymentcode = '#headcode';
-              $.ajax
-                   ({
-                        type: "POST",
-                        url: base_url+"/income/income/retrieve_paytypedata",
-                        data: dataString,
-                        cache: false,
-                        success: function(data)
-                        {
-                            var obj = jQuery.parseJSON(data);
-                            $(paymentcode).html(obj.headcode);
-                        } 
-                    });
-
-}
-</script>
-<script type="text/javascript">
-    function formatcheck(input) {
-
-  var nStr = input.value + '';  
-  nStr = nStr.replace(/[^0-9]/g, "");
-  x = nStr.split('.');
-  x1 = x[0];
-  x2 = x.length > 1 ? '.' + x[1] : '';  
-  var rgx = /(\d+)(\d{3})/;
-  while (rgx.test(x1)) {
-    x1 = x1.replace(rgx, '$1' + ',' + '$2');
-  }
-  input.value = x1 + x2;
-
-}
-
-
-$(document).ready(function(){
-    $( document ).on( 'focus', ':input', function(){
-        $( this ).attr( 'autocomplete', 'off' );
-    });
-});
-</script>
+<script src="<?php echo base_url() ?>assets/js/dist/jstree.min.js" ></script>
+ <script src="<?php echo base_url('assets/js/account.js') ?>" type="text/javascript"></script>
 

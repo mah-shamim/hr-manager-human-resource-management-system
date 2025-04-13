@@ -32,6 +32,7 @@
                         <label for="module" class="col-sm-3 col-form-label"><?php echo display('module')?></label>
                         <div class="col-sm-9">
                             <input name="module" value="<?php echo @$menu_item->module;?>" class="form-control" type="text">
+                            <input id="parent_menu_val" type="hidden" value="<?php echo @$menu_item->parent_menu;?>" class="form-control" type="text">
                         </div>
                     </div>
 
@@ -49,16 +50,7 @@
                         </div>
                     </div>
 
-                    <!-- <div class="form-group row">
-                        <label for="status" class="col-sm-3 col-form-label">Status *</label>
-                        <div class="col-sm-9">
-                            
-                            <label class="radio-inline">
-                                <input type="checkbox" <?php echo ($menu_item->is_report==1?'checked':'')?> name="is_report"> Is Report
-                            </label> 
-                        </div>
-                    </div> -->
-
+                  
 
                     <div class="form-group text-right">
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
@@ -69,9 +61,8 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    document.forms['myform'].elements['parent_menu'].value="<?php echo $menu_item->parent_menu;?>";
-</script>
+
+<script src="<?php echo base_url('assets/js/dashboardjs/custom-menupermission.js') ?>" type="text/javascript"></script>
  
 
  

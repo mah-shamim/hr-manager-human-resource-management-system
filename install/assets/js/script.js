@@ -1,9 +1,11 @@
 $(document).ready(function () {
+    "use strict";
     $("#wizard").aiiaWizard();
 });
 
 ;
 (function ($, window, document, undefined) {
+    "use strict";
 
     var settings;
 
@@ -44,8 +46,8 @@ $(document).ready(function () {
                     var $buttons = getButtonsTemplate(settings);
                     var $steps = $this.find(".aiia-wizard-step");
 
-                    $buttonNext = $buttons.find(".aiia-wizard-button-next");
-                    $buttonPrevious = $buttons.find(".aiia-wizard-button-previous");
+                    var $buttonNext = $buttons.find(".aiia-wizard-button-next");
+                    var $buttonPrevious = $buttons.find(".aiia-wizard-button-previous");
 
                     ///////////////////////// Place Wizard component
 
@@ -66,7 +68,6 @@ $(document).ready(function () {
 
                     $.each($steps, function (i, step) {
                         $(step).attr('data-position', i + 1);
-                        //markStepAsCompleted(i - 1, $this, settings);
                     })
 
                     var $progressButtonsTemplate = getProgressButtonsTemplate($steps, settings);
@@ -121,7 +122,7 @@ $(document).ready(function () {
 
                     /////////////////////////// Register event handlers
 
-                    $this.find('.aiia-wizard-button-previous').click(function (e) {
+                    $this.find('.aiia-wizard-button-previous').on('click',function (e) {
                         e.preventDefault();
                         var $elementToSlide = $this.find(".aiia-wizard-steps-wrapper .active");
                         $this.trigger("onButtonPreviousClick.aiiaWizard", this);
@@ -143,7 +144,7 @@ $(document).ready(function () {
                         resizeWizardStepsWrapper($this);
                     });
 
-                    $this.find('.aiia-wizard-button-next').click(function (e) {
+                    $this.find('.aiia-wizard-button-next').on('click', function (e) {
                         e.preventDefault();
                         var $elementToSlide = $this.find(".aiia-wizard-steps-wrapper .active");
 
@@ -336,11 +337,9 @@ $(document).ready(function () {
         $buttons.find(".btn").css(settings.aiiaWizard.buttons.css);
 
         $buttons.find(".aiia-wizard-button-previous")
-                //.append($iconPrevious)
                 .append($iconPreviousText);
 
         $buttons.find(".aiia-wizard-button-next")
-                //.append($iconNext)
                 .append($iconNextText);
 
         return $buttons;
@@ -502,7 +501,6 @@ $(document).ready(function () {
                 .addClass('btn-success')
                 .html("")
                 .append($iconNextText)
-        //.append($iconNext)
     }
 
     function markStepAsCompleted(activeElementPosition, $plugin, settings) {
@@ -636,15 +634,10 @@ $(document).ready(function () {
                 previous: {
                     text: {
                         css: {
-                            //'float': 'right',
-                            //'font-size': '14px',
-                            //'margin-top': '2px',
-                            //'margin-left': '7px'
                         }
                     },
                     icon: {
                         css: {
-                            //'font-size': '24px'
                         }
                     }
 
@@ -652,34 +645,22 @@ $(document).ready(function () {
                 next: {
                     text: {
                         css: {
-                            //'float': 'left',
-                            //'font-size': '14px',
-                            //'margin-top': '2px',
-                            //'margin-right': '7px'
                         }
                     },
                     icon: {
                         css: {
-                            //'font-size': '14px'
                         }
                     }
                 },
                 'css': {
-                    //'padding-bottom': '10px'
                 },
                 finish: {
                     text: {
                         css: {
-                            //'font-size': '20px',
-                            //'float': 'left',
-                            //'font-size': '20px',
-                            //'margin-top': '2px',
-                            //'margin-right': '7px'
                         }
                     }
                 },
                 'css': {
-                    //'padding-bottom': '10px'
                 }
 
             }

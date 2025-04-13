@@ -278,7 +278,6 @@
 .tabs-right > li.active > a,
 .tabs-right > li.active > a:hover,
 .tabs-right > li.active > a:focus {
-    /*border-right-color: transparent;*/
     border-left-color: #e4e5e7;
 }
 
@@ -290,7 +289,6 @@
 .tabs-left > li.active > a:hover,
 .tabs-left > li.active > a:focus {
     border-right-color: #e4e5e7;
-    /*border-left-color: transparent;*/
 }
 
 .sideways.tabs-left {
@@ -596,7 +594,7 @@ table.table-bordered.dataTable td:first-child {
 }
 
 .profile-usermenu ul li.active a {
-    border-right: 2px solid #37a000;
+    border-right: 2px solid #151B8D;
     border-left: 0;
 }
 
@@ -754,15 +752,6 @@ table.table-bordered.dataTable td:first-child {
 
 /*--- Widgets ---*/
 
-
-/*message*/
-
-
-/*.message_widgets {
-    margin-right: 0;
-    margin-left: 10px;
-}*/
-
 .inbox-item .inbox-item-img {
     float: right;
     margin-right: 0;
@@ -816,7 +805,7 @@ table.table-bordered.dataTable td:first-child {
 .chat_list .odd .ctext-wrap::after {
     right: 100% !important;
     left: auto;
-    border-right-color: #37a000 !important;
+    border-right-color: #151B8D !important;
     border-left-color: transparent !important;
 }
 
@@ -865,3 +854,20 @@ table.table-bordered.dataTable td:first-child {
     padding: 15px 50px 15px 15px;
     background-position: right 15px center;
 }
+
+
+/*ui button*/
+.ui.buttons .button:first-child {
+    border-radius:0;
+    border-top-right-radius: .28571429rem;
+    border-bottom-right-radius: .28571429rem;
+}
+.ui.buttons .button:last-child {
+    border-radius:0;
+    border-top-left-radius: .28571429rem;
+    border-bottom-left-radius: .28571429rem;
+}
+
+/*select 2*/
+.select2 span{text-align:right;}
+

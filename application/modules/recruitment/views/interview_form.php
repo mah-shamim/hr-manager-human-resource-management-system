@@ -1,18 +1,27 @@
- 
-<div class="form-group text-right">
- <?php if($this->permission->method('recruitment','create')->access()): ?> 
-<button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_interview') ?></button> 
-<?php endif; ?>
- <?php if($this->permission->method('recruitment','read')->access()): ?> 
-<a href="<?php echo base_url();?>/circularprocess/Candidate_select/candidate_interview_view" class="btn btn-primary"><?php echo display('manage_interview') ?></a>
-<?php endif; ?>
-</div>
- <div class="row">
+<div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading panel-aligner" >
+                <div class="panel-title">
+                    <h4><?php echo display('add_interview') ?></h4>
+                </div>
+                <div class="mr-25">
+
+                    <?php if($this->permission->method('recruitment','create')->access()): ?> 
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php echo display('add_interview') ?></button> 
+                    <?php endif; ?>
+                    <?php if($this->permission->method('recruitment','read')->access()): ?> 
+                    <a href="<?php echo base_url();?>/recruitment/Candidate_select/candidate_interview_view" class="btn btn-primary"><?php echo display('manage_interview') ?></a>
+                    <?php endif; ?>
+
+
+                </div>
+
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -73,12 +82,12 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('recruitment/Candidate_select/create_interview') ?>
+                    <?php echo  form_open('recruitment/Candidate_select/create_interview') ?>
                           <div class="form-group row">
                             <label for="can_id" class="col-sm-2 col-form-label"><?php echo display('candidate_name') ?> *</label>
                             <div class="col-sm-4">
                               
-                                <?php echo form_dropdown('can_id', $dropdowninterview,null, ' class="form-control" onchange="SelectToLoad(this.value)" id="c_id" style="width:100%"') ?>
+                                <?php echo form_dropdown('can_id', $dropdowninterview,null, ' class="form-control" onchange="SelectToLoadInterview(this.value)" id="c_id" ') ?>
                             </div>
                              <label for="job_adv_id" class="col-sm-2 col-form-label"><?php echo display('job_adv_id') ?> *</label>
                             <div class="col-sm-4">
@@ -131,7 +140,7 @@
                             <label for="selection" class="col-sm-2 col-form-label"><?php echo display('selection') ?> *</label>
                             <div class="col-sm-4">
                                 
-                                <select name="selection" class="form-control"  placeholder="<?php echo display('selection') ?>" id="selection"  style="width: 260px">
+                                <select name="selection" class="form-control"  placeholder="<?php echo display('selection') ?>" id="selection">
                                     <option value="">Selection type</option>
                                     <option value="ok">Selected</option>
                                     <option value="No">Deselected</option>
@@ -150,7 +159,7 @@
 
 
           
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('Ad') ?></button>
                         </div>
@@ -174,60 +183,7 @@
 
     </div>
 
-  
+   <script src="<?php echo base_url('assets/js/recruitment.js') ?>" type="text/javascript"></script>
     
-     
-<script type="text/javascript">
-$(document).ready(function(){
 
-
-    $('.txt').on('keyup', function(){
-
-        var sum = 0;
-
-        $(".txt").each(function() {
-            if(!isNaN(this.value) && this.value.length!=0) {
-                sum += parseFloat(this.value);
-            }
-        });
-        $("#total_marks").val(sum.toFixed());
-
-    });
-
-});
-</script>
-<script type="text/javascript">
-
-function SelectToLoad(id){
-
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('recruitment/Candidate_select/select_interviewlist/')?>" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-              $('[name="job_adv_id"]').val(data.job_adv_id);
-              $('[name="interview_date"]').val(data.interview_date);
-              $('[name="position_name"]').val(data.position_name);
-        
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-}
-</script>
-<script language="javascript"> 
-    $(function(){
-        $("#interview_date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-</script>
 

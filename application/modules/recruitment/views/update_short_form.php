@@ -1,10 +1,18 @@
  <div class="row">
-          <div class="col-sm-12 col-md-11">
-            <div class="panel">
+          <div class="col-sm-12 col-md-11 candidate-update-form">
+            <div class="panel panel-bd">
+
+                <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>
+                      <?php echo display('update')?>
+                    </h4>
+                </div>
+                </div>
               
               <div class="panel-body">
 
-                <?= form_open_multipart('recruitment/Candidate_select/update_shortlist_form/'. $data->can_short_id) ?>
+                <?php echo  form_open_multipart('recruitment/Candidate_select/update_shortlist_form/'. $data->can_short_id) ?>
                 
 
                     <input name="can_short_id" type="hidden" value="<?php echo $data->can_short_id ?>">
@@ -39,7 +47,7 @@
 
      
              
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                         </div>
@@ -51,8 +59,4 @@
             </div>
         </div>
     </div>
-      <script language="javascript"> 
-    $(function(){
-        $(".datepicker").datepicker({ dateFormat:'yy-mm-dd' });
-    });
-</script>
+   

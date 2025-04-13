@@ -7,6 +7,7 @@ class Employees_model extends CI_Model {
 	{
 		$this->db->select('*');
         $this->db->from('employee_history');
+        $this->db->where('employee_status',1);
         $query = $this->db->get();
         $data = $query->result();  
         $list = array('' => 'Select One...');
@@ -44,12 +45,14 @@ public function salary_setupView()
 	}
 public function emp_salsetup_create($data = array())
 	{
-		return $this->db->insert('employee_salary_setup', $data);//
+		return $this->db->insert('employee_salary_setup', $data);
 	}
 
 public function create_employee($data = array())
 	{
-		return $this->db->insert('employee_history', $data);//
+		$respo =  $this->db->insert('employee_history', $data);
+
+		return $respo?$this->db->insert_id():false;
 	}
 public function emp_salstup_delete($id = null)
 	{
@@ -259,7 +262,7 @@ public function emp_paymentView($limit = null, $start = null)
 
 public function insert_employee($data = array())
 	{
-		return $this->db->insert('employee_history', $data);//
+		return $this->db->insert('employee_history', $data);
 	}
 
 	public function emplyee_history_delete($id = null)
@@ -493,6 +496,197 @@ public function insert_employee($data = array())
         $this->db->insert('acc_coa',$data);
         return true;
     }
+
+
+    /* Start of functionality for gambia client*/
+
+
+    /*get_time_rules*/
+	public function get_time_rules()
+	{
+		return $this->db->select("*")
+			->from('gmb_setup_rules')
+			->where('type','time')
+			->where('is_deleted',0)
+			->get()
+			->result();
+	} 
+
+	public function insert_rules_map_data($data = [])
+    {
+
+    	// Make all the related records inactive first...
+    	$up_data = array('status' => 0);
+    	$respo = $this->db->where('type',$data['type'])
+    		->where('employee_id',$data['employee_id'])
+			->update('gmb_rules_map',$up_data); 
+
+		if($respo){
+
+            $user = $this->session->userdata();
+			$data['create_date'] = date('Y-m-d h:i:s');
+			$data['create_by']   =  $user['id'];
+
+			$this->db->insert('gmb_rules_map',$data);
+       		return true;
+		}
+		return false;
+    }
+
+    public function update_rules_map_data($data = [])
+    {
+
+    	$rule_map_data = $this->db->select("*")
+			->from('gmb_rules_map')
+			->where('rule_id',$data['rule_id'])
+			->where('employee_id',$data['employee_id'])
+			->where('type',$data['type'])
+			->where('status',1)
+			->get()
+			->row();
+
+		if($rule_map_data){
+			return true;
+		}else{
+			// Make all the related records inactive first...
+	    	$up_data = array('status' => 0);
+	    	$respo = $this->db->where('type',$data['type'])
+	    		->where('employee_id',$data['employee_id'])
+				->update('gmb_rules_map',$up_data); 
+
+			if($respo){
+
+	            $user = $this->session->userdata();
+				$data['create_date'] = date('Y-m-d h:i:s');
+				$data['create_by']   =  $user['id'];
+
+				$this->db->insert('gmb_rules_map',$data);
+	       		return true;
+			}
+			return false;
+		}
+    	
+    }
+
+    public function perform_score($emp_id){
+
+	 	$this->db->select('AVG(score) as avg_score');
+        $this->db->from('employee_performance ');
+        $this->db->where('employee_id',$emp_id);
+        $query = $this->db->get();
+        $result = $query->row();
+        
+        $avg_score = $result->avg_score;
+
+        if($avg_score){
+
+        	return $avg_score;
+
+        }else{
+
+        	$total_sub_categories = $this->db->select("*")
+				->from('gmb_prform_sub_category')
+				->get()
+				->num_rows();
+
+			$emp_sub_category_scores = $this->db->select("*")
+				->from('gmb_sub_cat_perform')
+				->where("YEAR(CreateDate)=".date('Y'),NULL, FALSE)
+	            ->where("MONTH(CreateDate)=".date('m'),NULL, FALSE)
+				->where('employee_id',$emp_id)
+				->get()
+				->result();
+
+			$emp_pewrformance_score = 0;
+
+			if((int)$total_sub_categories > 0 && $emp_sub_category_scores){
+
+				$total_points = 0;
+
+				foreach ($emp_sub_category_scores as $row) {
+
+					$total_points = $total_points + $row->points;
+				}
+
+				$emp_pewrformance_score = $total_points / (int)$total_sub_categories;
+
+				return number_format($emp_pewrformance_score, 2);
+			}
+
+        	return 0;
+        }
+
+	 }
+
+	public function insert_bank_info_data($data = [])
+    {
+    	$respo = $this->db->insert('gmb_bank_info',$data);
+
+		if($respo){
+       		return true;
+		}
+		return false;
+    }
+
+    public function insert_employee_file_data($data = [])
+    {
+    	$respo = $this->db->insert('gmb_employee_file',$data);
+
+		if($respo){
+       		return true;
+		}
+		return false;
+    }
+
+    public function create_acc_subocde($data = [])
+    {
+    	$respo = $this->db->insert('acc_subcode',$data);
+
+		if($respo){
+       		return true;
+		}
+		return false;
+    }
+
+    public function get_acc_subocde($id)
+    {
+		$this->db->select('*');
+        $this->db->from('acc_subcode');
+        $this->db->where('referenceNo',$id);
+        $query = $this->db->get()->row();
+
+        return $query;
+    }
+
+    public function bank_info($id){
+
+		$this->db->select('*');
+        $this->db->from('gmb_bank_info');
+        $this->db->where('employee_id',$id);
+        $query = $this->db->get()->row();
+
+        return $query;
+	}
+
+	public function employee_file_info($id){
+
+		$this->db->select('*');
+        $this->db->from('gmb_employee_file');
+        $this->db->where('employee_id',$id);
+        $query = $this->db->get()->row();
+        
+        return $query;
+	}
+
+	/*employee_types*/
+	public function employee_types()
+	{
+		return $this->db->select("*")
+			->from('gmb_employee_types')
+			->get()
+			->result();
+	} 
+
 }
 
 

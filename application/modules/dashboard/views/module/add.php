@@ -69,10 +69,10 @@
                             <!-- display module information -->
                             <div class="col-md-3 col-sm-6">
                                 <div class="thumbnail">
-                                  <img src="<?php echo base_url('application/modules/'.$mod.'/assets/images/thumbnail.jpg') ?>" alt="" style="min-height:140px;height:140px">
+                                  <img src="<?php echo base_url('application/modules/'.$mod.'/assets/images/thumbnail.jpg') ?>" alt="">
                                   <div class="caption">
-                                    <h4 style="height:50px"><?php echo (($HmvcConfig[$mod]['_title']!=null)?$HmvcConfig[$mod]['_title']:null) ?></h4>
-                                    <p style="height:100px;overflow:hidden"><?php echo (($HmvcConfig[$mod]['_description']!=null)?$HmvcConfig[$mod]['_description']:null) ?></p>
+                                    <h4><?php echo (($HmvcConfig[$mod]['_title']!=null)?$HmvcConfig[$mod]['_title']:null) ?></h4>
+                                    <p><?php echo (($HmvcConfig[$mod]['_description']!=null)?$HmvcConfig[$mod]['_description']:null) ?></p>
                                     <p>
                                         <?php 
                                         $rows = null;
@@ -101,7 +101,7 @@
                                     <h3><?php echo display("invalid_module") ?> "<?php echo $mod ?>" </h3>
                                     <div class="caption text-danger">
                                         <h4>Missing config.php</h4> 
-                                        <ul style="padding-left:10px">
+                                        <ul>
                                         <?php 
                                         if (isset($HmvcConfig[$mod])) {
                                             if (!array_key_exists('_title', $HmvcConfig[$mod]) || $HmvcConfig[$mod]['_title'] == null) {
@@ -135,7 +135,7 @@
                                     <h3><?php echo display("invalid_module") ?> "<?php echo $delMod ?>"</h3>
                                     <div class="caption text-danger">
                                         <h4>Missing</h4> 
-                                        <ul style="padding-left:10px">
+                                        <ul>
                                             <?php 
                                             if (!file_exists($file)) {
                                                 echo "<li>config/config.php</li>";

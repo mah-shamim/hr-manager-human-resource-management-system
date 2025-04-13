@@ -1,10 +1,11 @@
     
    <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel">
+            <div class="panel panel-bd">
                 <div class="panel-heading">
                     <div class="panel-title">
                        <h4><?php echo (!empty($title)?$title:null) ?></h4>
+                       
                     </div>
                 </div>
                 <div class="panel-body">
@@ -37,7 +38,7 @@
                     <div class="form-group row">
                         <label for="phone" class="col-xs-3 col-form-label"><?php echo display('phone') ?></label>
                         <div class="col-xs-9">
-                            <input name="phone" type="text" class="form-control" id="phone" placeholder="<?php echo display('phone') ?>"  value="<?php echo $setting->phone ?>" >
+                            <input name="phone" type="number" class="form-control" id="phone" placeholder="<?php echo display('phone') ?>"  value="<?php echo $setting->phone ?>" >
                         </div>
                     </div>
 
@@ -80,12 +81,40 @@
                     </div>
 
                     <div class="form-group row">
+                        <label for="currency_symbol" class="col-xs-3 col-form-label"><?php echo display('currency_symbol') ?></label>
+                        <div class="col-xs-9">
+                            <input name="currency_symbol" type="text" class="form-control" id="currency_symbol" placeholder="<?php echo display('currency_symbol') ?>" value="<?php echo $setting->currency_symbol ?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="currency_in_words" class="col-xs-3 col-form-label"><?php echo display('currency_in_words') ?></label>
+                        <div class="col-xs-9">
+                            <input name="currency_in_words" type="text" class="form-control" id="currency_in_words" placeholder="<?php echo display('currency_in_words') ?>" value="<?php echo $setting->currency_in_words ?>">
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group row">
+                        <label for="state_income_tax" class="col-xs-3 col-form-label"><?php echo display('state_income_tax').'(%)';?></label>
+                        <div class="col-xs-9">
+                            <input name="state_income_tax" type="number" class="form-control" id="currency_symbol" placeholder="<?php echo display('state_income_tax') ?>" value="<?php echo $setting->state_income_tax ?>">
+                        </div>
+                    </div> -->
+
+                    <div class="form-group row">
+                        <label for="soc_sec_npf_tax" class="col-xs-3 col-form-label"><?php echo display('soc_sec_npf_tax').'(%)';?></label>
+                        <div class="col-xs-9">
+                            <input name="soc_sec_npf_tax" type="number" class="form-control" id="currency_symbol" placeholder="<?php echo display('soc_sec_npf_tax') ?>" value="<?php echo $setting->soc_sec_npf_tax ?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label for="footer_text" class="col-xs-3 col-form-label"><?php echo display('language') ?></label>
                         <div class="col-xs-9">
-                            <?= form_dropdown('language',$languageList,$setting->language, 'class="form-control"') ?>
+                            <?php echo  form_dropdown('language',$languageList,$setting->language, 'class="form-control"') ?>
                         </div>
                     </div> 
-                     <div class="form-group row">
+                             <div class="form-group row">
                         <label for="footer_text" class="col-xs-3 col-form-label"><?php echo display('time_zone') ?></label>
                         <div class="col-xs-9">
         
@@ -96,9 +125,10 @@
                     <div class="form-group row">
                         <label for="footer_text" class="col-xs-3 col-form-label"><?php echo display('site_align') ?></label>
                         <div class="col-xs-9">
-                            <?= form_dropdown('site_align', array('LTR' => display('left_to_right'), 'RTL' => display('right_to_left')) ,$setting->site_align, 'class="form-control"') ?>
+                            <?php echo  form_dropdown('site_align', array('LTR' => display('left_to_right'), 'RTL' => display('right_to_left')) ,$setting->site_align, 'class="form-control"') ?>
                         </div>
                     </div> 
+                    
 
                     <div class="form-group row">
                         <label for="footer_text" class="col-xs-3 col-form-label"><?php echo display('footer_text') ?></label>
@@ -107,7 +137,7 @@
                         </div>
                     </div>   
 
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
                     </div>

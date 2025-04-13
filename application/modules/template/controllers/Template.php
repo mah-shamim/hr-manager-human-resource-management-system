@@ -20,7 +20,7 @@ class Template extends MX_Controller {
 		$data['setting'] = $this->template_model->setting();
 		$this->load->view('layout', $data);
 	}
- 
+
 	public function login($data)
 	{ 
 		$data['setting'] = $this->template_model->setting();

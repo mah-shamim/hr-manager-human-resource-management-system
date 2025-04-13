@@ -10,7 +10,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('employee/Employees/new_emp_position') ?>
+                    <?php echo  form_open('employee/Employees/new_emp_position') ?>
                          <div class="form-group row">
                             <label for="employee_id" class="col-sm-3 col-form-label"><?php echo display('employee_id') ?> *</label>
 

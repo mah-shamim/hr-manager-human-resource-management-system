@@ -24,13 +24,16 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="header-icon"><i class="pe-7s-home"></i></div>
-                    <div class="header-title">
-                        <h1><?php echo (!empty($this->uri->segment(1))?ucfirst($this->uri->segment(1)):null) ?> </h1>
-                        <small><?php echo (!empty($title)?$title:null) ?></small>
-                    </div>
-                </section>
+                
+                <?php $gui_p = $this->uri->segment(1);
+                if($gui_p != 'gui_pos'){
+                ?>    
+                <ol class="breadcrumb breadcrumb-new">
+                    <li><a href="#"><i class="pe-7s-home"></i> <?php echo display('home') ?></a></li>
+                    <li><a href="#"><?php echo ucwords($module); ?></a></li>
+                    <li class="active"><?php echo ucwords(@$title); ?></li>
+                </ol>
+                <?php }?>
 
 
                 <!-- Main content -->
@@ -48,6 +51,7 @@
 
 
             <footer class="main-footer">
+                <input type="hidden" name="" id="base_url" value="<?php echo base_url();?>">
                 <div class="pull-right hidden-xs">
                     <?php echo (!empty($setting->address)?$setting->address:null) ?> 
                 </div>
@@ -65,10 +69,6 @@
         <!-- Start Core Plugins-->
         <?php $this->load->view('includes/js') ?>
         
-        <script type="text/javascript">
-    $(document).ready(function () {
-        $("form :input").attr("autocomplete", "off");
-    })
-</script>
+       
     </body>
 </html>

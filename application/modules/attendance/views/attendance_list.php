@@ -7,7 +7,7 @@ $add0 =array(
     'data-target' => "#add0",
     'data-toggle' => "modal",
     'value' => display('datewise_report'),
-    'style'=>'align="center";'
+ 
 );
 $add =array(
     'type' => 'button',
@@ -15,7 +15,7 @@ $add =array(
     'data-target' => "#add",
     'data-toggle' => "modal",
     'value' => display('employee_wise_report'),
-    'style'=>'align="center";'
+ 
 );
 $add3 =array(
     'type' => 'button',
@@ -23,10 +23,9 @@ $add3 =array(
     'data-target' => "#add2",
     'data-toggle' => "modal",
     'value' => display('date_in_time_report'),
-    'style'=>'align="center";'
+ 
 );
  echo form_input($add0); 
-//  echo form_input($add2); 
 echo form_input($add); 
 echo form_input($add3); 
 
@@ -104,7 +103,7 @@ echo form_input($add3);
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('attendance/Home/AtnReport_view','name="myForm"') ?>
+                    <?php echo  form_open('attendance/Home/AtnReport_view','name="myForm"') ?>
                         
                          <div class="form-group row">
                             <label for="employee_id" class="col-sm-3 col-form-label"><?php echo display('employee_name') ?> *</label>
@@ -173,7 +172,7 @@ echo form_input($add3);
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('attendance/Home/report_view') ?>
+                    <?php echo  form_open('attendance/Home/report_view') ?>
                         
                         <div class="form-group row">
                             <label for="date" class="col-sm-3 col-form-label"><?php echo display('start_date') ?> *</label>
@@ -225,7 +224,7 @@ echo form_input($add3);
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('attendance/Home/AtnTimeReport_view','name="myForm"') ?>
+                    <?php echo  form_open('attendance/Home/AtnTimeReport_view','name="myForm"') ?>
                         
                          <div class="form-group row">
                             <label for="date" class="col-sm-3 col-form-label"><?php echo display('date') ?> *</label>
@@ -267,17 +266,3 @@ echo form_input($add3);
 </div>
 </div>
 </div>
-<script language="javascript"> 
-    $(function(){
-         $("#a_date").datepicker({ dateFormat:'yy-mm-dd' });
-           $("#b_date").datepicker({ dateFormat:'yy-mm-dd' });
-             $("#c_date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#start_date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $(".end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-</script>

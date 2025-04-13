@@ -1,3 +1,8 @@
 body{
 	 
 }
+
+/*Employee performance form*/
+.employee_id_perfm_f{width:400px !important;}
+
+.toggle-example .toggle{height: 18px !important; min-height: 18px !important;min-width: 60px !important; width: 60px !important;}

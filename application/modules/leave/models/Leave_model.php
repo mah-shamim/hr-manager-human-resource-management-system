@@ -81,6 +81,7 @@ public function holiday_delete($id = null){
 	 public function dropdown(){
     	$this->db->select('*');
     	$this->db->from('employee_history');
+    	$this->db->where('employee_status',1);
     	$query=$this->db->get();
     	$data=$query->result();
     	$list = array('' => 'Select One...');
@@ -170,7 +171,7 @@ public function holiday_delete($id = null){
 
     // update leave type 
     public function save_update_leave_type($data = array()){
-    	$this->db->where('leave_type_id', $data["leave_type_id"])
+    	return $this->db->where('leave_type_id', $data["leave_type_id"])
   			     ->update('leave_type', $data);
     }
 

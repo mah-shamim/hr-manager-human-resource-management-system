@@ -8,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?=form_open('department/Department_controller/update_dept_form/'. $data->dept_id) ?>
+                <?php echo form_open('department/Department_controller/update_dept_form/'. $data->dept_id) ?>
                 
 
                     <input name="dept_id" type="hidden" value="<?php echo $data->dept_id ?>">
@@ -22,11 +22,8 @@
                             </div>
                            
                         </div>
-                        
-                        
 
-
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                         </div>

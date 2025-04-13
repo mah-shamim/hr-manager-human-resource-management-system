@@ -5,9 +5,6 @@ class Csv_model extends CI_Model {
 
     
     function get_addressbook() { 
-    // $this->db->order_by('att_id', 'desc');  
-    //     $query = $this->db->get('emp_attendance');
-
 $query =$this->db->select("count(DISTINCT(e.att_id)) as att_id,e.*,p.employee_id,p.first_name,p.last_name")->join('employee_history p','e.employee_id = p.employee_id','left')->group_by('e.att_id')->order_by('e.att_id', 'desc')->get('emp_attendance e');
 
 
@@ -49,7 +46,6 @@ public function delete_attn($id = null)
 
     public function atten_create($data = array())
     {
-       // return $this->db->insert('emp_attendance', $data);
         return $this->db->insert('attendance_history', $data);
     }
 
@@ -77,13 +73,14 @@ public function update_attn($data = array())
     {
         $this->db->select('*');
         $this->db->from('employee_history');
+        $this->db->where('employee_status',1);
         $query=$this->db->get();
         $data=$query->result();
         
        $list = array('' => 'Select One...');
         if(!empty($data)){
             foreach ($data as $value){
-                $list[$value->employee_id]=$value->first_name.$value->last_name."(".$value->employee_id.")";
+                $list[$value->employee_id]=$value->first_name.' '.$value->last_name."(".$value->employee_id.")";
             }
         }
         return $list;
@@ -181,6 +178,21 @@ public function att_report($limit = null, $start = null){
         return false;
 }
 
+// Attendance log report
+public function emp_att_report($limit = null, $start = null, $employee_id){
+        $this->db->select('*,DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->where('uid',$employee_id);
+        $this->db->group_by('mydate');
+        $this->db->order_by('time', 'desc');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();    
+        }
+        return false;
+}
+
 
 // count attendance log
  public function count_att_report()
@@ -196,12 +208,23 @@ public function att_report($limit = null, $start = null){
         return false;
     }
 
+// count individual employee attendance log
+ public function count_emp_att_report($employee_id)
+    {
+        $this->db->select('*,DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->where('uid',$employee_id);
+        $this->db->group_by('mydate');
+        $this->db->order_by('time', 'desc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return false;
+    }
+
 // Attendance log report user wise
 public function att_report_userwise($limit = null, $start = null,$id){
-// $att = "SELECT *, DATE(time) as mydate FROM `attendance_history` WHERE `uid`=$id GROUP BY mydate ORDER BY time desc";
-// $query = $this->db->limit($limit,$start)->query($att)->result();
-
-
         $this->db->select('*,DATE(time) as mydate');
         $this->db->from('attendance_history');
         $this->db->where('uid',$id);
@@ -235,8 +258,6 @@ public function att_log_datebetween($id,$from_date,$to_date){
     $query = $this->db->query($att)->result();
     $att_in = [];
 $i=1;
-// print_r($query);exit();
-//return $query;
     foreach ($query as $attendance) {
         $att_in[$i] = $this->db->select('a.time,MIN(a.time) as intime,MAX(a.time) as outtime,a.uid')
 ->from('attendance_history a')
@@ -247,8 +268,6 @@ $i=1;
 ->result();
 $i++;
     }
-    // echo '<pre>';
-    // print_r($att_in);exit();
     return $att_in;
     
 }
@@ -265,6 +284,7 @@ public function userlist()
     {
         $this->db->select('*');
         $this->db->from('employee_history');
+        $this->db->where('employee_status',1);
         $query=$this->db->get();
         $data=$query->result();
         
@@ -305,9 +325,40 @@ public function company_info(){
     } 
 
    public function attendance_editdata($id){
+
         $this->db->where('atten_his_id',$id);
         $query = $this->db->get('attendance_history');
-        return $query->row();
+
+        $atten_his_data = $query->row();
+
+
+        $dt = date("Y-m-d", strtotime($atten_his_data->time));
+        $date_t = "(DATE(attendance_history.time) = '$dt')";
+
+        $all_attn_data = $this->db->select("*")->from("attendance_history")
+            ->where('attendance_history.uid',$atten_his_data->uid)
+            ->where($date_t)
+            ->order_by('attendance_history.time','ASC')
+            ->get()
+            ->result();
+
+        $i = 1;
+        foreach ($all_attn_data as $value) {
+            
+            if($atten_his_data->time == $value->time){
+                break;
+            }
+
+            $i++;
+        }
+
+        if($i % 2 == 0){
+            $atten_his_data->status = 'out';
+        }else{
+            $atten_his_data->status = 'in';
+        }
+
+        return $atten_his_data;
     }
 
      public function atten_update($postData = [])

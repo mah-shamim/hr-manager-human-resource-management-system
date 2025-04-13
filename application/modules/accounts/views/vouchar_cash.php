@@ -1,14 +1,3 @@
-<script type="text/javascript">
-    function printDiv() {
-        var divName = "printArea";
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        // document.body.style.marginTop="-45px";
-        window.print();
-        document.body.innerHTML = originalContents;
-    }
-</script>
 
 <?php
 
@@ -189,7 +178,7 @@ class CCommon
         <div class="panel panel-bd lobidrag">
             <div class="panel-body"  id="printArea">
                 <tr align="center">
-                    <td id="ReportName" style="font:'Times New Roman', Times, serif; font-size:20px;"><b>Cash Credit Voucher</b></td>
+                    <td id="ReportName"><b>Cash Credit Voucher</b></td>
                 </tr>
                 <div class="">
                     <table class="datatable2 table table-bordered table-hover">
@@ -255,7 +244,7 @@ class CCommon
                         </tbody>
                     </table>
 
-                    <div class="text-center" id="print" style="margin: 20px">
+                    <div class="text-center" id="print">
                         <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/>
                     </div>
 

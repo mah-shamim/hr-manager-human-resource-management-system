@@ -8,33 +8,36 @@
             </div>
             <div id="printArea">
                 <div class="panel-body">
-                   <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
-                                                
-                                                <tr>
-                                                    <td align="left" style="border-bottom:2px #333 solid;text-align: left;">
-                                                     
-                                                        <img src="<?php echo base_url((!empty($setting->logo)?$setting->logo:'assets/img/icons/mini-logo.png')) ?>"  alt="logo" class="img">
-                                                    </td>
-                                                    <td style="border-bottom:2px #333 solid;text-align: center;">
-                                                        <span style="font-size: 17pt; font-weight:bold;">
+                           <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+
+                        <?php if(!empty($setting->logo)){?>
+
+                          <img src="<?php echo "./".$setting->logo;?>" alt="logo">
+
+                        <?php }else{ ?>
+
+                           <img src="./assets/img/icons/mini-logo.png" alt="logo">
+
+                         <?php }?>
+
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                         <span class="" >
                                                             <?php echo $setting->title;?>
                                                            
                                                         </span><br>
                                                         <?php echo $setting->address;?>
-                                                       
-                                                        
-                                                    </td>
-                                                   
-                                                     <td style="border-bottom:2px #333 solid;text-align: right;">
-                                                        <date>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <date>
                                                         <?php echo display('date')?>: <?php
                                                         echo date('d-M-Y');
                                                         ?> 
                                                     </date>
-                                                    </td>
-                                                </tr>            
-                                   
-                                </table>
+                    </div>
+                </div>
+                <div class="table-responsive">
                     <table width="100%" class="table_boxnew" style="padding: 5px">
                         <tr>
                             <td colspan="4" align="center">
@@ -52,13 +55,14 @@
                             $TotalCredit=0;
                             $TotalDebit=0;  
                             $k=0;
+                            $fyear = $this->session->userdata("fyear");
 
                             for($i=0;$i<count($oResultTr);$i++)
                             {
 
                                 $COAID=$oResultTr[$i]['HeadCode'];
                                 
-                                $sql="SELECT SUM(acc_transaction.Debit) AS Debit, SUM(acc_transaction.Credit) AS Credit FROM acc_transaction WHERE acc_transaction.IsAppove =1 AND VDate BETWEEN '".$dtpFromDate."' AND '".$dtpToDate."' AND COAID LIKE '$COAID%' ";
+                                $sql="SELECT SUM(acc_transaction.Debit) AS Debit, SUM(acc_transaction.Credit) AS Credit,VNo,Vtype,  VDate FROM acc_transaction WHERE acc_transaction.IsAppove =1 AND acc_transaction.fyear = '$fyear' AND VDate BETWEEN '$dtpFromDate' AND '$dtpToDate' AND COAID LIKE '$COAID%' ";
                                 
                                 $q1=$this->db->query($sql);
                                 $oResultTrial = $q1->row();
@@ -67,7 +71,7 @@
 
                                 if($oResultTrial->Credit != $oResultTrial->Debit)
                                 {
-                                    //echo $sql;
+
                                     $k++; 
                         ?>
                             <tr class="table_data">
@@ -107,7 +111,7 @@
                             {
                             $COAID=$oResultInEx[$i]['HeadCode'];
                             
-                            $sql="SELECT SUM(acc_transaction.Debit) AS Debit, SUM(acc_transaction.Credit) AS Credit FROM acc_transaction WHERE acc_transaction.IsAppove =1 AND VDate BETWEEN '".$dtpFromDate."' AND '".$dtpToDate."' AND COAID LIKE '$COAID%' ";
+                             $sql="SELECT SUM(acc_transaction.Debit) AS Debit, SUM(acc_transaction.Credit) AS Credit,VNo,Vtype,VDate FROM acc_transaction WHERE acc_transaction.IsAppove =1 AND acc_transaction.fyear = '$fyear' AND VDate BETWEEN '$dtpFromDate' AND '$dtpToDate' AND COAID LIKE '$COAID%' ";
                             
                             $q2=$this->db->query($sql);
                             $oResultTrial = $q2->row();
@@ -115,7 +119,7 @@
                             $bg=$k&1?"#FFFFFF":"#E7E0EE";
                             if($oResultTrial->Credit!=$oResultTrial->Debit)
                             {
-                                //echo $sql;
+
                                 $k++; ?>
                             <tr class="table_data">
                               <td  align="left" bgcolor="<?php echo $bg;?>" style="border-left: solid 1px #000; border-top: solid 1px #000;"><a href="javascript:"><?php echo $oResultInEx[$i]['HeadCode'];?>
@@ -207,6 +211,7 @@
                           </td>
                         </tr>
                     </table>
+                  </div>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
 Add Position</button> 
-<a href="<?php echo base_url();?>/recruitment/Advertisement/position_view" class="btn btn-primary">Manage Position</a>
+<a href="<?php echo base_url();?>/circularprocess/Advertisement/position_view" class="btn btn-primary">Manage Position</a>
 
 </div>
 <div id="add0" class="modal fade" role="dialog">
@@ -24,7 +24,7 @@ Add Position</button>
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('recruitment/Advertisement/create_position') ?>
+                    <?php echo  form_open('circularprocess/Advertisement/create_position') ?>
                         <div class="form-group row">
                             <label for="position_name" class="col-sm-3 col-form-label"><?php echo display('position_name') ?> *</label>
                             <div class="col-sm-9">

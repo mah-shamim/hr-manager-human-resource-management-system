@@ -1,14 +1,3 @@
- 
-  <div class="form-group text-right">
-<?php if($this->permission->method('payroll','create')->access()): ?>
-<button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_salary_type') ?></button> 
-  <?php endif; ?>
-  <?php if($this->permission->method('payroll','read')->access()): ?>
-<a href="<?php echo base_url();?>/payroll/Payroll/emp_salary_setup_view" class="btn btn-primary"><?php echo display('manage_salary_type')?></a>
-  <?php endif; ?>
-</div>
-
      <div id="add0" class="modal fade" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -25,7 +14,7 @@
                 
                 <div class="panel-body">
 
-                    <?= form_open('payroll/Payroll/create_salary_setup') ?>
+                    <?php echo  form_open('payroll/Payroll/create_salary_setup') ?>
                         <div class="form-group row">
                             <label for="salary_type" class="col-sm-3 col-form-label"><?php echo display('salary_type') ?> *</label>
                             <div class="col-sm-9">
@@ -36,8 +25,8 @@
                         <div class="form-group row">
                             <label for="emp_sal_type" class="col-sm-3 col-form-label"><?php echo display('salary_benefits_type') ?> *</label>
                             <div class="col-sm-9">
-                                <!-- <input type="text" name="emp_sal_type" class="form-control"  placeholder="<?php echo display('emp_sal_type') ?>" id="emp_sal_type" > -->
-                                <select name="emp_sal_type" class="form-control"  placeholder="<?php echo display('salary_benefits_type') ?>" id="emp_sal_type" style="width:395px">
+                               
+                                <select name="emp_sal_type" class="form-control"  placeholder="<?php echo display('salary_benefits_type') ?>" id="emp_sal_type">
                            <option value="1">Add</option>
                            <option value="0">Deduct</option>
                                 </select>
@@ -45,14 +34,9 @@
                         </div> 
 
                         
-                     <!--   <div class="form-group row">
-                            <label for="default_amount" class="col-sm-3 col-form-label"><?php echo display('default_amount') ?> *</label>
-                            <div class="col-sm-9">
-                                <input name="default_amount" class="form-control" type="text" placeholder="<?php echo display('default_amount') ?>" id="default_amount" value="1000">
-                            </div>
-                        </div> -->
+                    
              
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('set') ?></button>
                         </div>
@@ -79,7 +63,26 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+             <div class="panel-heading panel-aligner" >
+                <div class="panel-title">
+                    <h4><?php echo display('salary_type_setup') ?></h4>
+                </div>
+                <div class="mr-25">
+
+                    <?php if($this->permission->method('payroll','create')->access()): ?>
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php echo display('add_salary_type') ?></button> 
+                      <?php endif; ?>
+                      <?php if($this->permission->method('payroll','read')->access()): ?>
+                    <a href="<?php echo base_url();?>/payroll/Payroll/emp_salary_setup_view" class="btn btn-primary"><?php echo display('manage_salary_type')?></a>
+                      <?php endif; ?>
+
+
+                </div>
+
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">

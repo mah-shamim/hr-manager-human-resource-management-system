@@ -56,7 +56,7 @@
  <div id="add" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header"  style="background-color: green;color:white">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <center><strong>Application Form</strong></center>
             </div>
@@ -71,12 +71,12 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open_multipart('leave/Leave/application') ?>
+                    <?php echo  form_open_multipart('leave/Leave/application') ?>
                         <div class="form-group row">
                             <label for="employee_id" class="col-sm-2 col-form-label">Select <?php echo display('employee_name') ?></label>
                             <div class="col-sm-4">
-                          <!--  <input type="text" name="employee_id" class="form-control"> -->
-                            <?php echo form_dropdown('employee_id',$dropdown,null,'class="form-control" style="width:100%"') ?>
+                        
+                            <?php echo form_dropdown('employee_id',$dropdown,null,'class="form-control"') ?>
                                
                             </div>
                             <label for="apply_date" class="col-sm-2 col-form-label">
@@ -178,41 +178,3 @@
 
 </div>
 
-<script language="javascript"> 
-
- $(function(){
-        $("#f").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#e").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#a").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#c").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#d").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#b").datepicker({ dateFormat:'yy-mm-dd' });
-    });
-    </script>
- <script language="javascript"> 
-$(document).ready(function(e) {
-    function calculation(){
-    
-   var date1 =new Date($('.leave_aprv_strt_date').val());
-   
-
-var date2 =new Date($('.leave_aprv_end_date').val());
-var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-//alert(diffDays);
-//alert(diffDays);
-
-         
-        
-        $('.num_aprv_day').val(diffDays);
-        
-        
-
-        }
-        $('.leave_aprv_strt_date,.leave_aprv_end_date,.num_aprv_day').keyup(calculation)
-
-
-});
- 
-
-</script>

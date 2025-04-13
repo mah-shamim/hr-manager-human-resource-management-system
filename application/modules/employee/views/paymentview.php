@@ -62,7 +62,7 @@
      <div id="PaymentMOdal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:green;color:white">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <strong><center> <?php echo display('payment')?></center></strong>
             </div>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open('employee/Employees/payconfirm/'. $data->emp_sal_pay_id) ?>
+                <?php echo  form_open('employee/Employees/payconfirm/'. $data->emp_sal_pay_id) ?>
                 
 
                     <input name="emp_sal_pay_id" id="salType" type="hidden" value="">
@@ -115,7 +115,7 @@
                                         echo display('payment_type');
                                         ?> <i class="text-danger">*</i></label>
                                     <div class="col-sm-9">
-                                        <select name="paytype" class="form-control" required="" id="paytype" onchange="bank_paymet(this.value)" required="" style="width: 100%">
+                                        <select name="paytype" class="form-control" required="" id="paytype" onchange="bank_paymet(this.value)" required="">
                                             <option value="">Select Payment Option</option>
                                             <option value="1">Cash Payment</option>
                                             <option value="2">Bank Payment</option>
@@ -125,12 +125,12 @@
                                 </div>
                       
                           
-                                <div class="form-group row" id="bank_div" style="display: none;">
+                                <div class="form-group row" id="bank_div">
                                     <label for="payment_type" class="col-sm-3 col-form-label"><?php
                                         echo display('bank_name');
                                         ?> <i class="text-danger">*</i></label>
                                     <div class="col-sm-9">
-                                    <select name="bank_name" class="form-control" id="bank" style="width: 100%">
+                                    <select name="bank_name" class="form-control" id="bank">
                                     <option value="">Select Payment Option</option>
                                             <?php foreach($bank_list as $banks){?>
                                             <option value="<?php echo $banks['bank_name']?>"><?php echo $banks['bank_name']?></option>
@@ -163,53 +163,7 @@
             </div>
 
         </div>
-
+<input type="hidden" id="base_url" value="<?php echo base_url();?>" name="">
     </div>
 </div>
- 
- <script type="text/javascript">
-function Payment(salpayid,employee_id,TotalSalary,WorkHour,Period){
-  
-   var sal_id = salpayid;
-   var employee_id = employee_id;
-    $.ajax({
-    url:"<?php echo base_url('employee/Employees/EmployeePayment/')?>",
-    method:'post',
-    dataType:'json',
-    data:{
-     'sal_id':sal_id,
-     'employee_id':employee_id,
-     'totalamount':TotalSalary,
-    },
-    success:function(data){
- document.getElementById('employee_name').value= data.Ename;
- document.getElementById('employee_id').value  = data.employee_id;
- document.getElementById('salType').value      = salpayid;
- document.getElementById('total_salary').value = TotalSalary;
- document.getElementById('total_working_minutes').value = WorkHour;
- document.getElementById('working_period').value = Period;
-   $("#PaymentMOdal").modal('show');
-    },
-    error:function(jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-
-    });
-}
-</script>
-<script type="text/javascript">
-
-    function bank_paymet(val){
-        if(val==2){
-           var style = 'block'; 
-           
-        }else{
-   var style ='none';
-   
-        }
-           
-    document.getElementById('bank_div').style.display = style;
-    }
-    
-</script>
+<script src="<?php echo base_url('assets/js/employee.js') ?>" type="text/javascript"></script>

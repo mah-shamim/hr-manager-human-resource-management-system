@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
               
-                         <?= form_open_multipart('accounts/accounts/create_cash_adjustment') ?>
+                         <?php echo  form_open_multipart('accounts/accounts/create_cash_adjustment') ?>
                      <div class="form-group row">
                         <label for="vo_no" class="col-sm-2 col-form-label"><?php echo display('voucher_no')?></label>
                         <div class="col-sm-4">
@@ -30,7 +30,7 @@
                         </div>
                     </div> 
                     <div class="form-group row">
-                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('adjustment_type')?></label>
+                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('adjustment_type')?> *</label>
                         <div class="col-sm-4">
                          <select name="type" class="form-control">
                           <option value=""><?php echo display('adjustment_type')?></option>
@@ -46,13 +46,13 @@
                         </div>
                     </div> 
                    
-                       <div class="table-responsive" style="margin-top: 10px">
+                       <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="debtAccVoucher"> 
                                 <thead>
                                     <tr>
                                        
-                                         <th class="text-center"><?php echo display('code')?></th>
-                                          <th class="text-center"><?php echo display('amount')?></th>
+                                         <th class="text-center"><?php echo display('code')?> *</th>
+                                          <th class="text-center"><?php echo display('amount')?> *</th>
                                           
                                     </tr>
                                 </thead>
@@ -70,7 +70,7 @@
                            
                             </table>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group form-group-margin row">
                            
                             <div class="col-sm-12 text-right">
 

@@ -2,7 +2,15 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd">
+
+            <div class="panel-heading" >
+
+                <div class="panel-title">
+                    <h4><?php echo display('manage_award') ?></h4>
+                </div>
+
+            </div> 
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -27,26 +35,15 @@
                                     <td><?php echo $sl; ?></td>
                                <td><?php echo $row->award_name; ?></td>
                                 <td><?php   $text=$row->aw_description;
-
-
-
-              
-
-
-$pieces = substr($text, 0, 20);
-$ps = substr($pieces, 0, 16)."...";
-//echo $ps ;
-
-$cn=strlen($text);
-//echo $cn;
-
-if ($cn>20) {
-  echo $ps;
-}else
-{
-echo $text;
-}
-
+                        $pieces = substr($text, 0, 20);
+                        $ps = substr($pieces, 0, 16)."...";
+                        $cn=strlen($text);
+                        if ($cn>20) {
+                          echo $ps;
+                        }else
+                        {
+                        echo $text;
+                        }
 
                                 ?></td>
                                 <td><?php echo $row->awr_gift_item; ?></td>

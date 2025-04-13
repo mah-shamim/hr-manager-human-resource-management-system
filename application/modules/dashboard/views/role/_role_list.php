@@ -4,8 +4,8 @@
         <div class="panel panel-bd ">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <a type="button" class="btn btn-success my-modal pull-right" style="color:#fff;" href="<?php echo base_url()?>dashboard/role/create_system_role" >
-                      <?=display('add_role')?>
+                    <a type="button" class="btn btn-success my-modal pull-right" href="<?php echo base_url()?>dashboard/role/create_system_role" >
+                      <?php echo display('add_role')?>
                     </a>
 
                     <h4><?php echo (!empty($title)?$title:null) ?></h4>

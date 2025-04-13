@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <?= form_open_multipart('accounts/accounts/cash_flow_report_search') ?>
+                <?php echo  form_open_multipart('accounts/accounts/cash_flow_report_search') ?>
                 <div class="row" id="">
                     <div class="col-sm-6">
      
@@ -25,7 +25,7 @@
                                 <input type="text"  name="dtpToDate" value="" placeholder="<?php echo display('to_date') ?>" class="datepicker form-control">
                             </div>
                         </div>
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('find') ?></button>
                         </div>
                     </div>
@@ -35,11 +35,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    
-     $(function(){
-        $(".datepicker").datepicker({ dateFormat:'yy-mm-dd' });
-       
-    });
-</script>

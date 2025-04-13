@@ -1,15 +1,3 @@
- <div class="form-group text-right">
-<?php if($this->permission->method('loan_installment','create')->access()): ?>
-<button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_installment')?></button> 
-<?php endif; ?>
-<?php if($this->permission->method('loan_installment','read')->access()): ?>
-<a href="<?php echo base_url();?>/loan/Loan/installmentView" class="btn btn-primary"><?php echo display('manage_installment')?></a>
-<?php endif; ?>
-</div>
-  
-    
-
 <div id="add0" class="modal fade" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -26,7 +14,7 @@
                 
                 <div class="panel-body">
 
-                    <?= form_open('loan/Loan/create_installment') ?>
+                    <?php echo  form_open('loan/Loan/create_installment') ?>
                         
 
                         <div class="form-group row">
@@ -34,13 +22,13 @@
                             
                             <div class="col-sm-9">
 
-                                 <?php echo form_dropdown('employee_id',$gndloan,(!empty($example->employee_id)?$example->employee_id:null), 'class="form-control"  id="employee_id" onchange="SelectToLoad(this.value)" style="width:400px"') ?>
+                                 <?php echo form_dropdown('employee_id',$gndloan,(!empty($example->employee_id)?$example->employee_id:null), 'class="form-control"  id="employee_id" onchange="SelectToLoadLoanReceiver(this.value)"') ?>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="loan_id" class="col-sm-3 col-form-label"><?php echo display('loan_id') ?> *</label>
                             <div class="col-sm-9">
-                                 <select name="loan_id" class="form-control" onchange="SelectToname(this.value),SelectAuto(this.value)" id="loan_id" style="width:400px"></select>
+                                 <select name="loan_id" class="form-control" onchange="SelectReceiverinfo(this.value),SelectReceiverInstallment(this.value)" id="loan_id"></select>
 
 
                             </div>
@@ -48,7 +36,7 @@
                         <div class="form-group row">
                             <label for="installment_amount" class="col-sm-3 col-form-label"><?php echo display('installment_amount') ?> *</label>
                             <div class="col-sm-9">
-                                <input type="text" name="installment_amount" class="form-control" placeholder="<?php 
+                                <input type="number" name="installment_amount" class="form-control" placeholder="<?php 
                                  echo display('installment_amount') ?>" id="installment_amount">
                             </div>
                         </div>
@@ -62,7 +50,7 @@
                         <div class="form-group row">
                             <label for="payment" class="col-sm-3 col-form-label"><?php echo display('payment') ?> *</label>
                             <div class="col-sm-9">
-                                <input name="payment" class="form-control" type="text" placeholder="<?php echo display('payment') ?>" id="payment">
+                                <input name="payment" class="form-control" type="number" placeholder="<?php echo display('payment') ?>" id="payment">
                             </div>
                         </div>
 
@@ -76,8 +64,8 @@
                         <div class="form-group row">
                             <label for="received_by" class="col-sm-3 col-form-label"><?php echo display('received_by') ?> *</label>
                             <div class="col-sm-9">
-                              <!--   <input type="text" name="received_by" class="form-control"  placeholder="<?php echo display('received_by') ?>" id="received_by" > -->
-                                 <?php echo form_dropdown('received_by',$receiver,null, 'class="form-control"  id="received_by" style="width:400px"') ?>
+                              
+                                 <?php echo form_dropdown('received_by',$receiver,null, 'class="form-control"  id="received_by"') ?>
                             </div>
                         </div>   
                          <div class="form-group row">
@@ -96,7 +84,7 @@
                         </div> 
                           
  
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('paid') ?></button>
                         </div>
@@ -124,7 +112,28 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+             <div class="panel-heading panel-aligner" >
+                <div class="panel-title">
+                    <h4><?php echo display('loan_installment') ?></h4>
+                </div>
+                <div class="mr-25">
+
+                    <?php //if($this->permission->method('loan_installment','create')->access()): ?>
+                    <?php if($this->permission->check_label('loan_installment')->create()->access()): ?>
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php echo display('add_installment')?></button> 
+                    <?php endif; ?>
+                    <?php //if($this->permission->method('loan_installment','read')->access()): ?>
+                    <?php if($this->permission->check_label('loan_installment')->read()->access()): ?>
+                    <a href="<?php echo base_url();?>/loan/Loan/installmentView" class="btn btn-primary"><?php echo display('manage_installment')?></a>
+                    <?php endif; ?>
+
+
+                </div>
+
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -174,77 +183,5 @@
 </div>
  
  
-    <script type="text/javascript">
-
-function SelectToLoad(id){
  
-
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('loan/Loan/select_to_load/')?>",
-        method:'post',
-       dataType:'json',
-      data:{
-            'employee_id':id,
-              },
-        success: function(data)
-        {
-        
-        document.getElementById("loan_id").innerHTML =data;
-        //$('#loan_id').html(data);
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-}
-function SelectToname(id){
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('loan/Loan/select_to_install/')?>" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-              $('[name="installment_amount"]').val(data.installment);
-              $('[name="due_amount"]').val(data.due);
-        
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-}
-
-function SelectAuto(id){
-
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('loan/Loan/select_to_autoincrement/')?>" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        { var installment=parseInt(data) +1;
-              $('[name="installment_no"]').val(installment);
-        
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-}
-</script>
- <script language="javascript"> 
-    $(function(){
-        $("#date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-</script>
+ <script src="<?php echo base_url('assets/js/loan.js') ?>" type="text/javascript"></script>

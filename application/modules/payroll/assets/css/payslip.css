@@ -1,0 +1,114 @@
+.mt-40 {
+    margin-top: 40px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.pl-15 {
+    padding-left: 15px;
+}
+
+.w-65 {
+    width: 65%;
+}
+
+.w-150 {
+    width: 150px;
+}
+
+.w-250 {
+    width: 250px;
+}
+
+.w-620 {
+    width: 620px;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fs-20 {
+    font-size: 20px;
+}
+
+.fs-i {
+    font-style: italic;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-end {
+    justify-content: end;
+}
+
+.justify-content-start {
+    justify-content: start;
+}
+
+.review-table {
+    border: none;
+    box-shadow: none;
+}
+
+hr {
+    margin-top: 55px;
+    margin-bottom: 19px;
+    border: 0;
+    border-top: 2px solid #000;
+}
+
+.center-item{
+    text-align:  center !important;
+}
+
+.salary_approval{
+    padding:20px;
+}
+
+.salary_approval .title_firsttwo{
+    background-color: #c3bfbf;color: #FFF;text-align: center;font-weight: bold;font-size: 14px;
+}
+
+.salary_approval .title_fourth{
+    font-weight: bold;text-align: center;
+}
+.salary_approval .title_fifth{
+    font-weight: bold;text-align: center;
+}
+
+.salary_approval .table_foot_bg{
+    background-color: #c3bfbf;color: #FFF;text-align: center;font-weight: bold;font-size: 14px;height: 35px;
+}
+.salary_approval .amnt_net_salary span{
+    color: green;
+}
+.salary_approval .amnt_state_incm_tax span{
+    color: green;
+}
+.salary_approval .pay_npf_contribution span{
+    color: green;
+}
+.salary_approval .iicf_pay_cotribution span{
+    color: green;
+}

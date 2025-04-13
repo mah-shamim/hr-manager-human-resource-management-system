@@ -181,7 +181,7 @@ public function count_equipment()
       $date         = date("Y-m-d", strtotime(!empty($issue_date[$i])?$issue_date[$i]:date('Y-m-d')));
         $equipment_maping = array(
      'equipment_id'     => $equipment_id, 
-     'employee_id'      => $this->input->post('employee_id'),
+     'employee_id'      => $this->input->post('employee_id',true),
      'issue_date'       => $date,
         
       );
@@ -243,7 +243,6 @@ public function count_equipment()
     { 
         return $this->db->select("*")->from("employee_equipment")
             ->where('employee_id',$id) 
-            ->limit($limit, $start)
             ->get()
             ->row();
 
@@ -334,7 +333,6 @@ public function count_maping()
     {
       return  $data = $this->db->select("*")
             ->from('equipment') 
-            //->where('is_assign',0)
             ->get()
             ->result();
 
@@ -345,14 +343,15 @@ public function count_maping()
     public function employee_dropdown()
     {
         $data = $this->db->select("*")
-            ->from('employee_history') 
+            ->from('employee_history')
+            ->where('employee_status',1)
             ->get()
             ->result();
 
         $list[''] = display('select_employee');
         if (!empty($data)) {
             foreach($data as $value)
-                $list[$value->employee_id] = $value->first_name.$value->last_name;
+                $list[$value->employee_id] = $value->first_name.' '.$value->last_name;
             return $list;
         } else {
             return false; 
@@ -364,14 +363,14 @@ public function count_maping()
         
      $return_date =  $this->input->post('return_date');
         $employee_id = $this->input->post('employee_id');
-        $damage = $this->input->post('damarage_descript');
+        $damage = $this->input->post('damarage_descript',true);
          $equip_id = $this->input->post('equipment_id');
       for ($i=0, $n=count($equip_id); $i < $n; $i++) {
       $equipment_id = $equip_id[$i];
       $date = $return_date[$i];
       $damage_desc = $damage[$i];
         $equipment_return = array(
-     'return_date'      => $date,
+     'return_date'      => (!empty($date)?$date:date('Y-m-')),
      'damarage_desc'    => $damage_desc,
         
       );

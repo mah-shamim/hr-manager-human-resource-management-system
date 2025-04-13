@@ -1,8 +1,4 @@
- 
-  
-    
-  
-    <div class="row">
+ <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="panel panel-bd lobidrag">
                 <div class="panel-heading">
@@ -12,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open_multipart('circularprocess/Candidate_select/update_selection_form/'. $data->can_sel_id) ?>
+                <?php echo  form_open_multipart('circularprocess/Candidate_select/update_selection_form/'. $data->can_sel_id) ?>
                 
 
                     <input name="can_sel_id" type="hidden" value="<?php echo $data->can_sel_id ?>">

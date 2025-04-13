@@ -1,0 +1,30 @@
+    table{font-size: 13px;}
+
+    table thead{background-color: #E7E0EE;}
+
+    table.payrollDatatableReportPaySlip {       
+        border-collapse: collapse;
+        border: 0;
+    }
+    table.payrollDatatableReportPaySlip td, table.payrollDatatableReportPaySlip th {
+        padding: 6px 15px;
+    }
+    table.payrollDatatableReportPaySlip td, table.payrollDatatableReportPaySlip th {
+        border: 1px solid #ededed;
+        border-collapse: collapse;
+    }
+    table.payrollDatatableReportPaySlip td.noborder {
+        border: none;
+        padding-top: 40px;
+    }
+    table.payrollDatatableReportPaySlip tbody tr td {
+        font-size: 10px;
+        padding-left: 5px;
+        font-size: 13px;
+    }
+
+    table.payrollDatatableReportPaySlip thead tr th {
+        font-size: 13px;
+        padding-left: 5px;
+        text-align: left;
+    }

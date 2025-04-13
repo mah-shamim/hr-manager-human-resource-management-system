@@ -1,15 +1,11 @@
-
 <?php
     $total=0;
-//print_r($query);
-// print_r($query);
     foreach ($cv as $row){
-        
-     
+
         }?>
   
 <div class="row">
-    <div class="col-sm-12 col-md-4">
+    <div class="col-sm-12 col-md-4 candidate-cv">
  
     <div class="card-header">
                                     
@@ -30,7 +26,7 @@
                                              <table class="table table-hover" width="100%">
 
 
-<caption  style="text-align: center; font-size: 25px"><?php echo display('personal_information')?></caption>
+<caption><?php echo display('personal_information')?></caption>
     <tr>
         <th><?php echo display('name')?></th>
         <td><?php echo $row->first_name." " .$row->last_name;?></td>
@@ -77,9 +73,9 @@
     </div>
 
 </div>
- <div class="col-sm-12 col-md-8">
+ <div class="col-sm-12 col-md-8 candidate-cv-info">
                             <div class="row">
-                                <div class="col-sm-12 col-md-4 rating-block" style="height: 200px">
+                                <div class="col-sm-12 col-md-4 rating-block">
                                  <h1> <center><i class="fa fa-graduation-cap" aria-hidden="true"></i></center><center><?php echo display('education')?></center></h1>
                                    
                                 </div>
@@ -122,7 +118,7 @@
  </div> 
 
                          <div class="row">
-                                <div class="col-sm-12 col-md-4 rating-block" style="height:280px">
+                                <div class="col-sm-12 col-md-4 rating-block">
                                  <h1><center> <i class="fa fa-laptop" aria-hidden="true"></i></center><br>
 <center><?php echo display('past_experience')?></center></h1>
                                    
@@ -168,5 +164,4 @@
                             </div>
                               </div> 
                         
-</div>
 

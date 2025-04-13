@@ -1,14 +1,16 @@
    <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel">
+            <div class="panel panel-bd">
                 <div class="panel-heading">
                     <div class="panel-title">
-                       
+                       <h4>
+                        <?php echo display('add_division')?>
+                      </h4>
                     </div>
                 </div>
                 <div class="panel-body">
 
-                <?= form_open('department/division_controller/division_form') ?>
+                <?php echo  form_open('department/division_controller/division_form') ?>
                     <?php echo form_hidden('dept_id', (!empty($division->dept_id)?$division->dept_id:null)) ?>
       
             <div class="form-group row">
@@ -27,7 +29,7 @@
                     </div> 
                     
                      
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
                     </div>

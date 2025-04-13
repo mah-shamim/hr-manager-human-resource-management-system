@@ -10,8 +10,8 @@
             </div>
             <div class="panel-body">
                 <div class="col-md-4">
- <center><h1><?php echo display('add_equipment') ?></h1></center>
-                <?= form_open('asset/equipment_controller/equipment_form') ?>
+ <center class="mb-10"><h1><?php echo display('add_equipment') ?></h1></center>
+                <?php echo  form_open('asset/equipment_controller/equipment_form') ?>
                     <?php echo form_hidden('equipment_id', (!empty($equipmentinfo->equipment_id)?$equipmentinfo->equipment_id:null)) ?>
                     <div class="form-group row">
                         <label for="equipment_name" class="col-sm-3 col-form-label"><?php echo display('equipment_name') ?> *</label>
@@ -39,8 +39,15 @@
                                     <input name="serial_no" class="form-control" type="text" placeholder="<?php echo display('serial_no') ?>" id="serial_no" value="<?php echo (!empty($equipmentinfo->serial_no)?$equipmentinfo->serial_no:null) ?>" required >
                         </div>
                     </div> 
+
+                    <div class="form-group row">
+                        <label for="price" class="col-sm-3 col-form-label"><?php echo display('price') ?> *</label>
+                        <div class="col-sm-9">
+                                    <input name="price" class="form-control" type="number" placeholder="<?php echo display('price') ?>" id="serial_no" value="<?php echo (!empty($equipmentinfo->price)?$equipmentinfo->price:null) ?>" required >
+                        </div>
+                    </div> 
                      
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
                     </div>
@@ -49,7 +56,17 @@
             </div>  
        
         <div class="col-md-8">
-            <center><h1><?php echo display('equipment_list'); ?></h1></center>
+            <div class="equip-part mb-10">
+                <div class="equip-title">
+                    <h1><?php echo display('equipment_list'); ?></h1>
+                </div>
+                 <?php if (!empty($equipment)) { ?>
+                <a href="<?php echo base_url($pdf)?>"download>
+                    <input type="button" class="btn btn-success" name="btnPdf" id="btnPdf" value="PDF"/>
+                </a>
+                <?php } ?> 
+            </div>
+
               <table width="100%" id="datatable1" class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
@@ -58,6 +75,7 @@
                             <th><?php echo display('type') ?></th>
                             <th><?php echo display('model') ?></th>
                             <th><?php echo display('serial_no') ?></th>
+                            <th><?php echo display('price') ?></th>
                            <th><?php echo display('action') ?></th>
                           
                         </tr>
@@ -71,13 +89,15 @@
                                    <td><?php echo $row->equipment_name; ?></td>
                                    <td><?php echo $row->type_name; ?></td> 
                                     <td><?php echo $row->model; ?></td>
-                                   <td><?php echo $row->serial_no; ?></td>                   
+                                   <td><?php echo $row->serial_no; ?></td>
+                                   <td><?php echo $row->price; ?></td>                
                                    <td class="center">
-                                    <?php if($this->permission->method('equipment','update')->access()): ?>
+
+                                    <?php if($this->permission->check_label('equipment')->update()->access()): ?>
                                         <a href="<?php echo base_url("asset/Equipment_controller/equipment_form/$row->equipment_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('equipment','delete')->access()): ?>  
+                                    <?php if($this->permission->check_label('equipment')->delete()->access()): ?>
                                         <a href="<?php echo base_url("asset/Equipment_controller/delete_equipment/$row->equipment_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-close"></i></a>
                                          <?php endif; ?> 
                                     </td>
@@ -92,18 +112,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#datatable1').DataTable({ 
-        responsive: true, 
-        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp", 
-        "lengthMenu": [[ 10, 20,30, 100, 150, 200, 500, -1], [ 10, 20,30, 100, 150, 200, 500, "All"]], 
-        buttons: [   
-            {extend: 'csv', title: 'Equipment LIst', className: 'btn-sm'}, 
-            {extend: 'excel', title: 'Equipment LIst', className: 'btn-sm', title: 'exportTitle'}, 
-            {extend: 'pdf', title: 'Equipment LIst', className: 'btn-sm'}, 
-            {extend: 'print', className: 'btn-sm'} 
-        ] 
-    });
-          });
-</script>

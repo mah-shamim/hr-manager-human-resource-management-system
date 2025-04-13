@@ -140,7 +140,7 @@ class Message extends MX_Controller {
             'id'          => $this->input->post('id'),
             'sender_id'   => $id,
             'receiver_id' => $this->input->post('receiver_id'),
-            'subject'     => $this->input->post('subject'),
+            'subject'     => $this->input->post('subject', true),
             'message'     => $this->input->post('message', true),
             'datetime'    => date("Y-m-d h:i:s"),
             'sender_status'   => 1, 

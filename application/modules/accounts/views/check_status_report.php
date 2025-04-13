@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <?= form_open_multipart('accounts/accounts/check_status_report_search') ?>
+                <?php echo  form_open_multipart('accounts/accounts/check_status_report_search') ?>
                 <div class="row" id="">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -58,11 +58,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    
-     $(function(){
-        $(".datepicker").datepicker({ dateFormat:'yy-mm-dd' });
-       
-    });
-</script>
+
 

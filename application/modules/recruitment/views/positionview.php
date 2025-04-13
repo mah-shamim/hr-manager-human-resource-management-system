@@ -3,12 +3,6 @@
     <div class="col-sm-12">
 
         <div class="panel panel-default thumbnail"> 
-<style>
-    img{
-        height: 80px;
-        width: 100px;
-    }
-</style>
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
                     <thead>

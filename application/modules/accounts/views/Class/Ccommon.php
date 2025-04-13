@@ -161,41 +161,7 @@ class CCommon
         return number_format($num,2,'.',',');
     }
 
-    /*
-    function number_format($num)
-    {
-        $neg='';
-        $pos = strpos((string)$num, ".");
-        if ($pos === false)
-            $decimalpart="00";
-        else
-        {
-            $decimalpart= substr($num, $pos+1, 2);
-            $num = substr($num,0,$pos);
-        }
-        if($num=='')
-            $num=0;
-        if($num<0)
-        {
-            $neg='-';
-            $num=abs($num);
-        }
-
-
-        if(strlen($num)>3 & strlen($num) <= 12)
-        {
-            $last3digits = substr($num, -3 );
-            $numexceptlastdigits = substr($num, 0, -3 );
-            $formatted = $this->makecomma($numexceptlastdigits);
-            $stringtoreturn = $neg.$formatted.",".$last3digits.".".$decimalpart ;
-        }
-        elseif(strlen($num)<=3)
-            $stringtoreturn = $num.".".$decimalpart ;
-        elseif(strlen($num)>12)
-            $stringtoreturn = number_format($num, 2);
-        return $stringtoreturn;
-    }
-    */
+    
     //Company Info
 
     public function ReadAllSemester($Value,$Display,$Selected)
@@ -368,7 +334,7 @@ class CCommon
             {
                 if($oResult->rows[$i][$Value]==$Selected)
                 {
-                    echo "<td width='2%' valign='top'><input type=\"checkbox\" name=\"chkCourse[]\" id=\"chkCourse[]\" value=\"".$oResult->rows[$i][$Value]."\" checked=\"checked\"></td><td width='31%' style='font-size:13px;' valign='top'><label >".$oResult->rows[$i][$disp[0]];
+                    echo "<td width='2%' valign='top'><input type=\"checkbox\" name=\"chkCourse[]\" id=\"chkCourse[]\" value=\"".$oResult->rows[$i][$Value]."\" checked=\"checked\"></td><td width='31%'  valign='top'><label >".$oResult->rows[$i][$disp[0]];
                     for($Dloop=1; $Dloop<count($disp); $Dloop++)
                     {
                         echo " - ".$oResult->rows[$i][$disp[$Dloop]];
@@ -377,7 +343,7 @@ class CCommon
                 }
                 else
                 {
-                    echo "<td width='2%'  valign='top'><input type=\"checkbox\" name=\"chkCourse[]\" id=\"chkCourse[]\" value=\"".$oResult->rows[$i][$Value]."\" ></td><td width='31%' style='font-size:13px;' valign='top'><label>".$oResult->rows[$i][$disp[0]];
+                    echo "<td width='2%'  valign='top'><input type=\"checkbox\" name=\"chkCourse[]\" id=\"chkCourse[]\" value=\"".$oResult->rows[$i][$Value]."\" ></td><td width='31%' valign='top'><label>".$oResult->rows[$i][$disp[0]];
                     for($Dloop=1; $Dloop<count($disp); $Dloop++)
                     {
                         echo " - ".$oResult->rows[$i][$disp[$Dloop]];
@@ -403,7 +369,7 @@ class CCommon
                 if(! @in_array($oResult->rows[$i][$Value],$arr))
                 {
                     $ChkId = $i;
-                    echo "&nbsp;<span style=\"font-size:13px\"><input type=\"checkbox\" name=\"chkCourse[]\" id=\"ChkNew_".$ChkId."\" value=\"".$oResult->rows[$i][$Value]."\" onclick=\"GetCapacity(this.value,this.id);\"> ".$oResult->rows[$i][$disp[0]];
+                    echo "&nbsp;<span ><input type=\"checkbox\" name=\"chkCourse[]\" id=\"ChkNew_".$ChkId."\" value=\"".$oResult->rows[$i][$Value]."\" onclick=\"GetCapacity(this.value,this.id);\"> ".$oResult->rows[$i][$disp[0]];
                     for($Dloop=1; $Dloop<count($disp); $Dloop++)
                     {
                         echo " - ".$oResult->rows[$i][$disp[$Dloop]];
@@ -425,7 +391,7 @@ class CCommon
                 if(@in_array($oResult->rows[$i][$Value],$arr))
                 {
                     $ChkId = $i;
-                    echo "&nbsp;<span style=\"font-size:13px\"><input type=\"checkbox\" name=\"chkRetakeCourse[]\" id=\"ChkRtk_".$ChkId."\" value=\"".$oResult->rows[$i][$Value]."\" > ".$oResult->rows[$i][$disp[0]];
+                    echo "&nbsp;<span ><input type=\"checkbox\" name=\"chkRetakeCourse[]\" id=\"ChkRtk_".$ChkId."\" value=\"".$oResult->rows[$i][$Value]."\" > ".$oResult->rows[$i][$disp[0]];
                     for($Dloop=1; $Dloop<count($disp); $Dloop++)
                     {
                         echo " - ".$oResult->rows[$i][$disp[$Dloop]];
@@ -446,7 +412,7 @@ class CCommon
             {
                 if(@in_array($oResult->rows[$i][$Value],$arr))
                 {
-                    echo "&nbsp;<span style=\"font-size:13px\"><input type=\"checkbox\" name=\"chkDropCourse[]\" id=\"chkDropCourse[]\" value=\"".$oResult->rows[$i][$Value]."\" > ".$oResult->rows[$i][$disp[0]];
+                    echo "&nbsp;<span ><input type=\"checkbox\" name=\"chkDropCourse[]\" id=\"chkDropCourse[]\" value=\"".$oResult->rows[$i][$Value]."\" > ".$oResult->rows[$i][$disp[0]];
                     for($Dloop=1; $Dloop<count($disp); $Dloop++)
                     {
                         echo " - ".$oResult->rows[$i][$disp[$Dloop]];
@@ -511,7 +477,6 @@ class CCommon
     public function ReadAllEmployeeStudent($Value,$Display,$Selected)
     {
         $oAccount=new CAccount();
-        //$sql="SELECT employee.Name,employee.EmployeeNo FROM employee";
         $sql="SELECT tbl.memberId,tbl.Name FROM(SELECT Student_Id AS memberId,Name,'Student' AS Type FROM stu_basic
 	UNION ALL
 	SELECT employee.EmployeeNo AS memberId, employee.Name, designation.Name AS Type FROM employee INNER JOIN designation ON employee.Designation=designation.ID) as tbl

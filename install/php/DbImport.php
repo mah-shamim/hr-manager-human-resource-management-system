@@ -1,9 +1,10 @@
 <?php
 namespace Php;
+require_once __DIR__.'/Helper.php'; //Include helper
 
 class DbImport 
 { 
-    private $table_name = 'user';      //Login Table Name
+     private $table_name = 'user';      //Login Table Name
     private $table_fields = array('email', 'password','is_admin','status'); // Table Field Names
     private $field_values = array('{input}', '{input}',1,1); // Table Field Values
 
@@ -16,20 +17,24 @@ class DbImport
     private $field_values = array('{input}', '{input}', 1, 1); 
 
     */
-
     // Function to the database and tables and fill them with the default data
     function createDatabase($data = [])
     {
+        $hostname = filterInput($data['hostname']);
+        $username = filterInput($data['username']);
+        $password = filterInput($data['password']);
+        $database = filterInput($data['database']);
+
         // Connect to the database
-        @$mysqli = new \mysqli($data['hostname'], $data['username'], $data['password'], '');
+        @$mysqli = new \mysqli($hostname, $username, $password, '');
 
         // Check for errors
         if (mysqli_connect_errno()){
             return false;
         }
-
+        $database = $mysqli->real_escape_string($database);
         // Create the prepared statement
-        $createDb = $mysqli->query("CREATE DATABASE IF NOT EXISTS ".$data['database']);
+        $createDb = $mysqli->query("CREATE DATABASE IF NOT EXISTS ".$database);
 
         // Close the connection
         $mysqli->close();
@@ -44,12 +49,17 @@ class DbImport
     // Function to create the tables and fill them with the default data
     function createTables($data = [])
     {
+        $hostname = filterInput($data['hostname']);
+        $username = filterInput($data['username']);
+        $password = filterInput($data['password']);
+        $database = filterInput($data['database']);
+
         // Connect to the database
         @$mysqli = new \mysqli(
-            $data['hostname'],
-            $data['username'],
-            $data['password'],
-            $data['database']
+            $hostname,
+            $username,
+            $password,
+            $database
         );
 
         // Check for errors
@@ -61,19 +71,15 @@ class DbImport
 
         // Execute a multi query
         $multi_query = $mysqli->multi_query($query);
-        sleep(5);
 
         // Close the connection
         $mysqli->close();
 
          // Store Database information into session
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        $_SESSION['hostname'] = $data['hostname'];
-        $_SESSION['username'] = $data['username'];
-        $_SESSION['password'] = $data['password'];
-        $_SESSION['database'] = $data['database'];
+        $this->set_purchase_data('flag','hostname',$data['hostname']);
+        $this->set_purchase_data('flag','username',$data['username']);
+        $this->set_purchase_data('flag','password',$data['password']);
+        $this->set_purchase_data('flag','database',$data['database']);
 
         if ($multi_query){
             return true;
@@ -82,38 +88,28 @@ class DbImport
         }
     }
 
-    //filter all input data
-    public function filterInput($data = null)
-    { 
-        //if not empty posted data
-        if (!empty($data)) { 
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
-        return false;
-    }
-
     // Insert Login info
     function insert_login($data = [])
     {
 
-        $email = $this->filterInput($data['email']);
-        $password = $this->filterInput($data['password']);
+        $email = filterInput($data['email']);
+        $password = filterInput($data['password']);
+
 
         // Connect to the database
         @$mysqli = new \mysqli(
-            $_SESSION['hostname'],
-            $_SESSION['username'],
-            $_SESSION['password'],
-            $_SESSION['database']
+            $this->get_purchase_data('flag','hostname'),
+            $this->get_purchase_data('flag','username'),
+            $this->get_purchase_data('flag','password'),
+            $this->get_purchase_data('flag','database')
         );
 
         // Check for errors
         if (mysqli_connect_errno())
             return false;
 
+        $email = $mysqli->real_escape_string($email);
+        $password = $mysqli->real_escape_string($password);
         $password = md5($password);
 
         $fields_num = count($this->table_fields);
@@ -140,19 +136,72 @@ class DbImport
 
         // Make Query
         $query = "INSERT INTO `$this->table_name` (".rtrim($fields,',').") VALUES (".rtrim($values,',').")";
-     
+        
+
         // Run Query
         $insert_query = $mysqli->query($query);
+
         // Close the connection
         $mysqli->close();
 
         if ($insert_query){
-            
             return true;
         } else {
             return false;
         }
     }
+
+    function set_purchase_data($path_info = '',$key = '',$value = '') {
+        $filePath = $path_info.'/purchase_info.json';
+        $infoArray = openJsonFile($filePath);
+        if (array_key_exists($key, $infoArray)) {
+            $infoArray[$key] = $value;
+        } else {
+            $infoArray[$key] = $value;
+        }
+
+        $jsonData = json_encode($infoArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $respo = file_put_contents($filePath, stripslashes($jsonData));
+
+        return $infoArray[$key];
+    }
+
+    function get_purchase_data($path_info = '',$key = '') {
+        $filePath = $path_info.'/purchase_info.json';
+        $infoArray = openJsonFile($filePath);
+
+        if (array_key_exists($key, $infoArray)) {
+            return $infoArray[$key];
+        }
+        return false;
+    }
+
+
+    function clear_purchase_data($path_info = '') {
+        $filePath = $path_info.'/purchase_info.json';
+        $infoArray = openJsonFile($filePath);
+        
+        $infoArray = ['sl' => 1];
+        $jsonData = json_encode($infoArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $respo = file_put_contents($filePath, stripslashes($jsonData));
+        if($respo){
+            return true;
+        }
+        return false;
+    }
+
+
+    function openJsonFile($filePath)
+    {
+        @chmod($filePath,0777);
+        $jsonString = [];
+        if (file_exists($filePath)) {
+            $jsonString = file_get_contents($filePath);
+            $jsonString = json_decode($jsonString, true);
+        }
+        return $jsonString;
+    }
+
 
 }
     

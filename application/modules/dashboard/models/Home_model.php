@@ -100,15 +100,65 @@ class Home_model extends CI_Model {
 	}
 
 
-	public function loanamnt()
+	public function paidloanamnt()
 	{
-		
+		$year = date('Y');
+		$month = date('m');
 		return $this->db->select('SUM(amount) AS amount')
 			->from("grand_loan")
+			->where('YEAR(date_of_approve)',$year)
+			->where('MONTH(date_of_approve)',$month)
 			->get()
 			->row();
 	}
+
+
+public function givenloan($month){
+         $year = date('Y');
+        $data =  $this->db->select('SUM(amount) AS amount')
+            ->from("grand_loan")
+            ->where('YEAR(date_of_approve)',$year)
+            ->where('MONTH(date_of_approve)',$month)
+            ->get()
+            ->row();
+            return (!empty($data->amount)?$data->amount:0);
+}
+
+
+	public function receiveloanamnt()
+	{
+		
+		$year = date('Y');
+		$month = date('m');
+		return $this->db->select('SUM(payment) AS amount')
+			->from("loan_installment")
+			->where('YEAR(date)',$year)
+			->where('MONTH(date)',$month)
+			->get()
+			->row();
+	}
+
+    public function awarded_person($month){
+
+        $year = date('Y');
+        return $this->db->select('*')
+            ->from("award")
+            ->where('YEAR(date)',$year)
+            ->where('MONTH(date)',$month)
+            ->get()
+            ->num_rows(); 
+    }
 	
+    public function receivedloan($month=04){
+        $year = date('Y');
+        $data =  $this->db->select('SUM(payment) AS amount')
+            ->from("loan_installment")
+            ->where('YEAR(date)',$year)
+            ->where('MONTH(date)',$month)
+            ->get()
+            ->row();
+            return (!empty($data->amount)?$data->amount:0);
+    }
 
 	public function atnwork(){
 		
@@ -157,32 +207,15 @@ class Home_model extends CI_Model {
 
 	}
 
-// 	public function totaltransaction()
-// 	{
-//    $tdate=date('Y-m-d');
-// 	$this->db->select('SUM(amount) AS amount');
-//     $this->db->from('acn_account_transaction');
-//     $this->db->join('acc_account_name','acn_account_transaction.account_id = acc_account_name.account_id');
-//     $this->db->where('acc_account_name.account_type',1);
-//     $this->db->where('acn_account_transaction.tran_date',$tdate);
-//   $query = $this->db->get();
-//  return $dtaa=$query->row();
-
-// }
-
-// public function totaltransactiondeduct()
-// 	{
-//    $tdate=date('Y-m-d');
-// 	$this->db->select('SUM(amount) AS amount');
-//     $this->db->from('acn_account_transaction');
-//     $this->db->join('acc_account_name','acn_account_transaction.account_id = acc_account_name.account_id');
-//     $this->db->where('acc_account_name.account_type',0);
-//      $this->db->where('acn_account_transaction.tran_date',$tdate);
-
-//   $query = $this->db->get();
-//  return $dtaa=$query->row();
-
-// }
+	function leave_employee(){
+		$year  = date('Y-m-d');
+		$query =$this->db->select("count(employee_id) as leave_total")->from('leave_apply')->where('leave_aprv_strt_date <=',$year)->where('leave_aprv_end_date >=',$year)->get();
+		if($query->num_rows() > 0){
+			return $query->row();
+		}else{
+			return null;
+		}
+	}
 
  public function details($id)
     {
@@ -212,6 +245,143 @@ class Home_model extends CI_Model {
        $totalexpense = $totalexpense+(!empty($expense->totalamount)?$expense->totalamount:0);
        }
        return (!empty($totalexpense)?$totalexpense:0);
+    }
+
+     public function count_attent_employee()
+    {
+    	$date = date('Y-m-d');
+        $this->db->select('*');
+        $this->db->from('attendance_history');
+        $this->db->where('DATE(time)',$date);
+        $this->db->group_by('uid');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return 0;
+    }
+
+    public function count_male_employee()
+    {
+        $this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->where('gender',1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return false;
+    }
+
+     public function count_female_employee()
+    {
+        $this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->where('gender',2);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return false;
+    }
+
+    public function last_thirtydays_attendance(){
+    	$startdate  = date('Y-m-d', strtotime('-30 days'));
+        $currentdate = date('Y-m-d');
+    	$this->db->select('DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->where('DATE(time) >=',$startdate);
+        $this->db->where('DATE(time) <=',$currentdate);
+        $this->db->group_by('mydate');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result_array();  
+        }
+        return false;
+    }
+
+    public function count_30daysattendance($date){
+    	$this->db->select('*');
+        $this->db->from('attendance_history');
+        $this->db->where('DATE(time)',$date);
+        $this->db->group_by('uid');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return false;
+    }
+
+    public function last_15days_absent(){
+    	$startdate  = date('Y-m-d', strtotime('-15 days'));
+        $currentdate = date('Y-m-d');
+    	$this->db->select('DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->where('DATE(time) >=',$startdate);
+        $this->db->where('DATE(time) <=',$currentdate);
+        $this->db->group_by('mydate');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result_array();  
+        }
+        return false;
+    }
+
+    public function count_15daysabsent($date){
+    	$this->db->select('*');
+        $this->db->from('attendance_history');
+        $this->db->where('DATE(time)',$date);
+        $this->db->group_by('uid');
+        $present = $this->db->get()->num_rows();
+
+        $leave =$this->db->select("count(employee_id) as leave_total")->from('leave_apply')->where('leave_aprv_strt_date <=',$date)->where('leave_aprv_end_date >=',$date)->get()->num_rows();
+
+        $this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->group_by('employee_id');
+        $totalemployee = $this->db->get()->num_rows();
+
+        $absent = (!empty( $totalemployee)?$totalemployee:0) - ((!empty($present)?$present:0) + (!empty($leave)?$leave:0));
+        return $absent;
+    }
+
+    public function hired_employee_current_year($month){
+        $year = date('Y');
+    	$this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->where('YEAR(hire_date)',$year);
+        $this->db->where('MONTH(hire_date)',$month);
+        $this->db->group_by('employee_id');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return 0;
+
+    }
+
+    public function notice_list(){
+        $this->db->select('*');
+        $this->db->from('notice_board');
+        $this->db->order_by('notice_id','desc');
+        $this->db->limit(10);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result_array();  
+        }
+        return false;
+    }
+
+     public function latest_recuited_employee(){
+        $this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->order_by('emp_his_id','desc');
+        $this->db->limit(10);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result_array();  
+        }
+        return false;
     }
 
 }

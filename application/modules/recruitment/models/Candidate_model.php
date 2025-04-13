@@ -26,6 +26,17 @@ class Candidate_model extends CI_Model {
 
 	public function delete_cinfo($id = null)
 	{
+		
+		$this->db->where('can_id',$id)
+			->delete('candidate_education_info');
+		$this->db->where('can_id',$id)
+			->delete('candidate_workexperience');
+		$this->db->where('can_id',$id)
+			->delete('candidate_shortlist');
+		$this->db->where('can_id',$id)
+			->delete('candidate_interview');
+		$this->db->where('can_id',$id)
+			->delete('candidate_selection');
 		$this->db->where('can_id',$id)
 			->delete('candidate_basic_info');
 
@@ -137,7 +148,7 @@ public function viewExperience()
 public function canworkexp_create($data = array())
 	{
 		return $this->db->insert('candidate_workexperience', $data);
-	}//
+	}
 	public function update_workexperience($data = array())
 	{
 		return $this->db->where('can_id', $data["can_id"])
@@ -186,7 +197,6 @@ function retrieve_all_data()
 		return $this->db->select('degree_name,university_name,cgp')	
 			->from('candidate_education_info')
 			->where('can_id',$id)
-			// ->order_by('can_workexp_id', 'desc')
 			->get()
 			->result();
 	}
@@ -195,7 +205,6 @@ function retrieve_all_data()
 		return $this->db->select('*')	
 			->from('candidate_workexperience')
 			->where('can_id',$id)
-			// ->order_by('can_workexp_id', 'desc')
 			->get()
 			->result();
 	}

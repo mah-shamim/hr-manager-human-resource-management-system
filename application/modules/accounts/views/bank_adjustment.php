@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
               
-                         <?= form_open_multipart('accounts/accounts/create_bank_adjustment') ?>
+                         <?php echo  form_open_multipart('accounts/accounts/create_bank_adjustment') ?>
                      <div class="form-group row">
                         <label for="vo_no" class="col-sm-2 col-form-label"><?php echo display('voucher_no')?></label>
                         <div class="col-sm-4">
@@ -30,7 +30,7 @@
                         </div>
                     </div> 
                     <div class="form-group row">
-                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('adjustment_type')?></label>
+                        <label for="type" class="col-sm-2 col-form-label"><?php echo display('adjustment_type')?> *</label>
                         <div class="col-sm-4">
                          <select name="type" class="form-control">
                           <option value=""><?php echo display('adjustment_type')?></option>
@@ -46,7 +46,7 @@
                         </div>
                     </div> 
                      <div class="form-group row">
-                        <label for="bank_name" class="col-sm-2 col-form-label"><?php echo display('bank_name')?></label>
+                        <label for="bank_name" class="col-sm-2 col-form-label"><?php echo display('bank_name')?> *</label>
                         <div class="col-sm-4">
                            <select name="bank_name" class="form-control">
                                            <option value=""></option>
@@ -57,7 +57,7 @@
                         </div>
                     </div> 
                      <div class="form-group row">
-                        <label for="amount" class="col-sm-2 col-form-label"><?php echo display('amount')?></label>
+                        <label for="amount" class="col-sm-2 col-form-label"><?php echo display('amount')?> *</label>
                         <div class="col-sm-4">
                              <input type="number" name="txtAmount" value="" class="form-control total_price text-right"  id="txtAmount_1" required>
                         </div>

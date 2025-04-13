@@ -104,6 +104,7 @@ class Permission
 			return $this->permission;
 		} else {
 			$this->ci->session->set_flashdata('exception', "You do not have permission to access. Please contact with administrator.");
+			$this->ci->session->set_userdata('permission_exception', true);
 			redirect($this->redirect);
 		}
 	}

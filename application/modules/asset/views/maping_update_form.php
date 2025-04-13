@@ -43,16 +43,17 @@
 
                                         </td>
                                         <td> <input type="text" name="dates[]" class="form-control datepicker" value="<?php echo $map->issue_date;?>"></td>
-                                        <td> <button style="text-align: right;" class="btn btn-danger red" type="button" value="<?php echo display("delete")?>" onclick="deleteRow(this)"><i class="fa fa-close"></i></button> <input type="button"name="sdfsd" id="add_invoice_item" class="btn btn-info"  onclick="assignasset('equipmnet_info');" value="add"  />
+                                        <td> <button class="btn btn-danger red" type="button" value="<?php echo display("delete")?>" onclick="deleteRow(this)"><i class="fa fa-close"></i></button> <input type="button"name="sdfsd" id="add_invoice_item" class="btn btn-info"  onclick="assignasset('equipmnet_info');" value="add"  />
                                         </td>
                                     </tr>
                                 <?php $sl++;} ?>
                                 </tbody>
                             </table>
+                             <input type="hidden" name="" id="base_url" value="<?php echo base_url();?>">
                         </div>
                     </div> 
                      
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                     </div>
@@ -62,89 +63,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
- $(".datepicker").datepicker({
-        dateFormat: "yy-mm-dd"
-    }); 
-});
- 
-///###############
-  var count = $('#equipment_table tr').length;
-    var limits = 500;
 
-    function assignasset(divName){
-  
-        if (count == limits)  {
-            alert("<?php echo display('you_have_reached_the_limit_of_adding')?> " + count + "<?php echo display('inputs')?> ");
-        }
-        else{
-            var newdiv = document.createElement('tr');
-            var tabin="equipment_id_"+count;
-             newdiv = document.createElement("tr");
-             newdiv.innerHTML ='<td> <input type="text" name="equipment[]" class="form-control equipment" required="" onkeypress="asset_autocomplete('+ count +');" id="equipment_id_'+count+'"/><input type="hidden" class="autocomplete_hidden_value" name="equipment_id[]" id="Hiddenid"/><input type="hidden" class="sl" value="'+ count +'"></td><td>  <input type="text" name="dates[]" class="form-control datepicker" value="<?php echo date('m-d-Y')?>"></td><td> <button style="text-align: right;" class="btn btn-danger red" type="button" value="<?php echo display("delete")?>" onclick="deleteRow(this)"><i class="fa fa-close"></id></button></td>';
-             document.getElementById(divName).appendChild(newdiv);
-             document.getElementById(tabin).focus();
-            count++;
-            $(".datepicker").datepicker({
-        dateFormat: "yy-mm-dd"
-    });
-        }
-    }
+<script src="<?php echo base_url('assets/js/companyassets.js') ?>" type="text/javascript"></script>
 
 
-//##########
-      function deleteRow(e) {
-        var t = $("#equipment_table > tbody > tr").length;
-        if (1 == t) alert("There only one row you can't delete.");
-        else {
-            var a = e.parentNode.parentNode;
-            a.parentNode.removeChild(a)
-        }
-    }
-</script>
-<script type="text/javascript">
-  function asset_autocomplete(sl) {
-
-    // Auto complete
-    var options = {
-        minLength: 0,
-        source: function( request, response ) {
-            var equipment = $('#equipment_id_'+sl).val();
-            var csrf_test_name = $('[name="csrf_test_name"]').val();
-        $.ajax( {
-          url: "<?php echo site_url('asset/Equipment_maping/asset_search')?>",
-          method: 'post',
-          dataType: "json",
-           type: "POST",
-          data: {
-            term: request.term,
-            equipment:equipment,
-            csrf_test_name: csrf_test_name
-          },
-          success: function( data ) {
-            response(data);
-          }
-        });
-      },
-       focus: function( event, ui ) {
-           $(this).val(ui.item.label);
-           return false;
-       },
-            select: function( event, ui ) {
-            $(this).parent().parent().find(".autocomplete_hidden_value").val(ui.item.value); 
-            
-            var sl = $(this).parent().parent().find(".sl").val(); 
-
-            $(this).unbind("change");
-            return false;
-       }
-   }
-    
-   $('body').on('keydown.autocomplete', '.equipment', function() {
-       $(this).autocomplete(options);
-   });
-
-}
-
-</script>

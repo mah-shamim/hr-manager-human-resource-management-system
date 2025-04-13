@@ -5,7 +5,7 @@
         <div class="panel panel-default thumbnail"> 
 
             <div class="panel-body">
-             <div class="form-group text-center" style="color:#191970; font-size: 50px; font-weight: bold; font-family: Stencil Std, fantasy; font-variant: small-caps">
+             <div class="form-group text-center">
        
        Loan Details
       

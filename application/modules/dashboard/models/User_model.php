@@ -60,23 +60,29 @@ class User_model extends CI_Model {
 		}
 	}
  
-public function employee(){
-	$data = $this->db->select("employee_id, CONCAT_WS(' ', first_name, last_name) AS fullname")
-			->from("employee_history")
-			->get()
-			->result();
-		$list[''] = display('select_option');
-		if (!empty($data)) {
-			foreach($data as $value)
-				$list[$value->employee_id] = $value->fullname;
-			return $list;
-		} else {
-			return false; 
-		}
-}
-// employee info
-public function empinfo($email){
-return $result = $this->db->select('first_name,last_name,employee_id')->from('employee_history')->where('email',$email)->get()->row();
-}
+    public function employee(){
+    	$data = $this->db->select("employee_id, CONCAT_WS(' ', first_name, last_name) AS fullname")
+    			->from("employee_history")
+    			->where('employee_status',1)
+    			->get()
+    			->result();
+    		$list[''] = display('select_option');
+    		if (!empty($data)) {
+    			foreach($data as $value)
+    				$list[$value->employee_id] = $value->fullname;
+    			return $list;
+    		} else {
+    			return false; 
+    		}
+    }
+    // employee info
+    public function empinfo($email){
+    return $result = $this->db->select('first_name,last_name,employee_id')->from('employee_history')->where('email',$email)->get()->row();
+    }
+    
+    // user info
+    public function userinfo($email){
+    	return $result = $this->db->select('firstname,lastname,id,email')->from('user')->where('email',$email)->get()->row();
+    }
 
 }

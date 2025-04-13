@@ -1,4 +1,4 @@
-"use strict"; // Start of use strict
+
 //Make sure jQuery has been loaded before frame.js
 if (typeof jQuery === "undefined") {
     throw new Error("AdminBD requires jQuery");
@@ -294,7 +294,7 @@ function _init() {
                 }
             });
 
-            $(".content-wrapper").on('click', function () {
+            $(".content-wrapper").click(function () {
                 //Enable hide menu when clicking on the content-wrapper on small screens
                 if ($(window).width() <= (screenSizes.sm - 1) && $("body").hasClass("sidebar-open")) {
                     $("body").removeClass('sidebar-open');
@@ -312,7 +312,7 @@ function _init() {
             var _this = this;
             var screenWidth = $.AdminBD.options.screenSizes.sm - 1;
             //Expand sidebar on hover
-            $('.main-sidebar').on('hover', function () {
+            $('.main-sidebar').hover(function () {
                 if ($('body').hasClass('sidebar-mini')
                         && $("body").hasClass('sidebar-collapse')
                         && $(window).width() > screenWidth) {

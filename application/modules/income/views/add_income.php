@@ -1,21 +1,15 @@
-  <style type="text/css">
-div.dataTables_wrapper div.dataTables_filter input {
-    margin-left: 0.5em;
-    display: inline-block;
-    width: 100px;
-}
-</style> 
+
   <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel">
+            <div class="panel panel-bd">
                 <div class="panel-heading">
                     <div class="panel-title">
-                       
+                       <h4><?php echo display('income_field') ?> </h4>
                     </div>
                 </div>
                 <div class="panel-body">
                  <div class="col-sm-6 col-md-6">
-                    <?= form_open('income/Income/income_item'); ?>
+                    <?php echo  form_open('income/Income/income_item'); ?>
                    <?php echo form_hidden('id', (!empty($incomeinfo->id)?$incomeinfo->id:null)) ?>
                        <div class="form-group row">
                            
@@ -30,7 +24,7 @@ div.dataTables_wrapper div.dataTables_filter input {
                         </div>
                              
                         
-                        <div class="form-group text-center">
+                        <div class="form-group form-group-margin text-center">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo (!empty($incomeinfo->income_field)?display('update'):display('save')) ?></button>
                         </div>
@@ -73,16 +67,3 @@ div.dataTables_wrapper div.dataTables_filter input {
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    $(document).ready(function () {
-        $('#datatable1').DataTable({ 
-        responsive: true, 
-        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp", 
-        "lengthMenu": [[ 25, 50, 100, 150, 200, 500, -1], [ 25, 50, 100, 150, 200, 500, "All"]], 
-        buttons: [   
-            {extend: 'pdf', title: 'income Item List', className: 'btn-sm'}, 
-            {extend: 'print', className: 'btn-sm'} 
-        ] 
-    });
-          });
-</script>

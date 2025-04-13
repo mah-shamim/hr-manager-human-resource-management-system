@@ -1,21 +1,11 @@
-<script type="text/javascript">
-function printDiv() {
-    var divName = "printArea";
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    // document.body.style.marginTop="-45px";
-    window.print();
-    document.body.innerHTML = originalContents;
-}
-</script>
+
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
         <div class="panel panel-default thumbnail"> 
             <div class="panel-body">
-                 <div class="text-right" id="print" style="margin: 20px">
+                 <div class="text-right" id="print">
                <button type="button" class="btn btn-warning" id="btnPrint" onclick="printDiv();"><i class="fa fa-print"></i></button>
                 
             </div>
@@ -43,7 +33,7 @@ $att_in = $this->db->select('a.*,b.first_name,b.last_name')
 ->join('employee_history b','a.uid = b.employee_id','left')
 ->like('a.time',date( "Y-m-d", strtotime($attendance->mydate)),'after')
 ->where('a.uid',$id)
-->order_by('a.atten_his_id','ASC')
+->order_by('a.time','ASC')
 ->get()
 ->result();
             $idx=1;
@@ -81,10 +71,10 @@ $att_in = $this->db->select('a.*,b.first_name,b.last_name')
         $result_out = array_values($out_data);
         $total = [];
         $count_out = count($result_out);
-        if($count_out == 2){
-        $n_out = $count_out;
+        if($count_out >= 2){
+        $n_out = $count_out-1;
         }else{
-         $n_out = $count_out-1;   
+         $n_out = 0;   
         }
         for($i=0;$i < $n_out; $i++) {
 
@@ -94,8 +84,6 @@ $att_in = $this->db->select('a.*,b.first_name,b.last_name')
 
             $total[$i] =  $interval->format('%h:%i:%s');
         }
-        // echo '<pre>';
-        // print_r($total);
      $hou = 0;
      $min = 0;
      $sec = 0;
@@ -125,7 +113,7 @@ $att_in = $this->db->select('a.*,b.first_name,b.last_name')
         </table>
     <?php } ?>
     </div>
-           <?= $links ?> 
+           <?php echo  $links ?> 
             </div>
 
         </div>

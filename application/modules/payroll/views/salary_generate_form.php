@@ -1,12 +1,21 @@
 
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel">
+            <div class="panel panel-bd">
+
+                <div class="panel-heading">
+                  <div class="panel-title">
+                      <h4>
+                        <?php echo display('selectionlist')?>
+                      </h4>
+                  </div>
+                </div>
                 
                 <div class="panel-body">
                 <div class="col-sm-5 col-md-5">
                    
-                    <form id="salary_form" action="<?php echo base_url('payroll/Payroll/create_salary_generate')?>" method="post">
+                   
+                        <?php echo form_open('payroll/Payroll/create_salary_generate','id="salary_form"')?>
                     
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label"><?php echo display('salar_month') ?></label>
@@ -21,7 +30,7 @@
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('generate') ?></button>
                         </div>
-              </form>
+          <?php echo form_close();?>
           </div>
           <div class="col-sm-7 col-md-7">
                   <table width="100%" class="table table-striped table-bordered table-hover">
@@ -56,7 +65,7 @@
                         <?php } ?> 
                     </tbody>
                 </table>  <!-- /.table-responsive -->
-                <?= $links ?> 
+                <?php echo  $links ?> 
           </div>
 
                 </div>  
@@ -65,23 +74,6 @@
 
         
     </div>
+    <script src="<?php echo base_url('assets/js/payroll.js') ?>" type="text/javascript"></script>
              
-<script type="text/javascript">
-    $(function() {
-    $('.monthYearPicker').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        dateFormat: 'MM yy'
-    }).focus(function() {
-        var thisCalendar = $(this);
-        $('.ui-datepicker-calendar').detach();
-        $('.ui-datepicker-close').click(function() {
-var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-thisCalendar.datepicker('setDate', new Date(year, month, 1));
-        });
-    });
-});
-</script>
  

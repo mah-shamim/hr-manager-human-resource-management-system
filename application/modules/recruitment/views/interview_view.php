@@ -2,7 +2,15 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('manage_interview')?>
+                  </h4>
+              </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -13,14 +21,11 @@
                             <th><?php echo display('can_id') ?></th>
                             <th><?php echo display('job_adv_id') ?></th>
                             <th><?php echo display('interview_date') ?></th>
-                            <th><?php echo display('interviewer_id') ?></th>
-                            <th><?php echo display('interview_marks') ?></th>
                             <th><?php echo display('written_total_marks') ?></th>
                             <th><?php echo display('mcq_total_marks') ?></th>
                              <th><?php echo display('total_marks') ?></th>
-                            <th><?php echo display('recommandation') ?></th>
                             <th><?php echo display('selection') ?></th>
-                            <th><?php echo display('details') ?></th>
+                          
                            <th><?php echo display('action') ?></th>
                         </tr>
                     </thead>
@@ -34,14 +39,11 @@
                                     <td><?php echo $que->can_id; ?></td>
                                     <td><?php echo $que->position_name; ?></td>
                                     <td><?php echo $que->interview_date; ?></td>
-                                    <td><?php echo $que->interviewer_id; ?></td>
-                                    <td><?php echo $que->interview_marks; ?></td>
                                     <td><?php echo $que->written_total_marks; ?></td>
                                     <td><?php echo $que->mcq_total_marks; ?></td>
                                      <td><?php echo $que->total_marks; ?></td>
-                                    <td><?php echo $que->recommandation; ?></td>
                                     <td><?php echo $que->selection; ?></td>
-                                     <td><?php echo $que->details; ?></td>
+                                    
                                     
                                     <td class="center">
                                      <?php if($this->permission->method('recruitment','update')->access()): ?> 

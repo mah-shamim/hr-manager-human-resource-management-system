@@ -42,19 +42,19 @@ class Module_permission extends MX_Controller {
 		$this->form_validation->set_rules('fk_user_id', display('username'),'required|numeric|max_length[11]|is_unique[module_permission.fk_user_id]');
 		/*-----------------------------------*/
 		$data['module_permission'] = (object)array(
-			'fk_user_id' => $this->input->post('fk_user_id'),
+			'fk_user_id' => $this->input->post('fk_user_id',true),
 		);
 		/*-----------------------------------*/ 
-		$fk_module_id  = $this->input->post('fk_module_id'); 
-		$create  	   = $this->input->post('create');
-		$read  		   = $this->input->post('read');
-		$update  	   = $this->input->post('update');
-		$delete  	   = $this->input->post('delete');
+		$fk_module_id  = $this->input->post('fk_module_id',true); 
+		$create  	   = $this->input->post('create',true);
+		$read  		   = $this->input->post('read',true);
+		$update  	   = $this->input->post('update',true);
+		$delete  	   = $this->input->post('delete',true);
  
 		for($i=0; $i < sizeof($fk_module_id); $i++) {
 			for($j=0; $j < sizeof($fk_module_id[$i]); $j++ ) { 
 				$dataStore[$i] = array(
-					'fk_user_id'   => $this->input->post('fk_user_id'),
+					'fk_user_id'   => $this->input->post('fk_user_id',true),
 					'fk_module_id' => $fk_module_id[$i][$j], 
 					'create'       => (!empty($create[$i][$j])?$create[$i][$j]:0), 
 					'read'         => (!empty($read[$i][$j])?$read[$i][$j]:0), 
@@ -92,19 +92,19 @@ class Module_permission extends MX_Controller {
 		$this->form_validation->set_rules('fk_user_id', display('username'),'required|numeric|max_length[11]');
 		/*-----------------------------------*/
 		$data['module_permission'] = (object)array(
-			'fk_user_id' => $this->input->post('fk_user_id'),
+			'fk_user_id' => $this->input->post('fk_user_id',true),
 		);
 		/*-----------------------------------*/ 
-		$fk_module_id  = $this->input->post('fk_module_id'); 
-		$create  	   = $this->input->post('create');
-		$read  		   = $this->input->post('read');
-		$update  	   = $this->input->post('update');
-		$delete  	   = $this->input->post('delete');
+		$fk_module_id  = $this->input->post('fk_module_id',true); 
+		$create  	   = $this->input->post('create',true);
+		$read  		   = $this->input->post('read',true);
+		$update  	   = $this->input->post('update',true);
+		$delete  	   = $this->input->post('delete',true);
  
 		for($i=0; $i < sizeof($fk_module_id); $i++) {
 			for($j=0; $j < sizeof($fk_module_id[$i]); $j++ ) { 
 				$dataStore[$i] = array(
-					'fk_user_id'   => $this->input->post('fk_user_id'),
+					'fk_user_id'   => $this->input->post('fk_user_id',true),
 					'fk_module_id' => $fk_module_id[$i][$j], 
 					'create'       => (!empty($create[$i][$j])?$create[$i][$j]:0), 
 					'read'         => (!empty($read[$i][$j])?$read[$i][$j]:0), 

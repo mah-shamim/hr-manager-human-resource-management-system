@@ -76,7 +76,7 @@
                             if ((isset($label['controller']) && $label['controller']!=null) && ($label['method']!=null)) {
 
                                if($this->permission->check_label($groupLabel)->access()){
-                                //if ($this->permission->method($moduleName,$label['permission'])->access()) {  
+                                
                 
                             ?> 
                                 <!-- single level menu/link -->
@@ -108,7 +108,7 @@
                                         foreach ($label as $name => $value) {
 
                                             if($this->permission->check_label($name)->access()){
-                                            // if ($this->permission->method($moduleName,$value['permission'])->access()) {  
+                                           
                                             ?>
                                             <li class="<?php echo (($this->uri->segment(3)==$value['method'])?"active":null) ?>"><a href="<?php echo base_url($moduleName."/".$value['controller']."/".$value['method']) ?>"><?php echo display($name) ?></a></li>
                                             <?php 
@@ -137,18 +137,19 @@
 
         <?php if($this->session->userdata('isAdmin')) { ?>
   
-        <!-- <li class="treeview <?php echo (($this->uri->segment(2)=="module")?"active":null) ?>">
-            <a href="#">
-                <i class="pe-7s-box2"></i><span><?php echo display('module')?></span>
+        <?php if($this->session->userdata('isLogIn')): ?>
+        <li class="treeview <?php echo (($this->uri->segment(2)=="rules")?"active":null) ?>">
+            <a href="#"><i class="pe-7s-mail"></i>
+               <span><?php echo display('setup_rules')?></span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="<?php echo base_url('dashboard/module/install') ?>"><?php echo display('add_module')?></a></li>
-                <li><a href="<?php echo base_url('dashboard/module/index') ?>"><?php echo display('module_list')?></a></li> 
+                <li><a href="<?php echo base_url('dashboard/rules/index') ?>"><?php echo display('rules')?></a></li>
             </ul>
-        </li> -->
+        </li>       
+        <?php endif; ?>
 
          <li class="treeview <?php echo (($this->uri->segment(1)=="tax" || $this->uri->segment(2)=="user" ||  $this->uri->segment(2)=="language" || $this->uri->segment(2)=="backup_restore" || $this->uri->segment(2)=="role" || $this->uri->segment(2)=="setting" || $this->uri->segment(2)=="message" || $this->uri->segment(2)=="permission_setup")?"active":null) ?>">
             <a href="#">
@@ -159,61 +160,75 @@
                 </span>
             </a>
             <ul class="treeview-menu">
-            <li class="treeview <?php echo (($this->uri->segment(2)=="user")?"active":null) ?>">
-            <a href="#">
-                <span><?php echo display('user')?></span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="<?php echo base_url('dashboard/user/form') ?>"><?php echo display('add_user')?></a></li>
-                <li><a href="<?php echo base_url('dashboard/user/index') ?>"><?php echo display('user_list')?></a></li> 
-            </ul>
-        </li>
+                <li class="treeview <?php echo (($this->uri->segment(2)=="user")?"active":null) ?>">
+                    <a href="#">
+                        <span><?php echo display('user')?></span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?php echo base_url('dashboard/user/form') ?>"><?php echo display('add_user')?></a></li>
+                        <li><a href="<?php echo base_url('dashboard/user/index') ?>"><?php echo display('user_list')?></a></li> 
+                    </ul>
+                </li>
+        
+                <li class="treeview <?php echo (($this->uri->segment(2)=="role" ||$this->uri->segment(2)=="module_permission")?"active":null) ?>">
+                    <a href="#">
+
+                        <span><?php echo display('role_permission')?></span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <?php  if($this->session->userdata['isAdmin'] && $this->session->userdata['id'] == 1){ ?>
+                            <li><a href="<?php echo base_url('dashboard/permission_setup') ?>"><?php echo display('permission_setup')?></a></li>
+                        <?php  } ?>
+                        <li><a href="<?php echo base_url('dashboard/role/create_system_role') ?>"><?php echo display('add_role')?></a></li>
+                          <li><a href="<?php echo base_url('dashboard/role/role_list') ?>"><?php echo display('role_list')?></a></li>
+                          <li><a href="<?php echo base_url('dashboard/role/user_access_role') ?>"><?php echo display('user_access_role')?></a></li>
+                       
+                    </ul>
+                </li>
+
+                 
+
+                <li class="treeview <?php echo (($this->uri->segment(2)=="setting")?"active":null) ?>">
+                    <a href="<?php echo base_url('dashboard/setting') ?>"> <span><?php echo display('application_setting')?></span> 
+                    </a>
+                </li>
+
+                <li class="treeview <?php echo (($this->uri->segment(2)=="appsetting")?"active":null) ?>">
+                    <a href="<?php echo base_url('dashboard/appsetting') ?>"> <span><?php echo display('mobile_app_setting')?></span> 
+                    </a>
+                </li>
+
+                <li class="treeview <?php echo (($this->uri->segment(2)=="language")?"active":null) ?>">
+                    <a href="<?php echo base_url('dashboard/language') ?>"> <span><?php echo display('language')?></span> 
+                    </a>
+                </li>
+
+                <li class="treeview <?php echo (($this->uri->segment(2)=="Tax")?"active":null) ?>">
+                    <a href="<?php echo base_url('tax/Tax/tax_setup') ?>"> <span><?php echo display('tax')?></span> 
+                    </a>
+                </li>
+
+                <li class="treeview <?php echo (($this->uri->segment(2)=="backup_restore")?"active":null) ?>">
+                    <a href="<?php echo base_url('dashboard/backup_restore/index') ?>"> <span><?php echo display('backup_and_restore') ?></span> 
+                    </a>
+                </li>
     
-              <li class="treeview <?php echo (($this->uri->segment(2)=="role" ||$this->uri->segment(2)=="module_permission")?"active":null) ?>">
-            <a href="#">
-
-                <span><?php echo display('role_permission')?></span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="<?php echo base_url('dashboard/permission_setup') ?>"><?php echo display('permission_setup')?></a></li> 
-                <li><a href="<?php echo base_url('dashboard/role/create_system_role') ?>"><?php echo display('add_role')?></a></li>
-                  <li><a href="<?php echo base_url('dashboard/role/role_list') ?>"><?php echo display('role_list')?></a></li>
-                  <li><a href="<?php echo base_url('dashboard/role/user_access_role') ?>"><?php echo display('user_access_role')?></a></li>
-               <!--  <li><a href="<?php echo base_url('dashboard/module_permission/create') ?>"><?php echo display('add_module_permission')?></a></li>
-                <li><a href="<?php echo base_url('dashboard/module_permission/index') ?>"><?php echo display('module_permission_list')?></a></li>  -->
             </ul>
-        </li>
-
-             
-
-            <li class="treeview <?php echo (($this->uri->segment(2)=="setting")?"active":null) ?>">
-            <a href="<?php echo base_url('dashboard/setting') ?>"> <span><?php echo display('application_setting')?></span> 
-            </a>
-        </li>
-         <li class="treeview <?php echo (($this->uri->segment(2)=="language")?"active":null) ?>">
-            <a href="<?php echo base_url('dashboard/language') ?>"> <span><?php echo display('language')?></span> 
-            </a>
-        </li>
-          <li class="treeview <?php echo (($this->uri->segment(2)=="Tax")?"active":null) ?>">
-            <a href="<?php echo base_url('tax/Tax/create_tax_setup') ?>"> <span><?php echo display('tax')?></span> 
-            </a>
-        </li>
-
-               <li class="treeview <?php echo (($this->uri->segment(2)=="backup_restore")?"active":null) ?>">
-            <a href="<?php echo base_url('dashboard/backup_restore/index') ?>"> <span><?php echo display('backup_and_restore') ?></span> 
-            </a>
-        </li>
 
 
-          <?php if($this->session->userdata('isLogIn')): ?>
+
+        <?php } ?>
+        <!-- ends of admin area -->
+
+       <?php if($this->session->userdata('isLogIn')): ?>
         <li class="treeview <?php echo (($this->uri->segment(2)=="message")?"active":null) ?>">
-            <a href="#">
+            <a href="#"><i class="pe-7s-mail"></i>
                <span><?php echo display('message')?></span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
@@ -226,23 +241,28 @@
             </ul>
         </li>       
         <?php endif; ?>
-         </ul>
 
+        <?php if($this->session->userdata('isAdmin')): ?>
+        <li class="treeview <?php if ($this->uri->segment(2) == ("module")){
+                echo "active";
+            } else {
+                echo " ";
+            }?>"><a href="<?php echo base_url('addon/module') ?>"><i class="fa fa-adn" aria-hidden="true"></i> <span><?php echo display('addon') ?></span> 
+            </a>
+        </li>
+        <li class="treeview <?php if ($this->uri->segment('1') == ("autoupdate")){
+                echo "active";
+            } else {
+                echo " ";
+            }?>"><a href="<?php echo base_url('autoupdate/Autoupdate')?>"><i class="fa fa-cloud-download" aria-hidden="true"></i> <span><?php echo display('update_now'); ?></span>
+            </a>
+        </li>
+        <?php endif; ?>
 
         </li>
-
-        <?php } ?>
-        <!-- ends of admin area -->
-
-
 
       
        <?php } ?>
   
     </ul> 
 </div> <!-- /.sidebar -->
-      <script type="text/javascript">
-    $(document).ready(function () {
-        $("form :input").attr("autocomplete", "off");
-    })
-</script>

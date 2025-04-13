@@ -4,7 +4,7 @@
         <div class="panel panel-bd">
          
             <div class="panel-body">
-               <?= form_open('attendance/Home/update_atn_form/'. $data->att_id) ?>
+               <?php echo  form_open('attendance/Home/update_atn_form/'. $data->att_id) ?>
 
                <input name="att_id" type="hidden" value="<?php echo $data->att_id ?>">
                
@@ -54,7 +54,7 @@
                     
                 </div>
             </div>
-            <center style="font-size: 100px;color: green"><i class="fa fa-clock-o" aria-hidden="true"></i></center>
+            <center><i class="fa fa-clock-o" aria-hidden="true"></i></center>
             
             <div class="form-group text-center">
                 <a href="<?php echo base_url('attendance/Home/index') ?>" class="btn btn-danger">

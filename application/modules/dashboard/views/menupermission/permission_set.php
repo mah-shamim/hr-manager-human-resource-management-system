@@ -3,7 +3,7 @@
         <div class="panel panel-bd ">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <a href="<?php echo base_url()?>dashboard/Permission_setup/menu_item_list" class="btn btn-sm btn-success pull-right " style="color:#fff"> <?php echo display('menu_item_list')?></a>
+                    <a href="<?php echo base_url()?>dashboard/Permission_setup/menu_item_list" class="btn btn-sm btn-success pull-right text-white"> <?php echo display('menu_item_list')?></a>
                     <h4><?php echo display('ins_menu_for_application')?></h4>
                 </div>
             </div>
@@ -47,18 +47,9 @@
                         </div>
                     </div>
 
-                    <!-- <div class="form-group row">
-                        <label for="status" class="col-sm-3 col-form-label">Status *</label>
-                        <div class="col-sm-9">
-                            
-                            <label class="radio-inline">
-                                <input type="checkbox" name="is_report"> Is Report
-                            </label> 
-                        </div>
-                    </div> -->
+                  
 
-
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
                     </div>

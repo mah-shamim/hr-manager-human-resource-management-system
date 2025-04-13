@@ -27,7 +27,7 @@ class Backup_restore extends MX_Controller {
 
 	public function process()
 	{
-		$input  = $this->input->post('input'); 
+		$input  = $this->input->post('input',true); 
 		if ($input==1) {
 			if ($this->backup()) {
 				$data['success'] = display('backup_successfully');

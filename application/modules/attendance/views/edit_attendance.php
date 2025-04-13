@@ -7,7 +7,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                 <?= form_open('attendance/Home/update_atn_form/'. $data->att_id) ?>
+                 <?php echo  form_open('attendance/Home/update_atn_form/'. $data->att_id) ?>
 
 <input name="att_id" type="hidden" value="<?php echo $data->att_id ?>">
 

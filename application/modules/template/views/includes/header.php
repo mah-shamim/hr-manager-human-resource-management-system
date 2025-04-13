@@ -10,6 +10,7 @@
         <span class="sr-only">Toggle navigation</span>
         <span class="pe-7s-keypad"></span>
     </a>
+    <div class=" col-sm-4 fyear"> Active Financial Year: <?php echo $this->session->userdata('fyearName');?></div>
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
             <!-- Messages -->

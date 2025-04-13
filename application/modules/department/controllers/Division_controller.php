@@ -67,7 +67,7 @@ public function division_form($id = null)
   #-------------------------------#
    $data['division']   = (Object) $postData = [
    'dept_id'          => $this->input->post('dept_id'), 
-   'department_name'    => $this->input->post('division_name'),
+   'department_name'  => $this->input->post('division_name',true),
    'parent_id'        => $this->input->post('parent_id')
    
   ];

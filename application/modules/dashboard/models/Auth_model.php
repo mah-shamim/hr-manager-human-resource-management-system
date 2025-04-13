@@ -103,7 +103,19 @@ public function userPermission2($id = null)
 		}
 	}
 
-
+// Check financial year
+	public function checkfinancialyear() {
+		$fyear = $this->db->select("*")
+            ->from('financial_year')            
+            ->where('status', 1) 
+            ->limit(1)            
+            ->order_by('id', 'DESC')            
+            ->get();
+            if ($fyear->num_rows() > 0) {
+            return $fyear->row();  
+        }
+        return false;
+	}
 
 
 	public function userPermission($id = null)
@@ -129,32 +141,6 @@ public function userPermission2($id = null)
 			->get()
 			->result();
 	}
-
-
-	// public function userPermission1($role_id = null)
-	// {
-	// 	return $this->db->select("
-	// 		module.directory, 
-	// 		user_role_access_tbl.fk_module_id, 
-	// 		user_role_access_tbl.create_permission, 
-	// 		user_role_access_tbl.view_permission, 
-	// 		user_role_access_tbl.update_permission, 
-	// 		user_role_access_tbl.delete_permission
-	// 		")
-	// 		->from('user_role_access_tbl')
-	// 		->join('module', 'module.id = user_role_access_tbl.fk_module_id', 'full')
-	// 		->where('user_role_access_tbl.fk_role_id', $role_id)
-	// 		->where('module.status', 1)
-	// 		->group_start()
-	// 			->where('create_permission', 1)
-	// 			->or_where('view_permission', 1)
-	// 			->or_where('update_permission', 1)
-	// 			->or_where('delete_permission', 1)
-	// 		->group_end()
-	// 		->get()
-	// 		->result();
-	// }
-
 
 
 	public function last_login($id = null)

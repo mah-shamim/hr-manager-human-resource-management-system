@@ -56,6 +56,7 @@
                             <img src="<?php echo base_url(!empty($user->image)?$user->image: "./assets/img/icons/default.jpg") ?>" class="img-thumbnail" width="125" height="100">
                         </div>
                         <input type="hidden" name="old_image" value="<?php echo $user->image ?>">
+                        <input name="old_email" class="form-control" type="hidden" placeholder="Email Address" id="email" value="<?php echo $user->email ?>">
                     </div> 
 
                     <div class="form-group row">
@@ -68,7 +69,7 @@
          
                     <div class="form-group text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5">Reset</button>
-                        <button type="submit" class="btn btn-success w-md m-b-5">Save</button>
+                        <button type="submit"  class="btn btn-success w-md m-b-5">Save</button>
                     </div>
                 <?php echo form_close() ?>
 

@@ -12,8 +12,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="col-sm-4">
-                            <h3><center><?= display('add_type')?></center></h3>
-                          <?= form_open('asset/type_controller/type_form') ?>
+                            <h3><center><?php echo  display('add_type')?></center></h3>
+                          <?php echo  form_open('asset/type_controller/type_form') ?>
                     <?php echo form_hidden('type_id', (!empty($typeinfo->type_id)?$typeinfo->type_id:null)) ?>
 
                     <div class="form-group row">
@@ -23,14 +23,14 @@
                         </div>
                     </div> 
                      
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php
                         echo (!empty($typeinfo->type_id)?display('update'):display('save'))  ?></button>
                     </div>
                 <?php echo form_close() ?></div>
                         <div class="col-sm-8">
-                            <h3><center><?= display('type_list')?></center></h3>
+                            <h3><center><?php echo  display('type_list')?></center></h3>
                                 <table width="100%" id="datatable1" class=" table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
@@ -50,12 +50,12 @@
                                 
                                                            
                                    <td class="center">
-                                  
-                                    <?php if($this->permission->method('asset_type','update')->access()): ?>
+                                    
+                                    <?php if($this->permission->check_label('asset_type')->update()->access()): ?>
                                         <a href="<?php echo base_url("asset/Type_controller/type_form/$row->type_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('asset_type','delete')->access()): ?>  
+                                    <?php if($this->permission->check_label('asset_type')->delete()->access()): ?>
                                         <a href="<?php echo base_url("asset/Type_controller/delete_type/$row->type_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-close"></i></a>
                                          <?php endif; ?> 
                                     </td>
@@ -75,19 +75,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#datatable1').DataTable({ 
-        responsive: true, 
-        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp", 
-        "lengthMenu": [[ 25, 50, 100, 150, 200, 500, -1], [ 25, 50, 100, 150, 200, 500, "All"]], 
-        buttons: [   
-            {extend: 'csv', title: 'Equipment List', className: 'btn-sm'}, 
-            {extend: 'excel', title: 'Equipment List', className: 'btn-sm', title: 'exportTitle'}, 
-            {extend: 'pdf', title: 'Equipment List', className: 'btn-sm'}, 
-            {extend: 'print', className: 'btn-sm'} 
-        ] 
-    });
-          });
-</script>
 

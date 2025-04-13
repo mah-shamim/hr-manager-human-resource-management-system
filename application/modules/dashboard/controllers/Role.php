@@ -41,8 +41,8 @@ class Role extends MX_Controller {
 		if ($this->form_validation->run()==TRUE) {
 
 			$rolData = array(
-				'role_name' 		=> $this->input->post('role_name'),
-				'role_description' 	=> $this->input->post('role_description'),
+				'role_name' 		=> $this->input->post('role_name',true),
+				'role_description' 	=> $this->input->post('role_description',true),
 				'create_by' 		=> $this->session->userdata('id'),
 				'date_time' 		=> date('Y-m-d h:i:s')
 			);
@@ -52,12 +52,12 @@ class Role extends MX_Controller {
 		$role_id = $this->db->insert_id();
 
 		/*-----------------------------------*/ 
-		$module  	   = $this->input->post('module'); 
-		$menu_id  	   = $this->input->post('menu_id'); 
-		$create  	   = $this->input->post('create');
-		$read  		   = $this->input->post('read');
-		$update  	   = $this->input->post('edit');
-		$delete  	   = $this->input->post('delete');
+		$module  	   = $this->input->post('module',true); 
+		$menu_id  	   = $this->input->post('menu_id',true); 
+		$create  	   = $this->input->post('create',true);
+		$read  		   = $this->input->post('read',true);
+		$update  	   = $this->input->post('edit',true);
+		$delete  	   = $this->input->post('delete',true);
  
  		$new_array = array();
  		for($m=0; $m < sizeof($module); $m++) {
@@ -149,19 +149,19 @@ public function edit_role($id=null)
 		if ($this->form_validation->run()==TRUE) {
 
 			$rolData = array(
-				'role_name' 		=> $this->input->post('role_name'),
-				'role_description' 	=> $this->input->post('role_description')
+				'role_name' 		=> $this->input->post('role_name',true),
+				'role_description' 	=> $this->input->post('role_description',true)
 			);
 			$this->db->where('role_id',$role_id)->update('sec_role_tbl',$rolData);
 
 
 		/*-----------------------------------*/ 
-		$module  	   = $this->input->post('module'); 
+		$module  	   = $this->input->post('module',true); 
 		$menu_id  	   = $this->input->post('menu_id'); 
-		$create  	   = $this->input->post('create');
-		$read  		   = $this->input->post('read');
-		$update  	   = $this->input->post('edit');
-		$delete  	   = $this->input->post('delete');
+		$create  	   = $this->input->post('create',true);
+		$read  		   = $this->input->post('read',true);
+		$update  	   = $this->input->post('edit',true);
+		$delete  	   = $this->input->post('delete',true);
  
  $new_array = array();
  		for($m=0; $m < sizeof($module); $m++) {
@@ -263,6 +263,7 @@ public function edit_role($id=null)
 		$data['user'] 			= $this->db->select('id,firstname,lastname')
 								->from('user')
 								->where('is_admin!=',1)
+								->where('status',1)
 								->get()
 								->result();
 		$data['page']   	= "role/_assign_role_to_user";   
@@ -275,7 +276,7 @@ public function edit_role($id=null)
 	public function save_role_access()
 	{
 		$new_array = array();
-		$role_id = $this->input->post('role');
+		$role_id = $this->input->post('role',true);
 		$user_id = $this->input->post('user_id');
 
 		for($j=0; $j < sizeof($role_id); $j++ ) { 
@@ -315,7 +316,7 @@ public function edit_role($id=null)
 	{
 
 		$new_array = array();
-		$role_id = $this->input->post('role');
+		$role_id = $this->input->post('role',true);
 		$user_id = $this->input->post('user_id');
 
 		for($j=0; $j < sizeof($role_id); $j++ ) { 

@@ -1,0 +1,35 @@
+     table.payrollDatatableReportLaeClosing {       
+        border-collapse: collapse;
+        border: 0;
+    }
+    table.payrollDatatableReportLaeClosing td, table.payrollDatatableReportLaeClosing th {
+        padding: 6px 15px;
+    }
+    table.payrollDatatableReportLaeClosing td, table.payrollDatatableReportLaeClosing th {
+        border: 1px solid #ededed;
+        border-collapse: collapse;
+    }
+table.payrollDatatableReportLaeClosing td.noborder {
+    border: none;
+    padding-top: 40px;
+}
+
+.attendancbody{
+ height: 300px;
+}
+
+.lateness-report .logo-image{
+    border:none;text-align: center;padding-bottom: 10px;
+}
+
+.lateness-report .action-title{
+    border:none;text-align: center;padding-bottom: 20px;
+}
+
+.lateness-report .footer-section{
+    padding-top: 100px;border: none !important;
+}
+
+.lateness-report .footer-section{
+    text-align: right;
+}

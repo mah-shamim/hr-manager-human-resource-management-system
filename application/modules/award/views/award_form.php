@@ -1,21 +1,31 @@
-<div class="form-group text-right">
- <?php if($this->permission->method('award','create')->access()): ?>
-<button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_new_award') ?></button> 
-<?php endif; ?>
- <?php if($this->permission->method('award','view')->access()): ?>
-<a href="<?php echo base_url();?>/award/Award_controller/award_view" class="btn btn-primary"><?php echo display('manage_award') ?></a>
-<?php endif; ?>
-</div>
-<!--  -->
-
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading panel-aligner" >
+
+                <div class="panel-title">
+                    <h4><?php echo display('award') ?></h4>
+                </div>
+
+                <div class="mr-25">
+
+                 <?php if($this->permission->check_label('new_award')->create()->access()): ?>
+                <button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                <?php echo display('add_new_award') ?></button> 
+                <?php endif; ?>
+
+                 <?php if($this->permission->check_label('new_award')->read()->access()): ?>
+                <a href="<?php echo base_url();?>/award/Award_controller/award_view" class="btn btn-primary"><?php echo display('manage_award') ?></a>
+                <?php endif; ?>
+                </div>
+
+            </div>
 
             <div class="panel-body">
+                <div class="table-responsive">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
@@ -40,26 +50,15 @@
                                     <td><?php echo $row->award_name; ?></td>
                                 <td><?php   $text=$row->aw_description;
 
-
-
-              
-
-
-$pieces = substr($text, 0, 20);
-$ps = substr($pieces, 0, 16)."...";
-//echo $ps ;
-
-$cn=strlen($text);
-//echo $cn;
-
-if ($cn>20) {
-  echo $ps;
-}else
-{
-echo $text;
-}
-
-
+                    $pieces = substr($text, 0, 20);
+                    $ps = substr($pieces, 0, 16)."...";
+                    $cn=strlen($text);
+                    if ($cn>20) {
+                      echo $ps;
+                    }else
+                    {
+                    echo $text;
+                    }
                                 ?></td>
                                 <td><?php echo $row->awr_gift_item; ?></td>
                                 
@@ -76,6 +75,7 @@ echo $text;
                     </tbody>
                 </table>  <!-- /.table-responsive -->
             </div>
+            </div>
         </div>
     </div>
 </div>
@@ -84,7 +84,7 @@ echo $text;
  <div id="add" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header"  style="background-color: green;color:white">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <center><strong><h4><i class='fa fa-trophy' aria-hidden='true'></i>Award Form</h4></strong></center>
             </div>
@@ -101,7 +101,7 @@ echo $text;
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open_multipart('award/Award_controller/create_award') ?>
+                    <?php echo  form_open_multipart('award/Award_controller/create_award') ?>
                    
                        <div class="form-group row">
                            
@@ -147,7 +147,7 @@ echo $text;
                             <label for="employee_id" class="col-sm-3 col-form-label">
                             <?php echo display('employee_name') ?></label>
                             <div class="col-sm-9">
-                            <?php echo form_dropdown('employee_id',$dropdown,null,'class="form-control" style="width:100%"') ?>
+                            <?php echo form_dropdown('employee_id',$dropdown,null,'class="form-control codeigniterselect"') ?>
                                
                             </div>
                            
@@ -165,7 +165,7 @@ echo $text;
                     
      
              
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
                         </div>
@@ -186,17 +186,3 @@ echo $text;
 
     </div>
 
-
-
- <script language="javascript"> 
-
- $(function(){
-        $("#date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-    </script>

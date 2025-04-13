@@ -1,19 +1,36 @@
 <style type="text/css">
-.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-    border: 1px solid #000;
-}
-td, th {
-    padding: 0;
-    margin:0;
-}
-.table{
-    width: 100%;
-}
-td{
-  text-align:center;
-}
-  
+
+     table{font-size: 13px;}
+
+     table thead{background-color: #E7E0EE;}
+
+     table.payrollDatatableReport {       
+        border-collapse: collapse;
+        border: 0;
+        text-align: left !important;
+    }
+    table.payrollDatatableReport td, table.payrollDatatableReport th {
+        padding: 6px 15px;
+    }
+    table.payrollDatatableReport td, table.payrollDatatableReport th {
+        border: 1px solid #ededed;
+        border-collapse: collapse;
+    }
+    table.payrollDatatableReport td.noborder {
+        border: none;
+        padding-top: 40px;
+    }
+    table.payrollDatatableReport tbody tr td {
+        font-size: 10px;
+        padding-left: 5px;
+    }
+
+    table.payrollDatatableReport thead tr th {
+        font-size: 11px;
+        padding-left: 5px;
+    }
 </style>
+
 <div class="row">
     
     <!--  table area -->
@@ -26,7 +43,7 @@ td{
                    </center>
            <h2><center>  <?php
            echo $user->first_name.' '.$user->last_name;?></center></h2>
-               <table class="table table-bordered">
+               <table  style="width: 1200px!important;" class="payrollDatatableReport table table-striped table-bordered table-hover">
             <tr>
                 <th colspan="7" class="text-center"><?php echo display('attendance_history')?> <?php echo '( From '.$start.' To '.$end.' )';?> </th>
             </tr>
@@ -90,10 +107,10 @@ $att_in = $this->db->select('a.*,b.first_name,b.last_name')
         $result_out = array_values($out_data);
         $total = [];
         $count_out = count($result_out);
-        if($count_out == 2){
-        $n_out = $count_out;
+        if($count_out >= 2){
+        $n_out = $count_out-1;
         }else{
-         $n_out = $count_out-1;   
+         $n_out = 0;   
         }
         for($i=0;$i < $n_out; $i++) {
 
@@ -103,8 +120,6 @@ $att_in = $this->db->select('a.*,b.first_name,b.last_name')
 
             $total[$i] =  $interval->format('%h:%i:%s');
         }
-        // echo '<pre>';
-        // print_r($total);
      $hou = 0;
      $min = 0;
      $sec = 0;
@@ -127,11 +142,9 @@ $att_in = $this->db->select('a.*,b.first_name,b.last_name')
             $hours += $hou % 24;
            echo  $totalwastage = $hours.":".$minutes.":".$seconds;
             $totalwasthour[$idx] = $totalwastage;
-        // echo '<pre>';
-        // print_r($total);
     
             ?></td>
-            <td  style="border:1px solid #000;"><?php 
+            <td><?php 
                $date_a = new DateTime($totalwhour);
                 $date_b = new DateTime($totalwastage);
                 $networkhours = date_diff($date_a,$date_b);
@@ -220,7 +233,7 @@ echo $nettlehour.':'.$netmin.':'.$ntsec;
         </tr>
         </table>
 </div>
-         <!--  <?= $links ?> -->
+       
             </div>
         </div>
     </div>

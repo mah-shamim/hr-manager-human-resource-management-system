@@ -5,8 +5,8 @@
             <div class="panel-heading">
                 <div class="panel-title">
 
-                    <a href="<?php echo base_url('dashboard/role/assign_role_to_user');?>" class="btn btn-success my-modal pull-right" onclick="add_access()" style="color:#fff">
-                      <i class="fa fa-plus"></i><?=display('add_role')?>
+                    <a href="<?php echo base_url('dashboard/role/assign_role_to_user');?>" class="btn btn-success my-modal pull-right">
+                      <i class="fa fa-plus"></i><?php echo display('add_role')?>
                     </a>
 
                     <h4><?php echo (!empty($title)?$title:null) ?></h4>
@@ -49,12 +49,7 @@
     </div>
 </div>
 
-
-
-
-
-
-<?php $this->load->view('dashboard/model_script/role_access_script');?>
+<script src="<?php echo base_url('application/modules/dashboard/assets/js/role_access_script.js'); ?>" type="text/javascript"></script>
 
 
 

@@ -1,16 +1,23 @@
-<div class="form-group text-right">
-
-<button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-Add Performance</button> 
-<a href="<?php echo base_url();?>/employee/Employees/emp_performance_view" class="btn btn-primary">Manage Performance</a>
-
-</div>
-
- <div class="row">
+<div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+             <div class="panel-heading panel-aligner" >
+                <div class="panel-title">
+                    <h4><?php echo display('employee_performance') ?></h4>
+                </div>
+                <div class="mr-25">
+
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    Add Performance</button> 
+                    <a href="<?php echo base_url();?>/employee/Employees/emp_performance_view" class="btn btn-primary">Manage Performance</a>
+
+
+                </div>
+
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -22,9 +29,7 @@ Add Performance</button>
                                     <th><?php echo display('note') ?></th>
                                     <th><?php echo display('date') ?></th>
                                     <th><?php echo display('note_by') ?></th>
-                                    <th><?php echo display('number_of_star') ?></th>
-                                    <th><?php echo display('status') ?></th>
-                                    <th><?php echo display('updated_by') ?></th>
+                                    <th><?php echo display('score') ?></th>
                                   
                         </tr>
                     </thead>
@@ -39,16 +44,7 @@ Add Performance</button>
                                         <td><?php echo $que->note; ?></td>
                                         <td><?php echo $que->date; ?></td>
                                         <td><?php echo $que->note_by; ?></td>
-                                        <td><?php
-                                              for($i=1;$i <=$que->number_of_star;$i++){
-                                               echo "<span class='fa fa-star' style='color:#F39C12'></span>";
-                                              }
-                                        
-                                              ?>
-                                             
-                                         </td>
-                                        <td><?php echo $que->status; ?></td>
-                                        <td><?php echo $que->updated_by; ?></td>
+                                        <td><?php echo $que->score; ?></td>
                                        
                                 </tr>
                                 <?php $sl++; ?>
@@ -81,12 +77,12 @@ Add Performance</button>
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open_multipart('employee/Employees/create_emp_performance') ?>
+                    <?php echo  form_open_multipart('employee/Employees/create_emp_performance') ?>
                      
                         <div class="form-group row">
                             <label for="employee_id" class="col-sm-3 col-form-label"><?php echo display('employee_name') ?> *</label>
                             <div class="col-sm-9">
-                               <?php echo form_dropdown('employee_id',$employee,null,'class="form-control" id="employee_id" style="width:400px"') ?>
+                               <?php echo form_dropdown('employee_id',$employee,null,'class="form-control employee_id_perfm_f" id="employee_id"') ?>
                             </div>
                             </div>
 
@@ -102,23 +98,29 @@ Add Performance</button>
                                 <textarea name="note" class="form-control"  placeholder="<?php echo display('note') ?>" id="note"></textarea>
                             </div>
                         </div>
-                         <div class="form-group row">
-                            <label for="number_of_star" class="col-sm-3 col-form-label"><?php echo display('number_of_star') ?> </label>
+
+                        <br>
+
+                        <div class="form-group row">
+                            <label for="score" class="col-sm-3 col-form-label"><?php echo display('score') ?> *</label>
                             <div class="col-sm-9">
-                                <input name="number_of_star" class="form-control" type="text" placeholder="<?php echo display('number_of_star') ?>" id="number_of_star" onkeyup="starcheck()">
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <input type="range" id="point_bar" name="score" min="0" max="100" oninput="updateTextInput(this.value);" value="0" required>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span id="textInput">0</span>
+                                    </div>
+                                    
+                                </div>
                             </div>
-                            </div>
-                            <div class="form-group row">
-                            <label for="status" class="col-sm-3 col-form-label"><?php echo display('status') ?> </label>
-                            <div class="col-sm-9">
-                                <input type="text"name="status" class="form-control"  placeholder="<?php echo display('status') ?>" id="status" >
-                            </div>
-                        </div>
+                        </div> 
+
                         <div class="form-group row">
                             
                         </div> 
                     
-              <div class="form-group text-right">
+              <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5" ><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5" id="sbmt" data-toggle="modal" data-target="#myModal"><?php echo display('ad') ?></button>
                         </div>
@@ -140,23 +142,3 @@ Add Performance</button>
         </div>
 
     </div>
-    <script language="javascript"> 
-    $(function(){
-        $("#date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-
-
-    function starcheck(){
- var star = $('#number_of_star').val();
-if(star > 5){
-    alert('You Can not input More Than five Star');
-    document.getElementById('number_of_star').value = '';
-    }
-}
-</script>

@@ -43,7 +43,7 @@
                                     echo $eqnamess; ?></td>              
                                    <td class="center">
                                     <?php if($eqnamess !=''){?>
-                                    <?php if($this->permission->method('return_list','create')->access()): ?>
+                                    <?php if($this->permission->check_label('return_asset')->create()->access()): ?>
                                         <a href="<?php echo base_url("asset/Equipment_maping/asset_return_form/$row->employee_id") ?>" class="btn btn-xs btn-success"><?php echo display('return_now');?></a>
                                         <?php endif; ?>
                                       <?php }else{?>

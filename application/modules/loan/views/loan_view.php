@@ -1,8 +1,27 @@
+<?php
+
+    $curncy_symbol = '';
+    $social_security_tax_percnt = '';
+    if(!empty($setting->currency_symbol)){
+        $curncy_symbol = '('.$setting->currency_symbol.')';
+        $social_security_tax_percnt = $setting->soc_sec_npf_tax;
+    }
+
+?>
+
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('manage_granted_loan')?>
+                  </h4>
+              </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -16,6 +35,7 @@
                             <th><?php echo display('amount') ?></th>
                             <th><?php echo display('interest_rate') ?></th>
                             <th><?php echo display('installment_period') ?></th>
+                            <th><?php echo display('installment_cleared') ?></th>
                             <th><?php echo display('repayment_amount') ?></th>
                             <th><?php echo display('date_of_approve') ?></th>
                             <th><?php echo display('repayment_start_date') ?></th>
@@ -32,20 +52,23 @@
                                     <td><?php echo $que->Pname; ?></td>
                                     <td><?php echo $que->loan_id; ?></td>
                                     <td><?php echo $que->loan_details; ?></td>
-                                    <td><?php echo $que->amount; ?>$</td>
+                                    <td><?php if(!empty($setting->currency_symbol)){echo $setting->currency_symbol.' ';}?><?php echo $que->amount; ?></td>
                                     <td><?php echo $que->interest_rate; ?>%</td>
                                     <td><?php echo $que->installment_period; ?>Month</td>
-                                    <td><?php echo $que->repayment_amount; ?>$</td>
+                                    <td><?php echo $que->installment_cleared; ?>Month</td>
+                                    <td><?php if(!empty($setting->currency_symbol)){echo $setting->currency_symbol.' ';}?><?php echo $que->repayment_amount; ?></td>
                                     <td><?php echo $que->date_of_approve; ?></td>
                                     <td><?php echo $que->repayment_start_date; ?></td>
 
                                    
                                     <td class="center">
-                                     <?php if($this->permission->method('loan_grand','update')->access()): ?> 
+                                     
+                                      <?php if($this->permission->check_label('loan_grand')->update()->access()): ?> 
                                         <a href="<?php echo base_url("loan/Loan/update_grnloan_form/$que->loan_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a> 
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('loan_grand','delete')->access()): ?> 
+                                    
+                                    <?php if($this->permission->check_label('loan_grand')->delete()->access()): ?> 
                                         <a href="<?php echo base_url("loan/Loan/delete_grndloan/$que->loan_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a> 
                                           <?php endif; ?>
                                     </td>

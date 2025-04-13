@@ -1,10 +1,3 @@
-<div class="form-group text-right">
-
-<button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_designation')?></button> 
-<a href="<?php echo base_url();?>/employee/Employees/position_view" class="btn btn-primary"><?php echo display('manage_designation')?></a>
-
-</div>
 <div id="add0" class="modal fade" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -20,7 +13,7 @@
                
                 <div class="panel-body">
 
-                    <?= form_open('employee/Employees/create_position') ?>
+                    <?php echo  form_open('employee/Employees/create_position') ?>
                         <div class="form-group row">
                             <label for="position_name" class="col-sm-3 col-form-label"><?php echo display('position_name') ?> *</label>
                             <div class="col-sm-9">
@@ -36,7 +29,7 @@
                         </div> 
 
   
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('Ad') ?></button>
                         </div>
@@ -65,7 +58,22 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+             <div class="panel-heading panel-aligner" >
+                    <div class="panel-title">
+                        <h4><?php echo display('position') ?></h4>
+                    </div>
+                    <div class="mr-25">
+
+                      <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        <?php echo display('add_designation')?></button> 
+                        <a href="<?php echo base_url();?>/employee/Employees/position_view" class="btn btn-primary"><?php echo display('manage_designation')?></a>
+
+
+                    </div>
+
+                </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">

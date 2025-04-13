@@ -10,7 +10,7 @@
 
             <div class="panel-body">
                 
-                <?= form_open('dashboard/language/addlebel') ?>
+                <?php echo  form_open('dashboard/language/addlebel') ?>
                 <table class="table table-striped">
                     <thead> 
                         <tr>
@@ -28,15 +28,15 @@
                     </thead>
 
                     <tbody>
-                        <?= form_hidden('language', $language) ?>
+                        <?php echo  form_hidden('language', $language) ?>
                             <?php if (!empty($phrases)) {?>
                                 <?php $sl = 1 ?>
                                 <?php foreach ($phrases as $value) {?>
-                                <tr <?= (empty($value->$language)?"style='background:#E5343D'":null) ?>>
+                                <tr <?php echo  (empty($value->$language)?"":null) ?>>
                                 
-                                    <td><?= $sl++ ?></td>
-                                    <td><input type="text" name="phrase[]" value="<?= $value->phrase ?>" class="form-control" readonly></td>
-                                    <td><input type="text" name="lang[]" value="<?= $value->$language ?>" class="form-control"></td> 
+                                    <td><?php echo  $sl++ ?></td>
+                                    <td><input type="text" name="phrase[]" value="<?php echo  $value->phrase ?>" class="form-control" readonly></td>
+                                    <td><input type="text" name="lang[]" value="<?php echo  $value->$language ?>" class="form-control"></td> 
                                 </tr>
                                 <?php } ?>
                             <?php } ?> 
@@ -50,7 +50,7 @@
                             <td><?php echo $links; ?></td>
                         </tr>
                     </tfoot>
-                    <?= form_close() ?>
+                    <?php echo  form_close() ?>
                 </table>
                 <?php echo form_close() ?>
             </div>

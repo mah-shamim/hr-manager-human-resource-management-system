@@ -9,12 +9,12 @@ class Loan_model extends CI_Model {
             ->from('grand_loan ln')
             ->join('employee_history p', 'ln.employee_id = p.employee_id')
              ->join('employee_history c', 'ln.permission_by = c.employee_id', 'left')
-            ->group_by('ln.employee_id')
+            ->group_by('ln.loan_id')
             ->order_by('ln.loan_id', 'desc')
             ->get()
             ->result();
 	}
-	// 
+	 
 	  public function LoanList()
 	{
 			    return $this->db->select('ln.*,p.first_name,p.last_name,CONCAT_WS(" ",c.first_name,c.last_name) AS Pname')   
@@ -47,6 +47,7 @@ class Loan_model extends CI_Model {
 	{
 		$this->db->select('*');
         $this->db->from('employee_history');
+        $this->db->where('employee_status',1);
         $query = $this->db->get();
         $data = $query->result();
         $list = array('' => 'Select One...');
@@ -62,6 +63,7 @@ class Loan_model extends CI_Model {
 	{
 		$this->db->select('*');
         $this->db->from('employee_history');
+        $this->db->where('employee_status',1);
         $this->db->where('is_super_visor',1);
         $query = $this->db->get();
         $data = $query->result();
@@ -112,7 +114,7 @@ public function installment_view()
 	}
 public function installment_create($data = array())
 	{
-		return $this->db->insert('loan_installment', $data);//
+		return $this->db->insert('loan_installment', $data);
 	}
 public function emp_salstup_delete($id = null)
 	{
@@ -149,6 +151,7 @@ public function emp_salstup_delete($id = null)
 	{
 		$this->db->select('*');
         $this->db->from('employee_history');
+        $this->db->where('employee_status',1);
         $this->db->where('is_super_visor',1);
         $query = $this->db->get();
         $data = $query->result();
@@ -182,7 +185,7 @@ public function autoincrement() {
         return $query->row();
     }
    
-// 
+ 
 
 	public function install_delete($id = null)
 	{
@@ -207,7 +210,6 @@ $this->db->where('b.employee_id', $id );
 $this->db->where('b.date_of_approve >=', $start_date);
 $this->db->where('b.date_of_approve <=', $end_date);
 $this->db->group_by('b.loan_id');
-//$this->db->group_by('c.loan_id');
 $query = $this->db->get();
 $result = $query->result();
 
@@ -248,4 +250,56 @@ public function loanViewDetails($id)
 			->get()
 			->result();
 	}
+
+
+
+	/*Loan Installment along with salary generate From 16th april 2022*/
+
+	// If loan is created and it's installment not paid yet or all installment not paid, then use this methos...
+	public function get_unfinished_installment_loan($emp_id)
+	{
+		$query = 'SELECT * FROM `grand_loan` WHERE  `employee_id` = '.$emp_id.' AND (`installment_period` - `installment_cleared`) > 0';
+
+		return $this->db->query($query)->row();
+	}
+
+	public function get_loan_by_id($id)
+	{
+		return $this->db->select('*')	
+			->from('grand_loan')
+			->where('loan_id', $id)
+			->get()
+			->row();
+	}
+
+	// If installment_cleared or not made any installment against the loan, then allow to edit/update the loan..
+	public function loan_installment_started($emp_id,$id)
+	{
+		$query = 'SELECT * FROM `grand_loan` WHERE  `loan_id` = '.$id.' AND `employee_id` = '.$emp_id.' AND `installment_cleared` > 0';
+
+		return $this->db->query($query)->row();
+	}
+
+	// If loan_installment_finished, then not allow to edit/update the loan..
+	public function loan_installment_finished($emp_id,$id)
+	{
+		$query = 'SELECT * FROM `grand_loan` WHERE  `loan_id` = '.$id.' AND `employee_id` = '.$emp_id.' AND `employee_id` = '.$emp_id.' AND (`installment_period` - `installment_cleared`) = 0';
+
+		return $this->db->query($query)->row();
+	}
+
+	public function report_loan_to_employee($loan_id = null){
+
+		$this->db->select('d.employee_id,d.pos_id,d.first_name,d.last_name,d.picture,b.*');    
+		$this->db->from('grand_loan b');
+		$this->db->join('employee_history d', 'b.employee_id = d.employee_id','left');
+		$this->db->where('b.loan_id', $loan_id );
+		$query = $this->db->get();
+		$result = $query->row();
+
+		return $result;
+
+	}
+
+
 }

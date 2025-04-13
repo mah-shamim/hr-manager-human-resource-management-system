@@ -1,10 +1,27 @@
+<?php
+
+    $curncy_symbol = '';
+    $social_security_tax_percnt = '';
+    if(!empty($setting->currency_symbol)){
+        $curncy_symbol = '('.$setting->currency_symbol.')';
+        $social_security_tax_percnt = $setting->soc_sec_npf_tax;
+    }
+
+?>
+
+
    <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel">
+            <div class="panel panel-bd">
+
+                <div class="panel-heading">
+                  <div class="panel-title">
+                  </div>
+                </div>
                 
                 <div class="panel-body">
 
-                    <?= form_open('loan/Loan/lnreport_view') ?>
+                    <?php echo  form_open('loan/Loan/lnreport_view') ?>
                      <div class="form-group row">
                             <label for="employee_id" class="col-sm-2 col-form-label"><?php echo display('employee_name') ?> *</label>
                             <div class="col-sm-3">
@@ -33,7 +50,15 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('loan_report')?>
+                  </h4>
+              </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -56,8 +81,8 @@
                                     <td><a href="<?php echo base_url("loan/Loan/view_details/$que->employee_id") ?>"><?php echo $que->first_name.' '.$que->last_name; ?></a></td>
                                     <td><?php echo $que->employee_id; ?></td>
                                     <td><?php echo $que->l_id; ?></td>
-                                    <td><?php echo $que->amount; ?></td>
-                                    <td><?php echo $que->repayment_amount; ?></td>
+                                    <td><?php if(!empty($setting->currency_symbol)){echo $setting->currency_symbol.' ';}?><?php echo $que->amount; ?></td>
+                                    <td><?php if(!empty($setting->currency_symbol)){echo $setting->currency_symbol.' ';}?><?php echo $que->repayment_amount; ?></td>
                                 </tr>
                                 <?php $sl++; ?>
                             <?php } ?> 
@@ -68,10 +93,3 @@
         </div>
     </div>
 </div>
- 
- <script type="text/javascript">
-      $(function(){
-        $(".datepicker").datepicker({ dateFormat:'yy-mm-dd' });
-      
-    });
- </script>

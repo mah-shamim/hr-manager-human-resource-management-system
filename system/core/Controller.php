@@ -78,6 +78,7 @@ class CI_Controller extends Lic {
 		$this->load =& load_class('Loader', 'core');
 		$this->load->initialize();
 		log_message('info', 'Controller Class Initialized');
+		$this->db->query('SET SESSION sql_mode = ""');
 	}
 
 	// --------------------------------------------------------------------

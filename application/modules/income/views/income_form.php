@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
               
-                         <?= form_open_multipart('income/Income/create_income') ?>
+                         <?php echo  form_open_multipart('income/Income/create_income') ?>
                                 <div class="row">
                           <div class="col-sm-12">
                                 <div class="form-group row">
@@ -55,13 +55,13 @@
                                  
                                 </div>
                             </div>
-                                <div class="col-sm-12" id="bank_div" style="display: none;">
+                                <div class="col-sm-12" id="bank_div">
                                 <div class="form-group row">
                                     <label for="payment_type" class="col-sm-4 col-form-label"><?php
                                         echo display('bank_name');
                                         ?> <i class="text-danger">*</i></label>
                                     <div class="col-sm-8">
-                                    <select name="bank_name" class="form-control" id="bank" style="width: 100%">
+                                    <select name="bank_name" class="form-control" id="bank">
                                     <option value="">Select Payment Option</option>
                                             <?php foreach($bank_list as $banks){?>
                                             <option value="<?php echo $banks['bank_name']?>"><?php echo $banks['bank_name']?></option>
@@ -108,18 +108,3 @@
 </div>
 
 </div>
-<script type="text/javascript">
-
-    function bank_paymet(val){
-        if(val==2){
-           var style = 'block'; 
-           
-        }else{
-   var style ='none';
-   
-        }
-           
-    document.getElementById('bank_div').style.display = style;
-    }
-    
-</script>

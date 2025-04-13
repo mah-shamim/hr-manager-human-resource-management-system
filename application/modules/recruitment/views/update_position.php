@@ -1,8 +1,4 @@
- 
-  
-    
-  
-    <div class="row">
+  <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="panel panel-bd lobidrag">
                 <div class="panel-heading">
@@ -12,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open_multipart('recruitment/Advertisement/update_form/'. $data->pos_id) ?>
+                <?php echo  form_open_multipart('circularprocess/Advertisement/update_form/'. $data->pos_id) ?>
                 
 
                     <input name="pos_id" type="hidden" value="<?php echo $data->pos_id ?>">

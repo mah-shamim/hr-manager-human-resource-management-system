@@ -21,6 +21,7 @@ class Requirements
             "../application/config/database.php",
             "../application/config/config.php",
             "php/Database.php",
+            "flag/purchase_info.json",
             "sql/install.sql"
         ]; 
          
@@ -64,7 +65,7 @@ class Requirements
                     } 
 
                     //show writeable file
-                    if (sizeof($writeable) > 0) { 
+                    if (@sizeof($writeable) > 0) { 
                         //set a headline for writeable file
                         echo "<tr>";
                             echo "<td colspan='2'><div class='alert alert-success'>The following requirements were successfully met.</div></td>";
@@ -82,8 +83,11 @@ class Requirements
                 } else {  //if all file is  writeable 
                     if (sizeof($writeable) > 0) { 
                         //set a headline for writeable file
-                        echo "<tr>";
+                         echo "<tr>";
                             echo "<td colspan='2'><div class='alert alert-success'><strong>Congratulations!</strong> Your server meets the requirements for install application.</div></td>";
+                        echo "</tr>"; 
+                        echo "<tr>";
+                            echo "<td colspan='2'><div class='alert alert-info'><strong>Please!</strong> Make sure your application directory, application/cache/temp, assets/img/captcha this directories have write, install folder has delete, install/flag folder has write permissions.</div></td>";
                         echo "</tr>"; 
                         //show writeable file
                         for ($i = 0; $i < sizeof($writeable); $i++){ 
@@ -110,8 +114,7 @@ class Requirements
         //extension for server 
         $this->extensionCheck([
             'mysqli',
-            'session',  
-            'mcrypt',
+            'session'
         ]);
     }
 
@@ -141,7 +144,6 @@ class Requirements
         if (!ini_get('safe_mode')) {
             //set error message for server safe mode
             $fail[] ='Safe Mode is <strong>off</strong>';
-            preg_match('/[0-9]\.[0-9]+\.[0-9]+/', shell_exec('mysql -V'), $version);
             //set error status for server safe mode
             $fail_status[] = '<span class="label label-warning">Warning</span>';
 
@@ -176,13 +178,26 @@ class Requirements
             if (!extension_loaded($extension)) {
                 //set error message if extension is not fulfill the requrement
                 $fail[] = ' You are missing the <strong>'.$extension.'</strong> extension';
-                $fail_status[] = '<span class="label label-danger">Error</span>';
+                $fail_status[] = '<span class="label label-danger">Error</span> <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="Please check your server to fix this error or you can contact your server administrator (Proceed now)"></span>';
             } else {   
                 //set success message if extension is fulfill the requrement
                 $pass[] = 'You have the <strong>'.$extension.'</strong> extension';
                 $pass_status[] = '<span class="label label-success">Success</span>';
             }
         }
+
+         // Smtp Server Checking
+        if(isset($_GET['step2'])) {
+            $smtpres = $this->smtp_check();
+            if($smtpres){
+                $pass[] = 'You have the <strong> SMTP</strong> server';
+                $pass_status[] = '<span class="label label-success">Success</span>';
+            } else{
+                $fail[] = ' You are missing the <strong>SMTP</strong> server';
+                $fail_status[] = '<span class="label label-danger">Error</span> <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="Please check your server to fix this error or you can contact your server administrator (Proceed now)"></span>';
+            }
+        }
+       
      
         //show all server requirement list
         echo "<table class='table table-bordered table-striped'>";
@@ -233,6 +248,47 @@ class Requirements
             }
         echo "</table>";
         // ends of server requirement list
+    }
+    private function domain() 
+    {
+        $url=(isset($_SERVER["HTTPS"]) ? "https://" : "http://").$_SERVER["HTTP_HOST"];
+        $url.= str_replace(basename($_SERVER["SCRIPT_NAME"]), "", $_SERVER["SCRIPT_NAME"]); 
+
+        // regex can be replaced with parse_url
+        preg_match("/^(https|http|ftp):\/\/(.*?)\//", "$url/" , $matches);
+
+        if ((bool)ip2long($matches[2])) {
+            return $matches[2];
+        } else {
+            $parts = explode(".", $matches[2]);
+            $tld  = array_pop($parts);
+            $host = array_pop($parts);
+
+            if ( strlen($tld) == 2 && strlen($host) <= 3 ) {
+                $tld = "$host.$tld";
+                $host = array_pop($parts);
+            }
+
+            return "$host.$tld";      
+   
+        }
+    }
+
+
+    function smtp_check(){
+        $apdomain = $this->domain();
+        $f = @fsockopen($apdomain, 25) ;
+        if ($f !== false) {
+            $res = fread($f, 1024) ;
+            if (strlen($res) > 0 && strpos($res, '220') === 0) {
+                return TRUE;
+            }
+            else {
+                return FALSE ;
+            }
+        }
+        @fclose($f);
+        return FALSE;
     }
 
 }

@@ -1,16 +1,4 @@
-<style type="text/css">
 
-.checkbox {
-    margin: 0px;
-    /*line-height: 10px;*/
-}
-.checkbox label, .radio label {
-    min-height: 18px;
-}
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    padding: 6px;
-}
-</style>
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd ">
@@ -46,10 +34,10 @@ $menu_item = $this->db->select('*')->from('sec_menu_item')->where('module',$valu
                             <tr>
                                 <th><?php echo display('sl_no') ?></th>
                                 <th>Menue Title</th>
-                                <th>Can Create</th>
-                                <th>Can read</th>
-                                <th>Can Edit</th>
-                                <th>Can Delete</th>
+                                <th>Can Create(<input type="checkbox" onclick="checkallcreate(<?php echo $m?>)" id="checkAllcreate<?php echo $m?>"  name="" > all)</th>
+                                <th>Can read(<input type="checkbox" onclick="checkallread(<?php echo $m?>)" id="checkAllread<?php echo $m?>"  name="" > all)</th>
+                                <th>Can Edit(<input type="checkbox" onclick="checkalledit(<?php echo $m?>)" id="checkAlledit<?php echo $m?>"  name="" > all)</th>
+                                <th>Can Delete(<input type="checkbox" onclick="checkalldelete(<?php echo $m?>)" id="checkAlldelete<?php echo $m?>"  name="" > all)</th>
                             </tr>
                         </thead>
 
@@ -62,26 +50,26 @@ $menu_item = $this->db->select('*')->from('sec_menu_item')->where('module',$valu
                                 <td class="text-<?php echo ($value->parent_menu?'right':'')?>"><?php echo display($value->menu_title); ?></td>
                                 <td>
                                     <div class="checkbox checkbox-success text-center">
-                                        <input type="checkbox" name="create[<?php echo $m?>][<?php echo $sl ?>][]" value="1" id="create[<?php echo $m?>]<?php echo $sl?>">
+                                        <input type="checkbox" name="create[<?php echo $m?>][<?php echo $sl ?>][]" class="create<?php echo $m?>" value="1" id="create[<?php echo $m?>]<?php echo $sl?>">
                                         <label for="create[<?php echo $m?>]<?php echo $sl ?>"></label>
                                     </div>
                                 </td>
 
                                 <td>
                                     <div class="checkbox checkbox-success text-center">
-                                        <input type="checkbox" name="read[<?php echo $m?>][<?php echo $sl ?>][]" value="1" id="read[<?php echo $m?>]<?php echo $sl?>">
+                                        <input type="checkbox" name="read[<?php echo $m?>][<?php echo $sl ?>][]" class="read<?php echo $m?>" value="1" id="read[<?php echo $m?>]<?php echo $sl?>">
                                         <label for="read[<?php echo $m?>]<?php echo $sl ?>"></label>
                                     </div>
                                 </td> 
                                 <td>
                                     <div class="checkbox checkbox-success text-center">
-                                       <input type="checkbox" name="edit[<?php echo $m?>][<?php echo $sl ?>][]" value="1" id="edit[<?php echo $m?>]<?php echo $sl?>">
+                                       <input type="checkbox" name="edit[<?php echo $m?>][<?php echo $sl ?>][]" class="edit<?php echo $m?>" value="1" id="edit[<?php echo $m?>]<?php echo $sl?>">
                                         <label for="edit[<?php echo $m?>]<?php echo $sl ?>"></label>
                                     </div>
                                 </td> 
                                 <td>
                                     <div class="checkbox checkbox-success text-center">
-                                        <input type="checkbox" name="delete[<?php echo $m?>][<?php echo $sl ?>][]" value="1" id="delete[<?php echo $m?>]<?php echo $sl?>">
+                                        <input type="checkbox" name="delete[<?php echo $m?>][<?php echo $sl ?>][]" class="delete<?php echo $m?>" value="1" id="delete[<?php echo $m?>]<?php echo $sl?>">
                                         <label for="delete[<?php echo $m?>]<?php echo $sl ?>"></label>
                                     </div>
                                 </td>
@@ -97,7 +85,7 @@ $menu_item = $this->db->select('*')->from('sec_menu_item')->where('module',$valu
                     <?php $m++ ?>
                     <?php } ?>
 
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                        <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
                     </div>
 
@@ -107,7 +95,6 @@ $menu_item = $this->db->select('*')->from('sec_menu_item')->where('module',$valu
         </div>
     </div>
 </div>
-
 
 
  

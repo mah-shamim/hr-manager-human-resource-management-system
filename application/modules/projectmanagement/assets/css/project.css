@@ -1,0 +1,40 @@
+.panel-heading .panel-title{
+	padding: 0px !important;
+}
+
+.panel-heading .panel-title .title{
+    padding-left: 20px !important;
+}
+
+.form-projectmanagement{margin-right: 15px;}
+
+.red-color{color: red;}
+.green-color{color: green;}
+.blue-color{color: blue;}
+
+/*Progressbar css starts*/
+
+.progress {
+    height: 15px !important;
+}
+
+.progress-bar {
+    font-size: 10px !important;
+    line-height: 14px !important;
+}
+/*Progressbar css ends*/
+
+/*project-report page*/
+
+.donut-chart{padding-left: 15px !important;padding-right: 15px !important;}
+.bar-chart{padding-right: 15px !important;}
+.pie-chart{padding-left: 15px !important;padding-right: 15px !important;}
+.two-chart{padding-right: 15px !important;}
+
+/*project-report page ends*/
+
+.no-tasks{
+    font-weight: 600;
+    color: red;
+    padding: 15px !important;
+}

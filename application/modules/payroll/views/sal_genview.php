@@ -44,7 +44,7 @@
                         <?php } ?> 
                     </tbody>
                 </table>  <!-- /.table-responsive -->
-                <?= $links ?> 
+                <?php echo  $links ?> 
             </div>
         </div>
     </div>

@@ -16,7 +16,8 @@ public function __construct()
 
 public function award_view()
 	{   
-        $this->permission->method('award','read')->redirect();
+        // $this->permission->method('award','read')->redirect();
+        $this->permission->check_label('new_award')->read()->access();
 
 		$data['title']    = display('award');  ;
 		$data['mang']   = $this->Award_model->award_view();
@@ -45,13 +46,12 @@ public function create_award()
            
            
 				$postData = [
-			'award_name' 	              => $this->input->post('award_name',true),
-				'aw_description'             =>$this->input->post('aw_description',true),
-			'awr_gift_item' 	                  => $this->input->post('awr_gift_item',true),
-			'date' 	          => $this->input->post('date',true),
-			
-                'employee_id' => $this->input->post('employee_id',true),
-                'awarded_by' => $this->input->post('awarded_by',true),
+			'award_name' 	   => $this->input->post('award_name',true),
+		    'aw_description'   =>$this->input->post('aw_description',true),
+			'awr_gift_item'    => $this->input->post('awr_gift_item',true),
+			'date' 	           => $this->input->post('date',true),
+            'employee_id'      => $this->input->post('employee_id',true),
+            'awarded_by'       => $this->input->post('awarded_by',true),
                 
             ];   
 
@@ -66,7 +66,7 @@ public function create_award()
 
         } else {
             $data['title']  = display('award');
-            $data['module'] = "award";//
+            $data['module'] = "award";
             $data['mang']   = $this->Award_model->award_view();
              $data['dropdown']   = $this->Award_model->dropdown();
             $data['page']   = "award_form";   
@@ -77,7 +77,8 @@ public function create_award()
 
 public function delete_award($id = null) 
 	{ 
-        $this->permission->method('award','delete')->redirect();
+        // $this->permission->method('award','delete')->redirect();
+        $this->permission->check_label('new_award')->read()->access();
 
 		if ($this->Award_model->award_delete($id)) {
 			#set success message
@@ -106,15 +107,14 @@ public function delete_award($id = null)
         #-------------------------------#
         if ($this->form_validation->run() === true) {
 
-            $Data = [    'award_id'  =>$this->input->post('award_id',true),
-    
-   'award_name'                   => $this->input->post('award_name',true),
-                'aw_description'             =>$this->input->post('aw_description',true),
-            'awr_gift_item'                       => $this->input->post('awr_gift_item',true),
-            'date'            => $this->input->post('date',true),
-            
-                'employee_id' => $this->input->post('employee_id',true),
-                'awarded_by' => $this->input->post('awarded_by',true),
+            $Data = [   
+            'award_id'           => $this->input->post('award_id',true),
+            'award_name'         => $this->input->post('award_name',true),
+            'aw_description'     => $this->input->post('aw_description',true),
+            'awr_gift_item'      => $this->input->post('awr_gift_item',true),
+            'date'               => $this->input->post('date',true),
+            'employee_id'        => $this->input->post('employee_id',true),
+            'awarded_by'         => $this->input->post('awarded_by',true),
 
        
             ];   
@@ -130,9 +130,9 @@ public function delete_award($id = null)
 
         } else {
            $data['title']      = display('update');
-            $data['data']      =$this->Award_model->award_updateForm($id);
-            $data['dropdown']   = $this->Award_model->dropdown();
-            $data['bb']        =$this->Award_model->get_id($id);
+            $data['data']      = $this->Award_model->award_updateForm($id);
+            $data['dropdown']  = $this->Award_model->dropdown();
+            $data['bb']        = $this->Award_model->get_id($id);
             $data['module']    = "award";    
             $data['page']      = "update_award_form";   
             echo Modules::run('template/layout', $data);  

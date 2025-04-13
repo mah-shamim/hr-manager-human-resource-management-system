@@ -4,12 +4,7 @@
     <title></title>
 </head>
 <body>
-<script>
-function hide(){
-    document.getElementById('pr').style.display="none";
-    
-}
-</script>
+
 <div id="pr">
 
     <a href="Javascript:void(0)" class="btn btn-info" onclick="hide();window.print">Print</a>
@@ -18,16 +13,12 @@ function hide(){
 </div>
 <?php
     $total=0;
-//print_r($query);
-// print_r($query);
     foreach ($cv as $row){
-        
-     
         }?>
    
 
 <table class="table table-hover" width="100%">
-<h2 style="text-align: center;color:black">Resume of <?php echo $row->first_name." " .$row->last_name;?></h2>
+<h2>Resume of <?php echo $row->first_name." " .$row->last_name;?></h2>
 
 <tr class="row"><td class="col-sm-6"><h3>Position:<?php echo $row->pos_id ;?><br>
 Employee ID:<?php echo $row->employee_id ;?>
@@ -35,7 +26,7 @@ Employee ID:<?php echo $row->employee_id ;?>
 <td class="col-sm-6 text-right"><?php echo img($row->picture, 'height="150px"','width="100px"') ;?></td></tr>
 <tr class="row">
     <td class="col-sm-12">
-         <h4  style="text-align: center; font-size: 20px">Personal Information</h4>
+         <h4>Personal Information</h4>
     </td>
 </tr>
 
@@ -71,7 +62,7 @@ Employee ID:<?php echo $row->employee_id ;?>
      
 </table>
 <table width="100%" class="table table-hover">
-<caption  style="text-align: center; font-size: 20px">Educational Information</caption>
+<caption>Educational Information</caption>
                     <thead>
                         <tr>
                            
@@ -99,7 +90,7 @@ Employee ID:<?php echo $row->employee_id ;?>
                 </table>
 
                 <table width="100%" class="table table-striped table-hover">
-<caption  style="text-align: center; font-size: 20px">Working Experience Information</caption>
+<caption>Working Experience Information</caption>
                     <thead>
                         <tr>
                             

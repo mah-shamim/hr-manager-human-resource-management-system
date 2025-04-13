@@ -6,14 +6,14 @@
                 <div class="panel-title">
 
                     <a href="<?php echo base_url('dashboard/role/user_access_role')?>" type="button" class="btn btn-primary my-modal pull-right" >
-                      <i class="fa fa-plus"></i><?=display('ad')?>
+                      <i class="fa fa-plus"></i><?php echo display('ad')?>
                     </a>
 
                     <h4><?php echo (!empty($title)?$title:null) ?></h4>
                 </div>
             </div>
             <div class="panel-body">
-                    <!-- <form method="POST" id="dataform">  -->
+                   
                     <?php echo form_open("dashboard/role/update_access_role", array('name'=>'role_acc')); ?>
 
                             <div class="form-group row">
@@ -28,6 +28,7 @@
                                         ?>
                                     </select>
                                 </div>
+                                <input type="hidden" name="" id="role_fk_user_id" value="<?php echo $info->fk_user_id;?>">
                             </div>
 
                             <div class="form-group row">
@@ -36,7 +37,7 @@
                                 <?php foreach($role as $val){ 
                                     $ck = $this->db->where('fk_user_id',$info->fk_user_id)->where('fk_role_id',$val->role_id)->get('sec_user_access_tbl')->num_rows();
                                 ?>
-                                    <label class="radio-inline">
+                                    <label class="radio-inline radio-inline-new">
                                         <input type="checkbox" name="role[]" <?php echo ($ck?'checked':'')?> value="<?php echo $val->role_id;?>"> <?php echo $val->role_name;?>
                                     </label> 
                                 <?php } ?>
@@ -45,7 +46,7 @@
 
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary save_btn save"><?=display('update')?></button>
+                    <button type="submit" class="btn btn-primary save_btn save"><?php echo display('update')?></button>
                 </div>
 
 
@@ -57,11 +58,7 @@
     </div>
 </div>
 
-
-<script type="text/javascript">
-    document.forms['role_acc'].elements['user_id'].value="<?php echo $info->fk_user_id;?>";
-    document.forms['role_acc'].elements['role_id'].value="<?php echo $info->fk_role_id?>";
-</script>
+<script src="<?php echo base_url('application/modules/dashboard/assets/js/edit_role_access.js'); ?>" type="text/javascript"></script>
  
 
 

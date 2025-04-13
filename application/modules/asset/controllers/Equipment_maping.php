@@ -4,15 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Equipment_maping extends MX_Controller {
 
 public function __construct()
-	{
-		parent::__construct();
-		$this->db->query('SET SESSION sql_mode = ""');
-		$this->load->model(array(
-			'asset_model'
-		));	
+  {
+    parent::__construct();
+    $this->db->query('SET SESSION sql_mode = ""');
+    $this->load->model(array(
+      'asset_model'
+    )); 
     if (! $this->session->userdata('isLogIn'))
-      redirect('login');	 
-	}
+      redirect('login');   
+  }
 
    public function maping_list()
     {   
@@ -60,14 +60,15 @@ public function __construct()
 // maping form and insert
 public function maping_form()
  {
-  $this->permission->method('asset','create')->redirect();
+  $this->permission->check_label('asset_assignment')->read()->redirect();
   $data['title'] = display('assign_asset');
   #-------------------------------#
   $this->form_validation->set_rules('employee_id', display('employee')  ,'required|max_length[100]');
+  $this->form_validation->set_rules('equipment[]', display('equipment')  ,'required|max_length[100]');
   #-------------------------------#
  
   if ($this->form_validation->run()) { 
-      $this->permission->method('asset','create')->redirect();
+     $this->permission->check_label('asset_assignment')->create()->redirect();
     if ($this->asset_model->maping_create()) { 
      $this->session->set_flashdata('message', display('save_successfully'));
      redirect('asset/Equipment_maping/maping_form');
@@ -80,8 +81,8 @@ public function maping_form()
    $data['equipment']   =  $this->asset_model->equipment_dropdown();
    $data['mappinglist'] =  $this->asset_model->eq_mapping_list();
    $data['employee']    = $this->asset_model->employee_dropdown();
-   $data['module'] = "asset";
-   $data['page']   = "maping_form";   
+   $data['module']      = "asset";
+   $data['page']        = "maping_form";   
    echo Modules::run('template/layout', $data); 
    }   
  }
@@ -101,14 +102,14 @@ public function maping_form()
 //update maping
     public function maping_update($id = null)
  {
-  $this->permission->method('asset','create')->redirect();
+  $this->permission->check_label('asset_assignment')->update()->redirect();
   $data['title'] = display('update_assign');
   #-------------------------------#
   $this->form_validation->set_rules('employee_id', display('employee')  ,'required|max_length[100]');
   #-------------------------------#
  
   if ($this->form_validation->run()) { 
-      $this->permission->method('asset','update')->redirect();
+      $this->permission->check_label('asset_assignment')->update()->redirect();
     if ($this->asset_model->maping_update()) { 
      $this->session->set_flashdata('message', display('successfully_updated'));
      redirect('asset/Equipment_maping/maping_form');
@@ -129,7 +130,7 @@ public function maping_form()
  }
     public function return_asset(){
 
-       $this->permission->method('asset','update')->redirect();
+       $this->permission->check_label('return_asset')->read()->redirect();
         $data['title']    = display('return_assets'); 
         #-------------------------------#       
         #
@@ -172,14 +173,15 @@ public function maping_form()
     // asset return form
      public function asset_return_form($id = null)
  {
-  $this->permission->method('asset','update')->redirect();
+  $this->permission->check_label('return_asset')->update()->redirect();
   $data['title'] = display('return_asset');
   #-------------------------------#
   $this->form_validation->set_rules('employee_id', display('employee')  ,'required|max_length[100]');
+   $this->form_validation->set_rules('damarage_descript', display('description')  ,'max_length[100]');
   #-------------------------------#
  
   if ($this->form_validation->run()) { 
-      $this->permission->method('asset','update')->redirect();
+     $this->permission->check_label('return_asset')->update()->redirect();
     if ($this->asset_model->asset_return()) { 
      $this->session->set_flashdata('message', display('return_successfull'));
      redirect('asset/Equipment_maping/return_asset');
@@ -202,7 +204,7 @@ public function maping_form()
 
  public function return_list(){
 
-       $this->permission->method('asset','read')->redirect();
+       $this->permission->check_label('return_list')->read()->redirect();
         $data['title']    = display('return_list'); 
         #-------------------------------#       
         #
@@ -245,7 +247,7 @@ public function maping_form()
     // equipment auto complete
     public function asset_search()
   { 
-    $equipment   = $this->input->post('equipment');
+    $equipment   = $this->input->post('equipment',true);
         $search_equipment  = $this->asset_model->search_equipment($equipment);
     $list[''] = '';
     foreach ($search_equipment as $value) {

@@ -14,15 +14,7 @@ $HmvcMenu["tax"] = array(
             "permission" => "read"
        
     ), 
-    // "tax_collection" => array(
-       
-       
-    //         "controller" => "Tax",
-    //         "method"     => "tax_collection_view",
-    //         "permission" => "read"
-   
-    // ), 
- 
+
     
 );
    

@@ -45,7 +45,8 @@ class Report_model extends CI_Model {
     public function dropdownemp()
     {
         $data = $this->db->select("*")
-            ->from('employee_history') 
+            ->from('employee_history')
+            ->where('employee_status',1) 
             ->get()
             ->result();
 
@@ -82,6 +83,7 @@ class Report_model extends CI_Model {
     {
         $data = $this->db->select("*")
             ->from('employee_history') 
+            ->where('employee_status',1)
             ->get()
             ->result();
 

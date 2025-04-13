@@ -1,0 +1,27 @@
+.panel-heading .panel-title{
+	margin-bottom: 10px;
+	padding: 0px 20px;
+}
+
+.panel-heading .panel-title .pdf-button{
+	float: right;
+}
+
+.procurement-signature{
+	width: 300px;
+	height: 120px;
+}
+
+.bid-analys .attachment img{width: 80px;height: 50px;}
+.form-procurement{margin-right: 15px;}
+
+.caption-placement {
+    padding: 20px !important;
+    caption-side: bottom !important;
+    text-align: center;
+    font-size: 17px;
+    color: #312e2e;
+    font-weight: 600;
+}
+
+.committee-list .signimage img{width: 80px;height: 50px;}

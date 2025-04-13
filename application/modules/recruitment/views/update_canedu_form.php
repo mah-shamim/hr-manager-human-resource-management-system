@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                 <?= form_open('circularprocess/Candidate/update_can_eduifo_form/'. $data->can_id) ?>
+                 <?php echo  form_open('circularprocess/Candidate/update_can_eduifo_form/'. $data->can_id) ?>
 
                   
                            
