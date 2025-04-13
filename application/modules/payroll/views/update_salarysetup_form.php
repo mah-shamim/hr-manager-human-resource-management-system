@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div class="panel-body">
-               <?= form_open('payroll/Payroll/update_salsetup_form/'. $data->salary_type_id) ?>
+               <?php echo  form_open('payroll/Payroll/update_salsetup_form/'. $data->salary_type_id) ?>
 
                <input name="salary_type_id" type="hidden" value="<?php echo $data->salary_type_id ?>">
                
@@ -30,7 +30,7 @@
 
             </div>
             
-            <div class="form-group text-right">
+            <div class="form-group form-group-margin text-right">
                 
                 <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
             </div>

@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
               
-                <?= form_open_multipart('accounts/accounts/add_paymenttype') ?>
+                <?php echo  form_open_multipart('accounts/accounts/add_paymenttype') ?>
                      <div class="form-group row">
                         <label for="date" class="col-sm-2 col-form-label"><?php echo display('type_name')?></label>
                         <div class="col-sm-4">

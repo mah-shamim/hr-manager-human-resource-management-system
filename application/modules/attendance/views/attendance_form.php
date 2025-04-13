@@ -10,7 +10,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('attendance/Home/create_atten') ?>
+                    <?php echo  form_open('attendance/Home/create_atten') ?>
                         <div class="form-group row">
                             <label for="employee_id" class="col-sm-3 col-form-label"><?php echo display('emp_id') ?> *</label>
                             <div class="col-sm-9">
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="sign_in" class="col-sm-3 col-form-label"><?php echo display('sign_in') ?> *</label>
+                            <label for="sign_in" class="col-sm-3 col-form-label"><?php echo display('sign_in') ?></label>
                             <div class="col-sm-9">
                                 <input name="sign_in" class="form-control" type="text" placeholder="<?php   $timezone = $this->db->select('timezone')->from('setting')->get()->row();
                                   date_default_timezone_set($timezone->timezone);

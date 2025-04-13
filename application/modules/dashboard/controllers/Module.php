@@ -39,7 +39,7 @@ class Module extends MX_Controller {
         $config['upload_path']   = './application/modules/';
         $config['allowed_types'] = 'zip|rar|gz'; 
         $this->load->library('upload', $config);
-        $overwrite = $this->input->post('overwrite');
+        $overwrite = $this->input->post('overwrite',true);
         $overwrite = (($overwrite!=null)?$overwrite:false);
  		
         if ($this->upload->do_upload('module')) {  
@@ -68,13 +68,13 @@ class Module extends MX_Controller {
 		$this->form_validation->set_rules('directory', display('module'),'required|max_length[100]|is_unique[module.directory]');
 		$this->form_validation->set_message('is_unique', 'The %s is already installed');
 		/*-----------------------------------*/ 
-		$directory = $this->input->post('directory'); 
+		$directory = $this->input->post('directory',true); 
 
 		/*-----------ADD TO MODULE--------------*/
 		$moduleData = array(
 			'id' 		  => $this->input->post('id'),
-			'name' 		  => $this->input->post('name'),
-			'description' => $this->input->post('description'),
+			'name' 		  => $this->input->post('name',true),
+			'description' => $this->input->post('description',true),
 			'image' 	  => $this->input->post('image'), 
 			'directory'   => $directory,
 			'status'      => 1

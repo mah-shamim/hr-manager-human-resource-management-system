@@ -1,47 +1,30 @@
-<style type="text/css">
 
-
-.nav.nav-tabs li a {
-  background-color: green;
-  color:white;
-}
-
-.nav.nav-tabs li:not(.active) a {
-  pointer-events:none;
-  background-color: #2554C7;
-  color:white;
-}
-.nav.nav-tabs li (.active) a{
-  background-color: red;
-  color:white;
-}
-ul li a{
-  font-size: 12.5px;
-}
-</style>
 <div class="row">
-  <div class="container">
+  <div class="empform">
     <ul class="nav nav-tabs">
-      <li class="active"><a data-toggle="tab" href="#home"><?php echo display('basic_info')?></a></li>
+      <li class="active"><a data-toggle="tab" href="#basicdata"><?php echo display('basic_info')?></a></li>
+      <li><a data-toggle="tab" href="#bankinfo" ><?php echo display('bank_info')?></a></li>
+      <li><a data-toggle="tab" href="#salaryinfo" ><?php echo display('salary_info')?></a></li>
       <li><a data-toggle="tab" href="#menu1" ><?php echo display('positional_info')?></a></li>
       <li><a data-toggle="tab" href="#menu2" ><?php echo display('benefits')?></a></li>
-      <li><a data-toggle="tab" href="#classmenu" ><?php echo display('class')?></a></li>
+      <li><a data-toggle="tab" href="#classmenu" ><?php echo "Grade Level";?></a></li>
       <li><a data-toggle="tab" href="#menu3" ><?php echo display('supervisor')?></a></li>
       <li><a data-toggle="tab" href="#menu4" ><?php echo display('biographical_info')?></a></li>
       <li><a data-toggle="tab" href="#menu5" ><?php echo display('additional_address')?></a></li>
       <li><a data-toggle="tab" href="#menu6" ><?php echo display('emerg_contct')?></a></li>
       <li><a data-toggle="tab" href="#menu7" ><?php echo display('custom')?></a></li>
+      <li><a data-toggle="tab" href="#menu8" ><?php echo display('login_info')?></a></li>
     </ul>
 
     <div class="tab-content">
-      <div id="home" class="tab-pane fade in active">
+      <div id="basicdata" class="tab-pane fade in active">
         <div class="row">
-          <div class="col-sm-12 col-md-11">
+          <div class="col-sm-12 col-md-12 employee-form">
             <div class="panel">
               
               <div class="panel-body">
 
-               <?= form_open_multipart('employee/Employees/create_employee','id="emp_form"') ?>
+               <?php echo  form_open_multipart('employee/Employees/create_employee','id="emp_form"') ?>
                <div class="row">
                 <div class="col-sm-3">
                   <div class="form-group">
@@ -59,7 +42,7 @@ ul li a{
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
-                    <label for="l_name"><?php echo display('last_name')?></label>
+                    <label for="l_name"><?php echo display('last_name')?><sup class="color-red ">*</sup></label>
                     
                     <input type="text" class="form-control" id="last_name"
                     name="last_name" placeholder="Your Last Name">
@@ -67,7 +50,7 @@ ul li a{
                   </div>
                 </div>
                 <div class="col-sm-3">
-                  <div class="form-group">
+                  <div class="form-group form-group-margin">
                     <label for="l_name"><?php echo display('maiden_name')?> </label>
                     <input type="text" class="form-control" id="maiden_name"
                     name="maiden_name" placeholder="Your Maiden Name">
@@ -79,7 +62,7 @@ ul li a{
                   <div class="form-group">
                     <label for="email"><?php echo display('email')?> <sup class="color-red ">*</sup></label>
                       <input type="email" class="form-control"
-                      name="email" id="email" placeholder="Your Email">
+                      name="email" id="email" placeholder="Your Email" oninput="setuseemail()">
                       <span id="email_v_message"></span>
                   </div>
                 </div>
@@ -90,7 +73,7 @@ ul li a{
                   </div>
                 </div>
                 <div class="col-sm-4">
-                  <div class="form-group">
+                  <div class="form-group form-group-margin">
                     <label for="phone"><?php echo display('alter_phone')?> <sup class="color-red "></sup></label>
                     <input type="number" class="form-control" name="alter_phone" id="phone" placeholder="Your Phone Number">
                   </div>
@@ -113,14 +96,52 @@ ul li a{
                 </div>
               </div>
               <div class="col-sm-4">
-                <div class="form-group">
+                <div class="form-group form-group-margin">
                   <label for="zip_code"><?php echo display('zip_code')?></label>
                   <input type="number" class="form-control" id="zip_code"
                   name="zip_code" placeholder="Your Zip Code">
                 </div>
               </div>
             </div>
-            <div class="form-group text-right">
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+
+                    <label for="attendance_time"><?php echo display('attendance_time')?>  <sup class="color-red ">*</sup></label>
+
+                    <select name="attendance_time"  class="form-control" id="attendance_time">
+                      <option value="">Select time</option>
+                      <?php foreach ($atten_time_list as $time_list) {?>
+                        <option value="<?php echo $time_list->rule_id?>"><?php echo $time_list->name.'('.$time_list->start_time.' - '.$time_list->end_time.')';?></option>
+                      <?php } ?>
+                    </select>
+
+                    <span id="attentime"></span>
+
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="form-group">
+
+                    <label for="employee_type"><?php echo display('employee_type')?>  <sup class="color-red ">*</sup></label>
+
+                    <select name="employee_type"  class="form-control" id="employee_type">
+                      <option value="">Select time</option>
+                      <?php foreach ($employee_types as $employee_type) {?>
+                        <option value="<?php echo $employee_type->id?>"><?php echo $employee_type->name;?></option>
+                      <?php } ?>
+                    </select>
+
+                    <span id="emptype"></span>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group form-group-margin text-right">
              <input type="button" class="btn btn-primary btnNext" onclick="valid_inf()" value="NEXT">
              
            </div>
@@ -131,18 +152,155 @@ ul li a{
      </div>
    </div>
  </div>
+
+<div id="bankinfo" class="tab-pane fade">
+  <div class="row">
+     <div class="col-sm-12 col-md-12 employee-form">
+            <div class="panel">
+              <div class="panel-body">
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="acc_number"><?php echo display('account_number')?></label>
+                        <input id="acc_number" name="acc_number" type="text" class="form-control" placeholder="Account Number">
+                    </div>
+                    
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="bank_name"><?php echo display('bank_name')?></label>
+                      <input type="text" class="form-control" id="bank_name"
+                      name="bank_name" placeholder="Bank Name">
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="bban_num"><?php echo display('bban_num')?></label>
+                      
+                      <input type="text" class="form-control" id="bban_num"
+                      name="bban_num" placeholder="BBAN Number">
+                      
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group form-group-margin">
+                      <label for="branch_address"><?php echo display('branch_address')?></label>
+                      <input type="text" class="form-control" id="branch_address"
+                      name="branch_address" placeholder="Branch Address">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-margin text-right">
+
+                  <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
+                  <input type="button" class="btn btn-primary btnNext" onclick="valid_bank_inf()" value="NEXT">
+                 
+                </div>
+
+              </div>
+            </div>
+      </div>
+  </div>
+</div>
+
+<div id="salaryinfo" class="tab-pane fade">
+  <div class="row">
+     <div class="col-sm-12 col-md-12 employee-form">
+            <div class="panel">
+              <div class="panel-body">
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label><h3 style="border-bottom: 1px dotted blue;">Salary Information</h3></label><br>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="basic"><?php echo display('basic')?><sup class="color-red ">*</sup></label>
+                      <input type="number" class="form-control" id="basic"
+                      name="basic" placeholder="<?php echo display('basic')?>">
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="transport"><?php echo display('transport').' '.display('allowance')?></label>
+                      
+                      <input type="number" class="form-control" id="transport"
+                      name="transport" placeholder="<?php echo display('transport')?>">
+                      
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="gross_salary"><?php echo display('gross_salary')?><sup class="color-red ">*</sup></label>
+                        <input id="gross_salary" name="gross_salary" type="number" class="form-control" placeholder="<?php echo display('gross_salary')?>">
+                    </div>
+                    
+                  </div>
+
+
+                </div>
+
+                <br>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label><h3 style="border-bottom: 1px dotted blue;">Tax Information</h3></label><br>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="tin_no"><?php echo display('tin_no')?><sup class="color-black ">*</sup></label>
+                        <input id="tin_no" name="tin_no" type="number" class="form-control" placeholder="<?php echo display('tin_no')?>">
+                    </div>
+                    
+                  </div>
+
+                </div>
+
+
+
+                <div class="form-group form-group-margin text-right">
+
+                  <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
+                  <input type="button" class="btn btn-primary btnNext" onclick="valid_salary_inf()" value="NEXT">
+                 
+                </div>
+
+              </div>
+            </div>
+      </div>
+  </div>
+</div>
+
  <div id="menu1" class="tab-pane fade">
    <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
         
         <div class="panel-body">
           <div class="row">
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="dept_id"><?php echo display('division');?> <sup class="color-red ">*</sup></label><br>
                
-                 <select name="division" id="division" class="form-control" style="width: 480px">
+                 <select name="division" id="division" class="form-control">
                   <option value=""> Select Division</option>
                   <?php
 
@@ -168,10 +326,10 @@ ul li a{
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="form-group">
+            <div class="form-group form-group-margin">
               <label for="designation"><?php echo display('designation');?> <sup class="color-red ">*</sup></label>
               
-                <select name="pos_id" id="designation" class="form-control" style="width: 480px">
+                <select name="pos_id" id="designation" class="form-control" >
                   <option value="">select Designation</option>
                   <?php foreach ($designation as $desig) {?>
                     <option value="<?php echo $desig->pos_id?>"><?php echo $desig->position_name;?></option>
@@ -187,9 +345,9 @@ ul li a{
         <div class="row">
           
          <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="period"><?php echo display('duty_type')?> </label><br>
-            <select name="duty_type"  class="form-control" style="width: 480px">
+            <select name="duty_type"  class="form-control">
               <option value="1"> Full Time</option>
               <option value="2"> Part Time</option>
               <option value="3"> Contructual</option>
@@ -200,21 +358,23 @@ ul li a{
 
 
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('hire_date')?> <sup class="color-red ">*</sup></label>
               <input type="text" class="form-control datepicker" 
-              name="hiredate" id="hiredate" style="width: 480px" placeholder="Hire date">
+              name="hiredate" id="hiredate" placeholder="Hire date">
           </div>
         </div>
+
+        <!-- Earlier it was ohiredate but later renamed as 'Original Hire date' for client -->
         <div class="col-sm-6">
-          <div class="form-group">
-            <label for="work_hour"><?php echo display('original_h_date')?> <sup class="color-red ">*</sup></label>
+          <div class="form-group form-group-margin">
+            <label for="work_hour"><?php echo "Joining Date"?> <sup class="color-red ">*</sup></label>
               <input type="text" class="form-control datepicker" 
               name="ohiredate" id="ohiredate" placeholder="Original Hire date">
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('termination_date')?> </label>
             <input type="text" class="form-control datepicker" 
             name="terminatedate" id="tdate" placeholder="Termination date">
@@ -222,16 +382,16 @@ ul li a{
         </div>
 
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('termination_reason')?></label>
             <textarea class="form-control" 
             name="termreason" id="treason" placeholder="Termination Reason"></textarea> 
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="period"><?php echo display('voluntary_termination')?></label>
-            <select name="volunt_termination"  class="form-control" style="width: 480px">
+            <select name="volunt_termination"  class="form-control">
               <option value=""> Select One</option>
               <option value="1"> Yes</option>
               <option value="2">No</option>
@@ -239,16 +399,16 @@ ul li a{
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('re_hire_date')?></label>
             <input type="text" class="form-control datepicker" 
             name="rehiredate" id="rhdate" placeholder="Rehire date">
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="period"><?php echo display('rate_type')?> <sup class="color-red ">*</sup></label>
-              <select name="rate_type" id="rate_type"  class="form-control" style="width: 480px">
+              <select name="rate_type" id="rate_type"  class="form-control">
                 <option value="">Select One</option>
                 <option value="1">Hourly</option>
                 <option value="2">Salary</option>
@@ -257,17 +417,26 @@ ul li a{
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('s_rate')?> <sup class="color-red ">*</sup></label>
               <input type="number" class="form-control" 
               name="rate" id="rate" placeholder="Rate">
           </div>
         </div>
+
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
+            <label for="monthly_work_hours"><?php echo display('monthly_work_hours')?> <sup class="color-red ">*</sup></label>
+              <input type="number" class="form-control" 
+              name="monthly_work_hours" id="monthly_work_hours" placeholder="<?php echo display('monthly_work_hours')?>" value="173.33">
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group form-group-margin">
             <label for="period"><?php echo display('pay_frequency')?> <sup class="color-red ">*</sup></label><br>
    
-              <select name="pay_frequency" id="pay_frequency"  class="form-control" style="width: 480px">
+              <select name="pay_frequency" id="pay_frequency"  class="form-control">
                 <option value="">Select Frequency</option>
                 <option value="1">Weekly</option>
                 <option value="2">Biweekly</option>
@@ -279,35 +448,35 @@ ul li a{
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('pay_frequency_txt')?></label>
             <input type="text" class="form-control" 
             name="pay_f_text" id="qfre_text" placeholder="<?php echo display('pay_frequency_txt')?>">
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('hourly_rate2')?></label>
             <input type="number" class="form-control" 
             name="h_rate2" id="rate2" placeholder="Hourly Rate2">
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('hourly_rate3')?></label>
             <input type="number" class="form-control" 
             name="h_rate3" id="rate3" placeholder="Hourly Rate">
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('home_department')?></label>
             <input type="text" class="form-control" 
             name="h_department" id="rate3" placeholder="<?php echo display('home_department')?>">
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="form-group">
+          <div class="form-group form-group-margin">
             <label for="work_hour"><?php echo display('department_text')?></label>
             <input type="text" class="form-control" 
             name="h_dep_text" id="hdptext" placeholder="<?php echo display('department_text')?>">
@@ -315,7 +484,7 @@ ul li a{
         </div>
       </div>
     </div>
-    <div class="form-group text-right">
+    <div class="form-group form-group-margin text-right">
       <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
       <input type="button" class="btn btn-primary btnNext" onclick="valid_inf2()" value="NEXT">
       
@@ -324,178 +493,66 @@ ul li a{
 </div>
 </div>
 </div>
+
 <div id="menu2" class="tab-pane fade">
   <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
-        
-        <div class="panel-body">
+
+      <div class="panel-body">
 
           <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="dfs"><?php echo display('benifit_class_code')?></label>
-                <input type="text" class="form-control" id="bnfid"
-                name="benifit_c_code[]"  placeholder="Benifit Class Code">
+              <div class="col-sm-6">
+                  <div class="form-group form-group-margin">
+                      <label for="dfs"><?php echo "Medical"?></label>
+                      <input type="number" class="form-control" id="medical_benefit"
+                      name="medical_benefit"  placeholder="<?php echo "Medical"?>">
+                  </div>
               </div>
-            </div>
-            
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="l_name"><?php echo display('benifit_desc')?></label>
-                <input type="text" class="form-control" id="benifit_c_code_d"
-                name="benifit_c_code_d[]" placeholder="<?php echo display('benifit_desc')?>">
+               
+              <div class="col-sm-6">
+                  <div class="form-group form-group-margin">
+                      <label for="dfs"><?php echo "Family"?></label>
+                      <input type="number" class="form-control" id="family_benefit"
+                      name="family_benefit"  placeholder="<?php echo "Family"?>">
+                  </div>
               </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="l_name"><?php echo display('benifit_acc_date')?> </label>
-                <input type="text" class="form-control datepicker" 
-                name="benifit_acc_date[]" placeholder="Benefit Accrual Date">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="status"><?php echo display('benifit_sta')?> <sup class="color-red "></sup></label>
-                <select name="benifit_sst[]"  class="form-control" style="width: 480px">
-                  <option value="1">Active</option>
-                  <option value="2">Inactive</option>
-                </select>
-              </div>
-            </div>
-            
 
-          </div>
-          <div id="addbenifit" class="toggle">
-            <div class="row">
               <div class="col-sm-6">
-                <div class="form-group">
-                  <label for="dfs"><?php echo display('benifit_class_code')?></label>
-                  <input type="text" class="form-control" id="bnfid"
-                  name="benifit_c_code[]"  placeholder="Benifit Class Code">
-                </div>
+                  <div class="form-group form-group-margin">
+                      <label for="dfs"><?php echo "Transportation"?></label>
+                      <input type="number" class="form-control" id="transportation_benefit"
+                      name="transportation_benefit"  placeholder="<?php echo "Transportation"?>">
+                  </div>
               </div>
-              
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label for="l_name"><?php echo display('benifit_desc')?></label>
-                  <input type="text" class="form-control" id="benifit_c_code_d"
-                  name="benifit_c_code_d[]" placeholder="<?php echo display('benifit_desc')?>">
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label for="l_name"><?php echo display('benifit_acc_date')?> </label>
-                  <input type="text" class="form-control datepicker" 
-                  name="benifit_acc_date[]" placeholder="Benefit Accrual Date">
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label for="status"><?php echo display('benifit_sta')?> <sup class="color-red "></sup></label>
-                  <select name="benifit_sst[]"  class="form-control" style="width: 480px">
-                    <option value="1">Active</option>
-                    <option value="2">Inactive</option>
-                  </select>
-                </div>
-              </div>
-              
-              
-            </div>
-            
-            <div id="addbenifit" class="toggle">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="dfs"><?php echo display('benifit_class_code')?></label>
-                    <input type="text" class="form-control" id="bnfid"
-                    name="benifit_c_code[]"  placeholder="Benifit Class Code">
-                  </div>
-                </div>
-                
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="l_name"><?php echo display('benifit_desc')?></label>
-                    <input type="text" class="form-control" id="benifit_c_code_d"
-                    name="benifit_c_code_d[]" placeholder="<?php echo display('benifit_desc')?>">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="l_name"><?php echo display('benifit_acc_date')?> </label>
-                    <input type="text" class="form-control datepicker" 
-                    name="benifit_acc_date[]" placeholder="Benefit Accrual Date">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="status"><?php echo display('benifit_sta')?> <sup class="color-red "></sup></label>
-                    <select name="benifit_sst[]"  class="form-control" style="width: 480px">
-                      <option value="1">Active</option>
-                      <option value="2">Inactive</option>
-                    </select>
-                  </div>
-                </div>
-                
-                
-              </div>
-              <div id="addbenifit" class="toggle">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="dfs"><?php echo display('benifit_class_code')?></label>
-                      <input type="text" class="form-control" id="bnfid"
-                      name="benifit_c_code[]"  placeholder="Benifit Class Code">
-                    </div>
-                  </div>
-                  
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="l_name"><?php echo display('benifit_desc')?></label>
-                      <input type="text" class="form-control" id="benifit_c_code_d"
-                      name="benifit_c_code_d[]" placeholder="<?php echo display('benifit_desc')?>">
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="l_name"><?php echo display('benifit_acc_date')?> </label>
-                      <input type="text" class="form-control datepicker" 
-                      name="benifit_acc_date[]" placeholder="Benefit Accrual Date">
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="status"><?php echo display('benifit_sta')?> <sup class="color-red "></sup></label>
-                      <select name="benifit_sst[]"  class="form-control" style="width: 480px">
-                        <option value="1">Active</option>
-                        <option value="2">Inactive</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  
-                </div>
-                
-              </div>
-            </div>
-          </div>
 
-          <div class="form-group text-right">
-           
-            <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
-            <input type="button" class="btn btn-primary btnNext" onclick="valid_inf3()" value="NEXT">
-          </div>
-          
+              <div class="col-sm-6">
+                  <div class="form-group form-group-margin">
+                      <label for="dfs"><?php echo "Others"?></label>
+                      <input type="number" class="form-control" id="other_benefit"
+                      name="other_benefit"  placeholder="<?php echo "Others"?>">
+                  </div>
+              </div>
 
-        </div>  
+            </div>
+
+            <div class="form-group form-group-margin text-right">
+               
+              <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
+              <input type="button" class="btn btn-primary btnNext" onclick="valid_inf3()" value="NEXT">
+            </div>
+        
+      </div>  
       </div>
     </div>
   </div>
 </div>
+
+
 <!-- class -->
 <div id="classmenu" class="tab-pane fade">
   <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
         
         <div class="panel-body">
@@ -510,7 +567,7 @@ ul li a{
             </div>
             
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="l_name"><?php echo display('class_descript')?></label>
                 <input type="text" class="form-control" id="c_code_d"
                 name="c_code_d" placeholder="<?php echo display('class_descript')?>">
@@ -524,9 +581,9 @@ ul li a{
               </div>
             </div>
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="status"><?php echo display('class_sta')?> <sup class="color-red "></sup></label>
-                <select name="class_sst"  class="form-control" style="width: 480px">
+                <select name="class_sst"  class="form-control">
                   <option value="1">Active</option>
                   <option value="2">Inactive</option>
                 </select>
@@ -537,7 +594,7 @@ ul li a{
           </div>
 
 
-          <div class="form-group text-right">
+          <div class="form-group form-group-margin text-right">
            
             <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
             <input type="button" class="btn btn-primary btnNext" onclick="valid_class()" value="NEXT">
@@ -552,7 +609,7 @@ ul li a{
 <!-- supervisor -->
 <div id="menu3" class="tab-pane fade">
   <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
         
         <div class="panel-body">
@@ -561,7 +618,7 @@ ul li a{
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="s_name"><?php echo display('super_visor_name')?></label>
-                <select name="supervisorname"  class="form-control" style="width: 480px">
+                <select name="supervisorname"  class="form-control">
                   <option value="">Select One</option>
                   <option value="self"> Self </option>
                   <?php foreach ($supervisor as $suplist) {?>
@@ -571,18 +628,21 @@ ul li a{
               </div>
             </div>
             
+            <!-- Earlier it was is_supervisor but later renamed as 'Ist Supervisor' for client -->
             <div class="col-sm-6">
-              <div class="form-group">
-                <label for="l_name"><?php echo display('is_super_visor')?></label>
-                <select name="is_supervisor"  class="form-control" style="width: 480px">
-                  <option value="1">Yes</option>
+              <div class="form-group form-group-margin">
+                <label for="l_name"><?php echo "Ist Supervisor";?></label>
+                <select name="is_supervisor"  class="form-control">
                   <option value="0">No</option>
+                  <option value="1">Yes</option>
                 </select>
               </div>
             </div>
+
+            <!-- Earlier it was reports but later renamed as 'Reporting To' for client -->
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="reports"><?php echo display('supervisor_report')?> </label>
+                <label for="reports"><?php echo "Reporting To";?> </label>
                 <input type="text" class="form-control" 
                 name="reports" placeholder="Reports">
               </div>
@@ -590,7 +650,7 @@ ul li a{
 
           </div>
 
-          <div class="form-group text-right">
+          <div class="form-group form-group-margin text-right">
            
            <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
            <input type="button" class="btn btn-primary btnNext" onclick="valid_inf4()" value="NEXT">
@@ -604,14 +664,14 @@ ul li a{
 </div>
 <div id="menu4" class="tab-pane fade">
   <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
         
         <div class="panel-body">
 
           <div class="row">
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="s_name"><?php echo display('dob')?><sup class="color-red ">*</sup></label>
                   <input type="text" class="form-control datepicker" id="dob"
                   name="dob" placeholder="<?php echo display('dob')?>">
@@ -619,10 +679,10 @@ ul li a{
             </div>
             
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="gender"><?php echo display('gender')?><sup class="color-red ">*</sup></label>
              
-                 <select name="gender" id="gender" class="form-control" style="width: 480px">
+                 <select name="gender" id="gender" class="form-control">
                   <option value="">Select Gender</option>
                   <option value="1">Male</option>
                   <option value="2">Female</option>
@@ -633,9 +693,9 @@ ul li a{
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="form-group">
+            <div class="form-group form-group-margin">
               <label for="reports"><?php echo display('marital_stats')?> </label>
-              <select name="marital_status"  class="form-control" style="width: 480px">
+              <select name="marital_status"  class="form-control">
                 <option value="1">Single</option>
                 <option value="2">Married</option>
                 <option value="3">Divorced</option>
@@ -645,53 +705,55 @@ ul li a{
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="form-group">
+            <div class="form-group form-group-margin">
               <label for="s_name"><?php echo display('ethnic_group')?></label>
               <input type="text" class="form-control" id="ethnic"
               name="ethnic" placeholder="<?php echo display('ethnic_group')?>">
             </div>
           </div>
-          <div class="col-sm-6">
-            <div class="form-group">
+          <div class="col-sm-6" style="display:none;">
+            <div class="form-group form-group-margin">
               <label for="eeo_class"><?php echo display('eeo_class_gp')?></label>
               <input type="text" class="form-control" id="eeo_class"
               name="eeo_class" placeholder="<?php echo display('eeo_class_gp')?>">
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="form-group">
-              <label for="ssn"><?php echo display('ssn')?> <sup class="color-red ">*</sup></label>
-                <input type="text" class="form-control" id="ssn"
-                name="ssn" placeholder="<?php echo display('ssn')?>">
+            <div class="form-group form-group-margin">
+              <label for="sos"><?php echo display('sos')?> <sup class="color-black">*</sup></label>
+                <input type="text" class="form-control" id="sos"
+                name="sos" placeholder="<?php echo display('sos')?>">
             </div>
           </div>
 
+          <!-- Earlier it was work_in_state but later renamed as 'Work in City' for client -->
           <div class="col-sm-6">
-            <div class="form-group">
-              <label for="w_s"><?php echo display('work_in_state')?></label>
-              <select name="w_s"  class="form-control" style="width: 480px">
+            <div class="form-group form-group-margin">
+              <label for="w_s"><?php echo "Work in City";?></label>
+
+              <input type="text" class="form-control" id="w_s"
+              name="w_s" placeholder="<?php echo "Work in City";?>">
+            </div>
+          </div>
+
+          <!-- Earlier it was live_in_state but later renamed as 'City of Residence' for client -->
+          <div class="col-sm-6">
+            <div class="form-group form-group-margin">
+              <label for="l_in_s"><?php echo "City of Residence";?></label>
+              <select name="l_in_s"  class="form-control">
                 <option value="1">Yes</option>
                 <option value="2">No</option>
               </select>
             </div>
           </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="l_in_s"><?php echo display('live_in_state')?></label>
-              <select name="l_in_s"  class="form-control" style="width: 480px">
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-              </select>
-            </div>
-          </div>
 
-
+          <!-- Earlier it was citizenship but later renamed as 'Work Permit' for client -->
           <div class="col-sm-6">
-            <div class="form-group">
-              <label for="citizenship"><?php echo display('citizenship')?></label>
-              <select name="citizenship"  class="form-control"  style="width: 480px">
-                <option value="1"> Citizen</option>
-                <option value="0"> Non-citizen</option>
+            <div class="form-group form-group-margin">
+              <label for="citizenship"><?php echo "Work Permit";?></label>
+              <select name="citizenship"  class="form-control" >
+                <option value="1"> Yes</option>
+                <option value="0"> No</option>
               </select>
             </div>
           </div>
@@ -700,13 +762,13 @@ ul li a{
           <div class="col-sm-6">
             <label for="picture"><?php echo display('picture')?></label>
             <input type="file" accept="image/*" name="picture" onchange="loadFile(event)">
-            <small id="fileHelp" class="text-muted"><img src="<?php echo base_url();?>event/css/images/user.jpg" id="output" style="height: 150px;width: 200px" class="img-thumbnail"/>
+            <small id="fileHelp" class="text-muted"><img src="<?php echo base_url();?>assets/img/user/default.jpg" id="output"   class="img-thumbnail img-preview"/>
             </small>
           </div>
 
         </div>
 
-        <div class="form-group text-right">
+        <div class="form-group form-group-margin text-right">
          
          <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
          <input type="button" class="btn btn-primary btnNext" onclick="valid_inf5()" value="NEXT">
@@ -720,7 +782,7 @@ ul li a{
 </div>
 <div id="menu5" class="tab-pane fade">
   <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
         
         <div class="panel-body">
@@ -731,40 +793,42 @@ ul li a{
                 <label for="s_name"><?php echo display('home_email')?></label>
                 <input type="email" class="form-control" id="h_email"
                 name="h_email" placeholder="Home Email">
+                <span id="h_email_v_message"></span>
               </div>
             </div>
             
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="b_email"><?php echo display('business_email')?></label>
                 <input type="email" class="form-control" id="b_email"
                 name="b_email" placeholder="<?php echo display('business_email')?>">
+                 <span id="b_email_v_message"></span>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="h_phone"><?php echo display('home_phone')?> <sup class="color-red ">*</sup></label>
-                  <input type="text" class="form-control" id="h_phone"
+                  <input type="number" class="form-control" id="h_phone"
                   name="h_phone" placeholder="<?php echo display('home_phone')?>">
               </div>
             </div>
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="w_phone"><?php echo display('business_phone')?> </label>
-                <input type="text" class="form-control" id="w_phone"
+                <input type="number" class="form-control" id="w_phone"
                 name="w_phone" placeholder="<?php echo display('business_phone')?>">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="c_phone"><?php echo display('cell_phone')?> <sup class="color-red ">*</sup></label>
-                  <input type="text" class="form-control" id="c_phone"
+                  <input type="number" class="form-control" id="c_phone"
                   name="c_phone" placeholder="<?php echo display('cell_phone')?>">
               </div>
             </div>
           </div>
 
-          <div class="form-group text-right">
+          <div class="form-group form-group-margin text-right">
            
            <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
            <input type="button" class="btn btn-primary btnNext" onclick="valid_inf6()" value="NEXT">
@@ -778,61 +842,76 @@ ul li a{
 </div>
 <div id="menu6" class="tab-pane fade">
   <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
         
         <div class="panel-body">
 
           <div class="row">
+
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
+                  <label for="s_name"><?php echo "Emergency Contact Person";?> <sup class="color-red ">*</sup></label>
+                 <input type="text" class="form-control" id="em_contact_person" name="em_contact_person" placeholder="Emergency Contact Person">
+                   
+              </div>
+            </div>
+
+            <!-- Earlier it was e_c_relation but later renamed as 'Emergency Contact Relationship' for client -->
+            <div class="col-sm-6">
+              <div class="form-group form-group-margin">
+                <label for="e_c_relation"><?php echo "Emergency Contact Relationship";?> </label>
+                <input type="text" class="form-control" id="e_c_relation"
+                name="e_c_relation" placeholder="<?php echo "Emergency Contact Relationship";?>">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group form-group-margin">
                 <label for="s_name"><?php echo display('emerg_contct')?> <sup class="color-red ">*</sup></label>
          
-                 <input type="text" class="form-control" id="em_contact"
+                 <input type="number" class="form-control" id="em_contact"
                  name="em_contact" placeholder="Emergency Contact">
               
              </div>
            </div>
-           
+
            <div class="col-sm-6">
-            <div class="form-group">
-              <label for="e_h_phone"><?php echo display('emerg_home_phone')?> <sup class="color-red ">*</sup></label>
-                <input type="text" class="form-control" id="e_h_phone"
-                name="e_h_phone" placeholder="<?php echo display('emerg_home_phone')?>">
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="e_w_phone"><?php echo display('emrg_w_phone')?> <sup class="color-red ">*</sup></label>
-                <input type="text" class="form-control" id="e_w_phone"
-                name="e_w_phone" placeholder="<?php echo display('emrg_w_phone')?>">
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="e_c_relation"><?php echo 'Emergency Contact Relation'?> </label>
-              <input type="text" class="form-control" id="e_c_relation"
-              name="e_c_relation" placeholder="<?php echo display('emer_con_rela')?>">
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
+            <div class="form-group form-group-margin">
               <label for="alt_em_cont"><?php echo display('alt_em_contct')?></label>
-              <input type="text" class="form-control" id="alt_em_cont"
+              <input type="number" class="form-control" id="alt_em_cont"
               name="alt_em_cont" placeholder="<?php echo display('alt_em_contct')?>">
             </div>
           </div>
+           
+           <div class="col-sm-6">
+            <div class="form-group form-group-margin">
+              <label for="e_h_phone"><?php echo display('emerg_home_phone')?> <sup class="color-red ">*</sup></label>
+                <input type="number" class="form-control" id="e_h_phone"
+                name="e_h_phone" placeholder="<?php echo display('emerg_home_phone')?>">
+            </div>
+          </div>
+
           <div class="col-sm-6">
-            <div class="form-group">
-              <label for="a_e_h_phone"><?php echo display('alt_emg_h_phone')?> </label>
-              <input type="text" class="form-control" id="a_e_h_phone"
+            <div class="form-group form-group-margin">
+              <label for="a_e_h_phone"><?php echo display('alt_emg_h_phone')?> <sup class="color-red ">*</sup></label>
+              <input type="number" class="form-control" id="a_e_h_phone"
               name="a_e_h_phone" placeholder="<?php echo display('alt_emg_h_phone')?>">
             </div>
           </div>
+
           <div class="col-sm-6">
-            <div class="form-group">
-              <label for="a_e_w_phone"><?php echo display('alt_emg_w_phone')?></label>
-              <input type="text" class="form-control" id="a_e_w_phone"
+            <div class="form-group form-group-margin">
+              <label for="e_w_phone"><?php echo display('emrg_w_phone')?> <sup class="color-red ">*</sup></label>
+                <input type="number" class="form-control" id="e_w_phone"
+                name="e_w_phone" placeholder="<?php echo display('emrg_w_phone')?>">
+            </div>
+          </div>
+          
+          <div class="col-sm-6">
+            <div class="form-group form-group-margin">
+              <label for="a_e_w_phone"><?php echo display('alt_emg_w_phone')?><sup class="color-red ">*</sup></label>
+              <input type="number" class="form-control" id="a_e_w_phone"
               name="a_e_w_phone" placeholder="<?php echo display('alt_emg_w_phone')?>">
             </div>
           </div>
@@ -840,7 +919,7 @@ ul li a{
 
         
 
-        <div class="form-group text-right">
+        <div class="form-group form-group-margin text-right">
           <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
           <input type="button" class="btn btn-primary" value="Next" onclick="valid_inf7()">
         </div>
@@ -852,7 +931,7 @@ ul li a{
 </div>
 <div id="menu7" class="tab-pane fade">
   <div class="row">
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-12 col-md-12 employee-form">
       <div class="panel">
         
        <div class="panel-body">
@@ -867,7 +946,7 @@ ul li a{
             </div>
             
             <div class="col-sm-6">
-              <div class="form-group">
+              <div class="form-group form-group-margin">
                 <label for="c_f_type"><?php echo 'Custom Field Type';?></label>
                 <select name="c_f_type[]"  class="form-control">
                   <option value="1">Text</option>
@@ -878,7 +957,7 @@ ul li a{
             </div>
             
             <div class="col-sm-12">
-              <div class="form-group">
+              <div class="form-group form-group-new form-group-margin-left">
                 <label for="reports"><?php echo 'Custom Value'?> </label>
                 <input type="text" name="customvalue[]" class="form-control" placeholder="custom value">
 
@@ -900,7 +979,7 @@ ul li a{
               </div>
               
               <div class="col-sm-6">
-                <div class="form-group">
+                <div class="form-group form-group-margin">
                   <label for="c_f_type"><?php echo 'Custom Field Type';?></label>
                   <select name="c_f_type[]"  class="form-control">
                     <option value="1">Text</option>
@@ -911,7 +990,7 @@ ul li a{
               </div>
               
               <div class="col-sm-12">
-                <div class="form-group">
+                <div class="form-group form-group-new form-group-margin-left">
                   <label for="reports"><?php echo 'Custom Value'?> </label>
                   <input type="text" name="customvalue[]" class="form-control" placeholder="custom value">
 
@@ -932,7 +1011,7 @@ ul li a{
                 </div>
                 
                 <div class="col-sm-6">
-                  <div class="form-group">
+                  <div class="form-group form-group-margin">
                     <label for="c_f_type"><?php echo 'Custom Field Type';?></label>
                     <select name="c_f_type[]"  class="form-control">
                       <option value="1">Text</option>
@@ -943,7 +1022,7 @@ ul li a{
                 </div>
                 
                 <div class="col-sm-12">
-                  <div class="form-group">
+                  <div class="form-group form-group-new form-group-margin-left">
                     <label for="reports"><?php echo 'Custom Value'?> </label>
                     <input type="text" name="customvalue[]" class="form-control" placeholder="custom value">
 
@@ -955,441 +1034,63 @@ ul li a{
           </div>
         </div>
 
-        <div class="form-group text-right">
-          <input type="button" class="btn btn-primary btnPrevious"  value="Previous">  
-          <input type="submit" class="btn btn-success" onclick="valid_inf8()" value="Save">
+        <div class="form-group form-group-margin text-right">
+          <input type="button" class="btn btn-primary btnPrevious"  value="Previous"> <input type="button" class="btn btn-primary btnNext" onclick="valid_inf_custom()" value="NEXT"> 
+         
         </div>
         
-        <?php echo form_close() ?>
+      
       </div>    
     </div>
   </div>
 </div>
 </div>
+<div id="menu8" class="tab-pane fade">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 employee-form">
+      <div class="panel">
+        
+        <div class="panel-body">
 
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="s_name"><?php echo display('user_email')?> <sup class="color-red ">*</sup></label>
+         
+                 <input type="email" class="form-control" id="user_email"
+                 name="user_email" readonly="" placeholder="<?php echo display('user_email')?>">
+              
+             </div>
+           </div>
+         </div>
+            <div class="row">
+           <div class="col-sm-6">
+            <div class="form-group">
+              <label for="e_h_phone"><?php echo display('password')?> <sup class="color-red ">*</sup></label>
+                <input type="password" class="form-control" id="password"
+                name="password" placeholder="<?php echo display('password')?>">
+            </div>
+          </div>
+      
+        </div>
+
+        
+
+        <div class="form-group form-group-margin text-right">
+          <input type="button" class="btn btn-primary btnPrevious"  value="Previous">
+          <input type="button" class="btn btn-success" onclick="valid_inf8()" value="Save">
+        </div>
+        
+      </div>  
+    </div>
+  </div>
 </div>
 </div>
 </div>
-<script>
-  var loadFile = function(event) {
-    var output = document.getElementById('output');
-    output.src = URL.createObjectURL(event.target.files[0]);
-  };
-</script>
-<script>
-
-  $('.btnPrevious').click(function(){
-    $('.nav-tabs > .active').prev('li').find('a').trigger('click');
-  });
-
-  $("#first_name").on('keyup', function() {
-    var inpfirstname = document.getElementById('first_name');
-    if (inpfirstname.value.length === 0) return;
-    document.getElementById("first_name").style.borderColor = "green";
-  });
-  $("#phone").on('keyup', function() {
-    var inputphone = document.getElementById('phone');
-    if (inputphone.value.length === 0) return;
-   document.getElementById("phone").style.borderColor = "green";
-  });
-  $("#email").on('keyup', function() {
-    var inpemail = document.getElementById('email');
-    if (inpemail.value.length === 0) return;
-     document.getElementById("email").style.borderColor = "green";
-   var reEmail = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
-
-  if(!(inpemail.value).match(reEmail)) {
-    //alert("Invalid email address");
-    document.getElementById("email_v_message").innerHTML = "Invalid email address";
-    document.getElementById("email").style.borderColor = "red";
-    return false;
-  }
- document.getElementById("email_v_message").innerHTML = "";
-  return true;
-  });
-//hire date
-$("#hiredate").on('change', function() {
-  var inputhiredate = document.getElementById('hiredate');
-  if (inputhiredate.value.length === 0) return;
- document.getElementById("hiredate").style.borderColor = "green";
-});
-$("#ohiredate").on('change', function() {
-  var inputhiredate = document.getElementById('ohiredate');
-  if (inputhiredate.value.length === 0) return;
- document.getElementById("ohiredate").style.borderColor = "green";
-});
-$("#designation").on('change', function() {
-  var inputdesignaiton = document.getElementById('designation');
-  if (inputdesignaiton.value.length === 0) return;
- document.getElementById("desig").innerHTML = "";
-});
-$("#division").on('change', function() {
-  var inputdivision = document.getElementById('division');
-  if (inputdivision.value.length === 0) return;
- document.getElementById("divis").innerHTML = "";
-});
-$("#rate_type").on('change', function() {
-  var inputrate_type = document.getElementById('rate_type');
-  if (inputrate_type.value.length === 0) return;
- document.getElementById("rat_tp").innerHTML = "";
-});
-
-$("#rate").on('keyup', function() {
-  var inputrate = document.getElementById('rate');
-  if (inputrate.value.length === 0) return;
- document.getElementById("rate").style.borderColor = "green";
-});
-$("#pay_frequency").on('change', function() {
-
-  var inputpay_frequency = document.getElementById('pay_frequency');
-  if (inputpay_frequency.value.length === 0) return;
-document.getElementById("frequ").innerHTML = "";
-});
-$("#dob").on('change', function() {
-  var inputdob = document.getElementById('dob');
-  if (inputdob.value.length === 0) return;
- document.getElementById("dob").style.borderColor = "green";
-});
-$("#gender").on('change', function() {
-  var inputgender = document.getElementById('gender');
-  if (inputgender.value.length === 0) return;
-document.getElementById("gend").innerHTML = "";
-});
-$("#ssn").on('keyup', function() {
-  var inputssn = document.getElementById('ssn');
-  if (inputssn.value.length === 0) return;
-  document.getElementById("ssn").style.borderColor = "green";
-});
-$("#h_phone").on('keyup', function() {
-  var inputh_phone = document.getElementById('h_phone');
-  if (inputh_phone.value.length === 0) return;
-document.getElementById("h_phone").style.borderColor = "green";
-});
-$("#c_phone").on('keyup', function() {
-  var inputc_phone = document.getElementById('c_phone');
-  if (inputc_phone.value.length === 0) return;
- document.getElementById("c_phone").style.borderColor = "green";
-});
-$("#e_h_phone").on('keyup', function() {
-  var inpute_h_phone = document.getElementById('e_h_phone');
-  if (inpute_h_phone.value.length === 0) return;
-document.getElementById("e_h_phone").style.borderColor = "green";
-});
-$("#e_w_phone").on('keyup', function() {
-  var inpute_w_phone = document.getElementById('e_w_phone');
-  if (inpute_w_phone.value.length === 0) return;
-  document.getElementById("e_w_phone").style.borderColor = "green";
-});
-$("#em_contact").on('keyup', function() {
-  var inputem_contact = document.getElementById('em_contact');
-  if (inputem_contact.value.length === 0) return;
-  document.getElementById("em_contact").style.borderColor = "green";
-});
-function valid_inf() {
-  var usernameInput = document.getElementById('first_name');
-  var phoneInput = document.getElementById('phone');
-  var emailInput = document.getElementById('email');
-  var firstname = $('#first_name').val();
-  var phone = $('#phone').val();
-  var email = $('#email').val();
-  if (firstname == "") {
-    document.getElementById("first_name").style.borderColor = "red";
-
-  }else{
-    $("#first_name").on('keyup', function(){
-     document.getElementById("first_name").style.borderColor = "green";
-   });
-
-  }
-  if (phone == "") {
-    document.getElementById("phone").style.borderColor = "red";
-
-  }else{
-    $("#phone").on('keyup', function(){
-      document.getElementById("phone").style.borderColor = "green";
-   });
-
-  }
-  if (email == "") {
-     document.getElementById("email").style.borderColor = "red";
-    return false;
-  }else{
-    $("#email").on('keyup', function(){
-       document.getElementById("email").style.borderColor = "green";
-   });
-  }
- var reEmail = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
-
-  if(email !== "" && email.match(reEmail) && phone !== "" && firstname !== ""){
-   $('.nav-tabs > .active').next('li').find('a').trigger('click');
- }
-} 
-
-// second tab validation
-function valid_inf2() {
-  var hiredateInput = document.getElementById('hiredate');
-  var ohiredateInput = document.getElementById('ohiredate');
-  var divisionInput = document.getElementById('division');
-  var designationInput = document.getElementById('designation');
-  var rate_typeInput = document.getElementById('rate_type');
-  var rateInput = document.getElementById('rate');
-  var pay_frequencyInput = document.getElementById('pay_frequency');
-  var hiredate = $('#hiredate').val();
-  var ohiredate = $('#ohiredate').val();
-  var designation = $('#designation').val();
-  var division = $('#division').val();
-  var rate_type = $('#rate_type').val();
-  var rate = $('#rate').val();
-  var pay_frequency = $('#pay_frequency').val();
-  if (division == ""){
-    document.getElementById("divis").style.color = "red";
-    document.getElementById("divis").innerHTML ='Division Field is Required';
-  }else{
-    $("#division").on('keyup', function(){
-       document.getElementById("divis").style.color = "green";
-   });
-
-  }
-  if (designation == "") {
-       document.getElementById("desig").style.color = "red";
-       document.getElementById("desig").innerHTML ='Designation Field is Required';
-
-  }else{
-    $("#designation").on('keyup', function(){
-        document.getElementById("designation").style.color = "green";
-        document.getElementById("desig").innerHTML ='';
-   });
-
-  }
-
-  if (hiredate == "") {
-     document.getElementById("hiredate").style.borderColor = "red";
-  }else{
-    $("#hiredate").on('keyup', function(){
-     document.getElementById("hiredate").style.borderColor = "green";
-   });
-    
-
-  }
-  if (ohiredate == "") {
-     document.getElementById("ohiredate").style.borderColor = "red";
-
-  }else{
-    $("#ohiredate").on('keyup', function(){
-   document.getElementById("ohiredate").style.borderColor = "green";
-   });
-    
-
-  }
-  if (rate_type == "") {
-     document.getElementById("rat_tp").style.color = "red";
-     document.getElementById("rat_tp").innerHTML ='Rate Type Field is Required';
-  }else{
-    $("#rate_type").on('keyup', function(){
-     document.getElementById("rat_tp").innerHTML = "";
-   });
-    
-
-  }
-  if (rate == "") {
-   document.getElementById("rate").style.borderColor = "red";
-
-  }else{
-    $("#rate").on('keyup', function(){
-    document.getElementById("rate").style.borderColor = "green";
-   });
-    
-
-  }
-  if (pay_frequency == "") {
-       document.getElementById("frequ").style.color = "red";
-       document.getElementById("frequ").innerHTML ='Frequency Field is Required';
-  }else{
-    $("#pay_frequency").on('keyup', function(){
-      document.getElementById("frequ").innerHTML ='';
-   });
-    
-
-  }
-  if(division !== "" && designation !== "" && hiredate !== "" && ohiredate !== "" && rate_type !== "" && rate !== "" && pay_frequency !== ""){
-   $('.nav-tabs > .active').next('li').find('a').trigger('click');
- }
-}
-
-// third tab validation
-function valid_inf3() {
-  
- $('.nav-tabs > .active').next('li').find('a').trigger('click');
-
-}
-function valid_class() {
-  
- $('.nav-tabs > .active').next('li').find('a').trigger('click');
-
-}
-// third tab validation
-function valid_inf4() {
-  
- 
- $('.nav-tabs > .active').next('li').find('a').trigger('click');
-
-}
-function valid_inf5() {
-  var dobInput = document.getElementById('dob');
-  var genderInput = document.getElementById('gender');
-  var ssnInput = document.getElementById('ssn');
-  var dob = $('#dob').val();
-  var gender = $('#gender').val();
-  var ssn = $('#ssn').val();
-  if (dob == "") {
-    document.getElementById("dob").style.borderColor = "red";
-  }else{
-    $("#dob").on('keyup', function(){
-     document.getElementById("dob").style.borderColor = "green";
-   });
-    
-
-  }
-  if (gender == "") {
-  document.getElementById("gend").style.color = "red";
-  document.getElementById("gend").innerHTML ='Gender Field is Required';
-
-  }else{
-    $("#gender").on('keyup', function(){
-   document.getElementById("gend").innerHTML ='';
-   });
-    
-
-  }
-  if (ssn == "") {
-    document.getElementById("ssn").style.borderColor = "red";
-
-  }else{
-    $("#ssn").on('keyup', function(){
-     document.getElementById("ssn").style.borderColor = "green";
-   });
-    
-
-  }
-  if(dob !== "" && gender !== "" && ssn !== ""){
-   $('.nav-tabs > .active').next('li').find('a').trigger('click');
- }
-
-}
-function valid_inf6() {
-  
-  var h_phoneInput = document.getElementById('h_phone');
-  var c_phoneInput = document.getElementById('c_phone');
-  var h_phone = $('#h_phone').val();
-  var c_phone = $('#c_phone').val();
-  if (h_phone == "") {
-    document.getElementById("h_phone").style.borderColor = "red";
-  }else{
-    $("#h_phone").on('keyup', function(){
-     document.getElementById("h_phone").style.borderColor = "green";
-   });
-
-  }
-  if (c_phone == "") {
-  document.getElementById("c_phone").style.borderColor = "red";
-  }else{
-    $("#c_phone").on('keyup', function(){
-     document.getElementById("c_phone").style.borderColor = "green";
-   });
-
-  }
-  if(h_phone !== "" && c_phone !== ""){
-   $('.nav-tabs > .active').next('li').find('a').trigger('click');
- }
-
-}
-function valid_inf7() {
- var em_contactInput = document.getElementById('em_contact');
- var em_contact = $('#em_contact').val();
- var e_h_phoneInput = document.getElementById('e_h_phone');
- var e_h_phone = $('#e_h_phone').val();
- var e_w_phoneInput = document.getElementById('e_w_phone');
- var e_w_phone = $('#e_w_phone').val();
- if (em_contact == "") {
-  document.getElementById("em_contact").style.borderColor = "red";
-}else{
-  $("#em_contact").on('keyup', function(){
-    document.getElementById("em_contact").style.borderColor = "green";
- });
-
-}
-if (e_h_phone == "") {
-  document.getElementById("e_h_phone").style.borderColor = "red";
-}else{
-  $("#e_h_phone").on('keyup', function(){
-    document.getElementById("e_h_phone").style.borderColor = "green";
- });
-
-}
-if (e_w_phone == "") {
-   document.getElementById("e_w_phone").style.borderColor = "red";
-}else{
-  $("#e_w_phone").on('keyup', function(){
-   document.getElementById("e_w_phone").style.borderColor = "green";
- });
-
-}
-if(em_contact !== "" && e_h_phone !== "" && e_w_phone !== ""){
-  $('.nav-tabs > .active').next('li').find('a').trigger('click');
-}
-
-}
-
-function valid_inf8() {
-  
- document.getElementById("emp_form").submit();
-
-}
-
-</script>
-
-<script type="text/javascript">
-// $(function() {
-//     $('input[name="working_period[]"]').daterangepicker();
-// });
-// </script>
+  <?php echo form_close() ?>
+</div>
+</div>
 
 
-<script type="text/javascript">
-
-
-  $(document).ready(function() {
-   
-// choose text for the show/hide link - can contain HTML (e.g. an image)
-var showText='<span class="btn btn-primary" >Add More</span>';
-var hideText='<span class="btn btn-danger" >Close</span>';
-
-// initialise the visibility check
-var is_visible = false;
-
-// append show/hide links to the element directly preceding the element with a class of "toggle"
-$('.toggle').prev().append(' <a href="#" class="toggleLink">'+showText+'</a>');
-
-// hide all of the elements with a class of 'toggle'
-$('.toggle').hide();
-
-// capture clicks on the toggle links
-$('a.toggleLink').click(function() {
- 
-// switch visibility
-is_visible = !is_visible;
-
-// change the link depending on whether the element is shown or hidden
-$(this).html( (!is_visible) ? showText : hideText);
-
-// toggle the display - uncomment the next line for a basic "accordion" style
-//$('.toggle').hide();$('a.toggleLink').html(showText);
-$(this).parent().next('.toggle').toggle('slow');
-
-// return false so any link destination is not followed
-return false;
-
-});
-});
-</script>
-
+<script src="<?php echo base_url('assets/js/employee.js') ?>" type="text/javascript"></script>
+<script src="<?php echo MOD_URL.'employee/assets/js/employee_ammendmends.js'; ?>" type="text/javascript"></script>

@@ -1,14 +1,4 @@
-<script type="text/javascript">
-    function printDiv() {
-        var divName = "printArea";
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        // document.body.style.marginTop="-45px";
-        window.print();
-        document.body.innerHTML = originalContents;
-    }
-</script>
+
 <?php
 include ('Class/CConManager.php');
 include ('Class/Ccommon.php');
@@ -22,37 +12,29 @@ include ('Class/CAccount.php');
             <div class="panel-heading">
                 <div class="panel-body"  id="printArea">
                     <tr align="center">
-                        <td id="ReportName" style="font:'Times New Roman', Times, serif; font-size:20px;"><b></b></td>
+                        <td id="ReportName"><b></b></td>
                     </tr>
                     <div class="">
-                          <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
-                                                
-                                                <tr>
-                                                    <td align="left" style="border-bottom:2px #333 solid;">
-                                                        <!-- <img src="<?php echo $software_info[0]->logo;?>" alt="logo"> -->
-                                                    </td>
-                                                    <td align="left" style="border-bottom:2px #333 solid;">
-                                                        <span style="font-size: 17pt; font-weight:bold;">
-                                                    <!--         <?php echo $company[0]['company_name'];?>
+                             <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <img src="<?php echo base_url((!empty($setting->logo)?$setting->logo:'assets/img/icons/mini-logo.png')) ?>" alt="logo">
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                         <span class="" >
+                                                            <?php echo $setting->title;?>
                                                            
                                                         </span><br>
-                                                        <?php echo $company[0]['address'];?>
-                                                        <br>
-                                                         <?php echo $company[0]['mobile'];?> -->
-                                                        
-                                                    </td>
-                                                   
-                                                     <td align="right" style="border-bottom:2px #333 solid;">
-                                                        <date>
+                                                        <?php echo $setting->address;?>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <date>
                                                         <?php echo display('date')?>: <?php
                                                         echo date('d-M-Y');
                                                         ?> 
                                                     </date>
-                                                    </td>
-                                                </tr>            
-                                   
-                                </table>
-                        <table cellpadding="0" cellspacing="0" border="1px solid #000" width="99%" style="text-align: left" >
+                    </div>
+                </div>
+                        <table cellpadding="3" cellspacing="0" border="1" width="99%"  >
                             <?php
                             $oResult=new CResult();
                             $oAccount=new CAccount();
@@ -83,8 +65,8 @@ include ('Class/CAccount.php');
                         </table>
 
                     </div>
-                    <div class="text-center" id="print" style="margin: 20px">
-                        <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/>
+                    <div class="text-center" id="print">
+                        <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printCoa();"/>
                     </div>
                 </div>
             </div>

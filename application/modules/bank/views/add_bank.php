@@ -1,14 +1,16 @@
   <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel">
+            <div class="panel panel-bd lobidrag">
                 <div class="panel-heading">
                     <div class="panel-title">
-                       
+                       <h4>
+                        <?php echo display('add_bank')?>
+                      </h4>
                     </div>
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('bank/Bank/create_bank'); ?>
+                    <?php echo  form_open('bank/Bank/create_bank'); ?>
                    <?php echo form_hidden('id', (!empty($bankinfo->id)?$bankinfo->id:null)) ?>
                        <div class="form-group row">
                            
@@ -26,8 +28,7 @@
                             <label for="account_name" class="col-sm-3 col-form-label">
                             <?php echo display('account_name') ?></label>
                             <div class="col-sm-6">
-                           <input type="text" name="account_name" class=" form-control" value="<?php echo (!empty($bankinfo->account_name)?$bankinfo->account_name:null) ?>" placeholder="<?php echo display('account_name') ?>">
-                           <input type="hidden" name="oldname" class=" form-control" value="<?php echo (!empty($bankinfo->account_name)?$bankinfo->account_name:null) ?>" placeholder="<?php echo display('account_name') ?>">
+                           <input type="text" name="account_name" class=" form-control" value="<?php echo (!empty($bankinfo->account_name)?$bankinfo->account_name:null) ?>" placeholder="<?php echo display('account_name') ?>">                           
                                
                             </div>
                            

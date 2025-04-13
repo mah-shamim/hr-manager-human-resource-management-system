@@ -1,7 +1,4 @@
- 
-  
-    
-  
+
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="panel panel-bd lobidrag">
@@ -11,7 +8,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                 <?= form_open('payroll/Payroll/update_salgen_form/'. $data->ssg_id) ?>
+                 <?php echo  form_open('payroll/Payroll/update_salgen_form/'. $data->ssg_id) ?>
 
                     <input name="ssg_id" type="hidden" value="<?php echo $data->ssg_id ?>">
                  

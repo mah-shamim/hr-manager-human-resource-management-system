@@ -1,3 +1,4 @@
+<link href="<?php echo MOD_URL.'accounts/assets/css/custom.css'; ?>" rel="stylesheet" type="text/css"/>
 
 <div class="row">
     <div class="col-sm-12 col-md-12">
@@ -9,32 +10,49 @@
                     </h4>
                 </div>
             </div>
-            <div class="panel-body">
-              
-                         <?= form_open_multipart('accounts/create_debit_voucher') ?>
-                     <div class="form-group row">
-                        <label for="vo_no" class="col-sm-2 col-form-label"><?php echo display('voucher_no')?></label>
-                        <div class="col-sm-4">
-                             <input type="text" name="txtVNo" id="txtVNo" value="<?php if(!empty($voucher_no->voucher)){
-                               $vn = substr($voucher_no->voucher,3)+1;
-                              echo $voucher_n = 'DV-'.$vn;
-                             }else{
-                               echo $voucher_n = 'DV-1';
-                             } ?>" class="form-control" readonly>
+            <div class="panel-body debit-voucher">
+               <?php echo  form_open_multipart('accounts/store_debit_voucher') ?>
+                 <div class="form-group row">
+                    <label for="vo_no" class="col-sm-2 col-form-label"><?php echo display('voucher_type')?></label>
+                    <div class="col-sm-4">
+
+
+                             <input type="text" name="txtVNo" id="txtVNo" 
+                    value="Debit" class="form-control" readonly />
                         </div>
                     </div> 
                      <div class="form-group row">
                         <label for="ac" class="col-sm-2 col-form-label"><?php echo display('credit_account_head')?></label>
                         <div class="col-sm-4">
-                          <select name="cmbDebit" id="cmbDebit" class="form-control">
-                            <option value='1020101'><?php echo display('cash_in_hand')?></option>
+                          <select name="cmbDebit" id="cmbDebit" class="form-control" required>
+                            <option value="" data-isbank="">Select One</option>
                             <?php foreach ($crcc as $cracc) { ?>
-                            <option value="<?php echo $cracc->HeadCode?>"><?php echo $cracc->HeadName?></option>
+                            <option value="<?php echo $cracc->HeadCode?>"  data-isbank="<?php echo $cracc->isBankNature;?>"><?php echo $cracc->HeadName?></option>
                            <?php  } ?>
 
                           </select>
                         </div>
                     </div> 
+                    <div id="isbanknature" class="isbanknature">
+                     <div class="form-group row">
+                        <label for="checkno" class="col-sm-2 col-form-label"><?php echo "Check No";?></label>
+                        <div class="col-sm-4">
+                             <input type="text" name="checkno" id="checkno" class="form-control" value="">
+                        </div>
+                    </div>
+                     <div class="form-group row">
+                        <label for="CheckDate" class="col-sm-2 col-form-label"><?php echo "Check Date";?></label>
+                        <div class="col-sm-4">
+                             <input type="text" name="chequeDate" id="chequeDate" class="form-control financialyear" value="<?php  echo date('Y-m-d');?>">
+                        </div>
+                    </div>
+                     <div class="form-group row">
+                        <label for="ishonours" class="col-sm-2 col-form-label"><?php echo "Is Honours"?></label>
+                        <div class="col-sm-4">
+                             <input type="checkbox" value="1" name="ishonours" id="ishonours" size="28">
+                        </div>
+                    </div>
+                    </div>
                      <div class="form-group row">
                         <label for="date" class="col-sm-2 col-form-label"><?php echo display('date')?></label>
                         <div class="col-sm-4">
@@ -47,56 +65,65 @@
                           <textarea  name="txtRemarks" id="txtRemarks" class="form-control"></textarea>
                         </div>
                     </div> 
-                       <div class="table-responsive" style="margin-top: 10px">
-                            <table class="table table-bordered table-hover" id="debtAccVoucher"> 
-                                <thead>
-                                    <tr>
-                                        <th class="text-center"><?php echo display('account_name')?></th>
-                                         <th class="text-center"><?php echo display('code')?></th>
-                                          <th class="text-center"><?php echo display('amount')?></th>
-                                           <th class="text-center"><?php echo display('action')?></th>  
-                                    </tr>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover" id="debtAccVoucher"> 
+                          <thead>
+                             <tr>
+                                 <th width="20%" class="text-center"><?php echo display('account_name')?></th>
+                                   <th width="20%" class="text-center"><?php echo display('subtype')?></th>
+                                 <th width="30%" class="text-center"><?php echo display('ledger_comment')?></th>
+                                 <th width="20%" class="text-center"><?php echo display('amount')?></th>
+                                 <th width="10%" class="text-center"><?php echo display('action')?></th>  
+                             </tr>
                                 </thead>
                                 <tbody id="debitvoucher">
                                    
-                                    <tr>
-                                        <td class="" style="width: 200px;">  
-       <select name="cmbCode[]" id="cmbCode_1" class="form-control" onchange="load_code(this.value,1)">
-        <option value="">Please select One</option>
-         <?php foreach ($acc as $acc1) {?>
-   <option value="<?php echo $acc1->HeadCode;?>"><?php echo $acc1->HeadName;?></option>
-         <?php }?>
-       </select>
+                             <tr>
+                                <td class="expenseincometd">  
+                                    <select name="cmbCode[]" id="cmbCode_1" class="form-control" onchange="load_subtypeOpen(this.value,1)">
+                                          <option value="">Please select One</option>
+                                          <?php foreach ($acc as $acc1) {?>
+                                          <option value="<?php echo $acc1->HeadCode;?>"><?php echo $acc1->HeadName;?></option>
+                                          <?php }?>
+                                    </select>
+                                </td>
+                                <td >  
+                                    <select name="subtype[]" id="subtype_1" class="form-control" ><option value="">Please select One</option></select>
 
-                                         </td>
-                                        <td><input type="text" name="txtCode[]" value="" class="form-control "  id="txtCode_1" readonly=""></td>
-                                        <td><input type="text" name="txtAmount[]" value="" class="form-control total_price"  id="txtAmount_1" onkeyup="calculation(1)" >
-                                           </td>
-                                       <td>
-                                                <button style="text-align: right;" class="btn btn-danger red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)"><i class="fa fa-trash-o"></i></button>
-                                            </td>
-                                    </tr>                              
+                                </td>
+                                <td><input type="hidden" name="isSubtype[]" id="isSubtype_1" value="1" />
+                                    <input type="text" name="txtComment[]" value="" class="form-control "  id="txtComment_1" >
+                                </td>
+
+                                <td><input type="number" name="txtAmount[]" value="" class="form-control total_price text-right" step=".01"  id="txtAmount_1" onkeyup="calculationDebtv(1)" >
+                                   </td>
+                               <td>
+                                     <button  class="btn btn-danger red text-right" type="button" value="<?php echo display('delete')?>" onclick="deleteRowDebtv(this)"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                              </tr>                              
                               
-                                </tbody>                               
+                             </tbody>                               
                              <tfoot>
-                                    <tr>
-                                      <td >
-                                            <input type="button" id="add_more" class="btn btn-info" name="add_more"  onClick="addaccount('debitvoucher');" value="<?php echo display('add_more') ?>" />
-                                        </td>
-                                        <td colspan="1" class="text-right"><label  for="reason" class="  col-form-label"><?php echo display('total') ?></label>
-                                           </td>
-                                        <td class="text-right">
-                                            <input type="text" id="grandTotal" class="form-control text-right " name="grand_total" value="" readonly="readonly" />
-                                        </td>
-                                    </tr>
+                                <tr>
+                                  <td >
+                                        <input type="button" id="add_more" class="btn btn-info" name="add_more"  onClick="addaccountDebt('debitvoucher');" value="<?php echo display('add_more') ?>" />
+                                    </td>
+                                    <td colspan="1" class="text-right"><label  for="reason" class="  col-form-label"><?php echo display('total') ?></label>
+                                       </td>
+                                    <td class="text-right">
+                                        <input type="text" id="grandTotal" class="form-control text-right " name="grand_total" value="" readonly="readonly" />
+                                    </td>
+                                </tr>
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group form-group-margin row">
                            
                             <div class="col-sm-12 text-right">
 
                                 <input type="submit" id="add_receive" class="btn btn-success btn-large" name="save" value="<?php echo display('save') ?>" tabindex="9"/>
+                                 <input type="hidden" name="" id="base_url" value="<?php echo base_url();?>">
+                                <input type="hidden" name="" id="headoption" value="<option value=''> Please select</option><?php foreach ($acc as $acc2) {?><option value='<?php echo $acc2->HeadCode;?>'><?php echo $acc2->HeadName;?></option><?php }?>">
                                
                             </div>
                         </div>
@@ -105,75 +132,5 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-  function load_code(id,sl){
-
-    $.ajax({
-        url : "<?php echo site_url('accounts/debtvouchercode/')?>" + id,
-        type: "GET",
-        dataType: "json",
-        success: function(data)
-        {
-          
-           $('#txtCode_'+sl).val(data);
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-}
-    function addaccount(divName){
-    var row = $("#debtAccVoucher tbody tr").length;
-    var count = row + 1;
-    var limits = 500;
-    var tabin = 0;
-    if (count == limits) alert("You have reached the limit of adding " + count + " inputs");
-    else {
-          var newdiv = document.createElement('tr');
-          var tabin="cmbCode_"+count;
-          var tabindex = count * 2;
-          newdiv = document.createElement("tr");
-           
-          newdiv.innerHTML ="<td> <select name='cmbCode[]' id='cmbCode_"+ count +"' class='form-control' onchange='load_code(this.value,"+ count +")'><?php foreach ($acc as $acc2) {?><option value='<?php echo $acc2->HeadCode;?>'><?php echo $acc2->HeadName;?></option><?php }?></select></td><td><input type='text' name='txtCode[]' class='form-control'  id='txtCode_"+ count +"' ></td><td><input type='text' name='txtAmount[]' class='form-control total_price' id='txtAmount_"+ count +"' onkeyup='calculation("+ count +")'></td><td><button style='text-align: right;' class='btn btn-danger red' type='button' value='<?php echo display("delete")?>' onclick='deleteRow(this)'><i class='fa fa-trash-o'></i></button></td>";
-          document.getElementById(divName).appendChild(newdiv);
-          document.getElementById(tabin).focus();
-          count++;
-           
-          $("select.form-control:not(.dont-select-me)").select2({
-              placeholder: "Select option",
-              allowClear: true
-          });
-        }
-    }
-
-function calculation(sl) {
-       
-        var gr_tot = 0;
-        $(".total_price").each(function() {
-            isNaN(this.value) || 0 == this.value.length || (gr_tot += parseFloat(this.value))
-        });
-
-        $("#grandTotal").val(gr_tot.toFixed(2,2));
-    }
-
-    function deleteRow(e) {
-        var t = $("#debtAccVoucher > tbody > tr").length;
-        if (1 == t) alert("There only one row you can't delete.");
-        else {
-            var a = e.parentNode.parentNode;
-            a.parentNode.removeChild(a)
-        }
-        calculation()
-    }
-
-</script>
-<script type="text/javascript">
-    
-     $(function(){
-        $(".datepicker").datepicker({ dateFormat:'yy-mm-dd' });
-       
-    });
-</script>
+<script src="<?php echo base_url() ?>assets/js/dist/jstree.min.js" ></script>
+<script src="<?php echo base_url('assets/js/account.js') ?>" type="text/javascript"></script>

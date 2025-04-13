@@ -2,7 +2,15 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+             <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('division')?>
+                  </h4>
+              </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -24,11 +32,13 @@
                                     <td><?php echo $row->department; ?></td>
                                       <td class="center">
                                   
-                                    <?php if($this->permission->method('division_list','update')->access()): ?>
+                                    
+                                    <?php if($this->permission->check_label('division_list')->update()->access()): ?>
                                         <a href="<?php echo base_url("department/Division_controller/division_form/$row->dept_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('division_list','delete')->access()): ?>  
+                                    
+                                    <?php if($this->permission->check_label('division_list')->delete()->access()): ?>
                                         <a href="<?php echo base_url("department/Division_controller/delete_division/$row->dept_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-close"></i></a>
                                          <?php endif; ?> 
                                     </td>
@@ -38,7 +48,7 @@
                         <?php } ?> 
                     </tbody>
                 </table>  <!-- /.table-responsive -->
-                   <?= $links ?>
+                   <?php echo  $links ?>
             </div>
         </div>
     </div>

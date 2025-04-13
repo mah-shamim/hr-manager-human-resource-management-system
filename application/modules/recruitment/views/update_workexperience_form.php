@@ -7,7 +7,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                 <?= form_open_multipart('recruitment/Candidate/update_workexperience_form/'. $data->can_id) ?>
+                 <?php echo  form_open_multipart('circularprocess/Candidate/update_workexperience_form/'. $data->can_id) ?>
 
                  
                  

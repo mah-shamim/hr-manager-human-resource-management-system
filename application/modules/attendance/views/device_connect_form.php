@@ -8,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('attendance/home/device_connection') ?>
+                    <?php echo  form_open('attendance/home/device_connection') ?>
                     <?php echo form_hidden('id',$deviceinfo->id); ?>
                         <div class="form-group row">
                             <label for="store_name" class="col-sm-3 col-form-label"><?php echo display('device_ip') ?> *</label>
@@ -23,7 +23,7 @@
                                <div class="col-sm-8"><h4><?php echo display('device_name')?> : Zkteco(<?php echo display('access_control_device')?>)<br>
                               <?php echo display('device_model')?> : F18</h4><br>
                                <?php echo display('note')?>: <?php echo display('plz_generate_an_ip')?>.
-                               <h1 style="color:red">N.B: It Can be Used Only Local Server</h1>
+                               <h1>N.B: It Can be Used Only Local Server</h1>
                                </div>
                             </div>
                         </div>            

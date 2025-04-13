@@ -6,31 +6,52 @@ $HmvcMenu["accounts"] = array(
     "icon"           => "<i class='ti-bag'></i>", 
 
     // stockmovment
+    "financiall_year" => array( 
+        "controller" => "accounts",
+        "method"     => "financial_year",
+        "permission" => "read"
+    ), 
    "c_o_a" => array( 
         "controller" => "accounts",
         "method"     => "show_tree",
         "permission" => "read"
     ), 
-    "balance_adjustment" => array( 
+     "sub_account" => array( 
         "controller" => "accounts",
-        "method"     => "balance_adjustment",
-        "permission" => "create"
-    ),
-    "cash_adjustment" => array( 
-        "controller" => "accounts",
-        "method"     => "cash_adjustment",
-        "permission" => "create"
+        "method"     => "subaccount_list",
+        "permission" => "read"
     ), 
-      "bank_adjustment" => array( 
+    "predefined_accounts" => array( 
         "controller" => "accounts",
-        "method"     => "bank_adjustment",
+        "method"     => "predefined_accounts",
         "permission" => "create"
     ),
-     "payment_type" => array( 
+    "opening_balance" => array( 
         "controller" => "accounts",
-        "method"     => "payment_type",
+        "method"     => "opening_balance",
         "permission" => "create"
-    ),  
+    ),
+    
+    // "balance_adjustment" => array( 
+    //     "controller" => "accounts",
+    //     "method"     => "balance_adjustment",
+    //     "permission" => "create"
+    // ),
+    // "cash_adjustment" => array( 
+    //     "controller" => "accounts",
+    //     "method"     => "cash_adjustment",
+    //     "permission" => "create"
+    // ), 
+    //   "bank_adjustment" => array( 
+    //     "controller" => "accounts",
+    //     "method"     => "bank_adjustment",
+    //     "permission" => "create"
+    // ),
+    //  "payment_type" => array( 
+    //     "controller" => "accounts",
+    //     "method"     => "payment_type",
+    //     "permission" => "create"
+    // ),  
    
       "debit_voucher" => array( 
         "controller" => "accounts",
@@ -52,12 +73,16 @@ $HmvcMenu["accounts"] = array(
         "method"     => "journal_voucher",
         "permission" => "read"
     ),  
+      "bank_reconciliation" => array( 
+        "controller" => "accounts",
+        "method"     => "bank_reconciliation",
+        "permission" => "create"
+    ), 
       "voucher_approval" => array( 
         "controller" => "accounts",
         "method"     => "aprove_v",
         "permission" => "create"
-    ), 
-      
+    ),       
        "account_report" => array( 
 				       
 
@@ -71,28 +96,72 @@ $HmvcMenu["accounts"] = array(
 					        "method"     => "bank_book",
 					        "permission" => "read"
 					    ), 
-				     
+    				     "day_book" => array( 
+                                "controller" => "accounts",
+                                "method"     => "day_book",
+                                "permission" => "read"
+                            ), 
+                     
 				          "general_ledger" => array( 
 					        "controller" => "accounts",
 					        "method"     => "general_ledger",
 					        "permission" => "read"
 					    ), 
+                         "sub_ledger" => array( 
+                            "controller" => "accounts",
+                            "method"     => "sub_ledger",
+                            "permission" => "read"
+                        ), 
 				           "trial_balance" => array( 
 					        "controller" => "accounts",
 					        "method"     => "trial_balance",
 					        "permission" => "read"
 					    ),
-					     "profit_loss" => array( 
-					        "controller" => "accounts",
-					        "method"     => "profit_loss_report",
-					        "permission" => "read"
-					    ),
+                            "income_statement" => array(   
+                            "controller" => "accounts",
+                            "method"     => "income_statement_form",
+                            "permission" => "read"
+                       
+                        ), 
+                         "expenditure_statement" => array(   
+                            "controller" => "accounts",
+                            "method"     => "expenditure_statement",
+                            "permission" => "read"
+                       
+                        ), 
+                           "profit_loss" => array( 
+                            "controller" => "accounts",
+                            "method"     => "profit_loss_report",
+                            "permission" => "read"
+                        ),
+                           "balance_sheet" => array( 
+                            "controller" => "accounts",
+                            "method"     => "balance_sheet",
+                            "permission" => "read"
+                        ),
+                          "fixedasset_schedule" => array( 
+                            "controller" => "accounts",
+                            "method"     => "fixedasset_schedule",
+                            "permission" => "read"
+                        ),
+					     "receipt_payment" => array( 
+                            "controller" => "accounts",
+                            "method"     => "receipt_payment",
+                            "permission" => "read"
+                        ),
+                         
+                         "bank_reconciliation_report" => array( 
+                         "controller" => "accounts",
+                         "method"     => "bank_reconciliation_report",
+                         "permission" => "create"
+                        ), 
+                         
 					   
-					   "cash_flow" => array( 
-					        "controller" => "accounts",
-					        "method"     => "cash_flow_report",
-					        "permission" => "read"
-					    ),
+					   // "cash_flow" => array( 
+					   //      "controller" => "accounts",
+					   //      "method"     => "cash_flow_report",
+					   //      "permission" => "read"
+					   //  ),
 					  
 					    "coa_print" => array( 
 					        "controller" => "accounts",

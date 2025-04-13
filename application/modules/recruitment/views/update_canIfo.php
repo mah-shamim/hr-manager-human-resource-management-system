@@ -1,48 +1,5 @@
 
-<script>
-  $( function() {
-    $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    $( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-} );
-</script>
-<style>
-
-.nav-tabs > li > a {
-    background:#4682B4;
-    border-radius:4px 4px 0 0;
-    color:#ffffff;
-}
-.nav-tabs > li > a:active {
-
-    color:#ffffff;
-}
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
-    background: #0e0d0d;
-    color:#ffffff;
-}
-.nav-tabs > li > a:hover {
-    background: #0e0d0d;
-    border-radius:4px 4px 0 0;
-    color:#ffffff;
-}
-.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited{
-    color:#ffff00;
-}
-.ui-widget.ui-widget-content {
-    border: 0px ; 
-}
-.ui-widget-header{
-    border:0;
-
-}
-img{
-    height: 150px;
-    width: 150px;
-}
-
-</style>
-
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs nav-tabs-new candidate">
     <li class="active"><a href="#tab1" data-toggle="tab">Basic</a></li>
     <li><a href="#tab2" data-toggle="tab">Educaition</a></li>
     <li><a href="#tab3" data-toggle="tab">Working Experience</a></li>
@@ -52,7 +9,7 @@ img{
         <div class="panel">
 
             <div class="panel-body">
-                <?= form_open_multipart('recruitment/Candidate/update_canifo_form/'. $basinfo->can_id) ?>
+                <?php echo  form_open_multipart('recruitment/Candidate/update_canifo_form/'. $basinfo->can_id) ?>
                 <div class="tab-content">
 
 
@@ -88,10 +45,11 @@ img{
                         <label for="email" class="col-sm-2 col-form-label"><?php echo display('email') ?> *</label>
                         <div class="col-sm-4">
                             <input name="email" class="form-control" type="email" value="<?php echo $basinfo->email ; ?>" id="email">
+                            <span id="email_v_message"></span>
                         </div>
                         <label for="phone" class="col-sm-2 col-form-label"><?php echo display('phone') ?> *</label>
                         <div class="col-sm-4">
-                            <input type="text" name="phone" class="form-control" id="phone" value="<?php echo $basinfo->phone?>">
+                            <input type="number" name="phone" class="form-control" id="phone" value="<?php echo $basinfo->phone?>">
                         </div>
                     </div>
 
@@ -99,22 +57,22 @@ img{
                     <div class="form-group row">
                         <label for="alter_phone" class="col-sm-2 col-form-label"><?php echo display('alter_phone') ?></label>
                         <div class="col-sm-4">
-                            <input name="alter_phone" class="form-control" type="text" value="<?php echo $basinfo->alter_phone ; ?>" id="alter_phone">
+                            <input name="alter_phone" class="form-control" type="number" value="<?php echo $basinfo->alter_phone ; ?>" id="alter_phone">
                         </div>
-                        <div class="form-group row">
-                           <label for="ssn" class="col-sm-2 col-form-label"><?php echo display('ssn') ?> </label>
-                           <div class="col-sm-4">
+                        <label for="ssn" class="col-sm-2 col-form-label"><?php echo display('ssn') ?> </label>
+                        <div class="col-sm-4">
                             <input name="ssn" class="form-control" type="text" value="<?php echo $basinfo->ssn ; ?>" id="ssn">
                         </div>
                     </div>
-                    <label for="present_address" class="col-sm-2 col-form-label"><?php echo display('present_address') ?> </label>
-                    <div class="col-sm-4">
-                        <textarea  name="present_address" class="form-control" id="present_address"><?php echo $basinfo->present_address?></textarea>
-                    </div>
-                    <label for="parmanent_address" class="col-sm-2 col-form-label"><?php echo display('parmanent_address') ?></label>
-                    <div class="col-sm-4">
-                        <textarea  name="parmanent_address" class="form-control" id="parmanent_address"><?php echo $basinfo->parmanent_address?></textarea>
-                    </div>
+                    <div class="form-group row">
+                        <label for="present_address" class="col-sm-2 col-form-label"><?php echo display('present_address') ?> </label>
+                        <div class="col-sm-4">
+                            <textarea  name="present_address" class="form-control" id="present_address"><?php echo $basinfo->present_address?></textarea>
+                        </div>
+                        <label for="parmanent_address" class="col-sm-2 col-form-label"><?php echo display('parmanent_address') ?></label>
+                        <div class="col-sm-4">
+                            <textarea  name="parmanent_address" class="form-control" id="parmanent_address"><?php echo $basinfo->parmanent_address?></textarea>
+                        </div>
                 </div>
                 <div class="form-group row">
 
@@ -144,8 +102,8 @@ img{
 
 
         <input type="hidden" name="picture" value="<?php echo $basinfo->picture ?>">
-        <div class="form-group text-right">
-            <a class="btn btn-primary btnNext">Next</a></div>
+        <div class="form-group form-group-margin text-right">
+            <a class="btn btn-primary btnNext" onclick="validation1()">Next</a></div>
         </div>
         <div class="tab-pane" id="tab2">
 
@@ -299,9 +257,9 @@ img{
                     <textarea  name="comments" class="form-control"  placeholder="<?php echo display('comments') ?>" id="comments" ><?php echo $basinfo->comments ?></textarea>
                 </div>
             </div> 
-            <div class="form-group text-right">
+            <div class="form-group form-group-margin text-right">
                <a class="btn btn-primary btnPrevious">Previous</a>
-               <a class="btn btn-primary btnNext">Next</a>
+               <a class="btn btn-primary btnNext" onclick="validation2()">Next</a>
            </div>
        </div>
        <div class="tab-pane" id="tab3">
@@ -494,7 +452,7 @@ img{
             
             <?php } ?>
 
-            <div class="form-group text-right">
+            <div class="form-group form-group-margin text-right">
                 <a class="btn btn-primary btnPrevious">Previous</a>
                 <button type="submit" class="btn btn-success"><?php echo display('update') ?></button>
             </div>
@@ -503,58 +461,10 @@ img{
 
 
     </div>
+    <?php echo form_close() ?>
 </div>
 </div>
 </div>
 </div>
-<?php echo form_close() ?>
-<script type="text/javascript">
 
-   $('.btnNext').click(function(){
-      $('.nav-tabs > .active').next('li').find('a').trigger('click');
-  });
-
-   $('.btnPrevious').click(function(){
-      $('.nav-tabs > .active').prev('li').find('a').trigger('click');
-  });
-</script>
-<script type="text/javascript">
-
-
-$(document).ready(function() {
- 
-// choose text for the show/hide link - can contain HTML (e.g. an image)
-var showText='Add more Info';
-var hideText='Hide';
- 
-// initialise the visibility check
-var is_visible = false;
- 
-// append show/hide links to the element directly preceding the element with a class of "toggle"
-$('.toggle').prev().append(' (<a href="#" class="toggleLink">'+showText+'</a>)');
- 
-// hide all of the elements with a class of 'toggle'
-$('.toggle').hide();
- 
-// capture clicks on the toggle links
-$('a.toggleLink').click(function() {
- 
-// switch visibility
-is_visible = !is_visible;
- 
-// change the link depending on whether the element is shown or hidden
-$(this).html( (!is_visible) ? showText : hideText);
- 
-// toggle the display - uncomment the next line for a basic "accordion" style
-//$('.toggle').hide();$('a.toggleLink').html(showText);
-$(this).parent().next('.toggle').toggle('slow');
- 
-// return false so any link destination is not followed
-return false;
- 
-});
-});
-</script>
-
-
-
+ <script src="<?php echo base_url('assets/js/recruitment.js') ?>" type="text/javascript"></script>

@@ -9,7 +9,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open('employee/Employees/update_payment_form/'. $data->emp_sal_pay_id) ?>
+                <?php echo  form_open('employee/Employees/update_payment_form/'. $data->emp_sal_pay_id) ?>
                 
 
                     <input name="emp_sal_pay_id" type="hidden" value="<?php echo $data->emp_sal_pay_id ?>">
@@ -74,10 +74,4 @@
         </div>
     </div>
      
-<script type="text/javascript">
-    $(document).ready(function() {
-          $(".datepicker").datepicker({ dateFormat:'yy-mm-dd' });
-    });
-
-</script>
     

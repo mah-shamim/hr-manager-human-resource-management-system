@@ -14,14 +14,14 @@
                     <thead>
                         <tr>
                             <td colspan="3">
-                                <?= form_open('dashboard/language/addlanguage', ' class="form-inline" ') ?> 
+                                <?php echo  form_open('dashboard/language/addlanguage', ' class="form-inline" ') ?> 
                                     <div class="form-group">
                                         <label class="sr-only" for="addLanguage"> Language Name</label>
                                         <input name="language" type="text" class="form-control" id="addLanguage" placeholder="Language Name">
                                     </div>
                                       
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                <?= form_close(); ?>
+                                    <button type="submit"  class="btn btn-primary">Save</button>
+                                <?php echo  form_close(); ?>
                             </td>
                         </tr>
                         <tr>
@@ -37,9 +37,9 @@
                             <?php $sl = 1 ?>
                             <?php foreach ($languages as $key => $language) {?>
                             <tr>
-                                <td><?= $sl++ ?></td>
-                                <td><?= $language ?></td>
-                                <td><a href="<?= base_url("dashboard/language/editPhrase/$key") ?>" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></a>  
+                                <td><?php echo  $sl++ ?></td>
+                                <td><?php echo  $language ?></td>
+                                <td><a href="<?php echo  base_url("dashboard/language/editPhrase/$key") ?>" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></a>  
                                 </td> 
                             </tr>
                             <?php } ?>

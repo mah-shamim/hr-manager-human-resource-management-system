@@ -1,36 +1,43 @@
-<style type="text/css">
-    img{
-        height: 150px;
-        width: 150px;
+<?php
 
+    $curncy_symbol = '';
+    $social_security_tax_percnt = '';
+    if(!empty($setting->currency_symbol)){
+        $curncy_symbol = '('.$setting->currency_symbol.')';
+        $social_security_tax_percnt = $setting->soc_sec_npf_tax;
     }
-</style>
+
+?>
+
+
+  <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="panel">
+                
+                <div class="panel-body">
 <?php
     $total=0;
-//print_r(query);
- //print_r($query);
-
    ?>
 
 <table  class="table table-striped" width="100%">
 
- <div class="form-group text-center" style="color:#3D9970; font-size: 50px; font-weight: bold; font-family: Stencil Std, fantasy; font-variant: small-caps">
+ <div class="form-group text-center reportheader">
      <?php echo display('loan_report')?> 
         
     </div>
     <div class="row">
-  <span class="form-group text-center col-sm-5">
+  <span class="form-group text-center col-sm-5 loanimg">
             <?php
         echo img($emp->picture );?>
         </span>
         <div  class="col-sm-7">
-    <div class="form-group text-left" style="color:black; font-size: 20px; font-weight: bold; font-family:cursive">
+    <div class="form-group reportview">
        
         <?php echo display('name');?>:<?php
         echo $emp->first_name." ".$emp->last_name ;?>
     </div>
    
-    <div class="form-group text-left" style="color:black; font-size: 20px; font-weight: bold; font-family:'Comic Sans MS', 'cursive'">
+    <div class="form-group reportview">
        
       ID NO: <?php
     
@@ -38,7 +45,7 @@ echo $emp->employee_id ;
          
         ?>
     </div>
-<div class="form-group text-left" style="color:black; font-size: 20px; font-weight: bold; font-family:'Comic Sans MS', 'cursive'">
+<div class="form-group reportview">
        
       <?php echo display('designation');?>: <?php
          echo $emp->position_name ;
@@ -57,37 +64,31 @@ echo $emp->employee_id ;
         <th><?php echo display('amount');?></th>
         <th><?php echo display('repayment');?></th>
         <th><?php echo display('installment');?></th>
+        <th><?php echo display('action');?></th>
     </tr>
     <?php
     $x=1;
     foreach($ab as $qr){?>
     <tr>
           <td><?php echo $x++;?></td>
-           <td><a href="<?php echo base_url("loan/Loan/details_view/$qr->loan_id");?>" ><?php echo $qr->loan_id?></a></td>
+           <!-- <td><a href="<?php echo base_url("loan/Loan/details_view/$qr->loan_id");?>" ><?php echo $qr->loan_id?></a></td> -->
+           <td><?php echo $qr->loan_id?></td>
           <td><?php echo $qr->date_of_approve?></td>
-          <td><?php echo $qr->amount?>$</td>
-          <td><?php echo $qr->repayment_amount ?>$</td>
-          <td><?php echo $qr->installment ?>$</td>
+          <td><?php if(!empty($setting->currency_symbol)){echo $setting->currency_symbol.' ';}?><?php echo $qr->amount?></td>
+          <td><?php if(!empty($setting->currency_symbol)){echo $setting->currency_symbol.' ';}?><?php echo $qr->repayment_amount ?></td>
+          <td><?php if(!empty($setting->currency_symbol)){echo $setting->currency_symbol.' ';}?><?php echo $qr->installment ?></td>
+
+            <td class="center">
+
+                <a title="Loan To Employee" href='<?php echo base_url("loan/loan/loan_to_employee_report/$qr->loan_id") ?>' class='btn btn-xs btn-success' target="_blank"><i class="fa fa-bars"></i></a>
+
+            </td>
+
     </tr>
     <?php }?>
     
 </table>
-<script type="text/javascript">
-$(document).ready(function() {
-    
-// Support for AJAX loaded modal window.
-// Focuses on first input textbox after it loads the window.
-$('[data-toggle="modal"]').click(function(e) {
-    e.preventDefault();
-    var url = $(this).attr('href');
-    if (url.indexOf('#') == 0) {
-        $(url).modal('open');
-    } else {
-        $.get(url, function(data) {
-            $('<div class="modal hide fade">' + data + '</div>').modal();
-        }).success(function() { $('input:text:visible:first').focus(); });
-    }
-});
-    
-});
-</script>
+</div>
+</div>
+</div>
+</div>

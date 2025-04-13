@@ -23,13 +23,13 @@ class Adhoc_controller extends MX_Controller {
     echo Modules::run('template/layout', $data);
   }
   public function findtablefield(){
-    $tabl = $this->input->post('tables');
+    $tabl = $this->input->post('tables',true);
     $data = '';
     foreach ($tabl as $field) {
       $data.='<span class="tb">'.$field.'</span>'."<br><hr class='border'>";
       $info= $this->db->list_fields($field);
       foreach ($info as  $value) {
-      $data.="<input name='fields[]' type='checkbox' value='".$field.'.'.$value."' onclick='addme(this.value)'>".display($value)."<br>";
+      $data.="<input name='fields[]' type='checkbox' value='".$field.'.'.$value."'>".display($value)."<br>";
      }
      $data.="<br><br>";
    }
@@ -37,7 +37,7 @@ class Adhoc_controller extends MX_Controller {
  }
 
  public function selectedfield(){
-  $field = $this->input->post('fields');
+  $field = $this->input->post('fields',true);
   foreach ($field as $value) {
     $html .='<option value="'.$value.'">'.$value.'</option>';
   }   
@@ -45,12 +45,12 @@ class Adhoc_controller extends MX_Controller {
 }
 
 public function resultss(){
-  $field = $this->input->post('fields');
+  $field = $this->input->post('fields',true);
 
-  $tables = $this->input->post('tables');
-  $operator = $this->input->post('operator');
-  $q = $this->input->post('q');
-  $p = $this->input->post('p');
+  $tables = $this->input->post('tables',true);
+  $operator = $this->input->post('operator',true);
+  $q = $this->input->post('q',true);
+  $p = $this->input->post('p',true);
   $string=implode(",",$tables);
   $f = implode(",",$field);
   $fst =str_replace($tables[0].'.','',$field);
@@ -89,7 +89,6 @@ $html.='</tbody></table> ';
 }else if($tablcount==2){
   $array1 = $this->db->list_fields($tables[0]);
   $array2 = $this->db->list_fields($tables[1]);
-                   // echo $tables[0];
   $result=array_intersect($array1,$array2);
   $joinid = (!empty($result[0])?$result[0]:$result[1]);
   $first =str_replace($tables[0].'.','',$field);
@@ -131,7 +130,6 @@ $html.='</table> ';
   $array1 = $this->db->list_fields($tables[0]);
   $array2 = $this->db->list_fields($tables[1]);
   $array3 = $this->db->list_fields($tables[2]);
-                   // echo $tables[0];
   $result=array_intersect($array1,$array2);
   $res2=array_intersect($array2,$array3);
   $joinid = (!empty($result[0])?$result[0]:$result[1]);
@@ -177,7 +175,6 @@ $html.='</table> ';
   $array2 = $this->db->list_fields($tables[1]);
   $array3 = $this->db->list_fields($tables[2]);
   $array4 = $this->db->list_fields($tables[3]);
-                   // echo $tables[0];
   $result=array_intersect($array1,$array2);
   $res2=array_intersect($array2,$array3);
   $res3=array_intersect($array3,$array4);
@@ -229,7 +226,6 @@ $html.='</table> ';
   $array3 = $this->db->list_fields($tables[2]);
   $array4 = $this->db->list_fields($tables[3]);
   $array5 = $this->db->list_fields($tables[4]);
-                   // echo $tables[0];
   $result=array_intersect($array1,$array2);
   $res2=array_intersect($array2,$array3);
   $res3=array_intersect($array3,$array4);

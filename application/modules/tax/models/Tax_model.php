@@ -44,7 +44,7 @@ public function update_taxsetup($data = array())
         $this->db->where('tax_setup_id',$id);
         $query = $this->db->get('payroll_tax_setup');
         return $query->row();
-    }//
+    }
 
     public function viewcollection()
 	{
@@ -66,5 +66,64 @@ public function update_taxsetup($data = array())
 			return false;
 		}
 	} 
+
+
+	public function getTaxsetupList()
+	{
+		return $this->db->select('*')	
+			->from('gmb_tax_calculation')
+			->order_by('tax_sl', 'asc')
+			->get()
+			->result();
+	}
+
+	public function tax_setup_delete($tax_sl){
+
+		$del_info =  $this->db->where('tax_sl',$tax_sl)
+			->delete('gmb_tax_calculation');
+
+        if($del_info){
+
+            return true;
+
+        }else{
+
+            return false;
+
+        }
+    }
+
+   public function tax_stup_data_by_slno($tax_sl = null){
+
+        $this->db->where('tax_sl',$tax_sl);
+        $query = $this->db->get('gmb_tax_calculation');
+        return $query->row();
+
+   }
+
+   public function update_tax_stup_by_level($data=[],$tax_sl){
+
+        $respo = $this->db->where('tax_sl', $tax_sl)
+				->update("gmb_tax_calculation", $data);
+
+        if($respo){
+
+            return true; 
+        }else{
+
+            return false;
+        }
+    }
+
+    public function save_tax_stup($data=[]){
+
+        $respo_insert = $this->db->insert('gmb_tax_calculation',$data);
+
+        if($respo_insert){
+            return true;
+         }else{
+            return false;
+        }
+    }
 
 }

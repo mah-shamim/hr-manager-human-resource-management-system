@@ -60,14 +60,14 @@ public function type_list()
 
 public function type_form($id = null)
  {
-  $this->permission->method('asset','create')->redirect();
+  $this->permission->check_label('asset_type')->read()->redirect();
   $data['title'] = display('add_type');
   #-------------------------------#
   $this->form_validation->set_rules('type_name', display('type_name')  ,'required|max_length[100]');
   #-------------------------------#
    $data['division']   = (Object) $postData = [
    'type_id'          => $this->input->post('type_id'), 
-   'type_name'        => $this->input->post('type_name')
+   'type_name'        => $this->input->post('type_name',true)
   ];
 
 
@@ -75,7 +75,8 @@ public function type_form($id = null)
 
    if (empty($postData['type_id'])) {
 
-          $this->permission->method('asset','create')->redirect();
+    $this->permission->check_label('asset_type')->create()->redirect();
+
     if ($this->asset_model->type_create($postData)) { 
      $this->session->set_flashdata('message', display('save_successfully'));
      redirect('asset/Type_controller/type_form');
@@ -86,7 +87,7 @@ public function type_form($id = null)
 
    } else {
 
-    $this->permission->method('asset','update')->redirect();
+    $this->permission->check_label('asset_type')->update()->redirect();
 
     if ($this->asset_model->update($postData)) { 
      $this->session->set_flashdata('message', display('update_successfully'));
@@ -179,10 +180,10 @@ public function equipment_form($id = null)
   #-------------------------------#
    $data['division']   = (Object) $postData = [
    'equipment_id'     => $this->input->post('equipment_id'), 
-   'equipment_name'   => $this->input->post('equipment_name'),
+   'equipment_name'   => $this->input->post('equipment_name',true),
    'type_id'          => $this->input->post('type_id'),
-   'model'            => $this->input->post('model'),
-   'serial_no'        => $this->input->post('serial_no'),
+   'model'            => $this->input->post('model',true),
+   'serial_no'        => $this->input->post('serial_no',true),
   ];
 
 

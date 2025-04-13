@@ -1,0 +1,57 @@
+.balance-sheet .nextlevel{
+	padding-left: 80px;
+}
+
+.balance-sheet .innerhead{
+	padding-left: 160px;
+}
+.bank_reconciliation .selectall{
+	border-bottom: 1px solid #ddd;
+}
+.bank_reconciliation .total{
+	border-bottom: 1px solid #ddd;
+}
+.bank_reconciliation .summation{
+	border-bottom: 1px solid #ddd;
+}
+.credit_voucher .isbanknature{
+	display:none;
+}
+
+.credit_voucher_details .details_top{
+	margin-right:20px;
+}
+
+.credit_voucher_details .sub_section{
+	font-size: 15px;
+}
+.credit_voucher_details .debitcredithead{
+	font-size: 15px;
+}
+.day_book_report_detil .subtype_subname{
+	font-size: 15px;
+}
+.day_book_report_detil .dbtcrdhead{
+	font-size: 15px;
+}
+.debit-voucher .isbanknature{
+	display:none;
+}
+.dv_view_details .v-no-date{
+	margin-right:20px;
+}
+.dv_view_details .font-fifteenpx{
+	font-size: 15px;
+}
+.jv_view_details .vno_vdate{
+	margin-right:20px;
+}
+.jv_view_details .subname_subdate strong{
+	font-size: 15px;
+}
+.tv_view_details .vno_vdate{
+	margin-right:20px;
+}
+.tv_view_details .subname_subdate strong{
+	font-size: 15px;
+}

@@ -1,16 +1,27 @@
-<div class="form-group text-right">
-<?php if($this->permission->method('leave','create')->access()): ?>
-<button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_leave_type');?></button> 
-<?php endif; ?>
-</div>
 <!--  -->
 
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading panel-aligner" >
+                <div class="panel-title">
+                    <h4><?php echo display('leave_type') ?></h4>
+                </div>
+                <div class="mr-25">
+
+
+                     <?php if($this->permission->check_label('add_leave_type')->create()->access()): ?>
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php echo display('add_leave_type');?></button> 
+                    <?php endif; ?>
+
+
+                </div>
+
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -32,11 +43,13 @@
                                     <td><?php   echo $row->leave_type; ?></td>
                                     <td><?php   echo $row->leave_days; ?></td>
                                     <td>
-                                        <?php if($this->permission->method('leave','update')->access()): ?>
+
+                                        <?php if($this->permission->check_label('add_leave_type')->update()->access()): ?>
                                         <a href="<?php echo base_url("leave/leave/update_leave_type/$row->leave_type_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('leave','delete')->access()): ?>  
+ 
+                                    <?php if($this->permission->check_label('add_leave_type')->delete()->access()): ?>
                                         <a href="<?php echo base_url("leave/leave/delete_leave_type/$row->leave_type_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-close"></i></a>
                                          <?php endif; ?>
                                     </td>
@@ -55,7 +68,7 @@
  <div id="add" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header"  style="background-color: green;color:white">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <center><strong>Add Leave Type Form</strong></center>
             </div>
@@ -72,7 +85,7 @@
                 </div>
                 <div class="panel-body">
 
-                     <?= form_open('leave/leave/add_leave_type') ?>
+                     <?php echo  form_open('leave/leave/add_leave_type') ?>
 
                     <div class="form-group row">
                         <label for="leave_type" class="col-sm-3 col-form-label"><?php echo display('leave_type') ?> *</label>
@@ -87,7 +100,7 @@
                         </div>
                     </div> 
                      
-                    <div class="form-group text-right">
+                    <div class="form-group form-group-margin text-right">
                         <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                         <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('save') ?></button>
                     </div>

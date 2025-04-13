@@ -18,14 +18,14 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <?= form_open('dashboard/language/addPhrase', ' class="form-inline" ') ?> 
+                                <?php echo  form_open('dashboard/language/addPhrase', ' class="form-inline" ') ?> 
                                     <div class="form-group">
                                         <label class="sr-only" for="addphrase"> Phrase Name</label>
                                         <input name="phrase[]" type="text" class="form-control" id="addphrase" placeholder="Phrase Name">
                                     </div>
                                       
                                     <button type="submit" class="btn btn-primary">Save</button>
-                                <?= form_close(); ?>
+                                <?php echo  form_close(); ?>
                             </td>
                         </tr>
                         <tr>
@@ -38,8 +38,8 @@
                             <?php $sl = 1 ?>
                             <?php foreach ($phrases as $value) {?>
                             <tr>
-                                <td><?= $sl++ ?></td>
-                                <td><?= $value->phrase ?></td>
+                                <td><?php echo  $sl++ ?></td>
+                                <td><?php echo  $value->phrase ?></td>
                             </tr>
                             <?php } ?>
                         <?php } ?>

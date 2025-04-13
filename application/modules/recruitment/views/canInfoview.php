@@ -1,25 +1,6 @@
 
 
-<style>
-
-.nav-tabs > li > a {
-    background:#4682B4;
-    border-radius:4px 4px 0 0;
-    color:#ffffff;
-}
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
-    background: #0e0d0d;
-    color:#ffffff;
-}
-.nav-tabs > li > a:hover {
-    background: #0e0d0d;
-    border-radius:4px 4px 0 0;
-    color:#ffffff;
-}
-
-</style>
-
-<ul  class="nav nav-tabs" role="tablist">
+<ul  class="nav nav-tabs nav-tabs-new" role="tablist">
   
     <li class="active"><a href="#home"  role="tab" data-toggle="tab" class="btn btn-primary"><?php echo display('basic_information')?></a></li>
     <li><a href="#menu1"  role="tab" data-toggle="tab" class="btn btn-primary"><?php echo display('past_experience')?></a></li>
@@ -64,15 +45,15 @@
                                      <td><?php echo $que->ssn; ?></td>
                                     <td><?php echo $que->phone; ?></td>
                                      <td class="center">
-                                    <?php if($this->permission->method('circularprocess','update')->access()): ?>
-                                        <a href="<?php echo base_url("circularprocess/Candidate/update_canifo_form/$que->can_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a> 
+                                    <?php if($this->permission->method('recruitment','update')->access()): ?>
+                                        <a href="<?php echo base_url("recruitment/Candidate/update_canifo_form/$que->can_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a> 
                                          <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('circularprocess','delete')->access()): ?> 
-                                        <a href="<?php echo base_url("circularprocess/Candidate/delete_canInfo/$que->can_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
+                                    <?php if($this->permission->method('recruitment','delete')->access()): ?> 
+                                        <a href="<?php echo base_url("recruitment/Candidate/delete_canInfo/$que->can_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
                                         <?php endif; ?> 
-                                        <?php if($this->permission->method('circularprocess','read')->access()): ?> 
-                                        <a href="<?php echo base_url("circularprocess/Candidate/cv/$que->can_id");?>" class="btn btn-default btn-xs"> <i class="fa fa-eye"></i></a>
+                                        <?php if($this->permission->method('recruitment','read')->access()): ?> 
+                                        <a href="<?php echo base_url("recruitment/Candidate/cv/$que->can_id");?>" class="btn btn-default btn-xs"> <i class="fa fa-eye"></i></a>
                                         <?php endif; ?> 
                                     </td>
                                 </tr>

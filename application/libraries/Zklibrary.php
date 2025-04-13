@@ -296,7 +296,7 @@ class ZKLibrary {
 	}
 	function execCommand($command, $command_string = '', $offset_data = 8)
 	{
-		//echo error_reporting(E_ALL);
+
 		$chksum = 0;
 		$session_id = $this->session_id;
 		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr( $this->received_data, 0, 8) );
@@ -741,7 +741,7 @@ class ZKLibrary {
 	}
 	public function getUserTemplate($uid, $finger)
 	{
-			//echo error_reporting(E_ALL);
+
 		$template_data = '';
 		$this->user_data = array();
 		$command = CMD_USERTEMP_RRQ;
@@ -879,7 +879,7 @@ class ZKLibrary {
 		$byte1 = chr((int)($uid % 256));
 		$byte2 = chr((int)($uid >> 8));
 		$command_string = $byte1.$byte2.chr($role).str_pad($password, 8, chr(0)).str_pad($name, 28, chr(0)).str_pad(chr(1), 9, chr(0)).str_pad($userid, 8, chr(0)).str_repeat(chr(0),16);
-		//print_r($command_string);exit();
+
 		return $this->execCommand($command, $command_string);
 
 	}
@@ -887,30 +887,9 @@ class ZKLibrary {
 	{
 		$command = CMD_USERTEMP_WRQ;
 		$command_string = $data;
-		//$length = ord(substr($command_string, 0, 1)) + ord(substr($command_string, 1, 1))*256;
+
 		return $this->execCommand($command, $command_string);
-		/*
-		$chksum = 0;
-		$session_id = $this->session_id;
-		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr( $this->received_data, 0, 8) );
-		$reply_id = hexdec( $u['h8'].$u['h7'] );
-		$buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
-		socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
-		try 
-		{
-			$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr( $this->received_data, 0, 8 ) );
-			$this->session_id = hexdec( $u['h6'].$u['h5'] );
-			return substr( $this->received_data, 8 );
-		} 
-		catch(ErrorException $e) 
-		{
-			return FALSE;
-		} 
-		catch(exception $e) 
-		{
-			return FALSE;
-		}
-		*/
+
 	}
 	public function clearData()
 	{
@@ -1026,7 +1005,7 @@ class ZKLibrary {
 					$attendance_data = substr($attendance_data, 40 );
 				}
 			}
-			//echo error_reporting(E_ALL);
+
 			return $attendance;
 		} 
 		catch(exception $e) 

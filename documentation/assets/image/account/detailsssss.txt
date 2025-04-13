@@ -1,0 +1,33 @@
+Financial Year:You can create financial year, close and edit also delete the financial year.
+Chart of Account:
+You will find here the total chart of account and all the information of account and features in details.
+
+Sub Account:
+From Sub Account page you can add edit and delete the sub account.
+
+Pre Defined Account:
+You can set Pre Defined Account details here.
+
+Opening Balance: You can create opening balance from this page.
+
+Debit Voucher: In this page you can view edit delete the debit voucher and also create a new debit voucher.
+Credit Voucher: In this page you can view edit delete the debit voucher and also create a new credit voucher.
+
+This is credit voucher form. Here you can select credit type, debit account head, date and remark.
+
+Contra Voucher: In this page you can view edit delete the debit voucher and also create a new contra voucher.
+
+Journal Voucher: In this page you can view edit delete the debit voucher and also create a new journal voucher.
+
+Bank Reconciliation: Bank Reconciliation record in this page.
+
+COA: In Chart of Accounts you will get total asset,shareholder, expense,liabilities details chart.Also you can print it.
+
+Balance Sheet:  You will get asset,shareholder equity, liabilities details.
+
+Income Statment: You get the statement details here.
+
+Cash Book: You will get the cash book details here.
+Day Booking: You will get the Day booking details here.
+
+

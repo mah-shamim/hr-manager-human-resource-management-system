@@ -1,19 +1,16 @@
-<script type="text/javascript">
-function printDiv() {
-    var divName = "printArea";
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    // document.body.style.marginTop="-45px";
-    window.print();
-    document.body.innerHTML = originalContents;
-}
-</script>
 
-        <!-- New income -->
+ <!-- New income -->
         <div class="row">
             <div class="col-sm-12">
-                <div class="panel">
+                <div class="panel panel-bd">
+
+                    <div class="panel-heading">
+                      <div class="panel-title">
+                          <h4>
+                            <?php echo display('income_statement')?>
+                          </h4>
+                      </div>
+                    </div>
                    
                     <div class="panel-body">
 
@@ -21,9 +18,7 @@ function printDiv() {
                         <?php
                         $today = date('Y-m-d');
                         ?>
-                        <div class="form-group">
-                             <label for="income"><?php echo display('income_field') ?><i class="text-danger">*</i></label>
-                           
+                        <div class="form-group form-group-new expstatmnt">
                               <select class="form-control" name="income_field">
                                 <option value="">Select One</option>
                                <option value="all"> All </option>
@@ -34,12 +29,12 @@ function printDiv() {
 
                            
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-group-new">
                             <label class="" for="from_date"><?php echo display('start_date') ?></label>
                             <input type="text" name="from_date" class="form-control datepicker" id="from_date" placeholder="<?php echo display('start_date') ?>" value="<?php echo (!empty($from_date)?$from_date:$today) ?>">
                         </div> 
 
-                        <div class="form-group">
+                        <div class="form-group form-group-new">
                             <label class="" for="to_date"><?php echo display('end_date') ?></label>
                             <input type="text" name="to_date" class="form-control datepicker" id="to_date" placeholder="<?php echo display('end_date') ?>" value="<?php echo (!empty($to_date)?$to_date:$today) ?>">
                         </div>  
@@ -63,14 +58,13 @@ function printDiv() {
                         </div>
                     </div>
                     <div class="panel-body">
-                    <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
+                    <table border="0" width="100%">
                                                 
                                                 <tr>
-                                                    <td align="left" style="border-bottom:1px #333 solid;">
+                                                    <td align="left">
                                                         <img src="<?php echo base_url((!empty($setting->logo)?$setting->logo:'assets/img/icons/mini-logo.png')) ?>" alt="logo">
                                                     </td>
-                                                    <td align="center" style="border-bottom:1px #333 solid;padding-right: 10%;">
-                                                        <span style="font-size: 17pt; font-weight:bold;">
+                                                    <td align="center">
                                                             <?php echo $setting->title;?>
                                                            
                                                         </span><br>
@@ -79,7 +73,7 @@ function printDiv() {
                                                         
                                                     </td>
                                                    
-                                                     <td align="right" style="border-bottom:1px #333 solid;">
+                                                     <td align="right">
                                                         <date>
                                                         <?php echo display('date')?>: <?php
                                                         echo date('d-M-Y');

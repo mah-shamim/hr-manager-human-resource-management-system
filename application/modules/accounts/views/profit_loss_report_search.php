@@ -1,164 +1,200 @@
-<!-- Printable area start -->
-<script type="text/javascript">
-function printDiv() {
-    var divName = "printArea";
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    // document.body.style.marginTop="-45px";
-    window.print();
-    document.body.innerHTML = originalContents;
-}
-</script>
-<!-- Printable area end -->
-
-
-<?php
-    $GLOBALS['TotalAssertF']   = 0;
-    $GLOBALS['TotalLiabilityF']= 0;
-  function AssertCoa($HeadName,$HeadCode,$GL,$oResultAsset,$Visited,$value,$dtpFromDate,$dtpToDate,$check){
-      
-      $CI =& get_instance();
-
-      if($value==1)
-      { 
-      ?>
-        <tr>
-            <td colspan="2" style="font-size:20px; font-weight:bold; border-right:solid 1px #000; border-left:solid 1px #000; border-top:solid 1px #000;"><?php echo $HeadName;?></td>
-        </tr>
-      <?php
-      }
-      elseif($value>1)
-      {
-        $COAID=$HeadCode;
-        if($check)
-        {
-          $sqlF="SELECT SUM(acc_transaction.Debit)-SUM(acc_transaction.Credit) AS Amount FROM acc_transaction INNER JOIN acc_coa ON acc_transaction.COAID = acc_coa.HeadCode WHERE VDate BETWEEN '$dtpFromDate' AND '$dtpToDate' AND COAID LIKE '$COAID%'";
-        }
-        else
-        {
-          $sqlF="SELECT SUM(acc_transaction.Credit)-SUM(acc_transaction.Debit) AS Amount FROM acc_transaction INNER JOIN acc_coa ON acc_transaction.COAID = acc_coa.HeadCode WHERE acc_transaction.IsAppove = 1 AND VDate BETWEEN '$dtpFromDate' AND '$dtpToDate' AND COAID LIKE '$COAID%'";
-        }
-        $q1 = $CI->db->query($sqlF);
-        // print_r($sqlF);
-        $oResultAmountPreF = $q1->row();
-      
-        if($value==2)
-        {
-          if($check==1)
-          {
-            $GLOBALS['TotalLiabilityF']=$GLOBALS['TotalLiabilityF']+$oResultAmountPreF->Amount;
-          }
-          else
-          {
-            $GLOBALS['TotalAssertF']=$GLOBALS['TotalAssertF']+$oResultAmountPreF->Amount;
-          }
-        }
-
-      if($oResultAmountPreF->Amount!=0)
-      {
-      ?>
-        <tr>
-          <td align="left" style="border-left:solid 1px #000; border-top:solid 1px #000; font-size:<?php echo (int)(20-$value*1.5)."px;";
-          echo ($value<=3?" font-weight:bold; ":" ");
-          ?>"><?php echo ($value>=3?"&nbsp;&nbsp;":""). $HeadName; ?></td>
-          <td align="right" style="border-left:solid 1px #000;  border-right:solid 1px #000; border-top:solid 1px #000;"><?php echo number_format($oResultAmountPreF->Amount,2);?></td>
-        </tr>
-      <?php
-      }
-      }
-      for($i=0;$i<count($oResultAsset);$i++)
-      {
-        if (!$Visited[$i]&&$GL==0)
-        {
-          if ($HeadName==$oResultAsset[$i]->PHeadName)
-          {
-            $Visited[$i]=true;
-            AssertCoa($oResultAsset[$i]->HeadName,$oResultAsset[$i]->HeadCode,$oResultAsset[$i]->IsGL,$oResultAsset,$Visited,$value+1,$dtpFromDate,$dtpToDate,$check);
-          }
-        }
-      }
+<style type="text/css">
+     table.datatableReport {       
+        border-collapse: collapse;
     }
+    table.datatableReport td, table.datatableReport th {
+        padding: 6px 15px;
+    }
+    table.datatableReport td, table.datatableReport th {
+        border: 1px solid #ededed;
+        border-collapse: collapse;
+    }
+table.datatableReport td.noborder {
+    border: none;
+    padding-top: 40px;
+}
+</style>
+<div class="row">
+     <div class="col-sm-12 col-md-12">
+            <div class="panel panel-bd lobidrag">
 
-?>
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4><?php echo display('profit_loss_filter') ?></h4>
+                        </div>
+                    </div>
 
-
+                    <div class="panel-body"> 
+                        <?php echo form_open('accounts/profit_loss_report_search',array('class' => 'form-inline','method'=>'post'))?>
+                                              
+                            <div class="form-group form-group-new">
+                                <label for="dtpFromDate"><?php echo display('from_date')?> :</label>
+                                <input type="text" name="dtpFromDate"  value="<?php echo   isset($dtpFromDate)? $dtpFromDate : date('Y-m-d'); ?>" class="datepicker form-control" />
+                            </div> 
+                          <div class="form-group form-group-new">
+                                <label for="dtpToDate"><?php echo display('to_date')?> :</label>
+                                <input type="text" class="datepicker form-control" name="dtpToDate" value="<?php echo  isset($dtpToDate)? $dtpToDate : date('Y-m-d'); ?>"  />
+                            </div> 
+                            <button type="submit" class="btn btn-success"><?php echo display('search') ?></button>
+                          
+                       <?php echo form_close()?>
+                    </div> 
+             </div>
+       </div>
+ </div>
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd lobidrag">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <h4></h4>
+                    <h4><?php echo display('profit_loss') ?></h4>
                 </div>
             </div>
             <div id="printArea">
                 <div class="panel-body">
-                  <table width="100%" class="table_boxnew" cellpadding="5" cellspacing="0">
+                   <table width="99%" align="left" class="datatableReport table table-striped table-bordered table-hover general_ledger_report_tble">
+                    
+                   
+                    <thead>
                     <tr>
-                        <td colspan="2" align="center" style="font-size:20px;"><b><?php echo display('statement_of_comprehensive_income')?><br/><?php echo display('from')?> <?php echo $dtpFromDate ?> <?php echo display('to')?> <?php echo $dtpToDate;?></b></td>
+                        <th colspan="2" align="center" ><b><?php echo display('statement_of_comprehensive_income')?><br/><?php echo display('from')?> <?php echo $dtpFromDate ?> <?php echo display('to')?> <?php echo $dtpToDate;?></b></th>
                     </tr>
                     <tr>
-                      <td width="85%" bgcolor="#E7E0EE" align="center" style="font-size:18px; border-left:solid 1px #000; border-top:solid 1px #000;"><?php echo display('particulars')?></td>
-                      <td width="15%" bgcolor="#E7E0EE" align="center" style="font-size:18px; border-left:solid 1px #000; border-right:solid 1px #000;border-top:solid 1px #000;"><?php echo display('amount')?></td>
+                      <th width="60%" bgcolor="#E7E0EE" align="center" ><?php echo display('particulars')?></th>
+                      <th width="20%" bgcolor="#E7E0EE" align="right" class="profitamount"><?php echo display('amount')?></th>
+                       <th width="20%" bgcolor="#E7E0EE" align="right" class="profitamount"><?php echo display('amount')?></th>
                     </tr>
-                    <?php
-                    for($i=0;$i<count($oResultAsset);$i++)
-                    {
-                      $Visited[$i] = false;
-                    }
+                    </thead>
+                    <tbody>                    
+                    <?php foreach($incomes as $income) { ?>
+                      <tr>
+                          <td  align="left"   ><?php echo $income['head'];?></td>
+                          <td  align="right" colspan="2" ></td>
+                     </tr>
+                     <?php  if(count($income['nextlevel']) > 0) { foreach ($income['nextlevel'] as  $value) { ?>
+                        <tr>
+                            <td  align="left" style="padding-left: 80px;"><?php echo $value['headName'];?></td>
+                            <td   align="right" class="profitamount"> </td>
+                            <td   align="right" class="profitamount"><?php echo $setting->currency_symbol. ' '. number_format($value['subtotal'],2); ?></td>
+                            
+                        </tr>
+                        <?php if(count($value['innerHead']) > 0) { foreach($value['innerHead'] as $inner) { ?>
+                         <tr>
+                            <td  align="left" style="padding-left: 160px;"><?php echo $inner['headName'];?></td>
+                            <td   align="right" class="profitamount"><?php echo $setting->currency_symbol. ' '. number_format($inner['amount'],2); ?></td>
+                            <td> </td>
+                        </tr>
+                      <?php } }  } } } 
+                      if($incomes[0]['gtotal'] < $expenses[0]['gtotal']) { ?>
+                        <tr bgcolor="#E7E0EE">
+                           <td align="right"><strong><?php echo display('profit_loss')?></strong></td>
+                           <td align="right" class="profitlossassetstyle" colspan="2"><strong ><?php echo $setting->currency_symbol. ' '. number_format(($expenses[0]['gtotal'] - $incomes[0]['gtotal'] ),2); ?></strong></td>
+                           
+                        </tr>
+                        <tr>
+                            <td   align="right"><strong><?php echo display('total');?></strong></td>
+                            <td  align="right" class="profitamount" colspan="2"><strong><?php echo $setting->currency_symbol. ' '. number_format(($incomes[0]['gtotal'] + ($expenses[0]['gtotal'] - $incomes[0]['gtotal']) ),2); ?></strong></td>
+                            
+                        </tr>
+                    <?php } else {?>
+                      <tr>
+                            <td   align="right"><strong><?php echo display('total');?></strong></td>
+                            <td  align="right" class="profitamount" colspan="2"><strong><?php echo $setting->currency_symbol. ' '. number_format($incomes[0]['gtotal'] ,2); ?></strong></td>
+                            
+                        </tr>
 
-                    AssertCoa("COA","0",0,$oResultAsset,$Visited,0,$dtpFromDate,$dtpToDate,0);
 
-                    $TotalAssetF=$GLOBALS['TotalAssertF'];
-                    ?>
-                    <tr bgcolor="#E7E0EE">
-                        <td align="right"><strong><?php echo display('total_income')?></strong></td>
-                        <td align="right" style="border-style: double;
-                        border-left: none; border-right:none; border-top:none;"><strong ><?php echo number_format($TotalAssetF,2); ?></strong></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="right"></td>
-                    </tr>
-                    <?php
-                    for($i=0;$i<count($oResultLiability);$i++)
-                    {
-                      $Visited[$i] = false;
-                    }
-                    $GLOBALS['TotalLiability']=0;
-                    AssertCoa("COA","0",0,$oResultLiability,$Visited,0,$dtpFromDate,$dtpToDate,1);
-                    $TotalLibilityF=$GLOBALS['TotalLiabilityF'];
-                    ?>
-                    <tr  bgcolor="#E7E0EE">
-                        <td align="right"><strong><?php echo display('total_expenses')?></strong></td>
-                        <td align="right" style="border-style: double;
-                        border-left: none; border-right:none; border-top:none;"><strong><?php echo number_format($TotalLibilityF,2); ?></strong></td>
-                    </tr>
-                    <tr>
-                        <td align="right" style="border-left:solid 1px #000; border-bottom:solid 1px #000; border-top:solid 1px #000;"><h4>Profit-Loss <?php echo $TotalAssetF>$TotalLibilityF?"(Profit)":"(Loss)";?></h4></td>
-                        <td align="right" style="border:solid 1px #000;"><b><?php echo number_format($TotalAssetF-$TotalLibilityF,2); ?></b></td>
-                    </tr>
-                    <tr bgcolor="#FFF">
-                      <td colspan="2" align="center" height="120" valign="bottom">
+                    <?php } ?>
+                       
+
+
+                        <tr bgcolor="#E7E0EE">
+                           <td  colspan="3"> &nbsp;</td>
+                        </tr>
+                    <?php foreach($expenses as $expense) { ?>
+                      <tr>
+                          <td  align="left"   ><?php echo $expense['head'];?></td>
+                          <td  align="right" colspan="2" ></td>
+                     </tr>
+                     <?php  if(count($expense['nextlevel']) > 0) { foreach ($expense['nextlevel'] as  $value) { ?>
+                        <tr>
+                            <td  align="left" style="padding-left: 80px;"><?php echo $value['headName'];?></td>
+                            <td   align="right" class="profitamount"> &nbsp;</td>
+                            <td   align="right" class="profitamount"><?php echo $setting->currency_symbol. ' '. number_format($value['subtotal'],2); ?></td>
+                        </tr>
+                        <?php if(count($value['innerHead']) > 0) { foreach($value['innerHead'] as $inner) { ?>
+                         <tr>
+                            <td align="left" style="padding-left: 160px;"><?php echo $inner['headName'];?></td>
+                            <td   align="right" class="profitamount"><?php echo $setting->currency_symbol. ' '. number_format($inner['amount'],2); ?></td>
+                            <td> &nbsp; </td>
+                        </tr>
+                      <?php } }  } } } 
+                      if($incomes[0]['gtotal'] > $expenses[0]['gtotal']) { ?>
+                        <tr bgcolor="#E7E0EE">
+                           <td align="right"><strong><?php echo display('profit_loss')?></strong></td>
+                           <td align="right" class="profitlossassetstyle" colspan="2"><strong ><?php echo $setting->currency_symbol. ' '. number_format(($incomes[0]['gtotal'] - $expenses[0]['gtotal']),2); ?></strong></td>
+                           <td> </td>
+                        </tr>
+                         <tr>
+                            <td   align="right"><strong><?php echo display('total');?></strong></td>
+                            <td   align="right" class="profitamount" colspan="2"><strong><?php echo $setting->currency_symbol. ' '. number_format(($expenses[0]['gtotal'] + ($incomes[0]['gtotal'] - $expenses[0]['gtotal'])) ,2); ?></strong></td>
+                            
+                        </tr>
+
+                    <?php } else {?>
+
+                      <tr>
+                            <td   align="right"><strong><?php echo display('total');?></strong></td>
+                            <td   align="right" class="profitamount" colspan="2"><strong><?php echo $setting->currency_symbol. ' '. number_format($expenses[0]['gtotal']  ,2); ?></strong></td>
+                            
+                        </tr>
+
+
+                    <?php } ?>
+                      
+
+
+
+</tbody>
+<tfoot><tr bgcolor="#FFF" style="margin-top: 200px;">
+                      <td colspan="3" align="center" height="120" valign="bottom">
                           <table width="100%" cellpadding="1" cellspacing="20">
                             <tr>
-                              <td width="20%" style="border-top: solid 1px #000;" align="center"><?php echo display('prepared_by')?></td>
-                                <td width="20%" style="border-top: solid 1px #000;" align="center"><?php echo display('accounts')?></td>
-                                <td width="20%" style="border-top: solid 1px #000;" align="center"><?php echo display('authorized_signature')?></td>
-                                <td  width="20%" style="border-top: solid 1px #000;" align='center'><?php echo display('chairman')?></td>
+                              <td width="20%" class="noborder" align="center"><?php echo display('prepared_by')?></td>
+                                <td width="20%" class="noborder" align="center"><?php echo display('accounts')?></td>
+                                <td width="20%" class="noborder" align="center"><?php echo display('authorized_signature')?></td>
+                                <td  width="20%" class="noborder" align='center'><?php echo display('chairman')?></td>
                             </tr>
                           </table>
                       </td>
                     </tr>
+
+</tfoot>
+
+
                   </table>
                 </div>
             </div>
-            <div class="text-center" id="print" style="margin: 20px">
-                <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/>
-             <!--    <a href="<?php echo base_url($pdf)?>" download>
-                    <input type="button" class="btn btn-success" name="btnPdf" id="btnPdf" value="PDF"/>
-                </a> -->
+            <div class="text-center" >
+                
+
+                <button class="btn btn-warning btn-md" name="btnPrint" id="btnPrint"  onclick="printDiv();"><i class="fa fa-print"></i> Print </button>
+             <a href="<?php echo base_url($pdf)?>" target="_blank" title="download pdf">
+                    <button  class="btn btn-success btn-md" name="btnPdf" id="btnPdf" ><i class="fa-file-pdf-o"></i> PDF</button>
+             </a>
+              <a href="<?php echo base_url('accounts/profit_loss_report_excel/'.$dtpFromDate.'/'.$dtpToDate)?>" target="_blank" title="download Excel">
+                    <button  class="btn btn-primary btn-md" name="btnexcel" id="btnexcel" ><i class="fa fa-file-excel-o"></i> Excel</button>
+             </a>
+
+
+
+
+
+
+
+
+
             </div>
         </div>
     </div>
 </div>
-

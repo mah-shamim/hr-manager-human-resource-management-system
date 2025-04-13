@@ -1,7 +1,4 @@
- 
-  
-    
-  
+
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="panel panel-bd lobidrag">
@@ -12,7 +9,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open_multipart('noticeboard/Notice_controller/update_notice_form/'. $data->notice_id) ?>
+                <?php echo  form_open_multipart('noticeboard/Notice_controller/update_notice_form/'. $data->notice_id) ?>
                 
 
                     <input name="notice_id" type="hidden" value="<?php echo $data->notice_id ?>">
@@ -41,7 +38,7 @@
                             <label for="notice_date" class="col-sm-3 col-form-label">
                             <?php echo display('notice_date') ?></label>
                             <div class="col-sm-9">
-                           <input type="text" name="notice_date" class="datepicker form-control" id="notice_date" value="<?php echo $data->notice_date ?>">
+                           <input type="text" name="notice_date" class="datepicker  form-control" id="notice_date" value="<?php echo $data->notice_date ?>">
                                
                             </div>
                            
@@ -69,7 +66,7 @@
                         
 
 
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                         </div>
@@ -81,16 +78,5 @@
             </div>
         </div>
     </div>
-     
- <script language="javascript"> 
 
- $(function(){
-        $("#notice_date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-    </script>
+     

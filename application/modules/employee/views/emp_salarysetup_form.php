@@ -10,7 +10,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('employee/Employees/create_salary_setup') ?>
+                    <?php echo  form_open('employee/Employees/create_salary_setup') ?>
                         <div class="form-group row">
                             <label for="emp_sal_name" class="col-sm-3 col-form-label"><?php echo display('emp_sal_name') ?> *</label>
                             <div class="col-sm-9">
@@ -21,7 +21,7 @@
                         <div class="form-group row">
                             <label for="emp_sal_type" class="col-sm-3 col-form-label"><?php echo display('emp_sal_type') ?> *</label>
                             <div class="col-sm-9">
-                                <!-- <input type="text" name="emp_sal_type" class="form-control"  placeholder="<?php echo display('emp_sal_type') ?>" id="emp_sal_type" > -->
+                            
                                 <select name="emp_sal_type" class="form-control"  placeholder="<?php echo display('emp_sal_type') ?>" id="emp_sal_type" >
                            <option value="Add">Add</option>
                            <option value="Deduct">Deduct</option>

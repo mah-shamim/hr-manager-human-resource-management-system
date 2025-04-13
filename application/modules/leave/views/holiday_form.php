@@ -1,18 +1,27 @@
-<div class="form-group text-right">
-<?php if($this->permission->method('leave','create')->access()): ?>
-<button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_more_holiday')?></button> 
-<?php endif; ?>
-<?php if($this->permission->method('leave','read')->access()): ?>
-<a href="<?php echo base_url();?>/leave/Leave/manage_holiday" class="btn btn-primary"><?php echo display('manage_holiday')?></a>
-<?php endif; ?>
-</div>
-
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+             <div class="panel-heading panel-aligner" >
+                <div class="panel-title">
+                    <h4><?php echo display('holiday') ?></h4>
+                </div>
+                <div class="mr-25">
+
+                    <?php if($this->permission->method('leave','create')->access()): ?>
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php echo display('add_more_holiday')?></button> 
+                    <?php endif; ?>
+                    <?php if($this->permission->method('leave','read')->access()): ?>
+                    <a href="<?php echo base_url();?>/leave/Leave/manage_holiday" class="btn btn-primary"><?php echo display('manage_holiday')?></a>
+                    <?php endif; ?>
+
+
+                </div>
+
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -67,7 +76,7 @@
                 
                 <div class="panel-body">
 
-                    <?= form_open('leave/Leave/create_holiday') ?>
+                    <?php echo  form_open('leave/Leave/create_holiday') ?>
                         <div class="form-group row">
                             <label for="holiday_name" class="col-sm-3 col-form-label"><?php echo display('holiday_name') ?> *</label>
                             <div class="col-sm-9">
@@ -79,21 +88,21 @@
                         <div class="form-group row">
                             <label for="start_date" class="col-sm-3 col-form-label"><?php echo display('start_date') ?> *</label>
                             <div class="col-sm-9">
-                                <input name="start_date" class="datepicker form-control" type="text" placeholder="<?php
+                                <input name="start_date" class="dp form-control" type="text" placeholder="<?php
                                  echo display('start_date') ?>"  id="start_date">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="end_date" class="col-sm-3 col-form-label"><?php echo display('end_date') ?> *</label>
                             <div class="col-sm-9">
-                                <input name="end_date" class="datepicker form-control" type="text" placeholder="<?php  
+                                <input name="end_date" class="dp form-control" type="text" placeholder="<?php  
                                  echo display('end_date') ?>" id="end_date" >
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="no_of_days" class="col-sm-3 col-form-label"><?php echo display('no_of_days') ?> *</label>
+                            <label for="no_of_days" class="col-sm-3 col-form-label"><?php echo display('no_of_days').' '.display('without_weekend') ?> *</label>
                             <div class="col-sm-9">
-                                <input name="no_of_days" class="form-control" type="text" placeholder="<?php echo display('no_of_days') ?>" id="no_of_days" >
+                                <input name="no_of_days" class="form-control" type="number" placeholder="<?php echo display('no_of_days') ?>" id="no_of_days" readonly>
                             </div>
                         </div>
 
@@ -101,7 +110,7 @@
                         
      
              
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('set') ?></button>
                         </div>
@@ -122,39 +131,5 @@
 
     </div>
 
+<script src="<?php echo base_url('assets/js/leave.js') ?>" type="text/javascript"></script>
 
-
-
-
-
-<script language="javascript"> 
-
- $(function(){
-        $("#start_date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-$(document).ready(function(e) {
-    function calculation(){
-    
-   var date1 =new Date($('#start_date').val());
-   
-
-var date2 =new Date($('#end_date').val());
-var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-        $('#no_of_days').val(diffDays+1);
-        
-        }
-        $('#end_date').change(calculation)
-
-
-});
- 
-    
-
-</script>

@@ -2,13 +2,16 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
-<style>
-    img{
-        height: 80px;
-        width: 100px;
-    }
-</style>
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('position')?>
+                  </h4>
+              </div>
+            </div>
+
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
                     <thead>
@@ -29,11 +32,11 @@
                                     <td><?php echo $que->position_details; ?></td>
                                    
                                     <td class="center">
-                                    <?php if($this->permission->method('Employees','update')->access()): ?> 
+                                    <?php if($this->permission->check_label('position')->update()->access()): ?>
                                         <a href="<?php echo base_url("employee/Employees/update_form/$que->pos_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a> 
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('employee','delete')->access()): ?> 
+                                    <?php if($this->permission->check_label('position')->delete()->access()): ?>
                                         <a href="<?php echo base_url("employee/Employees/delete_pos/$que->pos_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a> 
                                          <?php endif; ?>
                                     </td>

@@ -33,11 +33,11 @@ class Permission_setup extends MX_Controller {
 
 		if ($this->form_validation->run()) {
 			$setData = array(
-				'menu_title' 		=> $this->input->post('menu_title'),
-				'page_url' 			=> $this->input->post('page_url'),
-				'module' 			=> $this->input->post('module'),
-				'parent_menu' 		=> $this->input->post('parent_menu'),
-				'is_report' 		=> ($this->input->post('is_report')?1:0),
+				'menu_title' 		=> $this->input->post('menu_title',true),
+				'page_url' 			=> $this->input->post('page_url',true),
+				'module' 			=> $this->input->post('module',true),
+				'parent_menu' 		=> $this->input->post('parent_menu',true),
+				'is_report' 		=> ($this->input->post('is_report',true)?1:0),
 				'createdate'		=> date('Y-m-d'),
 				'createby'			=> $this->session->userdata('id'),
 			);
@@ -90,13 +90,13 @@ class Permission_setup extends MX_Controller {
 	public function update()
 	{
 		$setData = array(
-			'menu_title' 		=> $this->input->post('menu_title'),
-			'page_url' 			=> $this->input->post('page_url'),
-			'module' 			=> $this->input->post('module'),
-			'parent_menu' 		=> $this->input->post('parent_menu'),
-			'is_report' 		=> ($this->input->post('is_report')?1:0)
+			'menu_title' 		=> $this->input->post('menu_title',true),
+			'page_url' 			=> $this->input->post('page_url',true),
+			'module' 			=> $this->input->post('module',true),
+			'parent_menu' 		=> $this->input->post('parent_menu',true),
+			'is_report' 		=> ($this->input->post('is_report',true)?1:0)
 		);
-		$menu_id = $this->input->post('menu_id');
+		$menu_id = $this->input->post('menu_id',true);
 		$this->db->where('menu_id',$menu_id)->update('sec_menu_item',$setData);
 		redirect('dashboard/permission_setup/menu_item_list');
 	}

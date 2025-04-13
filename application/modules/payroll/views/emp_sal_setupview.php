@@ -2,7 +2,15 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd">
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('manage_salary_type')?>
+                  </h4>
+              </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -34,7 +42,7 @@
                                          <?php endif; ?>
                                     
                                     <?php if($this->permission->method('employee','delete')->access()): ?> 
-                                        <a href="<?php echo base_url("payroll/Payroll/delete_salsetup/$que->salary_type_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a> 
+                                        <a href="<?php echo base_url("payroll/Payroll/delete_s_type/$que->salary_type_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a> 
                                          <?php endif; ?>
                                     </td>
                                 </tr>

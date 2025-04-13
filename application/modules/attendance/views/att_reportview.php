@@ -1,23 +1,11 @@
 <div id="pr">
-<script>
-function myFunction() {
-    window.print();
-    function hide(){
-    document.getElementById('pr').style.display="none";
-    
-}
-}
-</script>
-<button onclick="myFunction()"><i class="fa fa-print" aria-hidden="true"></i>
+<button onclick="printDiv();"><i class="fa fa-print" aria-hidden="true"></i>
 </button>
 </div>
 
-
+<div id="printArea">
 <?php
     $total=0;
-//print_r(query);
- //print_r($query);
-
     foreach ($ab as $ca){}?>
    
   
@@ -25,7 +13,7 @@ function myFunction() {
 <table  class="table table-striped" width="100%">
 
 
- <div class="form-group text-center" style="color:#3D9970; font-size: 50px; font-weight: bold; font-family: Stencil Std, fantasy; font-variant: small-caps">
+ <div class="form-group text-center">
        
        <?php echo display('attendance_report') ?>
       
@@ -37,7 +25,7 @@ function myFunction() {
     </div>
     <div  class="col-sm-8">
 
-    <div class="form-group text-left" style="color:black; font-size: 20px; font-weight: bold; font-family:cursive">
+    <div class="form-group text-left" >
        
         <?php echo display('name') ?>:<?php
 
@@ -46,7 +34,7 @@ function myFunction() {
         echo $ca->first_name." ".$ca->last_name ;?>
         
     </div>
-    <div class="form-group text-left" style="color:black; font-size: 20px; font-weight: bold; font-family:'Comic Sans MS', 'cursive'">
+    <div class="form-group text-left" >
        
       ID NO: <?php
     
@@ -56,7 +44,7 @@ echo $ca->employee_id ;
         ?>
     </div>
 
-<div class="form-group text-left" style="color:black; font-size: 20px; font-weight: bold; font-family:'Comic Sans MS', 'cursive'">
+<div class="form-group text-left" >
        
       <?php echo display('designation') ?>: <?php  echo $ca->pos_id ; ?>
     </div>
@@ -84,3 +72,4 @@ echo $ca->employee_id ;
     <?php }?>
     
 </table>
+</div>

@@ -13,16 +13,10 @@
                                                 
                                                 <tr>
                                                     <td align="left" style="border-bottom:2px #333 solid;">
-                                                      <!--   <img src="<?php echo $software_info[0]->logo;?>" alt="logo"> -->
                                                     </td>
                                                     <td align="left" style="border-bottom:2px #333 solid;">
                                                         <span style="font-size: 17pt; font-weight:bold;">
-                                                            <!-- <?php echo $company[0]['company_name'];?>
-                                                           
-                                                        </span><br>
-                                                        <?php echo $company[0]['address'];?>
-                                                        <br>
-                                                         <?php echo $company[0]['mobile'];?> -->
+                                                          
                                                         
                                                     </td>
                                                    

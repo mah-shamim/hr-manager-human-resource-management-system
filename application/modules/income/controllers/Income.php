@@ -4,23 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Income extends MX_Controller {
 
 public function __construct()
-	{
-		parent::__construct();
-		$this->db->query('SET SESSION sql_mode = ""');
-		$this->load->model(array(
-			'Income_model'
-		));
+  {
+    parent::__construct();
+    $this->db->query('SET SESSION sql_mode = ""');
+    $this->load->model(array(
+      'Income_model'
+    ));
     if (! $this->session->userdata('isLogIn'))
-      redirect('login');		 
-	}
+      redirect('login');     
+  }
 
 public function income_list(){   
-		$data['title']    = display('income_list');  ;
-		$data['incomes']  = $this->Income_model->income_list();
-		$data['module']   = "income";
-		$data['page']     = "income_list";   
-		echo Modules::run('template/layout', $data); 
-	} 
+    $data['title']    = display('income_list');  ;
+    $data['incomes']  = $this->Income_model->income_list();
+    $data['module']   = "income";
+    $data['page']     = "income_list";   
+    echo Modules::run('template/layout', $data); 
+  } 
 
 public function income_item($id = null){ 
   $data['title'] = display('income_field');
@@ -30,7 +30,7 @@ public function income_item($id = null){
   #-------------------------------#
    $data['income']   = (Object) $postData = [
    'id'             => $this->input->post('id'), 
-   'income_field'   => $this->input->post('income_field'),
+   'income_field'   => $this->input->post('income_field',true),
   ];
 
 
@@ -40,33 +40,33 @@ public function income_item($id = null){
     if ($this->Income_model->create_income($postData)) { 
      
      $coa = $this->Income_model->headcode();
-			if($coa->HeadCode!=NULL){
-				$headcode=$coa->HeadCode+1;
-			}else{
-				$headcode="301";
-			}
+      if($coa->HeadCode!=NULL){
+        $headcode=$coa->HeadCode+1;
+      }else{
+        $headcode="301";
+      }
 
-			$headname = $this->input->post('income_field');
-			$createby = $this->session->userdata('fullname');
-			$createdate = date('Y-m-d H:i:s');
-			$data['aco']  = (Object) $coaData = [
-				'HeadCode'         => $headcode,
-				'HeadName'         => $headname,
-				'PHeadName'        => 'Income',
-				'HeadLevel'        => '1',
-				'IsActive'         => '1',
-				'IsTransaction'    => '1',
-				'IsGL'             => '0',
-				'HeadType'         => 'I',
-				'IsBudget'         => '0',
-				'IsDepreciation'   => '0',
-				'DepreciationRate' => '0',
-				'CreateBy'         => $createby,
-				'CreateDate'       => $createdate,
-			];
-			$this->Income_model->create_coa($coaData);
+      $headname = $this->input->post('income_field',true);
+      $createby = $this->session->userdata('fullname');
+      $createdate = date('Y-m-d H:i:s');
+      $data['aco']  = (Object) $coaData = [
+        'HeadCode'         => $headcode,
+        'HeadName'         => $headname,
+        'PHeadName'        => 'Income',
+        'HeadLevel'        => '1',
+        'IsActive'         => '1',
+        'IsTransaction'    => '1',
+        'IsGL'             => '0',
+        'HeadType'         => 'I',
+        'IsBudget'         => '0',
+        'IsDepreciation'   => '0',
+        'DepreciationRate' => '0',
+        'CreateBy'         => $createby,
+        'CreateDate'       => $createdate,
+      ];
+      $this->Income_model->create_coa($coaData);
 
-			$this->session->set_flashdata('message', display('save_successfully'));
+      $this->session->set_flashdata('message', display('save_successfully'));
 
      redirect('income/Income/income_item');
     } else {
@@ -76,10 +76,10 @@ public function income_item($id = null){
 
    } else {
     if ($this->Income_model->update($postData)) { 
-    	$upcoa = array(
-    	'old_head' => $this->input->post('oldname'),
-      'HeadName' => $this->input->post('income_name'),
-    	);
+      $upcoa = array(
+      'old_head' => $this->input->post('oldname',true),
+      'HeadName' => $this->input->post('income_name',true),
+      );
     $this->Income_model->update_coa($upcoa);
      $this->session->set_flashdata('message', display('update_successfully'));
     } else {
@@ -100,15 +100,15 @@ public function income_item($id = null){
    }  
 }
 public function delete_income($id = null){ 
-		if ($this->Income_model->delete($id)) {
-			#set success message
-			$this->session->set_flashdata('message',display('delete_successfully'));
-		} else {
-			#set exception message
-			$this->session->set_flashdata('exception',display('please_try_again'));
-		}
-		redirect("income/income/create_income");
-	}
+    if ($this->Income_model->delete($id)) {
+      #set success message
+      $this->session->set_flashdata('message',display('delete_successfully'));
+    } else {
+      #set exception message
+      $this->session->set_flashdata('exception',display('please_try_again'));
+    }
+    redirect("income/income/income_item");
+  }
 
 
     public function add_income(){
@@ -121,7 +121,6 @@ public function delete_income($id = null){
     }
 
      public function create_income(){
-   // $this->permission->method('accounts','create')->redirect();
     $this->form_validation->set_rules('amount', display('amount')  ,'required|max_length[20]');
      $this->form_validation->set_rules('income_type', display('income_field')  ,'required|max_length[250]');
      $this->form_validation->set_rules('dtpDate', display('date')  ,'required');
@@ -156,7 +155,7 @@ public function delete_income($id = null){
 
 
  public function income_statement(){
-    $income_name  = $this->input->get('income_field');
+    $income_name  = $this->input->get('income_field',true);
     $from_date   = $this->input->get('from_date');
     $to_date     = $this->input->get('to_date');
 
@@ -204,7 +203,7 @@ if($income_name == 'all'){
 
  public function retrieve_paytypedata()
   { 
-    $paytype  = $this->input->post('paytype');
+    $paytype  = $this->input->post('paytype',true);
     $typeinfo = $this->Income_model->get_paymenthead($paytype);
     echo json_encode($typeinfo);
   }
@@ -212,13 +211,26 @@ if($income_name == 'all'){
 public function incomeheet_add(){
     $createby = $this->session->userdata('fullname');
     $createdate = date('Y-m-d H:i:s');
-    $amount     = $this->input->post('amount');
+    $amount     = $this->input->post('amount',true);
     $date       = $this->input->post('date');
-    $particular = $this->input->post('particular');
-    $voucher_no = $this->input->post('voucher_no');
-    $paymenttype= $this->input->post('parent_type');
-    $headcodes   = $this->input->post('headcode');
-    $remarks    = $this->input->post('remarks');
+    $particular = $this->input->post('particular',true);
+    $voucher_no = $this->input->post('voucher_no',true);
+    $paymenttype= $this->input->post('parent_type',true);
+    $headcodes   = $this->input->post('headcode',true);
+    $remarks    = $this->input->post('remarks',true);
+
+    //Check if amount is number or not
+    for ($i=0; $i < count($amount); $i++) {
+
+      if($amount[$i] && !intval($amount[$i])){
+
+        $this->session->set_flashdata('exception', "Amount field must contain number !");      
+        redirect("income/income/income_chart");
+
+      }
+    }
+    // End of checking if amount is number or not
+
       for ($i=0; $i < count($amount); $i++) {
         $singleamount   =intval(str_replace(',', '', $amount[$i]));
         $singledate     = $date[$i];

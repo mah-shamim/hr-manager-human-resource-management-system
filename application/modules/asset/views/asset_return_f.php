@@ -30,7 +30,7 @@
                                <thead>
                                   <tr>
                                      <th class="text-center"><?php echo display('equipment')?></th> 
-                                     <th class="text-center"><?php echo display('date')?></th> 
+                                     <th class="text-center"><?php echo display('date')?>*</th> 
                                      <th class="text-center"><?php echo display('damarage_descript')?></th> 
                                      <th class="text-center"><?php echo display('action')?></th> 
                                   </tr>
@@ -72,42 +72,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
- $(".datepicker").datepicker({
-        dateFormat: "yy-mm-dd"
-    }); 
-});
- 
-     function checkboxcheck(sl){
-        var check_id    ='check_id_'+sl;
-        var equipment_id  ='equipment_id'+sl;
-        var date  ='date'+sl;
-        var desc  ='desc'+sl;
-            if($('#'+check_id).prop("checked") == true){
-                document.getElementById(date).setAttribute("required","required");
-                document.getElementById(equipment_id).setAttribute("name","equipment_id[]");
-                 document.getElementById(date).setAttribute("name","return_date[]");
-                document.getElementById(desc).setAttribute("name","damarage_descript[]");
-            }
-            else if($('#'+check_id).prop("checked") == false){
-                document.getElementById(date).removeAttribute("required");
-                document.getElementById(equipment_id).removeAttribute("name");
-                document.getElementById(date).removeAttribute("name");
-                document.getElementById(desc).removeAttribute("name");
-            }
-        };
-
-
-   $('#return').prop("disabled", true);
-        $('input:checkbox').click(function() {
-     var check=$('[name="rtn[]"]:checked').length;
-        if (check > 0) {
-            $('#return').prop("disabled", false);
-        } else {
-        if (check < 1){
-            $('#return').attr('disabled',true);}
-        }
-});
-
-</script>
+<script src="<?php echo base_url('assets/js/companyassets.js') ?>" type="text/javascript"></script>

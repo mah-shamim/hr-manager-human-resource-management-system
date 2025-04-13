@@ -1,0 +1,5 @@
+[15-Mar-2020 09:00:24 UTC] PHP Fatal error:  Cannot redeclare Api::salary_info() in /home/newhrmbdtask/public_html/hrm_app_version/application/controllers/Api.php on line 747
+[15-Mar-2020 09:00:38 UTC] PHP Fatal error:  Cannot redeclare Api::salary_info() in /home/newhrmbdtask/public_html/hrm_app_version/application/controllers/Api.php on line 747
+[15-Mar-2020 09:01:00 UTC] PHP Fatal error:  Cannot redeclare Api::salary_info() in /home/newhrmbdtask/public_html/hrm_app_version/application/controllers/Api.php on line 747
+[15-Mar-2020 09:01:26 UTC] PHP Fatal error:  Cannot redeclare Api::salary_info() in /home/newhrmbdtask/public_html/hrm_app_version/application/controllers/Api.php on line 747
+[15-Mar-2020 09:02:22 UTC] PHP Fatal error:  Cannot redeclare Api::salary_info() in /home/newhrmbdtask/public_html/hrm_app_version/application/controllers/Api.php on line 747

@@ -1,0 +1,84 @@
+
+.task-board {
+    display: inline-block;
+    padding: 12px;
+    border-radius: 3px;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    min-height: 300px;
+}
+
+.status-card {
+    width: 25%;
+    margin-right: 8px;
+    background: #e2e4e6;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.9em;
+}
+
+.status-card:last-child {
+    margin-right: 0px;
+}
+
+.kanban-card-header {
+    width: 100%;
+    padding: 10px 10px 0px 10px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    display: block;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.card-header-text {
+    display: block;
+    text-align: center;
+}
+
+ul.sortable {
+    padding-bottom: 10px;
+}
+
+ul.sortable li:last-child {
+    margin-bottom: 0px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+}
+
+.text-row {
+    padding: 8px 10px;
+    margin: 10px;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    white-space: normal;
+    line-height: 20px;
+    text-align: left;
+}
+
+.ui-sortable-placeholder {
+    visibility: inherit !important;
+    background: transparent;
+    border: #666 2px dashed;
+}
+
+.task-board .task-board-cards{
+    text-align: center;
+}
+
+.panel-bd{
+    background-color: #f5f3e8;
+}
+.panel-bd > .panel-heading {
+
+    background-color: #d8daca;
+}

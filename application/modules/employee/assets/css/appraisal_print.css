@@ -1,0 +1,87 @@
+.mt-40 {
+    margin-top: 40px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.pl-15 {
+    padding-left: 15px;
+}
+
+.w-65 {
+    width: 65%;
+}
+
+.w-150 {
+    width: 150px;
+}
+
+.w-250 {
+    width: 250px;
+}
+
+.w-620 {
+    width: 620px;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fs-16 {
+    font-size: 16px;
+}
+
+.fs-17 {
+    font-size: 17px;
+}
+
+.fs-i {
+    font-style: italic;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-end {
+    justify-content: end;
+}
+
+.justify-content-start {
+    justify-content: start;
+}
+
+.review-table {
+    border: none;
+    box-shadow: none;
+}
+
+hr {
+    margin-top: 55px;
+    margin-bottom: 19px;
+    border: 0;
+    border-top: 2px solid #000;
+}
+
+.underline {
+    border-bottom: 2px solid #000;
+}

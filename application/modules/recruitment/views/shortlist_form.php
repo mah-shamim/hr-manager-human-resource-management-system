@@ -1,18 +1,27 @@
-<div class="form-group text-right">
- <?php if($this->permission->method('recruitment','create')->access()): ?> 
-<button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_shortlist')?></button> 
-<?php endif; ?>
- <?php if($this->permission->method('recruitment','read')->access()): ?> 
-<a href="<?php echo base_url();?>recruitment/Candidate_select/candidate_shortlist_view" class="btn btn-primary"><?php echo display('manage_shortlist')?></a>
-<?php endif; ?>
-</div>
-
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading panel-aligner" >
+                <div class="panel-title">
+                    <h4><?php echo display('candidate_shortlist') ?></h4>
+                </div>
+                <div class="mr-25">
+
+                    <?php if($this->permission->method('recruitment','create')->access()): ?> 
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php echo display('add_shortlist')?></button> 
+                    <?php endif; ?>
+                    <?php if($this->permission->method('recruitment','read')->access()): ?> 
+                    <a href="<?php echo base_url();?>recruitment/Candidate_select/candidate_shortlist_view" class="btn btn-primary"><?php echo display('manage_shortlist')?></a>
+                    <?php endif; ?>
+
+
+                </div>
+
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -72,13 +81,13 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('recruitment/Candidate_select/create_shortlist') ?>
+                    <?php echo  form_open('recruitment/Candidate_select/create_shortlist') ?>
                          <div class="form-group row">
                             <label for="can_id" class="col-sm-3 col-form-label"><?php echo display('candidate_name') ?> *</label>
                            
                                 <div class="col-sm-9">
                               <?php
-echo form_dropdown('can_id',$dropdowncanid, null, 'class="form-control" selected="selected" style="width:300px"');
+echo form_dropdown('can_id',$dropdowncanid, null, 'class="form-control" selected="selected" ');
 ?> 
                         </div> 
                         </div>
@@ -86,26 +95,26 @@ echo form_dropdown('can_id',$dropdowncanid, null, 'class="form-control" selected
                             <label for="job_adv_id" class="col-sm-3 col-form-label"><?php echo display('job_adv_id') ?> *</label>
                             <div class="col-sm-9">
                               <?php
-echo form_dropdown('job_adv_id',$dropdown, null, 'class="form-control" selected="selected" style="width:300px"');
+echo form_dropdown('job_adv_id',$dropdown, null, 'class="form-control" selected="selected" ');
 ?> 
                             </div>
                         </div> 
                         <div class="form-group row">
                             <label for="date_of_shortlist" class="col-sm-3 col-form-label"><?php echo display('date_of_shortlist') ?> *</label>
                             <div class="col-sm-9">
-                                <input type="text" name="date_of_shortlist" class="form-control"  placeholder="<?php echo display('date_of_shortlist') ?>" id="date_of_shortlist" style="width:300px"
+                                <input type="text" name="date_of_shortlist" class="form-control datepicker"  placeholder="<?php echo display('date_of_shortlist') ?>" id="date_of_shortlist" 
                                 value="<?php echo date('Y-m-d') ?>">
                             </div>
                         </div> 
                           <div class="form-group row">
                             <label for="interview_date" class="col-sm-3 col-form-label"><?php echo display('interview_date') ?> *</label>
                             <div class="col-sm-9">
-                                <input type="text" name="interview_date" class="datepicker form-control"  placeholder="<?php echo display('interview_date') ?>" id="interview_date" style="width:300px" >
+                                <input type="text" name="interview_date" class="datepicker form-control"  placeholder="<?php echo display('interview_date') ?>" id="interview_date"  >
                             </div>
                         </div> 
 
           
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('Ad') ?></button>
                         </div>
@@ -128,14 +137,4 @@ echo form_dropdown('job_adv_id',$dropdown, null, 'class="form-control" selected=
         </div>
 
     </div>
-    <script language="javascript"> 
-    $(function(){
-        $("#interview_date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-</script>
+  

@@ -74,22 +74,20 @@ public function update($data = array())
 	 public function expense_add(){
            $voucher_no = date('Ymdhis');
             $Vtype="Expense";
-            $expense_type = $this->input->post('expense_type');
-            $pay_type = $this->input->post('paytype');
-            $cAID     = $this->input->post('cmbDebit');
-            $Credit   = $this->input->post('amount');
-            $VDate    = $this->input->post('dtpDate');
-            $Narration=addslashes(trim($this->input->post('remark')));
+            $expense_type = $this->input->post('expense_type',true);
+            $pay_type = $this->input->post('paytype',true);
+            $cAID     = $this->input->post('cmbDebit',true);
+            $Credit   = $this->input->post('amount',true);
+            $VDate    = $this->input->post('dtpDate',true);
+            $Narration=addslashes(trim($this->input->post('remark',true)));
             $IsPosted=1;
             $IsAppove=1;
             $CreateBy=$this->session->userdata('id');
             $createdate=date('Y-m-d H:i:s');
            $coid = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$expense_type)->get()->row()->HeadCode;
-           $bankname = $this->input->post('bank_name');
-          // print_r($bankname);exit();
+           $bankname = $this->input->post('bank_name',true);
 
          $coaid = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$bankname)->get()->row()->HeadCode;
-       // bank summary credit
 
          // expense type credit  
      $expense_acc = array(
@@ -134,7 +132,6 @@ public function update($data = array())
       'IsAppove'       =>  1
     ); 
 
-          // print_r($expense_acc);exit();
               $this->db->insert('acc_transaction',$expense_acc);
                 if($pay_type == 1){
                 $this->db->insert('acc_transaction',$cashinhand);  

@@ -1,25 +1,33 @@
-<div class="form-group text-right">
- <?php if($this->permission->method('department','create')->access()): ?>  
-<button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('add_new_dept')?></button> 
-<?php endif; ?>
- <?php if($this->permission->method('department','read')->access()): ?>  
-<a href="<?php echo base_url();?>/department/Department_controller/dept_view" class="btn btn-primary"><?php echo display('manage_dept')?></a>
-<?php endif; ?>
- <?php if($this->permission->method('add_division','create')->access()): ?>  
-<a href="<?php echo base_url();?>/department/Division_controller/division_form" class="btn btn-info"><?php echo display('add_division')?></a>
-<?php endif; ?>
-<?php if($this->permission->method('division_list','read')->access()): ?>  
-<a href="<?php echo base_url();?>/department/Division_controller/index" class="btn btn-info"><?php echo display('division_list')?></a>
-<?php endif; ?>
-</div>
-<!--  -->
-
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+             <div class="panel-heading panel-aligner" >
+                    <div class="panel-title">
+                        <h4><?php echo display('department') ?></h4>
+                    </div>
+                    <div class="mr-25">
+
+                       <?php if($this->permission->method('department','create')->access()): ?>  
+                        <button type="button" class="btn btn-primary btn-md" data-target="#add" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        <?php echo display('add_new_dept')?></button> 
+                        <?php endif; ?>
+                         <?php if($this->permission->method('department','read')->access()): ?>  
+                        <a href="<?php echo base_url();?>/department/Department_controller/dept_view" class="btn btn-primary"><?php echo display('manage_dept')?></a>
+                        <?php endif; ?>
+                         <?php if($this->permission->method('add_division','create')->access()): ?>  
+                        <a href="<?php echo base_url();?>/department/Division_controller/division_form" class="btn btn-info"><?php echo display('add_division')?></a>
+                        <?php endif; ?>
+                        <?php if($this->permission->method('division_list','read')->access()): ?>  
+                        <a href="<?php echo base_url();?>/department/Division_controller/index" class="btn btn-info"><?php echo display('division_list')?></a>
+                        <?php endif; ?>
+
+
+                    </div>
+
+             </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -53,7 +61,7 @@
  <div id="add" class="modal fade" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <div class="modal-header"  style="background-color: green;color:white">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <center><strong><h4><i class='fa fa-university' aria-hidden='true'></i>Department Form</h4></strong></center>
             </div>
@@ -70,7 +78,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('department/Department_controller/create_dept'); ?>
+                    <?php echo  form_open('department/Department_controller/create_dept'); ?>
                    
                        <div class="form-group row">
                            
@@ -85,7 +93,7 @@
                        
                         
              
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('ad') ?></button>
                         </div>

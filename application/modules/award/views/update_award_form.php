@@ -1,6 +1,6 @@
       <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel">
+            <div class="panel panel-bd">
                 <div class="panel-heading">
                     <div class="panel-title">
                        <h4><?php echo (!empty($title)?$title:null) ?></h4>
@@ -8,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open('award/Award_controller/update_award_form/'. $data->award_id) ?>
+                <?php echo  form_open('award/Award_controller/update_award_form/'. $data->award_id) ?>
                 
 
                     <input name="award_id" type="hidden" value="<?php echo $data->award_id ?>">
@@ -77,7 +77,7 @@ echo form_dropdown('employee_id', $dropdown, $value, 'class="form-control"');
                         
 
 
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                         </div>
@@ -92,17 +92,3 @@ echo form_dropdown('employee_id', $dropdown, $value, 'class="form-control"');
 
 
      
- <script language="javascript"> 
-
- $(function(){
-        $("#notice_date").datepicker({ dateFormat:'yy-mm-dd' });
-        $("#end_date").datepicker({ dateFormat:'yy-mm-dd' }).bind("change",function(){
-            var minValue = $(this).val();
-            minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-            minValue.setDate(minValue.getDate());
-            $("#end_date").datepicker( "option", "minDate", minValue );
-        })
-    });
-
-
-    </script>

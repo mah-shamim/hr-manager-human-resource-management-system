@@ -1,8 +1,4 @@
- 
-  
-    
-  
-    <div class="row">
+  <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="panel panel-bd lobidrag">
                 <div class="panel-heading">
@@ -12,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open('tax/Tax/update_taxsetup_form/'. $data->tax_setup_id) ?>
+                <?php echo  form_open('tax/Tax/update_taxsetup_form/'. $data->tax_setup_id) ?>
                 
 
                     <input name="tax_setup_id" type="hidden" value="<?php echo $data->tax_setup_id ?>">
@@ -41,7 +37,7 @@
                         
 
 
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                         </div>

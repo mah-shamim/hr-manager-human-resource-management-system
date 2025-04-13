@@ -14,15 +14,15 @@ $HmvcMenu["loan"] = array(
             "permission" => "read"
        
     ), 
-  "loan_installment" => array(
-        //menu name
+  // "loan_installment" => array(
+  //       //menu name
       
-            "controller" => "Loan",
-            "method"     => "create_installment",
-            "permission" => "read"
+  //           "controller" => "Loan",
+  //           "method"     => "create_installment",
+  //           "permission" => "read"
        
         
-    ), 
+  //   ), 
   "loan_report" => array(
             "controller" => "Loan",
             "method"     => "loan_report",

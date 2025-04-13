@@ -2,7 +2,15 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('manage_holiday')?>
+                  </h4>
+              </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -30,11 +38,13 @@
                                     
                                    
                                     <td class="center">
-                                    <?php if($this->permission->method('leave','update')->access()): ?>
+
+                                    <?php if($this->permission->check_label('holiday')->update()->access()): ?>
                                         <a href="<?php echo base_url("leave/Leave/update_holiday_form/$que->payrl_holi_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('leave','delete')->access()): ?>  
+
+                                    <?php if($this->permission->check_label('holiday')->delete()->access()): ?>
                                         <a href="<?php echo base_url("leave/Leave/delete_holiday/$que->payrl_holi_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
                                          <?php endif; ?> 
                                     </td>

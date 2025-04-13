@@ -9,7 +9,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open('leave/Leave/update_leave_type/'. $data->leave_type_id) ?>
+                <?php echo  form_open('leave/Leave/update_leave_type/'. $data->leave_type_id) ?>
                 
                         <input name="leave_type_id" type="hidden" value="<?php echo $data->leave_type_id ?>">
                           <div class="form-group row">
@@ -25,7 +25,7 @@
                             </div>
                         </div> 
                      
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             
                             <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                         </div>
@@ -38,7 +38,3 @@
         </div>
     </div>
  
-<script language="javascript"> 
-
-
-</script>

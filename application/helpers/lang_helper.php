@@ -77,3 +77,31 @@ if (!function_exists('display')) {
  
 }
 
+if (!function_exists('addActivityLog')) {
+
+    // $status 1=create, 2=update, 3=delete
+
+    function addActivityLog($type, $action_name, $id, $table, $status=0, $data = null){
+
+        $ci =& get_instance();
+        $ci->load->database();
+
+        $postData = (empty($_POST))?array():$_POST;
+        $actionData = array(
+          'user_id'   => $ci->session->userdata('id'),
+          'type'      => $type, 
+          'action'    => $action_name, 
+          'action_id' => $id, 
+          'table_name'=>$table,
+          'slug'      => uri_string(),
+          'form_data' => ($data==null)?json_encode($postData):json_encode($data),
+          'status'    => $status
+        );
+
+        $ci->db->insert('activity_logs',$actionData);
+
+    }
+
+}
+
+

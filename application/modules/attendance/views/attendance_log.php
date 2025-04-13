@@ -33,7 +33,7 @@
          $idx++; }
             ?>
         </table>
-          <?= $links ?>
+          <?php echo  $links ?>
             </div>
         </div>
     </div>

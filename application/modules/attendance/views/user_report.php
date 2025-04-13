@@ -1,8 +1,3 @@
-
-
-
-
-
 <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="panel panel-bd lobidrag">
@@ -13,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('attendance/Home/report_view') ?>
+                    <?php echo  form_open('attendance/Home/report_view') ?>
                         
                         <div class="form-group row">
                             <label for="date" class="col-sm-3 col-form-label"><?php echo display('start_date') ?> *</label>
@@ -41,8 +36,3 @@
             </div>
         </div>
     </div>
-    <script language="javascript"> 
-      $("#start_date").datepicker({ dateFormat:'Y-m-d' });
-       $("#end_date").datepicker({ dateFormat:'yy-mm-dd' });
-    
-</script>

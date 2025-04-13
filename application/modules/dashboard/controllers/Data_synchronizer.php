@@ -29,12 +29,12 @@ class Data_synchronizer extends MX_Controller {
  		$this->form_validation->set_rules('project_root', display('project_root'), 'required|max_length[100]');
  		#----------------------------------#
  		$data['ftp'] = (object)$ftpData =array(
- 			'hostname' => $this->input->post('hostname'),
- 			'username' => $this->input->post('username'),
- 			'password' => $this->input->post('password'),
- 			'port' 	   => $this->input->post('port'),
- 			'debug'    => $this->input->post('debug'),
- 			'project_root' => $this->input->post('project_root'),
+ 			'hostname' => $this->input->post('hostname',true),
+ 			'username' => $this->input->post('username',true),
+ 			'password' => $this->input->post('password',true),
+ 			'port' 	   => $this->input->post('port',true),
+ 			'debug'    => $this->input->post('debug',true),
+ 			'project_root' => $this->input->post('project_root',true),
  		);
  		#----------------------------------#
  		if ( $this->form_validation->run() ) {
@@ -151,10 +151,6 @@ class Data_synchronizer extends MX_Controller {
 
 
 	/*-----------------------------------------------*/
-	/*-----------------------------------------------*/
-	/*-----------------------------------------------*/
-	/*-----------------------------------------------*/
- 
 
  	public function checkConnection()
  	{    

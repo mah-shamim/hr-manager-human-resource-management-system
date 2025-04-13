@@ -3,6 +3,5 @@
 
 <?php
 $s = $this->session->userdata();
-print_r($s);
 
 echo "<img src='".base_url('application/modules/inventory/assets/images/t.gif')."'>";

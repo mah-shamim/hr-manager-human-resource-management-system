@@ -8,7 +8,7 @@ public function __construct()
 		parent::__construct();
 		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
-			'asset_model'
+			'asset_model','accounts/accounts_model'
 		));
     if (! $this->session->userdata('isLogIn'))
       redirect('login');		 
@@ -60,17 +60,20 @@ public function __construct()
 
 public function equipment_form($id = null)
  {
-  $this->permission->method('asset','create')->redirect();
+  $this->permission->check_label('equipment')->read()->redirect();
   $data['title'] = display('add_equipment');
   #-------------------------------#
   $this->form_validation->set_rules('equipment_name', display('equipment_name')  ,'required|max_length[100]');
+  $this->form_validation->set_rules('model', display('model')  ,'max_length[100]');
+  $this->form_validation->set_rules('price', display('price')  ,'required|numeric|max_length[100]');
   #-------------------------------#
    $data['division']   = (Object) $postData = [
-   'equipment_id'     => $this->input->post('equipment_id'), 
-   'equipment_name'   => $this->input->post('equipment_name'),
+   'equipment_id'     => $this->input->post('equipment_id',true), 
+   'equipment_name'   => $this->input->post('equipment_name',true),
    'type_id'          => $this->input->post('type_id'),
-   'model'            => $this->input->post('model'),
-   'serial_no'        => $this->input->post('serial_no'),
+   'model'            => $this->input->post('model',true),
+   'serial_no'        => $this->input->post('serial_no',true),
+   'price'            => $this->input->post('price',true),
   ];
 
 
@@ -78,7 +81,7 @@ public function equipment_form($id = null)
 
    if (empty($postData['equipment_id'])) {
 
-          $this->permission->method('asset','create')->redirect();
+    $this->permission->check_label('equipment')->create()->redirect();
     if ($this->asset_model->equipment_create($postData)) { 
      $this->session->set_flashdata('message', display('save_successfully'));
      redirect('asset/Equipment_controller/equipment_form');
@@ -89,13 +92,13 @@ public function equipment_form($id = null)
 
    } else {
 
-    $this->permission->method('asset','update')->redirect();
+    $this->permission->check_label('equipment')->update()->redirect();
 
     if ($this->asset_model->update_equipment($postData)) { 
      $this->session->set_flashdata('message', display('update_successfully'));
      redirect("asset/Equipment_controller/equipment_form/");  
     } else {
-     $this->session->set_flashdata('exception',  display('please_try_again'));//
+     $this->session->set_flashdata('exception',  display('please_try_again'));
      redirect("asset/Equipment_controller/equipment_form/".$postData['equipment_id']);  
     }
     
@@ -109,6 +112,18 @@ public function equipment_form($id = null)
    $data['type']   =  $this->asset_model->type_dropdown();
    $data['module'] = "asset";
    $data['equipment'] = $this->asset_model->equipment_list();
+    //PDF Generator for equipment list
+    $data['setting'] = $this->accounts_model->setting();
+    $this->load->library('pdfgenerator');
+    $dompdf = new DOMPDF();
+    $page = $this->load->view('asset/equipment_list_pdf',$data,true);
+    $dompdf->load_html($page);
+    $dompdf->render();
+    $output = $dompdf->output();
+    file_put_contents('assets/data/pdf/Equipment List Pdf As On '.date("Y-m-d").'.pdf', $output);
+    $data['pdf']    = 'assets/data/pdf/Equipment List Pdf As On '.date("Y-m-d").'.pdf';
+    //PDF Generator Ends
+
    $data['page']   = "equipment_form";   
    echo Modules::run('template/layout', $data); 
    }   

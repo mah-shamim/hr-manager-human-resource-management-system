@@ -9,6 +9,7 @@ class Candidate_select extends MX_Controller {
 		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'Selection_model',
+			'employee/Employees_model',
 		));	
 		if (! $this->session->userdata('isLogIn'))
 			redirect('login');	 
@@ -98,7 +99,7 @@ public function update_shortlist_form($id = null){
 			} else {
 				$this->session->set_flashdata('exception',  display('please_try_again'));
 			}
-			redirect("recruitment/Candidate_select/update_shortlist_form/". $id);
+			redirect("recruitment/Candidate_select/candidate_shortlist_view/");
 
 		} else {
 			$data['title']   = display('update');
@@ -177,7 +178,6 @@ public function create_interview()
 			$data['page']   = "interview_form"; 
 			$data['dropdowninterview'] = $this->Selection_model->dropdowninterview(); 
 			$data['interview'] = $this->Selection_model->viewInterview();
-			//$data['dropdown'] = $this->Selection_model->dropdownPosition();
 			echo Modules::run('template/layout', $data);   
 			
 		}   
@@ -221,6 +221,7 @@ public function create_interview()
 				'written_total_marks'=> $this->input->post('written_total_marks',true),
 				'mcq_total_marks' 	 => $this->input->post('mcq_total_marks',true),
 				'recommandation' 	 => $this->input->post('recommandation',true),
+				 'total_marks'       => $this->input->post('total_marks',true),
 				'selection' 	     => $this->input->post('selection',true),
 				'details' 	         => $this->input->post('details',true),
 			]; 
@@ -272,18 +273,26 @@ public function create_selection()
 		$this->form_validation->set_rules('can_id',display('can_id'),'required|is_unique[candidate_selection.can_id]|max_length[50]');
 		$this->form_validation->set_rules('pos_id',display('pos_id'),'required|max_length[50]');
 		$this->form_validation->set_rules('selection_terms',display('selection_terms')  ,'required|max_length[100]');
-		$id=$this->input->post('can_id');
+		$id=$this->input->post('can_id',true);
 		$employee = $this->db->select('*')->from('candidate_basic_info')->where('can_id',$id)->get()->row();
-	   //  $zk = new ZKLibrary('192.168.1.201', 4370);
-	   //     // echo 'welcome';exit();
-	   //         $zk->connect();
-	   //         $zk->disableDevice();
-    //             $user = $zk->getUser();
-    //             $max = max($user);
-    //             $max_id = $max[0];
-	   //         $zk->enableDevice();
-    //             $zk->disconnect();
 		
+		$employee_duplicate_check= $this->db->select('*')
+		 ->from('employee_history')
+		 ->where('email',$employee->email)
+		 ->get()
+		 ->row();
+		if($employee_duplicate_check){
+		       
+		    $this->session->set_flashdata('exception', "Duplicate entry for employee as email address already exists !");
+			redirect("recruitment/Candidate_select/create_selection");	
+		}
+		
+		$employee_h= $this->db->select('employee_id')
+		 ->from('employee_history')
+		 ->order_by('emp_his_id','desc')
+		 ->get()
+		 ->row();
+		$max_id = $employee_h->employee_id;
 		if(!empty($max_id)){
 		$employee_id = $max_id+1;	
 		}else{
@@ -312,21 +321,7 @@ public function create_selection()
 			$c_acc=$c_code.'-'.$c_name;
 			$createby = $this->session->userdata('fullname');
 			$createdate = date('Y-m-d H:i:s');
-			$data['aco']  = (Object) $coaData = [
-				'HeadCode'         => $headcode,
-				'HeadName'         => $c_acc,
-				'PHeadName'        => 'Account Payable',
-				'HeadLevel'        => '2',
-				'IsActive'         => '1',
-				'IsTransaction'    => '1',
-				'IsGL'             => '0',
-				'HeadType'         => 'L',
-				'IsBudget'         => '0',
-				'IsDepreciation'   => '0',
-				'DepreciationRate' => '0',
-				'CreateBy'         => $createby,
-				'CreateDate'       => $createdate,
-			];
+
 			$Data1 = [
 				'employee_id'                => $employee_id,
 				'pos_id' 	                 => $this->input->post('pos_id',true),
@@ -341,10 +336,25 @@ public function create_selection()
 				'state'                      => $employee->state,
 			    'city'                       => $employee->city,
 			     'zip'                       => $employee->zip
-			];  
+			];
+		     
+		     // Inserting account subcode data
+
            if($this->Selection_model->selection_create($postData)){
 			    $this->Selection_model->insert_employee($Data1);
-			    $this->Selection_model->create_coa($coaData);
+
+			    $accSubcode = [
+					'subTypeId'    =>  2, // For employee from acc_subtype table
+					'name'         => $employee->first_name.' '.$employee->last_name,
+					'referenceNo'  => $employee_id,
+					'created_date' => date('Y-m-d'),
+				];
+
+				$this->Employees_model->create_acc_subocde($accSubcode);
+
+				// End of Inserting account subcode data
+				
+
 				$this->session->set_flashdata('message', display('successfully_saved'));
 			
 			redirect("recruitment/Candidate_select/create_selection");
@@ -381,7 +391,7 @@ public function create_selection()
  		$this->form_validation->set_rules('can_id',display('can_id'),'required|max_length[50]');
 		$this->form_validation->set_rules('pos_id',display('pos_id')  ,'required|max_length[100]');
 		$this->form_validation->set_rules('selection_terms',display('selection_terms'),'max_length[100]');
-		$employee = $this->db->select('*')->from('candidate_basic_info')->where('can_id',$id)->get()->row();
+		$employee = $this->db->select('*')->from('candidate_basic_info')->where('can_id',$this->input->post('can_id',true))->get()->row();
 		$employee_id = $this->input->post('employee_id',true);
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
@@ -409,10 +419,8 @@ public function create_selection()
 			    'city'                       => $employee->city,
 			     'zip'                       => $employee->zip
 			];  
-			// print_r($Data1);
-			// exit; 
 			
-			
+	
 			if ($this->Selection_model->update_selection($postData)) { 
 				$this->db->where('employee_id', $employee_id)
 			  ->update("employee_history", $Data1);

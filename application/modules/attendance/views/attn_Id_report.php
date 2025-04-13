@@ -8,7 +8,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('attendance/Home/AtnReport_view','name="myForm"') ?>
+                    <?php echo  form_open('attendance/Home/AtnReport_view','name="myForm"') ?>
                         
                          <div class="form-group row">
                             <label for="employee_id" class="col-sm-3 col-form-label"><?php echo display('employee_id') ?> *</label>
@@ -44,8 +44,3 @@
             </div>
         </div>
     </div>
-<script language="javascript"> 
-      $("#start_date").datepicker({ dateFormat:'Y-m-d' });
-       $("#end_date").datepicker({ dateFormat:'yy-mm-dd' });
-    
-</script>

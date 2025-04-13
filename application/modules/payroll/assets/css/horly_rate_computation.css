@@ -1,0 +1,25 @@
+     table.payrollDatatableReport {       
+        border-collapse: collapse;
+        border: 0;
+    }
+    table.payrollDatatableReport td, table.payrollDatatableReport th {
+        padding: 6px 15px;
+    }
+    table.payrollDatatableReport td, table.payrollDatatableReport th {
+        border: 1px solid #ededed;
+        border-collapse: collapse;
+    }
+table.payrollDatatableReport td.noborder {
+    border: none;
+    padding-top: 40px;
+}
+
+.hrly_rate_computaiton .logo-image{
+    border:none;text-align: center;padding-bottom: 10px;
+}
+.hrly_rate_computaiton .hrly_rate_computaiton_title{
+    border:none;text-align: center;padding-bottom: 30px;
+}
+.hrly_rate_computaiton .hrly_rate_computaiton_footer{
+    padding-top: 100px;border: none !important;
+}

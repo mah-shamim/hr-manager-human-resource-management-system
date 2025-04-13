@@ -1,0 +1,71 @@
+
+/*Cusotm css for autoupdate*/
+
+blink {
+    -webkit-animation: 2s linear infinite condemned_blink_effect; // for android
+    animation: 2s linear infinite condemned_blink_effect;
+}
+@-webkit-keyframes condemned_blink_effect { // for android
+    0% {
+        visibility: hidden;
+    }
+    50% {
+        visibility: hidden;
+    }
+    100% {
+        visibility: visible;
+    }
+}
+@keyframes condemned_blink_effect {
+    0% {
+        visibility: hidden;
+    }
+    50% {
+        visibility: hidden;
+    }
+    100% {
+        visibility: visible;
+    }
+}
+
+.blink-section blink{
+    font-size: 32px;
+    margin-bottom: 36px;
+    display: block;
+}
+.latest-version{
+    font-size:18px;
+    line-height: 28px;
+}
+
+.current-version{
+    font-size:18px;
+    line-height: 28px;
+}
+
+#serverok{display:none;}
+
+#errormsg{
+    color:#8a4246;
+    background-color:#ffedb6;
+    border: 2px dotted #ffd479;
+    border-radius:5px;
+    padding:15px;
+    margin-bottom:20px;
+}
+
+#serverok .input-section p{
+    color:#8a4246;
+    background-color:#ffedb6;
+    border: 2px dotted #ffd479;
+    border-radius:5px;
+    padding:15px;
+    margin-bottom:20px;
+}
+
+.noupdate-section .cur-ver{
+    font-size:18px;
+    line-height: 28px;
+}
+
+

@@ -1,127 +1,55 @@
-<script type="text/javascript">
-    function printDiv() {
-        var divName = "printArea";
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        // document.body.style.marginTop="-45px";
-        window.print();
-        document.body.innerHTML = originalContents;
-    }
-</script>
-<?php
-include ('Class/CConManager.php');
-include ('Class/CResult.php');
-include ('Class/CAccount.php');
-include ('Class/Ccommon.php');
-?>
-
-<?php
-if(isset($_POST['btnSave']))
-{
-
-    $oAccount=new CAccount();
-    //$oCommon=new CCommon();
-    $oResult=new CResult();
-    $HeadCode=$_POST['txtCode'];
-    $HeadName=$_POST['txtName'];
-    $FromDate=$_POST['dtpFromDate'];
-    $ToDate=$_POST['dtpToDate'];
-
-
-    $sql="SELECT SUM(Debit) Debit, SUM(Credit) Credit, IsAppove, COAID FROM acc_transaction
-              WHERE VDate < '$FromDate 00:00:00' AND COAID = '$HeadCode' AND IsAppove =1 ";
-
-    $sql.="GROUP BY IsAppove, COAID";
-    $oResult=$oAccount->SqlQuery($sql);
-    // print_r($oResult);
-    $PreBalance=0;
-
-    if($oResult->num_rows>0)
-    {
-        $PreBalance=$oResult->row['Debit'];
-        $PreBalance=$PreBalance- $oResult->row['Credit'];
-    }
-
-     $sql="SELECT acc_transaction.VNo, acc_transaction.Vtype, acc_transaction.VDate, acc_transaction.Debit, acc_transaction.Credit, acc_transaction.IsAppove, acc_transaction.COAID, acc_coa.HeadName, acc_coa.PHeadName, acc_coa.HeadType, acc_transaction.Narration 
-		 FROM acc_transaction INNER JOIN acc_coa ON acc_transaction.COAID = acc_coa.HeadCode
-         WHERE acc_transaction.IsAppove =1 AND VDate BETWEEN '$FromDate 00:00:00' AND '$ToDate 00:00:00' AND acc_transaction.COAID='$HeadCode' ORDER BY  acc_transaction.VDate, acc_transaction.VNo";
-
- 
-    //5,295,521.00
-
-    // $sql="SELECT acc_transaction.VNo, acc_transaction.Vtype, acc_transaction.VDate, SUM(acc_transaction.Debit) AS Debit, SUM(acc_transaction.Credit) AS Credit, acc_transaction.IsAppove, acc_transaction.COAID, acc_coa.HeadName, acc_coa.PHeadName, acc_coa.HeadType, acc_transaction.Narration
-    //           FROM acc_transaction INNER JOIN acc_coa ON acc_transaction.COAID = acc_coa.HeadCode
-			 //  WHERE acc_transaction.IsAppove =1 AND VDate BETWEEN '$FromDate 00:00:00' AND '$ToDate 00:00:00' AND VNo in (SELECT VNo FROM acc_transaction acc WHERE acc.COAID = '$HeadCode') AND COAID <> '$HeadCode' ";
-
-    
-    // $sql.="GROUP BY acc_transaction.VNo, acc_transaction.Vtype, acc_transaction.VDate, acc_transaction.IsAppove, acc_transaction.COAID, acc_coa.HeadName, acc_coa.PHeadName, acc_coa.HeadType, acc_transaction.Narration
-    //            HAVING SUM(acc_transaction.Debit)-SUM(acc_transaction.Credit)<>0
-    //            ORDER BY  acc_transaction.VDate, acc_transaction.VNo";
-
-    $oResult=$oAccount->SqlQuery($sql);
-    //echo $sql;
-// print_r($oResult);
-    
-}
-?>
-
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4>
+<?php  foreach($banks as $bank) { echo $bank->HeadName; ?>
+                                        
 
+                                   <?php  }   ?>
                     </h4>
                 </div>
             </div>
             <div class="panel-body">
-                <form name="form1" id="form1" action="" method="post" enctype="multipart/form-data">
+                <?php echo  form_open_multipart('accounts/bank_book_report') ?>               
                 <div class="row" id="">
-                    <input type="hidden" id="txtName" name="txtName"/>
+                   
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="date" class="col-sm-4 col-form-label"><?php echo display('gl_head')?></label>
+                            <label for="date" class="col-sm-4 col-form-label"><?php echo display('bank')?></label>
                             <div class="col-sm-8">
 
-                                <select name="cmbCode" class="form-control" id="cmbCode" onchange="cmbCode_onchange()">
-                                    <option value="">Select One</option>
-                                    <?php $oCommon=new CCommon();
-                                    $oCommon->ReadAllBankCOA('HeadCode','HeadName','');
-                                    ?>
+                                <select name="cmbCode" class="form-control" id="cmbCode" required >
+                                    <option value="">Select Bank</option>
+                                    <?php  foreach($banks as $bank) { echo $bank->HeadName; ?>
+                                        <option value="<?php echo $bank->HeadCode;?>"><?php echo $bank->HeadName;?></option>
+
+                                   <?php  }   ?>
                                 </select>
                             </div>
                         </div>
-
-
-                        <div class="form-group row">
-                            <label for="date" class="col-sm-4 col-form-label"><?php echo display('head_code') ?></label>
-                            <div class="col-sm-8">
-                                <input type="text" name="txtCode" id="txtCode" size="40" readonly="readonly" class="form-control"/>
-                            </div>
-                        </div>
-
+ 
                         <div class="form-group row">
                             <label for="date" class="col-sm-4 col-form-label"><?php echo display('from_date') ?></label>
                             <div class="col-sm-8">
-                                <input type="text" name="dtpFromDate" value="" placeholder="<?php echo display('date') ?>" class="datepicker form-control">
+                                <input type="text" name="dtpFromDate" value="<?php echo date('Y-m-d');?>" placeholder="<?php echo display('date') ?>" class="datepicker form-control">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="date" class="col-sm-4 col-form-label"><?php echo display('to_date') ?></label>
                             <div class="col-sm-8">
-                                <input type="text"  name="dtpToDate" value="" placeholder="<?php echo display('date') ?>" class="datepicker form-control">
+                                <input type="text"  name="dtpToDate" value="<?php echo date('Y-m-d');?>" placeholder="<?php echo display('date') ?>" class="datepicker form-control">
                             </div>
                         </div>
 
-                        <div class="form-group text-right">
+                        <div class="form-group form-group-margin text-right">
                             <button type="submit" name="btnSave" class="btn btn-success w-md m-b-5"><?php echo display('find') ?></button>
                         </div>
                     </div>
                 </div>
-                </form>
+                <?php echo form_close() ?>
             </div>
         </div>
     </div>
@@ -136,35 +64,29 @@ if(isset($_POST['btnSave']))
             <div class="panel-body"  id="printArea">
                
                 <div class="">
-                      <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
-                                                
-                                                <tr>
-                                                    <td align="left" style="border-bottom:2px #333 solid;">
-                                                        <img src="<?php echo base_url((!empty($setting->logo)?$setting->logo:'assets/img/icons/mini-logo.png')) ?>" alt="logo">
-                                                    </td>
-                                                    <td align="center" style="border-bottom:2px #333 solid;">
-                                                        <span style="font-size: 17pt; font-weight:bold;">
+                              <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <img src="<?php echo base_url((!empty($setting->logo)?$setting->logo:'assets/img/icons/mini-logo.png')) ?>" alt="logo">
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                         <span class="" >
                                                             <?php echo $setting->title;?>
                                                            
                                                         </span><br>
                                                         <?php echo $setting->address;?>
-                                                        
-                                                        
-                                                    </td>
-                                                   
-                                                     <td align="right" style="border-bottom:2px #333 solid;">
-                                                        <date>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <date>
                                                         <?php echo display('date')?>: <?php
                                                         echo date('d-M-Y');
                                                         ?> 
                                                     </date>
-                                                    </td>
-                                                </tr>            
-                                   
-                                </table>
+                    </div>
+                </div>
+                    <div class="table-responsive">            
                     <table width="100%" class="table table-stripped" cellpadding="1" cellspacing="1">
                         <caption class="text-center">
-                            <font size="+1" style="font-family:'Arial'"> <strong><?php echo display('bank_book_report_of')?> <?php echo (!empty($HeadName)?$HeadName:'') ?> <?php echo display('on')?> <?php echo (!empty($FromDate)?$FromDate:''); ?> <?php echo display('to')?> <?php echo (!empty($ToDate)?$ToDate:'');?></strong></font>
+                            <font size="+1"> <strong><?php echo display('bank_book_report_of')?> <?php echo (!empty($HeadName)?$HeadName:'') ?> <?php echo display('on')?> <?php echo (!empty($FromDate)?$FromDate:''); ?> <?php echo display('to')?> <?php echo (!empty($ToDate)?$ToDate:'');?></strong></font>
                         </caption> 
                         <tr class="table_data">
                             <td width="3%" >&nbsp;</td>
@@ -217,15 +139,12 @@ if(isset($_POST['btnSave']))
                                         {
 
                                         }
-                                        /* if($oResult->rows[$i]['Vtype']=="MR")
-                                             echo "<a href=\"?Acc=MR&VNo=".base64_encode($oResult->rows[$i]['VNo'])."\" target='_blank'>".$oResult->rows[$i]['VNo']."</a>";
-                                      else */
                                         echo $oResult->rows[$i]['VNo'];
                                         ?></td>
                                     <td align="center" bgcolor="<?php echo $bg; ?>">
                                             <?php echo trim($oResult->rows[$i]['Vtype']);
                                             ?>
-<!--                                            <div id="HidePODetail">--><?php //echo $oResult->rows[$i]['Narration']; ?><!--</div>-->
+
                                     </td>
                                     <?php
                                     $VNo=$oResult->rows[$i]['VNo'];
@@ -251,8 +170,8 @@ if(isset($_POST['btnSave']))
                             <?php
                         }
                         ?>
-                        <tr class="table_data" style="color:#FFF">
-                            <td bgcolor="green">&nbsp;</td>
+                        <tr class="table_data datacontent">
+                            <td >&nbsp;</td>
                             <td align="center" bgcolor="green">&nbsp;</td>
                             <td align="center" bgcolor="green">&nbsp;</td>
                             <td align="center" bgcolor="green">&nbsp;</td>
@@ -263,31 +182,18 @@ if(isset($_POST['btnSave']))
                         </tr>
 
                     </table>
+                </div>
 
                 </div>
                
             </div>
         </div>
-         <div class="text-center" id="print" style="margin: 20px">
+         <div class="text-center" id="print">
                     <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/>
                 </div>
         </div>
     </div>
 </div>
 
-<script language="javascript" type="text/javascript">
-    function cmbCode_onchange(){
-      var Sel=$('#cmbCode').val();
-      var Text=$('#cmbCode').text();
-      var select= $("option:selected", $("#cmbCode")).text()
-        $("#txtName").val(select);
-        $("#txtCode").val(Sel);
-    }
-
-
-     $(function(){
-        $(".datepicker").datepicker({ dateFormat:'yy-mm-dd' });
-       
-    });
-
-</script>
+<script src="<?php echo base_url() ?>assets/js/dist/jstree.min.js" ></script>
+<script src="<?php echo base_url('assets/js/account.js') ?>" type="text/javascript"></script>

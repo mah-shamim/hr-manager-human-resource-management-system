@@ -1,6 +1,5 @@
 <?php 
 namespace Php;
-
 class Validation  
 {
 
@@ -14,12 +13,10 @@ class Validation
         //server requiest post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            //check _token 
-            if ($data['_token'] !== $_SESSION['_token']) {
-                $message .= "<li>Mismatch token!</li>";
+            if (hash_equals($this->get_purchase_data('flag','_token'), $_POST['_token'])) {
+                $token = true; //set token is true
             } else {
-                //set token is true
-                $token = true;
+                $message .= "<li>Mismatch token!</li>";
             }
 
             // validation for each posted data
@@ -68,6 +65,13 @@ class Validation
         //server requiest post
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
+            // Csrf token validation
+            if (hash_equals($this->get_purchase_data('flag','_token'), $_GET['_token'])) {
+                $token = true; //set token is true
+            } else {
+                $message .= "<li>Mismatch token!</li>";
+            }
+
             // validation for each posted data
             $userid = $this->filterInput('User ID', $data['userid']);
             $purchase_key = $this->filterInput('Purchase Key', $data['purchase_key']);
@@ -81,7 +85,7 @@ class Validation
             }
 
 
-            if($userid && $purchase_key){
+            if($userid && $purchase_key && $token === TRUE){
                 $message = true;
             }
 
@@ -96,9 +100,17 @@ class Validation
     {  
 
         $message = null;
+        $token = null;
 
         //server requiest post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+             // Csrf token validation
+            if (hash_equals($this->get_purchase_data('flag','_token'), $_POST['_token'])) {
+                $token = true; //set token is true
+            } else {
+                $message .= "<li>Mismatch token!</li>";
+            }
 
             // validation for each posted data
             $email = $this->filterInput('Email ', $data['email']);
@@ -113,7 +125,7 @@ class Validation
             }
 
 
-            if($email && $password){
+            if($email && $password && $token === TRUE){
                 $message = true;
             }
 
@@ -130,11 +142,12 @@ class Validation
         //if not empty posted data
         if (!empty($data)) { 
             $data = trim($data);
+            $data = filter_var($data, FILTER_SANITIZE_STRING);
             $data = stripslashes($data);
             $data = htmlspecialchars($data);
 
             // check if name only contains letters and numbers
-            if (!preg_match("/^[A-Za-z0-9_]+$/", $data)) {
+            if (!preg_match("/^[A-Za-z0-9_-]+$/", $data)) {
                 return "{$title} only alphabet, numbers and underscores may have";
             }else{
                 //check first letter is number
@@ -146,7 +159,7 @@ class Validation
                 }
             }   
         } else {
-            return "$title is required";
+            return "This fields are required";
         }
     } 
 
@@ -198,11 +211,62 @@ class Validation
             $root.= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
             $root = str_replace('/install/', '', $root);
             //redirect to application
-            header('location: '.$root);
+            header('location: '.$root.'/installer');
         } else {
             //if env file is not exists in sql directory
             return false;
         }
-    } 
+    }
+    
+    function set_purchase_data($path_info = '',$key = '',$value = '') {
+        $filePath = $path_info.'/purchase_info.json';
+        $infoArray = openJsonFile($filePath);
+        if (array_key_exists($key, $infoArray)) {
+            $infoArray[$key] = $value;
+        } else {
+            $infoArray[$key] = $value;
+        }
+
+        $jsonData = json_encode($infoArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $respo = file_put_contents($filePath, stripslashes($jsonData));
+
+        return $infoArray[$key];
+    }
+
+    function get_purchase_data($path_info = '',$key = '') {
+        $filePath = $path_info.'/purchase_info.json';
+        $infoArray = openJsonFile($filePath);
+
+        if (array_key_exists($key, $infoArray)) {
+            return $infoArray[$key];
+        }
+        return false;
+    }
+
+
+    function clear_purchase_data($path_info = '') {
+        $filePath = $path_info.'/purchase_info.json';
+        $infoArray = openJsonFile($filePath);
+        
+        $infoArray = ['sl' => 1];
+        $jsonData = json_encode($infoArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $respo = file_put_contents($filePath, stripslashes($jsonData));
+        if($respo){
+            return true;
+        }
+        return false;
+    }
+
+
+    function openJsonFile($filePath)
+    {
+        @chmod($filePath,0777);
+        $jsonString = [];
+        if (file_exists($filePath)) {
+            $jsonString = file_get_contents($filePath);
+            $jsonString = json_decode($jsonString, true);
+        }
+        return $jsonString;
+    }
 
 }

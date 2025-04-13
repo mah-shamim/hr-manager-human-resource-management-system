@@ -14,7 +14,6 @@ class Auth extends MX_Controller {
  		));
 
 		$this->load->helper('captcha');
-		$this->load->library('zklibrary');  
  	}
 
 	public function index()
@@ -42,8 +41,8 @@ class Auth extends MX_Controller {
 
 		#-------------------------------------#
 		$data['user'] = (object)$userData = array(
-			'email' 	 => $this->input->post('email'),
-			'password'   => $this->input->post('password'),
+			'email' 	 => $this->input->post('email',true),
+			'password'   => $this->input->post('password',true),
 		);
 		#-------------------------------------#
 		if ( $this->form_validation->run())
@@ -74,17 +73,36 @@ class Auth extends MX_Controller {
 							'update' => $value->update,
 							'delete' => $value->delete
 						);
-						//print_r($checkPermission);exit;
 					}
 				} 
 			}
 
-
+         
 
 			if($user->row()->is_admin == 2){
 				$row = $this->db->select('client_id,client_email')->where('client_email',$user->row()->email)->get('setup_client_tbl')->row();
 			}
-              $employee_info = $this->db->select('employee_id,first_name,last_name,is_super_visor')->from('employee_history')->where('email',$user->row()->email)->get()->row();
+
+         $employee_info = $this->db->select('employee_id,employee_status,first_name,last_name,is_super_visor')->from('employee_history')->where('email',$user->row()->email)->get()->row();
+
+         // Check if the user is active or inactive from caomparion with employee from $employee_info
+         if(!$user->row()->is_admin){
+
+         	if($user->row()->status != 1 || $employee_info->employee_status != 1){
+
+	         	$this->session->set_flashdata('exception', "Seems you are not active user of the system !");
+					redirect('login');
+	         }
+         }
+         // End of Check if the user is active or inactive from caomparion with employee from $employee_info
+
+         // Financial year
+         $fyear =  $this->auth_model->checkfinancialyear();
+         if(!$fyear) {
+            $this->session->set_flashdata('message', display('welcome_back').' '.$user->row()->fullname);
+				redirect('accounts/accounts/financial_year');
+         } else {
+
 				$sData = array(
 					'isLogIn' 	  => true,
 					'isAdmin' 	  => (($user->row()->is_admin == 1)?true:false),
@@ -103,39 +121,21 @@ class Auth extends MX_Controller {
 					'last_name'   => $employee_info->last_name,
 					'supervisor'  => $employee_info->is_super_visor,
 					'permission'  => json_encode(@$permission), 
-					'label_permission'  => json_encode(@$permission1) 
+					'label_permission'  => json_encode(@$permission1),
+					'fyear' 	  => $fyear->id,
+					'fyearName' 	  => $fyear->yearName,
+					'fyearStartDate' 	  => $fyear->startDate,
+					'fyearEndDate' 	  => $fyear->endDate,
 					);	
 
 					//store date to session 
 					$this->session->set_userdata($sData);
 					//update database status
 					$this->auth_model->last_login();
-					//welcome message
-		// $device_ip = $this->deviceData()->device_ip;			
-		// $zk = new ZKLibrary($device_ip, 4370);
-  //       $zk->connect();
-  //       $zk->disableDevice();
-  //       //if($connect){
-  //       $attendanced = $zk->getAttendance();
-  //           foreach ($attendanced as $attendancedata) {
-  //                $attdata = [
-  //               'uid'       => $attendancedata[1],
-  //               'id'        => $attendancedata[0],
-  //               'state'     => $attendancedata[2],
-  //               'time'      => $attendancedata[3]
-  //           ]; 
-  //           $att_insertdata = $this->db->insert('attendance_history',$attdata);
-  //           if(!empty($attendancedata[0])){
-  //           $zk->deleteAttendance($attendancedata[0]);
-  //           }
-  //       }
-  //       $zk->enableDevice();
-  //       $zk->disconnect();
-    // }else{
-    // $this->session->set_flashdata('exception', "Please Connect Your Fingerprint Device");	
-    // }
+					
 					$this->session->set_flashdata('message', display('welcome_back').' '.$user->row()->fullname);
 					redirect('dashboard/home');
+			   }
 
 			} else {
 				$this->session->set_flashdata('exception', display('incorrect_email_or_password'));
@@ -148,7 +148,7 @@ class Auth extends MX_Controller {
 			    'img_path'      => './assets/img/captcha/',
 			    'img_url'       => base_url('assets/img/captcha/'),
 			    'font_path'     => './assets/fonts/captcha.ttf',
-			    'img_width'     => '328',
+			    'img_width'     => '300',
 			    'img_height'    => 64,
 			    'expiration'    => 600, //5 min
 			    'word_length'   => 4,
@@ -185,7 +185,8 @@ class Auth extends MX_Controller {
  | Finger print Device information
  |--------------------------------------------------------
  */
- public function deviceData(){
-    return $this->db->select('*')->from('deviceinfo')->get()->row();
- }
+	public function deviceData(){
+		return $this->db->select('*')->from('deviceinfo')->get()->row();
+	}
+
 }

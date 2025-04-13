@@ -3,8 +3,6 @@
 class Myupload
 {
   
-    // To load this model
-    // $this->fileupload->do_upload($upload_path = 'assets/images/profile/', $field_name = 'userfile');
 
     function do_upload($upload_path = null, $field_name = null) {
         if (empty($_FILES[$field_name]['name'])) {
@@ -57,6 +55,21 @@ class Myupload
         ]; 
         $ci->image_lib->initialize($config);
         $ci->image_lib->resize();
+    }
+
+    //  To check image extensions
+
+    public function valid_image_extension($ext = null){
+
+        $img_ext_list = array('gif' , 'jpg' ,'png' ,'jpeg' ,'ico');
+
+        if(!in_array($ext, $img_ext_list)){
+
+            return false;
+        }else{
+
+            return true;
+        }
     }
 
 }

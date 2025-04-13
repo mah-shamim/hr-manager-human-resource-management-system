@@ -1,21 +1,26 @@
 <?php
 namespace Php;
-
+require_once __DIR__.'/Helper.php'; //Include helper
 class FileWrite 
 { 
 
     // Function to write the database config file
     function databaseConfig($path = null, $data = []) 
     {
+        $hostname = filterInput($data['hostname']);
+        $username = filterInput($data['username']);
+        $password = filterInput($data['password']);
+        $database = filterInput($data['database']);
+
         if (file_exists($path['template_path'])) {
             // Open the file
             $database_file = file_get_contents($path['template_path']);
 
             //set new database configuration
-            $new  = str_replace("{HOSTNAME}",$data['hostname'],$database_file);
-            $new  = str_replace("{USERNAME}",$data['username'],$new);
-            $new  = str_replace("{PASSWORD}",$data['password'],$new);
-            $new  = str_replace("{DATABASE}",$data['database'],$new);
+            $new  = str_replace("{HOSTNAME}", $hostname, $database_file);
+            $new  = str_replace("{USERNAME}", $username, $new);
+            $new  = str_replace("{PASSWORD}", $password, $new);
+            $new  = str_replace("{DATABASE}",$database,$new);
 
             // Write the new database.php file
             $handle = fopen($path['output_path'],'w+');
@@ -50,8 +55,10 @@ class FileWrite
             // get file data
             $config_data = file_get_contents($config_file);
 
+           $protocol = is_https() ? "https://" : "http://";
+
             //replace string
-            $replace  =  '$root=(isset($_SERVER["HTTPS"]) ? "https://" : "http://").$_SERVER["HTTP_HOST"];';
+            $replace  =  '$root=\''.$protocol.'\'.$_SERVER["HTTP_HOST"];';
             $replace .= "\r\n";
             $replace .= '$root.= str_replace(basename($_SERVER["SCRIPT_NAME"]), "", $_SERVER["SCRIPT_NAME"]);';
             $replace .= "\r\n";
@@ -119,6 +126,13 @@ class FileWrite
         if (is_dir('flag/')) {
             //create a env file in flag directory
             file_put_contents('flag/env', date('d-m-Y h:i:s a'));
+        }
+
+        if (!file_exists("./../env")) {
+            
+            //create a env file in root directory
+            file_put_contents('./../env', date('d-m-Y h:i:s a'));
+
         }
     }
 

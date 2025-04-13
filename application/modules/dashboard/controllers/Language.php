@@ -159,7 +159,7 @@ class Language extends MX_Controller {
 
     public function addPhrase() {  
 
-        $lang = $this->input->post('phrase'); 
+        $lang = $this->input->post('phrase',true); 
 
         if (sizeof($lang) > 0) {
 

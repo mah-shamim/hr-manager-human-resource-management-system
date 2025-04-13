@@ -1,16 +1,3 @@
-<!-- Printable area start -->
-<script type="text/javascript">
-function printDiv() {
-    var divName = "printArea";
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    // document.body.style.marginTop="-45px";
-    window.print();
-    document.body.innerHTML = originalContents;
-}
-</script>
-<!-- Printable area end -->
 
 <div class="row">
     <div class="col-sm-12 col-md-12">
@@ -22,48 +9,47 @@ function printDiv() {
             </div>
             <div id="printArea">
                 <div class="panel-body">
-                  <div style="width:1000px; float:left;">
-                       <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
+                  <div>
+                       <table border="0" width="100%">
                                                 
-                                                <tr>
-                                                    <td align="left" style="border-bottom:2px #333 solid;">
-                                                      <!--   <img src="<?php echo $software_info[0]->logo;?>" alt="logo"> -->
+                                                 <tr>
+                                                    <td align="left" class="account-logocontent">
+                                                        <img src="<?php echo base_url((!empty($setting->logo)?$setting->logo:'assets/img/icons/mini-logo.png')) ?>" alt="logo">
                                                     </td>
-                                                    <td align="left" style="border-bottom:2px #333 solid;">
-                                                        <span style="font-size: 17pt; font-weight:bold;">
-                                                           <!--  <?php echo $company[0]['company_name'];?>
+                                                    <td align="center" class="account-logocontent">
+                                                        <span class="account-companycontent" >
+                                                            <?php echo $setting->title;?>
                                                            
                                                         </span><br>
-                                                        <?php echo $company[0]['address'];?>
-                                                        <br>
-                                                         <?php echo $company[0]['mobile'];?> -->
+                                                        <?php echo $setting->address;?>
+                                                        
                                                         
                                                     </td>
                                                    
-                                                     <td align="right" style="border-bottom:2px #333 solid;">
+                                                     <td align="right" class="account-logocontent">
                                                         <date>
                                                         <?php echo display('date')?>: <?php
                                                         echo date('d-M-Y');
                                                         ?> 
                                                     </date>
                                                     </td>
-                                                </tr>            
+                                                </tr>      
                                    
                                 </table>
                       <table width="100%" class="table_boxnew" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td colspan="3" align="center"><h2 style="margin: 0;"><?php echo display('cash_flow_statement');?>  </h2></td>
+                            <td colspan="3" align="center"><h2><?php echo display('cash_flow_statement');?>  </h2></td>
                         </tr>
                         <tr class="table_head">
-                            <td colspan="3" align="center" style="padding-left:10px"><b>On <?php echo $dtpFromDate; ?> To <?php echo $dtpToDate;?></b></td>
+                            <td colspan="3" align="center" class="cashflow-head" ><b>On <?php echo $dtpFromDate; ?> To <?php echo $dtpToDate;?></b></td>
                         </tr>
                         <tr class="table_head">
-                            <td width="73%" height="29" align="center" style="padding-left:10px; border:1px solid #000;"><b>Particulars</b></td>
+                            <td width="73%" height="29" class="acc-particulars" align="center"><b>Particulars</b></td>
                             <td width="2%">&nbsp;</td>
-                            <td width="30%" align="right" style="padding-left:10px; padding-right:10px;  border:1px solid #000;;"><b><?php echo display('amount_in_Dollar');?></b></td>
+                            <td width="30%" align="right" class="particular-text"><b><?php echo display('amount_in_Dollar');?></b></td>
                         </tr>
                          <tr class="table_head">
-                          <td colspan="3" style="padding-left:10px"><strong><?php echo display('opening_cash_and_equivalent');?>:</strong></td>
+                          <td colspan="3" class="cashflow-head"><strong><?php echo display('opening_cash_and_equivalent');?>:</strong></td>
                         </tr>
                         <?php
                           $sql="SELECT * FROM acc_coa WHERE acc_coa.IsTransaction=1 AND acc_coa.HeadType='A' AND acc_coa.IsActive=1 AND acc_coa.HeadCode LIKE '1020101%'";
@@ -83,9 +69,9 @@ function printDiv() {
                             {
                         ?>
                           <tr >
-                              <td align="left" style="padding-left:10px"><?php echo $oResultAsset[$i]->HeadName; ?></td>
+                              <td align="left" class="cashflow-head"><?php echo $oResultAsset[$i]->HeadName; ?></td>
                               <td>&nbsp;</td>
-                              <td align="right" style="padding-right:10px; border-left: solid 1px #000; border-right:solid 1px #000;<?php if($TotalOpening==0) echo "border-top: solid 1px #000;"; ?>">
+                              <td align="right"  class="acc_cashflowamount acc_cashflowamount <?php if($TotalOpening==0) echo "acc_cashflow_commonborder"; ?>">
                                   <?php 
                                       $Total=$oResultAmountPre->Amount;
                                       echo number_format($Total);
@@ -101,15 +87,15 @@ function printDiv() {
                         <tr>
                           <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            <td style="border-top: solid 1px #000;">&nbsp;</td>
+                            <td class="acc_cashflow_commonborder">&nbsp;</td>
                         </tr>
                         <tr>
-                         <td align="left" style="padding-left:10px;padding-right:10px"><strong>Total Opening Cash & Cash Equivalent</strong></td>
+                         <td align="left" class="cashflow-quipment"><strong>Total Opening Cash & Cash Equivalent</strong></td>
                           <td>&nbsp;</td>
-                           <td align="right" style="padding-right:10px; border-top: solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalOpening); ?></strong></td>
+                           <td align="right" class="casflow-total"><strong><?php echo number_format($TotalOpening); ?></strong></td>
                         </tr>
                         <tr class="table_head">
-                            <td colspan="3" style="padding-left:10px;text-decoration:underline"><b>Cashflow from Operating Activities</b></td>
+                            <td colspan="3" class="openingbalance-other"><b>Cashflow from Operating Activities</b></td>
                         </tr>
                         <?php
                             $TotalCurrAsset=0;
@@ -130,9 +116,9 @@ function printDiv() {
                               {
                                 ?>
                                 <tr >
-                                    <td align="left" style="padding-left:10px"><?php echo $oResultCurrAsset[$s]->HeadName; ?></td>
+                                    <td align="left" class="acc-head-cashflow" ><?php echo $oResultCurrAsset[$s]->HeadName; ?></td>
                                     <td>&nbsp;</td>
-                                    <td align="right" style="padding-right:10px; border-left:solid 1px #000; border-right:solid 1px #000;<?php if($TotalCurrAsset==0) echo "border-top: solid 1px #000;"; ?>">
+                                    <td align="right" class="acc_cashflow_curasset <?php if($TotalCurrAsset==0) echo "acc_cashflow_commonborder"; ?>" >
                                         <?php 
                                             $Total=$oResultAmount->Amount;
                                             echo number_format($Total);
@@ -152,9 +138,9 @@ function printDiv() {
                         {
                           ?>
                          <tr>
-                            <td align="left" style="padding-left:10px">Payment for Other Operating Activities</td>
+                            <td align="left" class="acc-head-cashflow" >Payment for Other Operating Activities</td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-left:solid 1px #000; border-right:solid 1px #000;">
+                            <td align="right" class="cashflow-totalamount">
                                 <?php 
                                     $Total=$oResultAmount->Amount;
                                     echo number_format($Total,2);
@@ -168,16 +154,16 @@ function printDiv() {
                          <tr >
                             <td >&nbsp;</td>
                              <td>&nbsp;</td>
-                           <td style="border-top: solid 1px #000;">&nbsp;</td>
+                           <td class="acc_cashflow_commonborder">&nbsp;</td>
                         </tr>
                         <tr >
-                            <td align="left" style="padding-left:10px;padding-right:10px"><strong>Cash generated from Operating Activites before Changing in Opereating Assets &amp; Liabilities</strong></td>
+                            <td align="left" class="cashflow-quipment"><strong>Cash generated from Operating Activites before Changing in Opereating Assets &amp; Liabilities</strong></td>
                              <td>&nbsp;</td>
-                           <td align="right" style="padding-right:10px; border-top: solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalCurrAsset); ?></strong></td>
+                           <td align="right" class="casflow-total"><strong><?php echo number_format($TotalCurrAsset); ?></strong></td>
                         </tr>
                         
                         <tr class="table_head">
-                            <td colspan="3" style="padding-left:10px;text-decoration:underline"><b>Cashflow from Non Operating Activities</b></td>
+                            <td colspan="3" class="openingbalance-other"><b>Cashflow from Non Operating Activities</b></td>
                         </tr>
                         <?php
                           $TotalCurrAssetNon=0;
@@ -198,9 +184,9 @@ function printDiv() {
                           {
                         ?>
                           <tr>
-                              <td align="left" style="padding-left:10px"><?php echo $oResultCurrAsset[$s]->HeadName; ?></td>
+                              <td align="left" class="acc-head-cashflow" ><?php echo $oResultCurrAsset[$s]->HeadName; ?></td>
                               <td>&nbsp;</td>
-                              <td align="right" style="padding-right:10px; border-left:solid 1px #000; border-right:solid 1px #000;<?php if($TotalCurrAssetNon==0) echo "border-top: solid 1px #000;"; ?>">
+                              <td align="right" class="cashflow-totalamount <?php if($TotalCurrAssetNon==0) echo "acc_cashflow_commonborder"; ?>">
                           <?php 
                               $Total=$oResultAmount->Amount;
                               echo number_format($Total);
@@ -215,12 +201,12 @@ function printDiv() {
                          <tr >
                             <td >&nbsp;</td>
                              <td>&nbsp;</td>
-                           <td style="border-top: solid 1px #000;">&nbsp;</td>
+                           <td class="acc_cashflow_commonborder">&nbsp;</td>
                         </tr>
                         <tr >
-                            <td align="left" style="padding-left:10px;padding-right:10px"><strong>Cash generated from Non Operating Activites before Changing in Opereating Assets &amp; Liabilities</strong></td>
+                            <td align="left" class="cashflow-quipment"><strong>Cash generated from Non Operating Activites before Changing in Opereating Assets &amp; Liabilities</strong></td>
                              <td>&nbsp;</td>
-                           <td align="right" style="padding-right:10px; border-top: solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalCurrAssetNon); ?></strong></td>
+                           <td align="right" class="casflow-total"><strong><?php echo number_format($TotalCurrAssetNon); ?></strong></td>
                         </tr>
                         <tr >
                             <td >&nbsp;</td>
@@ -228,9 +214,9 @@ function printDiv() {
                            <td >&nbsp;</td>
                         </tr>
                          <tr class="table_head">
-                            <td align="left" style="padding-left:10px;padding-right:10px"><strong>Increase/Decrease in Operating Assets &amp; Liabilites</strong></td>
+                            <td align="left" class="cashflow-quipment"><strong>Increase/Decrease in Operating Assets &amp; Liabilites</strong></td>
                            <td>&nbsp;</td>
-                           <td align="right" style="padding-right:10px">&nbsp;</td>
+                           <td align="right" class="padding-ten">&nbsp;</td>
                       </tr>
                         
                       <?php
@@ -254,9 +240,9 @@ function printDiv() {
                       {
                         ?>
                         <tr >
-                            <td align="left" style="padding-left:10px"><?php echo $oResultLiab[$t]->HeadName; ?></td>
+                            <td align="left"  class="acc-head-cashflow" ><?php echo $oResultLiab[$t]->HeadName; ?></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-left: solid 1px #000; border-right:solid 1px #000;<?php if($TotalCurrLiab==0) echo "border-top: solid 1px #000;"; ?>" >
+                            <td align="right" class="acc_cashflowamount <?php if($TotalCurrLiab==0) echo "acc_cashflow_commonborder"; ?>"  >
                                 <?php 
                                     $Total=$oResultAmount->Amount;
                                     echo number_format($Total);
@@ -271,12 +257,12 @@ function printDiv() {
                          <tr >
                             <td >&nbsp;</td>
                              <td>&nbsp;</td>
-                           <td style="border-top: solid 1px #000;">&nbsp;</td>
+                           <td class="acc_cashflow_commonborder">&nbsp;</td>
                         </tr>
                         <tr >
-                            <td align="left" style="padding-left:10px;padding-right:10px"><strong>Total Increase/Decrease</strong></td>
+                            <td align="left" class="cashflow-quipment"><strong>Total Increase/Decrease</strong></td>
                              <td>&nbsp;</td>
-                           <td align="right" style="padding-right:10px; border-top: solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalCurrLiab); ?></strong></td>
+                           <td align="right" class="casflow-total"><strong><?php echo number_format($TotalCurrLiab); ?></strong></td>
                         </tr>
                        <tr >
                             <td >&nbsp;</td>
@@ -284,9 +270,9 @@ function printDiv() {
                            <td >&nbsp;</td>
                         </tr>
                         <tr>
-                            <td align="left" style="padding-left:10px;padding-right:10px"><strong>Net Cash From Operating/Non Operating Activities</strong></td>
+                            <td align="left" class="cashflow-quipment"><strong>Net Cash From Operating/Non Operating Activities</strong></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-top: solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalCurrAsset+$TotalCurrAssetNon+$TotalCurrLiab); ?></strong></td>
+                            <td align="right" class="casflow-total"><strong><?php echo number_format($TotalCurrAsset+$TotalCurrAssetNon+$TotalCurrLiab); ?></strong></td>
                         </tr>
                          <tr >
                             <td >&nbsp;</td>
@@ -294,7 +280,7 @@ function printDiv() {
                            <td >&nbsp;</td>
                         </tr>
                         <tr class="table_head">
-                            <td colspan="3" style="padding-left:10px;text-decoration:underline"><b>Cash Flow from Investing Activities</b></td>
+                            <td colspan="3" class="openingbalance-other"><b>Cash Flow from Investing Activities</b></td>
                         </tr>
                         <?php
                         $TotalNonCurrAsset=0;
@@ -316,9 +302,9 @@ function printDiv() {
                         {
                         ?>
                         <tr >
-                            <td align="left" style="padding-left:10px"><?php echo $oResultNonCurrAsset[$t]->HeadName; ?></td>
+                            <td align="left" class="acc-head-cashflow" ><?php echo $oResultNonCurrAsset[$t]->HeadName; ?></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-left: solid 1px #000; border-right:solid 1px #000;<?php if($TotalNonCurrAsset==0) echo "border-top: solid 1px #000;"; ?>">
+                            <td align="right" class="acc_cashflowamount <?php if($TotalNonCurrAsset==0) echo "acc_cashflow_commonborder"; ?>">
                                 <?php 
                                     $Total=$oResultAmount->Amount;
                                     echo number_format($Total,2);
@@ -333,12 +319,12 @@ function printDiv() {
                          <tr >
                             <td >&nbsp;</td>
                              <td>&nbsp;</td>
-                           <td style="border-top: solid 1px #000;">&nbsp;</td>
+                           <td class="acc_cashflow_commonborder">&nbsp;</td>
                         </tr>
                         <tr >
-                            <td align="left" style="padding-left:10px;padding-right:10px"><strong>Net Cash Used Investing Activities</strong></td>
+                            <td align="left" class="cashflow-quipment"><strong>Net Cash Used Investing Activities</strong></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-top:solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalNonCurrAsset); ?></strong></td>
+                            <td align="right" class="total-non-currentasset"><strong><?php echo number_format($TotalNonCurrAsset); ?></strong></td>
                         </tr>
                          <tr >
                             <td >&nbsp;</td>
@@ -347,7 +333,7 @@ function printDiv() {
                         </tr>
                        
                         <tr class="table_head">
-                            <td colspan="3" style="padding-left:10px;text-decoration:underline"><b>Cash Flow from Financing Activities</b></td>
+                            <td colspan="3" class="openingbalance-other"><b>Cash Flow from Financing Activities</b></td>
                         </tr>
                         <?php
                         $TotalNonCurrLiab=0;
@@ -369,9 +355,9 @@ function printDiv() {
                         {
                             ?>
                         <tr >
-                            <td align="left" style="padding-left:10px"><?php echo $oResultNonCurrLiab[$t]->HeadName; ?></td>
+                            <td align="left" class="acc-head-cashflow" ><?php echo $oResultNonCurrLiab[$t]->HeadName; ?></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-left: solid 1px #000; border-right:solid 1px #000;<?php if($TotalNonCurrLiab==0) echo "border-top: solid 1px #000;"; ?>">
+                            <td align="right" class="acc_cashflowamount <?php if($TotalNonCurrLiab==0) echo "acc_cashflow_commonborder"; ?>">
                                 <?php 
                                     $Total=$oResultAmount->Amount;
                                     echo number_format($Total);
@@ -404,9 +390,9 @@ function printDiv() {
                         {
                         ?>
                         <tr >
-                            <td align="left" style="padding-left:10px"><?php echo $oResultFund[$t]->HeadName; ?></td>
+                            <td align="left" class="acc-head-cashflow" ><?php echo $oResultFund[$t]->HeadName; ?></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-left: solid 1px #000; border-right:solid 1px #000;">
+                            <td align="right" class="acc_cashflowamount">
                                 <?php 
                                     $Total=$oResultAmount->Amount;
                                     echo number_format($Total,2);
@@ -421,12 +407,12 @@ function printDiv() {
                          <tr >
                             <td >&nbsp;</td>
                              <td>&nbsp;</td>
-                           <td style="border-top: solid 1px #000;">&nbsp;</td>
+                           <td class="acc_cashflow_commonborder">&nbsp;</td>
                         </tr>
                         <tr >
-                            <td align="left" style="padding-left:10px;padding-right:10px"><strong>Net  Cash Used Financing Activities</strong></td>
+                            <td align="left" class="cashflow-quipment"><strong>Net  Cash Used Financing Activities</strong></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-top:solid 1px #000; border-bottom:solid 1px #000;"><strong><?php echo number_format($TotalFund+$TotalNonCurrLiab); ?></strong></td>
+                            <td align="right" class="totalfund-liab"><strong><?php echo number_format($TotalFund+$TotalNonCurrLiab); ?></strong></td>
                         </tr>
                          <tr >
                             <td >&nbsp;</td>
@@ -434,9 +420,9 @@ function printDiv() {
                            <td >&nbsp;</td>
                         </tr>
                         <tr >
-                            <td align="left" style="padding-left:10px;"><strong>Net Cash Inflow/Outflow (Profit Loss <?php echo number_format($TotalCurrAsset+$TotalCurrAssetNon+$TotalCurrLiab+$TotalNonCurrAsset+$TotalFund+$TotalNonCurrLiab); ?>)</strong></td>
+                            <td align="left" class="padding-left"><strong>Net Cash Inflow/Outflow (Profit Loss <?php echo number_format($TotalCurrAsset+$TotalCurrAssetNon+$TotalCurrLiab+$TotalNonCurrAsset+$TotalFund+$TotalNonCurrLiab); ?>)</strong></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-top: solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalCurrAsset+$TotalCurrAssetNon+$TotalCurrLiab+$TotalNonCurrAsset+$TotalFund+$TotalNonCurrLiab+$TotalOpening); ?></strong></td>
+                            <td align="right" class="casflow-total"><strong><?php echo number_format($TotalCurrAsset+$TotalCurrAssetNon+$TotalCurrLiab+$TotalNonCurrAsset+$TotalFund+$TotalNonCurrLiab+$TotalOpening); ?></strong></td>
                         </tr>
                          <tr >
                             <td >&nbsp;</td>
@@ -445,7 +431,7 @@ function printDiv() {
                         </tr>
                       
                       <tr class="table_head">
-                          <td colspan="3" style="padding-left:10px"><strong>Closing Cash & Cash Equivalent:</strong></td>
+                          <td colspan="3" class="acc-head-cashflow" ><strong>Closing Cash & Cash Equivalent:</strong></td>
                         </tr>
                       <?php
                         $sql="SELECT * FROM acc_coa WHERE acc_coa.IsTransaction=1 AND acc_coa.HeadType='A' AND acc_coa.IsActive=1 AND acc_coa.HeadCode LIKE '1020101%' ";
@@ -466,9 +452,9 @@ function printDiv() {
                           {
                       ?>
                         <tr >
-                            <td align="left" style="padding-left:10px"><?php echo $oResultAsset[$i]->HeadName; ?></td>
+                            <td align="left" class="acc-head-cashflow" ><?php echo $oResultAsset[$i]->HeadName; ?></td>
                             <td>&nbsp;</td>
-                            <td align="right" style="padding-right:10px; border-left: solid 1px #000; border-right:solid 1px #000;<?php if($TotalAsset==0) echo "border-top: solid 1px #000;"; ?>">
+                            <td align="right" class="acc_cashflowamount <?php if($TotalAsset==0) echo "acc_cashflow_commonborder"; ?>">
                                 <?php 
                                     $Total=$oResultAmount->Amount;
                                     echo number_format($Total);
@@ -483,12 +469,12 @@ function printDiv() {
                         <tr>
                           <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            <td style="border-top: solid 1px #000;">&nbsp;</td>
+                            <td class="acc_cashflow_commonborder">&nbsp;</td>
                         </tr>
                         <tr>
-                         <td align="left" style="padding-left:10px;padding-right:10px"><strong>Total Closing Cash & Cash Equivalent</strong></td>
+                         <td align="left" class="cashflow-quipment"><strong>Total Closing Cash & Cash Equivalent</strong></td>
                           <td>&nbsp;</td>
-                           <td align="right" style="padding-right:10px; border-top: solid 1px #000; border-bottom: solid 1px #000;"><strong><?php echo number_format($TotalAsset); ?></strong></td>
+                           <td align="right" class="casflow-total"><strong><?php echo number_format($TotalAsset); ?></strong></td>
                         </tr>
                         <tr>
                           <td align="right" colspan="3">&nbsp;</td>
@@ -496,12 +482,12 @@ function printDiv() {
                         
                          <tr>
                               <td colspan="3" align="center">
-                                <table width="100%" cellpadding="1" cellspacing="20" style="margin-top: 50px">
+                                <table width="100%" cellpadding="1" cellspacing="20"  class="cashflow-footer">
                                     <tr>
-                                        <td width="20%" style="border-top: solid 1px #000;" align="center">Prepared By</td>
-                                        <td width="20%" style="border-top: solid 1px #000;" align="center">Accounts</td>
-                                        <td width='20%' style='text-decoration:overline'>Authorized Signature</td>
-                                        <td  width="20%" style="border-top: solid 1px #000;" align='center'>Chairman</td>
+                                        <td width="20%" class="acc_cashflow_commonborder" align="center">Prepared By</td>
+                                        <td width="20%" class="acc_cashflow_commonborder" align="center">Accounts</td>
+                                        <td width='20%' class="authorized-sign">Authorized Signature</td>
+                                        <td  width="20%" class="acc_cashflow_commonborder" align='center'>Chairman</td>
                                     </tr>
                                 </table>
                               </td>
@@ -510,7 +496,7 @@ function printDiv() {
               </div>
                 </div>
             </div>
-            <div class="text-center" id="print" style="margin: 20px">
+            <div class="text-center" id="print">
                 <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/>
                 <a href="<?php echo base_url($pdf)?>" download>
                     <input type="button" class="btn btn-success" name="btnPdf" id="btnPdf" value="PDF"/>

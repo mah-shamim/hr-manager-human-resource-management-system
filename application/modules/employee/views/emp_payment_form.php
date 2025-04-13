@@ -10,7 +10,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <?= form_open('employee/Employees/create_payment') ?>
+                    <?php echo form_open('employee/Employees/create_payment') ?>
                          <div class="form-group row">
                             <label for="employee_id" class="col-sm-3 col-form-label"><?php echo display('employee_id') ?> *</label>
 
@@ -42,7 +42,7 @@
                           <div class="form-group row">
                             <label for="working_period" class="col-sm-3 col-form-label"><?php echo display('working_period') ?> *</label>
                             <div class="col-sm-9">
-                                <input type="text" name="working_period" class="form-control"  placeholder="<?php echo display('working_period') ?>" id="working_period" >
+                                <input type="text" name="working_period" class="form-control datetimepicker"  placeholder="<?php echo display('working_period') ?>" id="working_period" >
                             </div>
                         </div> 
                         <div class="form-group row">
@@ -53,7 +53,7 @@
                                 <option value="Paid">Paid</option>
                                 <option value="Unpaid">Unpaid</option>
                             </select>
-                                <!-- <input type="text" name="payment_due" class="form-control"  placeholder="<?php echo display('payment_due') ?>" id="payment_due" > -->
+                              
                             </div>
                         </div> 
                         <div class="form-group row">
@@ -80,9 +80,4 @@
             </div>
         </div>
     </div>
-     
- <script type="text/javascript">
-$(function() {
-    $('input[name="working_period"]').daterangepicker();
-});
-</script>
+

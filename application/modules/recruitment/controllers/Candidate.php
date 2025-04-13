@@ -36,7 +36,7 @@ class Candidate extends MX_Controller {
 		#-------------------------------#
 		$this->form_validation->set_rules('first_name',display('first_name'),'max_length[50]');
 		$this->form_validation->set_rules('last_name',display('last_name')  ,'max_length[100]');
-		$this->form_validation->set_rules('email',display('email')  ,'max_length[32]');
+		$this->form_validation->set_rules('email',display('email')  ,'max_length[32]|is_unique[candidate_basic_info.email]');
 		$this->form_validation->set_rules('phone',display('phone')  ,'max_length[100]');
 		$this->form_validation->set_rules('alter_phone',display('alter_phone')  ,'max_length[100]');
 		$this->form_validation->set_rules('present_address',display('present_address')  ,'max_length[100]');
@@ -51,17 +51,17 @@ class Candidate extends MX_Controller {
 		$this->form_validation->set_rules('university_name[]',display('university_name'));
 		$this->form_validation->set_rules('cgp[]',display('cgp'));
 		$this->form_validation->set_rules('comments',display('comments'));	
-	    $unis = $this->input->post('university_name');
-	    $degs = $this->input->post('degree_name');
-	    $cgps = $this->input->post('cgp');
+	    $unis = $this->input->post('university_name',true);
+	    $degs = $this->input->post('degree_name',true);
+	    $cgps = $this->input->post('cgp',true);
 		$this->form_validation->set_rules('company_name[]',display('company_name'));
 		$this->form_validation->set_rules('working_period[]',display('working_period') );
 		$this->form_validation->set_rules('duties[]',display('duties'));
 		$this->form_validation->set_rules('supervisor[]',display('supervisor'));
-        $comname = $this->input->post('company_name');
-	    $wperiod = $this->input->post('working_period');
-	    $duties = $this->input->post('duties');
-	    $supe = $this->input->post('supervisor');
+        $comname = $this->input->post('company_name',true);
+	    $wperiod = $this->input->post('working_period',true);
+	    $duties = $this->input->post('duties',true);
+	    $supe = $this->input->post('supervisor',true);
 		$id = $this->generate->id();
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
@@ -392,17 +392,17 @@ public function cv()
 		$this->form_validation->set_rules('university_name[]',display('university_name'));
 		$this->form_validation->set_rules('cgp[]',display('cgp'));
 		$this->form_validation->set_rules('comments',display('comments'));	
-	    $unis = $this->input->post('university_name');
-	    $degs = $this->input->post('degree_name');
-	    $cgps = $this->input->post('cgp');
+	    $unis = $this->input->post('university_name',true);
+	    $degs = $this->input->post('degree_name',true);
+	    $cgps = $this->input->post('cgp',true);
 		$this->form_validation->set_rules('company_name[]',display('company_name'));
 		$this->form_validation->set_rules('working_period[]',display('working_period') );
 		$this->form_validation->set_rules('duties[]',display('duties'));
 		$this->form_validation->set_rules('supervisor[]',display('supervisor'));
-        $comname = $this->input->post('company_name');
-	    $wperiod = $this->input->post('working_period');
-	    $duties = $this->input->post('duties');
-	    $supe = $this->input->post('supervisor');
+        $comname = $this->input->post('company_name',true);
+	    $wperiod = $this->input->post('working_period',true);
+	    $duties = $this->input->post('duties',true);
+	    $supe = $this->input->post('supervisor',true);
 		
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
@@ -424,11 +424,11 @@ public function cv()
 			];                 
 			$this->Candidate_model->update_canInfo($postData1);
 		
-$this->db->where('can_id',$this->input->post('can_id'))
+$this->db->where('can_id',$this->input->post('can_id',true))
  			->delete('candidate_education_info');
 			for ($i=0; $i < sizeof($unis); $i++) {
 				$postData2= [
-					'can_id' 	              => $this->input->post('can_id'),
+					'can_id' 	              => $this->input->post('can_id',true),
 					'university_name'         => $unis[$i],
 					'degree_name' 	          => $degs[$i],
 					'cgp' 	                  => $cgps[$i], 
@@ -440,7 +440,7 @@ $this->db->where('can_id',$this->input->post('can_id'))
 				}
 		    }
 			
-			$this->db->where('can_id',$this->input->post('can_id'))
+			$this->db->where('can_id',$this->input->post('can_id',true))
  			->delete('candidate_workexperience');
 
 			for ($i=0; $i < sizeof($comname); $i++) {
@@ -606,18 +606,18 @@ public function candidate_edu_info_view()
 		$this->form_validation->set_rules('university_name[]',display('university_name'));
 		$this->form_validation->set_rules('cgp[]',display('cgp'));
 		$this->form_validation->set_rules('comments',display('comments')  ,'required');	
-	    $unis = $this->input->post('university_name');
-	    $degs = $this->input->post('degree_name');
-	    $cgps = $this->input->post('cgp');
+	    $unis = $this->input->post('university_name',true);
+	    $degs = $this->input->post('degree_name',true);
+	    $cgps = $this->input->post('cgp',true);
  
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
 
-			$id = $this->input->post('can_id');
+			$id = $this->input->post('can_id',true);
 
 		    for ($i=0; $i < sizeof($unis); $i++) {
 				$postData = [
-					'can_id' 	              => $this->input->post('can_id'),
+					'can_id' 	              => $this->input->post('can_id',true),
 					'university_name'         => $unis[$i],
 					'degree_name' 	          => $degs[$i],
 					'cgp' 	                  => $cgps[$i], 
@@ -663,20 +663,20 @@ public function update_can_eduifo_form($id = null){
 		$this->form_validation->set_rules('university_name[]',display('university_name'));
 		$this->form_validation->set_rules('cgp[]',display('cgp'));
 		$this->form_validation->set_rules('comments',display('comments')  ,'required');	
-	    $unis = $this->input->post('university_name');
-	    $degs = $this->input->post('degree_name');
-	    $cgps = $this->input->post('cgp');
+	    $unis = $this->input->post('university_name',true);
+	    $degs = $this->input->post('degree_name',true);
+	    $cgps = $this->input->post('cgp',true);
 		
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
 
-		$this->db->where('can_id',$this->input->post('can_id'))
+		$this->db->where('can_id',$this->input->post('can_id',true))
  			->delete('candidate_education_info');
 			  
 
 		    for ($i=0; $i < sizeof($unis); $i++) {
 				$postData = [
-					'can_id' 	              => $this->input->post('can_id'),
+					'can_id' 	              => $this->input->post('can_id',true),
 					'university_name'         => $unis[$i],
 					'degree_name' 	          => $degs[$i],
 					'cgp' 	                  => $cgps[$i], 
@@ -733,10 +733,10 @@ public function workexperience_view()
 		$this->form_validation->set_rules('working_period[]',display('working_period') );
 		$this->form_validation->set_rules('duties[]',display('duties'));
 		$this->form_validation->set_rules('supervisor[]',display('supervisor'));
-        $comname = $this->input->post('company_name');
-	    $wperiod = $this->input->post('working_period');
-	    $duties = $this->input->post('duties');
-	    $supe = $this->input->post('supervisor');
+        $comname = $this->input->post('company_name',true);
+	    $wperiod = $this->input->post('working_period',true);
+	    $duties = $this->input->post('duties',true);
+	    $supe = $this->input->post('supervisor',true);
 	  
 		
 		#-------------------------------#
@@ -776,15 +776,15 @@ public function workexperience_view()
 		$this->form_validation->set_rules('working_period[]',display('working_period') );
 		$this->form_validation->set_rules('duties[]',display('duties'));
 		$this->form_validation->set_rules('supervisor[]',display('supervisor'));
-        $comname = $this->input->post('company_name');
-	    $wperiod = $this->input->post('working_period');
-	    $duties = $this->input->post('duties');
-	    $supe = $this->input->post('supervisor');
+        $comname = $this->input->post('company_name',true);
+	    $wperiod = $this->input->post('working_period',true);
+	    $duties = $this->input->post('duties',true);
+	    $supe = $this->input->post('supervisor',true);
 	  	
 	   
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
-		    	$this->db->where('can_id',$this->input->post('can_id'))
+		    	$this->db->where('can_id',$this->input->post('can_id',true))
  			->delete('candidate_workexperience');
 			  
 
@@ -839,7 +839,6 @@ public function workexperience_view()
 public function view_details(){
      $data=array();    
      $data['ab']=$this->Candidate_model->employee_details($id);
-     //$data['ab']=$this->Candidate_model->Eduinfo($id);
      $this->load->view('cv',$data);
      
 

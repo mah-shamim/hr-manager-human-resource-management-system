@@ -1,39 +1,58 @@
-<script type="text/javascript">
-function printDiv() {
-    var divName = "printArea";
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    // document.body.style.marginTop="-45px";
-    window.print();
-    document.body.innerHTML = originalContents;
-}
-</script>
-<div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-8"> <?php echo form_open('reports/Employee_controller/custom_report',array('class' => 'form-inline', 'id' => 'validate'));?>
-                            <label class="select"><?php echo display('search') ?>:</label>
-                             <?php echo form_dropdown('employee_id', $dropdownemp, (!empty($id)?$id:" "), ' class="form-control"') ?> 
-                            <button type="submit" class="btn btn-primary"><?php echo display('search') ?></button>
-                        <?php echo form_close()?></div>
-                            <div class="col-sm-2"><input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/></div>
-                        </div>
-                       
 
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-bd">
+
+                    <div class="panel-heading">
+                      <div class="panel-title">
+                          <h4>
+                            
+                          </h4>
+                      </div>
+                    </div>
+
+                    <div class="panel-body">
+                       
+                      <div class="row">     
+                           
+                    
+                     <div class="form-group row">
+                      <?php echo form_open('reports/Employee_controller/custom_report',array('class' => 'form-inline', 'id' => 'validate'));?>
+                         <label class="select col-sm-2"><?php echo display('search') ?>:</label>
+                         <div class="col-sm-4">
+                             <?php echo form_dropdown('employee_id', $dropdownemp, (!empty($id)?$id:" "), ' class="form-control"') ?> 
+                         </div>
+                         <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary"><?php echo display('search') ?></button>
+                            <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/>
+                         </div>
+                       <?php echo form_close()?>
+                     </div>
+                        
+                           
+                     </div>
                     </div>
                 </div>
 
             </div>
         </div>
+
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
-            <div class="panel-body table-responsive" id="printArea">
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                  <h4>
+                    <?php echo display('customr_info')?>
+                  </h4>
+              </div>
+            </div>
+
+            <div class="panel-body" id="printArea">
+                <div class="table-responsive">
                 <table width="100%" class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -59,7 +78,8 @@ function printDiv() {
                         <?php } ?> 
                     </tbody>
                 </table>  <!-- /.table-responsive -->
-                 <?= $links ?>
+                 <?php echo  $links ?>
+             </div>
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
-
-        <!-- New income -->
+    <!-- New income -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-bd">
@@ -14,9 +13,7 @@
                         <?php
                         $today = date('Y-m-d');
                         ?>
-                        <div class="form-group">
-                             <label for="income"><?php echo display('income_field') ?><i class="text-danger">*</i></label>
-                           
+                        <div class="form-group form-group-new expstatmnt">
                               <select class="form-control" name="income_field">
                                 <option value="">Select One</option>
                                  <option value="all"> All </option>
@@ -26,12 +23,12 @@
                               </select>
                            
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-group-new">
                             <label class="" for="from_date"><?php echo display('start_date') ?></label>
                             <input type="text" name="from_date" class="form-control datepicker" id="from_date" placeholder="<?php echo display('start_date') ?>" value="<?php echo (!empty($from_date)?$from_date:$today) ?>">
                         </div> 
 
-                        <div class="form-group">
+                        <div class="form-group form-group-new">
                             <label class="" for="to_date"><?php echo display('end_date') ?></label>
                             <input type="text" name="to_date" class="form-control datepicker" id="to_date" placeholder="<?php echo display('end_date') ?>" value="<?php echo (!empty($to_date)?$to_date:$today) ?>">
                         </div>  

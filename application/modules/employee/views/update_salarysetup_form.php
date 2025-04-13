@@ -7,7 +7,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                 <?= form_open('employee/Employees/update_salsetup_form/'. $data->emp_sal_set_id) ?>
+                 <?php echo  form_open('employee/Employees/update_salsetup_form/'. $data->emp_sal_set_id) ?>
 
                     <input name="emp_sal_set_id" type="hidden" value="<?php echo $data->emp_sal_set_id ?>">
                         <div class="form-group row">

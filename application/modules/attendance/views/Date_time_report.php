@@ -1,6 +1,4 @@
 
-
-
 <div class="row">
     <!--  table area -->
     <div class="col-sm-12">

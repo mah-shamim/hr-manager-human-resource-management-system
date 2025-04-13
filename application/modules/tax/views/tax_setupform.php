@@ -1,17 +1,3 @@
-<div class="form-group text-right">
-  <?php if($this->permission->method('tax','create')->access()): ?> 
-<button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-<?php echo display('setup_tax') ?></button> 
-<?php endif; ?>
- <?php if($this->permission->method('tax','read')->access()): ?> 
-<a href="<?php echo base_url();?>/tax/Tax/tax_setup_view" class="btn btn-primary"><?php echo display('manage_tax_setup') ?></a>
-<?php endif; ?>
-</div>
-
- 
-    
-
-
 <div id="add0" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -31,23 +17,23 @@
                     </div>
                 </div>
                     <div class="panel-body">
-                    <?= form_open('tax/Tax/create_tax_setup') ?>
+                    <?php echo  form_open('tax/Tax/create_tax_setup') ?>
                     <table id="POITable" border="0">
-        <tr style="text-align: center;">
+        <tr>
             <td><?php echo display('no') ?></td>
             <td><?php echo display('start_amount') ?></td>
             <td><?php echo display('end_amount') ?></td>
             <td><?php echo display('tax_rate') ?> (%)</td>
-            <td style="padding:5px"><?php echo display('delete') ?>?</td>
+            <td><?php echo display('delete') ?>?</td>
             <td><?php echo display('add_more') ?>?</td>
         </tr>
         <tr>
             <td>1</td>
-            <td style="padding:5px"><input  type="text" class="form-control" id="start_amount" name="start_amount[]" /></td>
-            <td style="padding:5px"><input  type="text" class="form-control" id="end_amount" name="end_amount[]" /></td>
-            <td style="padding:5px"><input  type="text" class="form-control" id="rate" name="rate[]" /></td>
-            <td style="padding:5px"><button type="button" id="delPOIbutton" class="btn btn-danger" value="Delete" onclick="deleteRow(this)"><i class="fa fa-trash"></i></button></td>
-            <td style="padding:5px"><button type="button" id="addmorePOIbutton" class="btn btn-success" value="Add More POIs" onclick="insRow()"><i class="fa fa-plus-circle"></button></td>
+            <td><input  type="text" class="form-control" id="start_amount" name="start_amount[]" /></td>
+            <td><input  type="text" class="form-control" id="end_amount" name="end_amount[]" /></td>
+            <td><input  type="text" class="form-control" id="rate" name="rate[]" /></td>
+            <td><button type="button" id="delPOIbutton" class="btn btn-danger" value="Delete" onclick="deleteRow(this)"><i class="fa fa-trash"></i></button></td>
+            <td><button type="button" id="addmorePOIbutton" class="btn btn-success" value="Add More POIs" onclick="insRow()"><i class="fa fa-plus-circle"></button></td>
         </tr>
         </table>
                         <div class="form-group text-center">
@@ -79,7 +65,28 @@
     <!--  table area -->
     <div class="col-sm-12">
 
-        <div class="panel panel-default thumbnail"> 
+        <div class="panel panel-bd"> 
+
+            <div class="panel-heading panel-aligner">
+                <div class="panel-title">
+                  <h4>
+                    <?php echo display('tax_setup')?>
+                  </h4>
+                </div>
+
+                <div class="mr-25">
+
+                    <?php if($this->permission->method('tax','create')->access()): ?> 
+                    <button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php echo display('setup_tax') ?></button> 
+                    <?php endif; ?>
+                    <?php if($this->permission->method('tax','read')->access()): ?> 
+                    <a href="<?php echo base_url();?>/tax/Tax/tax_setup_view" class="btn btn-primary"><?php echo display('manage_tax_setup') ?></a>
+                    <?php endif; ?>
+
+
+                </div>
+            </div>
 
             <div class="panel-body">
                 <table width="100%" class="datatable table table-striped table-bordered table-hover">
@@ -116,30 +123,4 @@
 </div>
 
 
-
-<script type="text/javascript">
-    
-    function deleteRow(row)
-{
-    var i=row.parentNode.parentNode.rowIndex;
-    document.getElementById('POITable').deleteRow(i);
-}
-
-
-function insRow()
-{
-    console.log( 'hi');
-    var x=document.getElementById('POITable');
-    var new_row = x.rows[1].cloneNode(true);
-    var len = x.rows.length;
-    new_row.cells[0].innerHTML = len;
-    
-    var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-    inp1.id += len;
-    inp1.value = '';
-    var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-    inp2.id += len;
-    inp2.value = '';
-    x.appendChild( new_row );
-}
-</script>
+<script src="<?php echo base_url('application/modules/tax/assetsss/js/tax_setupform.js'); ?>" type="text/javascript"></script>

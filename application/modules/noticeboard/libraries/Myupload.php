@@ -1,10 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class MyUpload
+class Myupload
 {
   
-    // To load this model
-    // $this->fileupload->do_upload($upload_path = 'assets/images/profile/', $field_name = 'userfile');
 
     function do_upload($upload_path = null, $field_name = null) {
         if (empty($_FILES[$field_name]['name'])) {
@@ -57,6 +55,21 @@ class MyUpload
         ]; 
         $ci->image_lib->initialize($config);
         $ci->image_lib->resize();
+    }
+
+    //  To check image extensions
+
+    public function valid_file_extension($ext = null){
+
+        $file_ext_list = array('pdf' ,'docx', 'doc' ,'xlsx' ,'rtf');
+
+        if(!in_array($ext, $file_ext_list)){
+
+            return false;
+        }else{
+
+            return true;
+        }
     }
 
 }

@@ -17,9 +17,8 @@ public function __construct()
 public function dept_view()
 	{   
         $this->permission->method('department','read')->redirect();
-
 		$data['title']    = display('department');  ;
-		$data['mang']   = $this->Department_model->dept_view();
+		$data['mang']     = $this->Department_model->dept_view();
 		$data['module']   = "department";
 		$data['page']     = "department_view";   
 		echo Modules::run('template/layout', $data); 
@@ -78,8 +77,7 @@ public function create_dept()
         if ($this->form_validation->run() === true) {
 
             $Data = [    
-            'dept_id'   =>$this->input->post('dept_id',true),
-            
+            'dept_id'         =>   $this->input->post('dept_id',true),
             'department_name' => $this->input->post('department_name',true),
             
             ];   

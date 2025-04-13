@@ -12,7 +12,7 @@
                 </div>
                 <div class="panel-body">
 
-                <?= form_open('employee/Employees/update_emp_pos_form/'. $data->emp_pos_id) ?>
+                <?php echo  form_open('employee/Employees/update_emp_pos_form/'. $data->emp_pos_id) ?>
                 
 
                     <input name="emp_pos_id" type="hidden" value="<?php echo $data->emp_pos_id ?>">
@@ -50,24 +50,3 @@
             </div>
         </div>
     </div>
-     <script type="text/javascript">
-
-function SelectToLoad(id){
-
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('employee/Employees/select_to_load/')?>" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-              $('[name="pos_id"]').val(data.pos_id);
-        
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-}
-</script>

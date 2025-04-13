@@ -12,9 +12,7 @@ class CConManager
     }
     public function Open()
     {
-        /*if(!mysqli_select_db($this->DataBase,$this->conn))
-            exit('Error: Could not connect to database ' . $this->DataBase);
-        */
+   
         mysqli_query($this->conn,"SET NAMES 'utf8'" );
         mysqli_query($this->conn,"SET CHARACTER SET utf8" );
         mysqli_query( $this->conn,"SET CHARACTER_SET_CONNECTION=utf8");
@@ -32,7 +30,6 @@ class CConManager
         try
         {
             $resource = mysqli_query($this->conn,$sql );
-            //print_r($resource); exit;
             if ($resource)
             {
                 if ($resource instanceof mysqli_result)
@@ -51,23 +48,15 @@ class CConManager
                     $oResult->num_rows = $i;
                     $oResult->IsSucess=TRUE;
                     unset($data);
-                    //print_r($oResult); exit;
                     return $oResult;
                 }
                 else
                 {
                     $oResult = new CResult();
-                    //print_r($this->conn);
 
                     $oResult->effected_row=mysqli_affected_rows($this->conn);
 
                     $oResult->IsSucess=TRUE;
-
-                    /*echo "<br>&nbsp;<br>";
-                    print_r($oResult->IsSucess);
-                    echo "<br>&nbsp;<br>";
-                    print_r($oResult);
-                    exit;*/
 
                     return $oResult;
 

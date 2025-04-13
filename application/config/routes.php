@@ -58,6 +58,9 @@ $route['logout'] = "dashboard/auth/logout";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+//Autoupdate routes
+$route['check_server'] = "autoupdate/autoupdate/checkserver";
+$route['updatenow'] = "autoupdate/autoupdate/updatenow";
 
 //set modules/config/routes.php
 $modules_path = APPPATH.'modules/';     

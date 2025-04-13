@@ -52,6 +52,7 @@ public function update_award($data = array())
      public function dropdown(){
     	$this->db->select('*');
     	$this->db->from('employee_history');
+    	$this->db->where('employee_status',1);
     	$query=$this->db->get();
     	$data=$query->result();
     	$list = array('' => 'Select One...');
