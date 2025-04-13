@@ -6,10 +6,12 @@ class Department_controller extends MX_Controller {
 public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'Department_model',
-		));		 
+		));	
+        if (! $this->session->userdata('isLogIn'))
+            redirect('login');	 
 	}
 
 public function dept_view()
@@ -32,16 +34,11 @@ public function create_dept()
         $data['title'] = display('department');
         #-------------------------------#
         $this->form_validation->set_rules('department_name',display('department_name'),'required|max_length[150]');
-       
-        
-      
         #-------------------------------#
         if ($this->form_validation->run() === true) {
 
             $postData = [
-            'department_name'      => $this->input->post('department_name',true),
-            
-                
+            'department_name'      => $this->input->post('department_name',true),                
             ];   
 
             if ($this->Department_model->dept_create($postData)) { 
@@ -50,8 +47,6 @@ public function create_dept()
                 $this->session->set_flashdata('exception',  display('please_try_again'));
             }
             redirect("department/Department_controller/create_dept");
-
-
 
         } else {
             $data['title']  = display('department');

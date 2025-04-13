@@ -6,10 +6,15 @@ class Payroll extends MX_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
-			'Payroll_model'
-		));		 
+			'Payroll_model',
+			'employee/Employees_model'
+		));	
+		$this->load->library('numbertowords');
+
+		if (! $this->session->userdata('isLogIn'))
+			redirect('login');	 
 	}
 
 	public function emp_salary_setup_view(){   
@@ -195,12 +200,36 @@ class Payroll extends MX_Controller {
 
 
 
-	public function salary_generate_view()
+	public function salary_generate_view($id = null)
 	{   
-		$this->permission->module('payroll','read')->redirect();
-
-		$data['title']    = display('view_salary_generate');  ;
-		$data['salgen']   = $this->Payroll_model->salary_generateView();
+		$data['title']    = display('view_salary_generate');  
+		$config["base_url"] = base_url('payroll/Payroll/salary_generate_view');
+        $config["total_rows"]  = $this->db->count_all('salary_sheet_generate');
+        $config["per_page"]    = 10;
+        $config["uri_segment"] = 4;
+        $config["last_link"] = "Last"; 
+        $config["first_link"] = "First"; 
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Prev';  
+        $config['full_tag_open'] = "<ul class='pagination col-xs pull-right'>";
+        $config['full_tag_close'] = "</ul>";
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+        $config['next_tag_open'] = "<li>";
+        $config['next_tag_close'] = "</li>";
+        $config['prev_tag_open'] = "<li>";
+        $config['prev_tagl_close'] = "</li>";
+        $config['first_tag_open'] = "<li>";
+        $config['first_tagl_close'] = "</li>";
+        $config['last_tag_open'] = "<li>";
+        $config['last_tagl_close'] = "</li>";
+        /* ends of bootstrap */
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $data["links"] = $this->pagination->create_links();
+		$data['salgen']   = $this->Payroll_model->salary_generateView($config["per_page"], $page);
 		$data['module']   = "payroll";
 		$data['page']     = "sal_genview";   
 		echo Modules::run('template/layout', $data); 
@@ -210,35 +239,125 @@ class Payroll extends MX_Controller {
 	{ 
 		$data['title'] = display('selectionlist'); 
 		#-------------------------------# 
-		$this->form_validation->set_rules('name',display('name'),'required|max_length[50]');
-		$this->form_validation->set_rules('start_date',display('start_date'),'required|max_length[50]');
-		$this->form_validation->set_rules('end_date',display('end_date'),'max_length[50]');
+		$this->form_validation->set_rules('name',display('salar_month'),'required|max_length[50]');
 		#-------------------------------#
 
 		if ($this->form_validation->run() === true) {
 
+			   list($month,$year) = explode(' ',$this->input->post('name'));
+        $query =$this->db->select('*')->from('salary_sheet_generate')->where('name',$this->input->post('name'))->get()->num_rows();
+                if ($query > 0) {
+            $this->session->set_userdata(array('exception' => display('the_salary_of').$month. display('already_generated')));
+            $this->session->set_flashdata('exception','Salary of '.$this->input->post('name').' Already Generated');
+            redirect(base_url('payroll/Payroll/create_salary_generate'));
+        }
+           
+        switch ($month)
+        {
+            case "January":
+                $month = '1';
+                break;
+            case "February":
+                $month = '2';
+                break;
+            case "March":
+                $month = '3';
+                break;
+            case "April":
+                $month = '4';
+                break;
+            case "May":
+                $month = '5';
+                break;
+            case "June":
+                $month = '6';
+                break;
+            case "July":
+                $month = '7';
+                break;
+            case "August":
+                $month = '8';
+                break;
+            case "September":
+                $month = '9';
+                break;
+            case "October":
+                $month = '10';
+                break;
+            case "November":
+                $month = '11';
+                break;
+            case "December":
+                $month = '12';
+                break;
+        }
+        $fdate = $year.'-'.$month.'-'.'1';
+        $lastday = date('t',strtotime($fdate));
+        $edate = $year.'-'.$month.'-'.$lastday;
+            $startd    = $fdate;
+
 			$employee = $this->db->select('employee_id')->from('employee_salary_setup')->group_by('employee_id')->get()->result();
 			// echo "<pre>";
-			$startd    = $this->input->post('start_date');
 			$ab=date('Y-m-d');
-			if (sizeof($employee) > 0)
-				foreach($employee as $key=>$value)
-				{ 
-			$postData = [
-				'employee_id'         =>  $value->employee_id,
+				$postData = [
 				'name'                =>  $this->input->post('name',true),
 				'gdate'               =>  $ab,
-				'start_date' 	      =>  $this->input->post('start_date',true), 
-				'end_date' 	          =>  $this->input->post('end_date',true), 
+				'start_date' 	      =>  $startd, 
+				'end_date' 	          =>  $edate, 
 				'generate_by' 	      =>  $this->session->userdata('fullname'), 
 			]; 
 
 		$this->db->insert('salary_sheet_generate', $postData);
-		$aAmount   = $this->db->select('gross_salary,sal_type,employee_id')->from('employee_salary_setup')->where('employee_id', $value->employee_id)->get()->row();
+			if (sizeof($employee) > 0)
+				foreach($employee as $key=>$value)
+				{ 
+		
+		$aAmount   = $this->db->select('a.gross_salary,a.sal_type,a.employee_id,b.first_name,b.last_name')->from('employee_salary_setup a')->join('employee_history b','b.employee_id=a.employee_id')->where('a.employee_id', $value->employee_id)->get()->row();
 		$Amount    = $aAmount->gross_salary;
-		$startd    = $this->input->post('start_date');
-		$end       = $this->input->post('end_date');
-		$times     = $this->db->select('SUM(TIME_TO_SEC(staytime)) AS staytime')->from('emp_attendance')->where('date BETWEEN "'. date('Y-m-d', strtotime($startd)). '" and "'. date('Y-m-d', strtotime($end)).'"')->where("employee_id" ,$value->employee_id )->get()->row()->staytime;
+		$startd    = $startd;
+		$end       = $edate;
+  $att_in = $this->db->select('a.time,MIN(a.time) as intime,MAX(a.time) as outtime,a.uid, DATE(time) as mydate')
+->from('attendance_history a')
+->where('a.uid',$value->employee_id)
+ ->where('DATE(a.time) >=',date('Y-m-d', strtotime($startd)))
+ ->where('DATE(a.time) <=',date('Y-m-d', strtotime($end)))
+->group_by('DATE(a.time)')
+->get()
+->result();
+  $idx=1;
+            $totalhour=[];
+            $totalday = [];
+           foreach ($att_in as $attendancedata) { 
+           	   $date_a = new DateTime($attendancedata->outtime);
+                $date_b = new DateTime($attendancedata->intime);
+                $interval = date_diff($date_a,$date_b);
+
+             $totalwhour = $interval->format('%h:%i:%s');
+              $totalhour[$idx] = $totalwhour;
+              $totalday[$idx] = $attendancedata->mydate;
+$idx++;
+           }
+           $seconds = 0;
+foreach($totalhour as $t)
+{
+$timeArr = array_reverse(explode(":", $t));
+
+foreach ($timeArr as $key => $tv)
+{
+    if ($key > 2) break;
+    $seconds += pow(60, $key) * $tv;
+}
+
+}
+
+$hours = floor($seconds / 3600);
+$mins = floor(($seconds - ($hours*3600)) / 60);
+$secs = floor($seconds % 60);
+//echo $h = $hours.':'.$mins.':'.$secs;
+ $times = $hours * 3600 + $mins * 60 + $secs;;
+// exit();
+
+// end new salary generate		
 		$wormin = ($times/60);
 		$worhour = number_format($wormin/60,2);
 		if($aAmount->sal_type == 1){
@@ -254,9 +373,6 @@ class Payroll extends MX_Controller {
 		$this->db->where("start_amount <",$PossibleYearlyIncome);
 		$query = $this->db->get();
 		$taxrate = $query->result_array();
-		// echo $PossibleYearlyIncome;
-		// echo '<pre>';
-		// print_r($taxrate);exit();
 		$TotalTax = 0;
 	    foreach($taxrate as $row){
                     // "Inside tax calculation";
@@ -270,45 +386,100 @@ class Payroll extends MX_Controller {
                     $TotalTax += $tax;	
                 } 
               $TaxAmount = ($TotalTax/365)*$numberofdays;
-             //print_r($TaxAmount);exit();
+             //  echo $totamount.'<br>';
+              //print_r($PossibleYearlyIncome);
+             // echo '<br>';
+
         $netAmount = number_format(($totamount-$TaxAmount),2);
+        // echo $netAmount;
+        // exit();
 		}else if($aAmount->sal_type == 2){
 			$netAmount = $Amount;
 		}
-			$workingper   = $this->db->select('COUNT(date) AS date')->from('emp_attendance')->where('date BETWEEN "'. date('d-m-Y', strtotime($startd)). '" and "'. date('d-m-Y', strtotime($end)).'"')->where("employee_id" ,$value->employee_id )->get()->row()->date;
+			$workingper   = count($totalday);
 			$paymentData = array(
 				'employee_id'           => $value->employee_id,
 				'total_salary'          => $netAmount,
-				'total_working_minutes' => $worhour, 
+				'total_working_minutes' => $worhour,
+				'salary_name'           => $this->input->post('name',true),
 				'working_period'        => $workingper,
 			);
+
 			if(!empty($aAmount->employee_id)){
 				$this->db->insert('employee_salary_payment', $paymentData);
+				$c_code = $aAmount->employee_id;
+			$c_name = $aAmount->first_name.$aAmount->last_name;
+			$c_acc=$c_code.'-'.$c_name;
+			$headcode = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$c_acc)->get()->row()->HeadCode;
+			$createby = $this->session->userdata('fullname');
+			$createdate = date('Y-m-d H:i:s');
+
+			$accpayable = array(
+      'VNo'            => $this->input->post('name',true),
+      'Vtype'          => 'Generated Salary',
+      'VDate'          => date('Y-m-d'),
+      'COAID'          => $headcode,
+      'Narration'      => 'Salary For Employee Id'.$aAmount->employee_id,
+      'Debit'          => 0,
+      'Credit'         => intval(str_replace(',', '', $netAmount)),
+      'IsPosted'       => 1,
+      'CreateBy'       => $this->session->userdata('id'),
+      'CreateDate'     => date('Y-m-d H:i:s'),
+      'IsAppove'       => 1
+    ); 
+
+			$this->db->insert('acc_transaction', $accpayable);
 			}
 		}
 				$this->session->set_flashdata('message', display('successfully_saved_saletup'));
 				redirect("payroll/Payroll/create_salary_generate");
 			} else {
-				$data['title']  = display('create');
-				$data['module'] = "payroll";
-				$data['page']   = "salary_generate_form"; 
-				$data['salgen'] = $this->Payroll_model->salary_generateView();
-				echo Modules::run('template/layout', $data);   
+		$data['title']  = display('create');
+		$config["base_url"] = base_url('payroll/Payroll/create_salary_generate');
+        $config["total_rows"]  = $this->db->count_all('salary_sheet_generate');
+        $config["per_page"]    = 3;
+        $config["uri_segment"] = 4;
+        $config["last_link"] = "Last"; 
+        $config["first_link"] = "First"; 
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Prev';  
+        $config['full_tag_open'] = "<ul class='pagination col-xs pull-right'>";
+        $config['full_tag_close'] = "</ul>";
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+        $config['next_tag_open'] = "<li>";
+        $config['next_tag_close'] = "</li>";
+        $config['prev_tag_open'] = "<li>";
+        $config['prev_tagl_close'] = "</li>";
+        $config['first_tag_open'] = "<li>";
+        $config['first_tagl_close'] = "</li>";
+        $config['last_tag_open'] = "<li>";
+        $config['last_tagl_close'] = "</li>";
+        /* ends of bootstrap */
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $data["links"] = $this->pagination->create_links();
+		$data['module'] = "payroll";
+		$data['page']   = "salary_generate_form"; 
+		$data['salgen'] = $this->Payroll_model->salary_generateView($config["per_page"], $page);
+		echo Modules::run('template/layout', $data);   
 
 			}   
 		}
 		public function delete_sal_gen($id = null) 
 		{ 
-			$this->permission->module('payroll','delete')->redirect();
+			$sal_name = $this->db->select('name')->from('salary_sheet_generate')->where('ssg_id',$id)->get()->row()->name;
 
-			if ($this->Payroll_model->salary_gen_delete($id)) {
+			if ($this->Payroll_model->salary_gen_delete($id,$sal_name)) {
 			#set success message
 				$this->session->set_flashdata('message',display('delete_successfully'));
 			} else {
 			#set exception message
 				$this->session->set_flashdata('exception',display('please_try_again'));
 			}
-			redirect("payroll/Payroll/salary_generate_view");
+			redirect("payroll/Payroll/create_salary_generate");
 		}
 
 		public function update_salgen_form($id = null){
@@ -431,8 +602,8 @@ class Payroll extends MX_Controller {
 // salary with tax calculation
 	public function salarywithtax(){
 		$tamount =$this->input->post('amount');
-		$tax = (!empty($this->input->post('tax',true))?$this->input->post('tax',true):0);
-		$amount = $tamount+$tax;
+		//$tax = (!empty($this->input->post('tax',true))?$this->input->post('tax',true):0);
+		$amount = $tamount*12;
        $this->db->select('*');
 		$this->db->from('payroll_tax_setup');
 		$this->db->where("start_amount <",$amount);
@@ -450,8 +621,8 @@ class Payroll extends MX_Controller {
                     $tax=(($row['rate']/100)*$diff);
                     $TotalTax += $tax;	
                 } 
-		$salary = $TotalTax;
-		echo json_encode($salary);
+		$salary = $TotalTax/12;
+		echo json_encode(round($salary));
 	}
 
 //employee Basic Salary get
@@ -465,11 +636,63 @@ class Payroll extends MX_Controller {
 			$type = 'Salary';	
 		}
 		$sent = array(
-			'rate' =>  $data->rate,
+			'rate'      =>  $data->rate,
 			'rate_type' =>$data->rate_type,
-			'stype' => $type
+			'stype'     => $type
 		);
 		echo json_encode($sent);
 	}
 	
+	public function emp_payment_view()
+{   
+        $data['title']         = display('view_employee_payment'); 
+		$config["base_url"]    = base_url('payroll/Payroll/emp_payment_view');
+        $config["total_rows"]  = $this->db->count_all('employee_salary_payment');
+        $config["per_page"]    = 25;
+        $config["uri_segment"] = 4;
+        $config["last_link"] = "Last"; 
+        $config["first_link"] = "First"; 
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Prev';  
+        $config['full_tag_open'] = "<ul class='pagination col-xs pull-right'>";
+        $config['full_tag_close'] = "</ul>";
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+        $config['next_tag_open'] = "<li>";
+        $config['next_tag_close'] = "</li>";
+        $config['prev_tag_open'] = "<li>";
+        $config['prev_tagl_close'] = "</li>";
+        $config['first_tag_open'] = "<li>";
+        $config['first_tagl_close'] = "</li>";
+        $config['last_tag_open'] = "<li>";
+        $config['last_tagl_close'] = "</li>";
+        /* ends of bootstrap */
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $data["links"]     = $this->pagination->create_links();
+		$data['module']    = "payroll"; 
+		$data['emp_pay']   = $this->Employees_model->emp_paymentView($config["per_page"], $page);
+		$data['bank_list'] = $this->Employees_model->bank_list();
+		$data['module']    = "payroll";
+		$data['page']      = "paymentview";   
+	echo Modules::run('template/layout', $data); 
+} 
+
+
+public function payslip($id = null){
+		$data['title']         = display('salary_slip');
+		$data['paymentdata']   = $this->Payroll_model->salary_paymentinfo($id);  
+		$data['addition']      = $this->Payroll_model->salary_addition_fields($data['paymentdata'][0]['employee_id']);
+		$data['deduction']     = $this->Payroll_model->salary_deduction_fields($data['paymentdata'][0]['employee_id']);
+		$data['amountinword'] = $this->numbertowords->convert_number(intval(str_replace(',', '', $data['paymentdata'][0]['total_salary'])));
+		$data['setting']     = $this->Payroll_model->setting();
+		$data['module']      = "payroll";
+		// echo '<pre>';
+		// print_r($data);exit();
+		$data['page']          = "payslip";   
+		echo Modules::run('template/layout', $data); 
+
+}
 }

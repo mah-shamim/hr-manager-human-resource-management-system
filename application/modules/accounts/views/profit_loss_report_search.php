@@ -40,6 +40,7 @@ function printDiv() {
           $sqlF="SELECT SUM(acc_transaction.Credit)-SUM(acc_transaction.Debit) AS Amount FROM acc_transaction INNER JOIN acc_coa ON acc_transaction.COAID = acc_coa.HeadCode WHERE acc_transaction.IsAppove = 1 AND VDate BETWEEN '$dtpFromDate' AND '$dtpToDate' AND COAID LIKE '$COAID%'";
         }
         $q1 = $CI->db->query($sqlF);
+        // print_r($sqlF);
         $oResultAmountPreF = $q1->row();
       
         if($value==2)

@@ -271,6 +271,7 @@ ul li a{
                 <option value="">Select Frequency</option>
                 <option value="1">Weekly</option>
                 <option value="2">Biweekly</option>
+                <option value="4">Monthly</option>
                 <option value="3">Annual</option>
               </select>
               <span id="frequ"></span>

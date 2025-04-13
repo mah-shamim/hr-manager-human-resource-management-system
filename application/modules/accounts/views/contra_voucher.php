@@ -1,6 +1,7 @@
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <div class="panel panel-bd lobidrag">
+        <div class="panel panel-bd">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4>
@@ -10,12 +11,12 @@
             </div>
             <div class="panel-body">
                
-                         <?= form_open_multipart('accounts/accounts/create_contra_voucher') ?>
+                         <?= form_open_multipart('accounts/create_contra_voucher') ?>
                      <div class="form-group row">
                         <label for="vo_no" class="col-sm-2 col-form-label"> <?php echo display('voucher_no')?></label>
                         <div class="col-sm-4">
-                             <input type="text" name="txtVNo" id="txtVNo" value="<?php if(!empty($voucher_no->voucher)){
-                               $vn = substr($voucher_no->voucher,7)+1;
+                             <input type="text" name="txtVNo" id="txtVNo" value="<?php if(!empty($voucher_no[0]['voucher'])){
+                               $vn = substr($voucher_no[0]['voucher'],7)+1;
                               echo $voucher_n = 'Contra-'.$vn;
                              }else{
                                echo $voucher_n = 'Contra-1';
@@ -58,9 +59,9 @@
 
                                          </td>
                                         <td><input type="text" name="txtCode[]"  class="form-control "  id="txtCode_1" ></td>
-                                        <td><input type="text" name="txtAmount[]" value="0" class="form-control total_price"  id="txtAmount_1" onkeyup="calculation(1)" >
+                                        <td><input type="number" name="txtAmount[]" value="0" class="form-control total_price text-right"  id="txtAmount_1" onkeyup="calculation(1)" >
                                            </td>
-                                            <td ><input type="text" name="txtAmountcr[]" value="0" class="form-control total_price1"  id="txtAmount1_1" onkeyup="calculation(1)" >
+                                            <td ><input type="number" name="txtAmountcr[]" value="0" class="form-control total_price1 text-right"  id="txtAmount1_1" onkeyup="calculation(1)" >
                                            </td>
                                        <td>
                                                 <button style="text-align: right;" class="btn btn-danger red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)"><i class="fa fa-trash-o"></i></button>
@@ -99,12 +100,13 @@
     </div>
 </div>
 
+
 <script type="text/javascript">
 
   function load_code(id,sl){
 
     $.ajax({
-        url : "<?php echo site_url('accounts/accounts/debtvouchercode/')?>" + id,
+        url : "<?php echo site_url('accounts/debtvouchercode/')?>" + id,
         type: "GET",
         dataType: "json",
         success: function(data)
@@ -130,7 +132,7 @@
           var tabindex = count * 2;
           newdiv = document.createElement("tr");
            
-          newdiv.innerHTML ="<td> <select name='cmbCode[]' id='cmbCode_"+ count +"' class='form-control' onchange='load_code(this.value,"+ count +")'><?php foreach ($acc as $acc2) {?><option value='<?php echo $acc2->HeadCode;?>'><?php echo $acc2->HeadName;?></option><?php }?></select></td><td><input type='text' name='txtCode[]' class='form-control'  id='txtCode_"+ count +"' ></td><td><input type='text' name='txtAmount[]' class='form-control total_price' value='0' id='txtAmount_"+ count +"' onkeyup='calculation("+ count +")'></td><td><input type='text' name='txtAmountcr[]' class='form-control total_price1' id='txtAmount1_"+ count +"' value='0' onkeyup='calculation("+ count +")'></td><td><button style='text-align: right;' class='btn btn-danger red' type='button' value='<?php echo display("delete")?>' onclick='deleteRow(this)'><i class='fa fa-trash-o'></i></button></td>";
+          newdiv.innerHTML ="<td> <select name='cmbCode[]' id='cmbCode_"+ count +"' class='form-control' onchange='load_code(this.value,"+ count +")'><?php foreach ($acc as $acc2) {?><option value='<?php echo $acc2->HeadCode;?>'><?php echo $acc2->HeadName;?></option><?php }?></select></td><td><input type='text' name='txtCode[]' class='form-control'  id='txtCode_"+ count +"' ></td><td><input type='number' name='txtAmount[]' class='form-control total_price text-right' value='0' id='txtAmount_"+ count +"' onkeyup='calculation("+ count +")'></td><td><input type='number' name='txtAmountcr[]' class='form-control total_price1 text-right' id='txtAmount1_"+ count +"' value='0' onkeyup='calculation("+ count +")'></td><td><button style='text-align: right;' class='btn btn-danger red' type='button' value='<?php echo display("delete")?>' onclick='deleteRow(this)'><i class='fa fa-trash-o'></i></button></td>";
           document.getElementById(divName).appendChild(newdiv);
           document.getElementById(tabin).focus();
           count++;

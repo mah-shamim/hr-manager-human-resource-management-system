@@ -35,7 +35,9 @@
                     }else{ echo 'fa fa-star-o'; } ?>"></span>
 
                 </span></h4>
-                <h5>Department: <?php echo $row->department_name;?></h5>
+                <h5>Department: <?php $dept=$this->db->select('department_name')->from('department')->where('dept_id',$row->parent_id)->get()->row();
+                echo $dept->department_name;
+                ?></h5>
                 <p class="m-0"><i class="fa fa-mobile" aria-hidden="true"></i>
                    <?php echo $row->phone ;?></p>
                </div>
@@ -207,6 +209,8 @@
           echo 'Weekly';
       }else if($row->pay_frequency == 2){
         echo 'Biweekly';
+    }else if($row->pay_frequency == 4){
+        echo 'Monthly';
     }else{
         echo 'Annual';
     }?></td>

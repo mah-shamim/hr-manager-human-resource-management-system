@@ -30,6 +30,12 @@ $HmvcMenu["payroll"] = array(
             "permission" => "create"
        
     ), 
+      "emp_sal_payment"  => array(  
+            "controller" => "Payroll",
+            "method"     => "emp_payment_view",
+            "permission" => "view"
+     
+    ), 
     
 );
    

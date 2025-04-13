@@ -7,6 +7,7 @@ class Department_model extends CI_Model {
 	{
 		return $this->db->select('*')	
 			->from('department')
+			->where('parent_id',0)
 			->order_by('dept_id', 'desc')
 			->get()
 			->result();
@@ -49,10 +50,12 @@ public function update_dept($data = array())
     /// Division Part
     public function read_division($limit = null, $start = null)
 	{
-	  $this->db->select('*');
-		$this->db->from('department');
-		$this->db->where('parent_id >',0);
-		$this->db->order_by('dept_id', 'desc');
+	  $this->db->select('a.*,b.department_name as department');
+		$this->db->from('department a');
+		$this->db->join('department b','b.dept_id=a.parent_id','left');
+		$this->db->where('a.parent_id >',0);
+		$this->db->group_by('a.dept_id');
+		$this->db->order_by('a.dept_id', 'desc');
 		$this->db->limit($limit, $start);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
@@ -100,7 +103,7 @@ public function count_division()
 	{
 		$this->db->select('*');
 		$this->db->from('department');
-		$this->db->where('parent_id', 0);
+		$this->db->where('parent_id >', 0);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query->num_rows();	

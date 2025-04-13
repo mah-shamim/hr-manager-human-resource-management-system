@@ -6,10 +6,12 @@ class Loan extends MX_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'Loan_model'
-		));		 
+		));	
+		if (! $this->session->userdata('isLogIn'))
+			redirect('login');	 
 	}
 
 	public function loan_view(){   
@@ -89,7 +91,7 @@ class Loan extends MX_Controller {
       'Vtype'          => 'Loan Grant',
       'VDate'          => date('Y-m-d'),
       'COAID'          => $COAID,
-      'Narration'      => 'Payable For Employee Id'.$this->input->post('employee_id',true),
+      'Narration'      => 'Loan for '.$this->input->post('employee_id',true),
       'Debit'          => $this->input->post('amount',true),
       'Credit'         => 0,
       'IsPosted'       => 1,
@@ -108,6 +110,7 @@ class Loan extends MX_Controller {
 			$data['module']  = "loan";
 			$data['page']    = "grandloan_form"; 
 			$data['gndloan'] = $this->Loan_model->grndloandropdown();
+			$data['supervisor'] = $this->Loan_model->supervisorlist();
 			$data['loan']    = $this->Loan_model->LoanList(); 
 			
 			echo Modules::run('template/layout', $data);   
@@ -141,6 +144,11 @@ class Loan extends MX_Controller {
 		$this->form_validation->set_rules('repayment_amount',display('repayment_amount')  ,'required|max_length[100]');
 		$this->form_validation->set_rules('date_of_approve',display('date_of_approve')  ,'required|max_length[100]');
 		$this->form_validation->set_rules('repayment_start_date',display('repayment_start_date')  ,'required|max_length[100]');
+		 $emp_id = $this->input->post('employee_id',true);
+		$c_name = $this->db->select('first_name,last_name')->from('employee_history')->where('employee_id',$emp_id)->get()->row();
+		$c_acc=$emp_id.'-'.$c_name->first_name.$c_name->last_name;
+      $coatransactionInfo = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$c_acc)->get()->row();
+  $COAID = $coatransactionInfo->HeadCode;
 		
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
@@ -158,7 +166,9 @@ class Loan extends MX_Controller {
 				'date_of_approve' 	 => $this->input->post('date_of_approve',true),
 				'repayment_start_date'=> $this->input->post('repayment_start_date',true),
 			]; 
-			
+			 $CashinHandCredit = array(
+             'Credit' => $this->input->post('amount',true),
+             ); 
 			if ($this->Loan_model->update_grndloan($postData)) { 
 				$this->session->set_flashdata('message', display('successfully_updated'));
 			} else {
@@ -205,12 +215,13 @@ class Loan extends MX_Controller {
 		$this->form_validation->set_rules('notes',display('notes')  ,'required|max_length[100]');
 		#-------------------------------#
 
-		$emp_id = $this->input->post('employee_id',true);
+	
+		if ($this->form_validation->run() === true) {
+				$emp_id = $this->input->post('employee_id',true);
 		$c_name = $this->db->select('first_name,last_name')->from('employee_history')->where('employee_id',$emp_id)->get()->row();
 		$c_acc=$emp_id.'-'.$c_name->first_name.$c_name->last_name;
        $coatransactionInfo = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$c_acc)->get()->row();
        $COAID = $coatransactionInfo->HeadCode;
-		if ($this->form_validation->run() === true) {
 
 			$postData = [
 				'employee_id'        => $this->input->post('employee_id',true),
@@ -229,7 +240,7 @@ class Loan extends MX_Controller {
       'Vtype'       => 'LoanInstall',
       'VDate'       => date('Y-m-d'),
       'COAID'       => 1020101,
-      'Narration'   => 'Cash in hand Debit For Employee Id'.$this->input->post('employee_id',true),
+      'Narration'   => 'Cash in hand Debit For Employee Loan Id',
       'Debit'       => $this->input->post('payment',true),
       'Credit'      => 0,
       'IsPosted'    => 1,
@@ -245,7 +256,7 @@ class Loan extends MX_Controller {
       'Vtype'          => 'LoanInstall',
       'VDate'          => date('Y-m-d'),
       'COAID'          => $COAID,
-      'Narration'      => 'Payable For Employee Id'.$this->input->post('employee_id',true),
+      'Narration'      => 'Loan Installment Receive',
       'Debit'          => 0,
       'Credit'         => $this->input->post('payment',true),
       'IsPosted'       => 1,
@@ -269,6 +280,7 @@ class Loan extends MX_Controller {
 			$data['module']  = "loan";
 			$data['page']    = "installment_form"; 
 			$data['gndloan'] = $this->Loan_model->installdropdown();
+			$data['receiver']= $this->Loan_model->receiverdropdown();
 			$data['autoincrement'] = $this->Loan_model->autoincrement();
 			$data['loanss']  = $this->Loan_model->installment_view();
 			echo Modules::run('template/layout', $data);   
@@ -288,7 +300,13 @@ class Loan extends MX_Controller {
 	}
 
 	public function select_to_install($id){
-		$data = $this->db->select('*')->from('grand_loan')->where('loan_id',$id)->get()->row();
+		$loandata = $this->db->select('*')->from('grand_loan')->where('loan_id',$id)->get()->row();
+		$installdata = $this->db->select('sum(payment) as totalpayment')->from('loan_installment')->where('loan_id',$id)->get()->row();
+		$repaymentamount = $loandata->repayment_amount;
+		$totalpaid       = $installdata->totalpayment;
+		$due = $repaymentamount - $totalpaid;
+		$data['installment'] = $loandata->installment;
+		$data['due'] = $due;
 		echo json_encode($data);
 	}
 	public function select_to_autoincrement($id){
@@ -357,6 +375,7 @@ class Loan extends MX_Controller {
 			$data['data']      =$this->Loan_model->installUpdate($id);
 			$data['gndloan']   = $this->Loan_model->installdropdown();
 			$data['autoincrement'] = $this->Loan_model->autoincrement();
+			$data['receiver']  = $this->Loan_model->receiverdropdown();
 			$data['query']     = $this->Loan_model->get_install_empid($id);
 			$data['module']    = "loan";	
 			$data['page']      = "update_install_form";   

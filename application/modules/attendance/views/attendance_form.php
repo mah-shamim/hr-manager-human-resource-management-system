@@ -2,7 +2,7 @@
   
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="panel panel-bd lobidrag">
+            <div class="panel panel-bd">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h4><?php echo (!empty($title)?$title:null) ?></h4>

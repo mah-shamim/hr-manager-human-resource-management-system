@@ -1,26 +1,4 @@
-
---
--- Table structure for table `acc_account_name`
---
-
-CREATE TABLE IF NOT EXISTS `acc_account_name` (
-  `account_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `account_name` varchar(255) NOT NULL,
-  `account_type` int(11) NOT NULL,
-  PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `acc_account_name`
---
-
-INSERT INTO `acc_account_name` (`account_id`, `account_name`, `account_type`) VALUES
-(1, 'Employee Salary', 0),
-(3, 'Example', 1),
-(4, 'Loan Expense', 0),
-(5, 'Loan Income', 1);
-
--- --------------------------------------------------------
+SET sql_mode = '';
 
 --
 -- Table structure for table `acc_coa`
@@ -50,182 +28,22 @@ CREATE TABLE IF NOT EXISTS `acc_coa` (
 --
 
 INSERT INTO `acc_coa` (`HeadCode`, `HeadName`, `PHeadName`, `HeadLevel`, `IsActive`, `IsTransaction`, `IsGL`, `HeadType`, `IsBudget`, `IsDepreciation`, `DepreciationRate`, `CreateBy`, `CreateDate`, `UpdateBy`, `UpdateDate`) VALUES
-('4021403', 'AC', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:33:55', '', '0000-00-00 00:00:00'),
 ('50202', 'Account Payable', 'Current Liabilities', 2, 1, 0, 1, 'L', 0, 0, '0.00', 'admin', '2015-10-15 19:50:43', '', '0000-00-00 00:00:00'),
-('10203', 'Account Receivable', 'Current Asset', 2, 1, 0, 0, 'A', 0, 0, '0.00', '', '0000-00-00 00:00:00', 'admin', '2013-09-18 15:29:35'),
-('1020201', 'Advance', 'Advance, Deposit And Pre-payments', 3, 1, 0, 1, 'A', 0, 0, '0.00', 'Zoherul', '2015-05-31 13:29:12', 'admin', '2015-12-31 16:46:32'),
-('102020103', 'Advance House Rent', 'Advance', 4, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-10-02 16:55:38', 'admin', '2016-10-02 16:57:32'),
-('10202', 'Advance, Deposit And Pre-payments', 'Current Asset', 2, 1, 0, 0, 'A', 0, 0, '0.00', '', '0000-00-00 00:00:00', 'admin', '2015-12-31 16:46:24'),
-('4020602', 'Advertisement and Publicity', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:51:44', '', '0000-00-00 00:00:00'),
-('1010410', 'Air Cooler', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-05-23 12:13:55', '', '0000-00-00 00:00:00'),
-('4020603', 'AIT Against Advertisement', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:52:09', '', '0000-00-00 00:00:00'),
 ('1', 'Assets', 'COA', 0, 1, 0, 0, 'A', 0, 0, '0.00', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00'),
-('1010204', 'Attendance Machine', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:49:31', '', '0000-00-00 00:00:00'),
-('40216', 'Audit Fee', 'Other Expenses', 2, 1, 1, 1, 'E', 0, 0, '0.00', 'admin', '2017-07-18 12:54:30', '', '0000-00-00 00:00:00'),
-('102010202', 'Bank AlFalah', 'Cash At Bank', 4, 1, 1, 1, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:32:37', 'admin', '2015-10-15 15:32:52'),
-('4021002', 'Bank Charge', 'Financial Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:21:03', '', '0000-00-00 00:00:00'),
-('30203', 'Bank Interest', 'Other Income', 2, 1, 1, 1, 'I', 0, 0, '0.00', 'Obaidul', '2015-01-03 14:49:54', 'admin', '2016-09-25 11:04:19'),
-('1010104', 'Book Shelf', 'Furniture & Fixturers', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:46:11', '', '0000-00-00 00:00:00'),
-('1010407', 'Books and Journal', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:45:37', '', '0000-00-00 00:00:00'),
-('10201020301', 'Branch 1', 'Standard Bank', 5, 1, 1, 1, 'A', 0, 0, '0.00', '2', '2018-07-19 13:44:33', '', '0000-00-00 00:00:00'),
-('4020604', 'Business Development Expenses', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:52:29', '', '0000-00-00 00:00:00'),
-('4020606', 'Campaign Expenses', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:52:57', 'admin', '2016-09-19 14:52:48'),
-('4020502', 'Campus Rent', 'House Rent', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:46:53', 'admin', '2017-04-27 17:02:39'),
-('40212', 'Car Running Expenses', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:28:43', '', '0000-00-00 00:00:00'),
-('10201', 'Cash & Cash Equivalent', 'Current Asset', 2, 1, 0, 0, 'A', 0, 0, '0.00', '', '0000-00-00 00:00:00', 'admin', '2015-10-15 15:57:55'),
-('1020102', 'Cash At Bank', 'Cash & Cash Equivalent', 3, 1, 0, 0, 'A', 0, 0, '0.00', '2', '2018-07-19 13:43:59', 'admin', '2015-10-15 15:32:42'),
+('10201', 'Cash & Cash Equivalent', 'Current Asset', 2, 1, 0, 1, 'A', 0, 0, '0.00', '2', '2019-11-24 07:55:22', 'admin', '2015-10-15 15:57:55'),
+('1020102', 'Cash At Bank', 'Cash & Cash Equivalent', 3, 1, 0, 1, 'A', 0, 0, '0.00', '', '2019-11-23 10:58:48', 'admin', '2015-10-15 15:32:42'),
 ('1020101', 'Cash In Hand', 'Cash & Cash Equivalent', 3, 1, 1, 1, 'A', 0, 0, '0.00', '2', '2018-07-31 12:56:28', 'admin', '2016-05-23 12:05:43'),
-('30101', 'Cash Sale', 'Store Income', 1, 1, 1, 1, 'I', 0, 0, '0.00', '2', '2018-07-08 07:51:26', '', '0000-00-00 00:00:00'),
-('1010207', 'CCTV', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:51:24', '', '0000-00-00 00:00:00'),
-('102020102', 'CEO Current A/C', 'Advance', 4, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-09-25 11:54:54', '', '0000-00-00 00:00:00'),
-('1010101', 'Class Room Chair', 'Furniture & Fixturers', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:45:29', '', '0000-00-00 00:00:00'),
-('4021407', 'Close Circuit Cemera', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:35:35', '', '0000-00-00 00:00:00'),
-('4020601', 'Commision on Admission', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:51:21', 'admin', '2016-09-19 14:42:54'),
-('1010206', 'Computer', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:51:09', '', '0000-00-00 00:00:00'),
-('4021410', 'Computer (R)', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'Zoherul', '2016-03-24 12:38:52', 'Zoherul', '2016-03-24 12:41:40'),
-('1010102', 'Computer Table', 'Furniture & Fixturers', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:45:44', '', '0000-00-00 00:00:00'),
-('301020401', 'Continuing Registration fee - UoL (Income)', 'Registration Fee (UOL) Income', 4, 1, 1, 0, 'I', 0, 0, '0.00', 'admin', '2015-10-15 17:40:40', '', '0000-00-00 00:00:00'),
-('4020904', 'Contratuall Staff Salary', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:12:34', '', '0000-00-00 00:00:00'),
-('403', 'Cost of Sale', 'Expence', 0, 1, 1, 0, 'E', 0, 0, '0.00', '2', '2018-07-08 10:37:16', '', '0000-00-00 00:00:00'),
-('30102', 'Credit Sale', 'Store Income', 1, 1, 1, 1, 'I', 0, 0, '0.00', '2', '2018-07-08 07:51:34', '', '0000-00-00 00:00:00'),
-('4020709', 'Cultural Expense', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'nasmud', '2017-04-29 12:45:10', '', '0000-00-00 00:00:00'),
 ('102', 'Current Asset', 'Assets', 1, 1, 0, 0, 'A', 0, 0, '0.00', '', '0000-00-00 00:00:00', 'admin', '2018-07-07 11:23:00'),
 ('502', 'Current Liabilities', 'Liabilities', 1, 1, 0, 0, 'L', 0, 0, '0.00', 'anwarul', '2014-08-30 13:18:20', 'admin', '2015-10-15 19:49:21'),
-('40100002', 'cw-Chichawatni', 'Store Expenses', 2, 1, 1, 0, 'E', 0, 0, '0.00', '2', '2018-08-02 16:30:41', '', '0000-00-00 00:00:00'),
-('1020202', 'Deposit', 'Advance, Deposit And Pre-payments', 3, 1, 0, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:40:42', '', '0000-00-00 00:00:00'),
-('4020605', 'Design & Printing Expense', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:55:00', '', '0000-00-00 00:00:00'),
-('4020404', 'Dish Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:58:21', '', '0000-00-00 00:00:00'),
-('40215', 'Dividend', 'Other Expenses', 2, 1, 1, 1, 'E', 0, 0, '0.00', 'admin', '2016-09-25 14:07:55', '', '0000-00-00 00:00:00'),
-('4020403', 'Drinking Water Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:58:10', '', '0000-00-00 00:00:00'),
-('1010211', 'DSLR Camera', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:53:17', 'admin', '2016-01-02 16:23:25'),
-('4020908', 'Earned Leave', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:13:38', '', '0000-00-00 00:00:00'),
-('4020607', 'Education Fair Expenses', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:53:42', '', '0000-00-00 00:00:00'),
-('1010602', 'Electric Equipment', 'Electrical Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:44:51', '', '0000-00-00 00:00:00'),
-('1010203', 'Electric Kettle', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:49:07', '', '0000-00-00 00:00:00'),
-('10106', 'Electrical Equipment', 'Non Current Assets', 2, 1, 0, 1, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:43:44', '', '0000-00-00 00:00:00'),
-('4020407', 'Electricity Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:59:31', '', '0000-00-00 00:00:00'),
-('10202010501', 'employ', 'Salary', 5, 1, 0, 0, 'A', 0, 0, '0.00', 'admin', '2018-07-05 11:47:10', '', '0000-00-00 00:00:00'),
 ('1020301', 'Employee Receivable', 'Account Receivable', 3, 1, 0, 1, 'A', 0, 0, '0.00', '2', '2018-10-17 11:13:45', 'admin', '2018-07-07 12:31:42'),
-('40201', 'Entertainment', 'Other Expenses', 2, 1, 1, 1, 'E', 0, 0, '0.00', 'admin', '2013-07-08 16:21:26', 'anwarul', '2013-07-17 14:21:47'),
+('401', 'Employee Salary', 'Expence', 1, 1, 0, 0, 'E', 0, 0, '0.00', '2', '2019-11-24 12:15:56', '', '0000-00-00 00:00:00'),
 ('2', 'Equity', 'COA', 0, 1, 0, 0, 'L', 0, 0, '0.00', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00'),
-('4', 'Expence', 'COA', 0, 1, 0, 0, 'E', 0, 0, '0.00', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00'),
-('4020903', 'Faculty,Staff Salary & Allowances', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:12:21', '', '0000-00-00 00:00:00'),
-('4021404', 'Fax Machine', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:34:15', '', '0000-00-00 00:00:00'),
-('4020905', 'Festival & Incentive Bonus', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:12:48', '', '0000-00-00 00:00:00'),
-('1010103', 'File Cabinet', 'Furniture & Fixturers', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:46:02', '', '0000-00-00 00:00:00'),
-('40210', 'Financial Expenses', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'anwarul', '2013-08-20 12:24:31', 'admin', '2015-10-15 19:20:36'),
-('1010403', 'Fire Extingushier', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:39:32', '', '0000-00-00 00:00:00'),
-('4021408', 'Furniture', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:35:47', '', '0000-00-00 00:00:00'),
-('10101', 'Furniture & Fixturers', 'Non Current Assets', 2, 1, 0, 1, 'A', 0, 0, '0.00', 'anwarul', '2013-08-20 16:18:15', 'anwarul', '2013-08-21 13:35:40'),
-('4020406', 'Gas Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:59:20', '', '0000-00-00 00:00:00'),
-('20201', 'General Reserve', 'Reserve & Surplus', 2, 1, 1, 0, 'L', 0, 0, '0.00', 'admin', '2016-09-25 14:07:12', 'admin', '2016-10-02 17:48:49'),
-('10105', 'Generator', 'Non Current Assets', 2, 1, 1, 1, 'A', 0, 0, '0.00', 'Zoherul', '2016-02-27 16:02:35', 'admin', '2016-05-23 12:05:18'),
-('4021414', 'Generator Repair', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'Zoherul', '2016-06-16 10:21:05', '', '0000-00-00 00:00:00'),
-('40213', 'Generator Running Expenses', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:29:29', '', '0000-00-00 00:00:00'),
-('10103', 'Groceries and Cutleries', 'Non Current Assets', 2, 1, 1, 1, 'A', 0, 0, '0.00', '2', '2018-07-12 10:02:55', '', '0000-00-00 00:00:00'),
-('1010408', 'Gym Equipment', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:46:03', '', '0000-00-00 00:00:00'),
-('4020907', 'Honorarium', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:13:26', '', '0000-00-00 00:00:00'),
-('40205', 'House Rent', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'anwarul', '2013-08-24 10:26:56', '', '0000-00-00 00:00:00'),
-('40100001', 'HP-Hasilpur', 'Academic Expenses', 2, 1, 1, 0, 'E', 0, 0, '0.00', '2', '2018-07-29 03:44:23', '', '0000-00-00 00:00:00'),
-('4020702', 'HR Recruitment Expenses', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2016-09-25 12:55:49', '', '0000-00-00 00:00:00'),
-('4020703', 'Incentive on Admission', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2016-09-25 12:56:09', '', '0000-00-00 00:00:00'),
+('4', 'Expence', 'COA', 0, 1, 0, 0, 'E', 0, 0, '0.00', '2', '2019-11-24 05:45:24', '', '0000-00-00 00:00:00'),
 ('3', 'Income', 'COA', 0, 1, 0, 0, 'I', 0, 0, '0.00', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00'),
-('30204', 'Income from Photocopy & Printing', 'Other Income', 2, 1, 1, 1, 'I', 0, 0, '0.00', 'Zoherul', '2015-07-14 10:29:54', 'admin', '2016-09-25 11:04:28'),
-('5020302', 'Income Tax Payable', 'Liabilities for Expenses', 3, 1, 0, 1, 'L', 0, 0, '0.00', 'admin', '2016-09-19 11:18:17', 'admin', '2016-09-28 13:18:35'),
-('102020302', 'Insurance Premium', 'Prepayment', 4, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-09-19 13:10:57', '', '0000-00-00 00:00:00'),
-('4021001', 'Interest on Loan', 'Financial Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:20:53', 'admin', '2016-09-19 14:53:34'),
-('4020401', 'Internet Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:56:55', 'admin', '2015-10-15 18:57:32'),
-('10107', 'Inventory', 'Non Current Assets', 1, 1, 0, 0, 'A', 0, 0, '0.00', '2', '2018-07-07 15:21:58', '', '0000-00-00 00:00:00'),
-('10205010101', 'Jahangir', 'Hasan', 1, 1, 0, 0, 'A', 0, 0, '0.00', '2', '2018-07-07 10:40:56', '', '0000-00-00 00:00:00'),
-('1010210', 'LCD TV', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:52:27', '', '0000-00-00 00:00:00'),
-('30103', 'Lease Sale', 'Store Income', 1, 1, 1, 1, 'I', 0, 0, '0.00', '2', '2018-07-08 07:51:52', '', '0000-00-00 00:00:00'),
 ('5', 'Liabilities', 'COA', 0, 1, 0, 0, 'L', 0, 0, '0.00', 'admin', '2013-07-04 12:32:07', 'admin', '2015-10-15 19:46:54'),
-('50203', 'Liabilities for Expenses', 'Current Liabilities', 2, 1, 0, 0, 'L', 0, 0, '0.00', 'admin', '2015-10-15 19:50:59', '', '0000-00-00 00:00:00'),
-('4020707', 'Library Expenses', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2017-01-10 15:34:54', '', '0000-00-00 00:00:00'),
-('4021409', 'Lift', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:36:12', '', '0000-00-00 00:00:00'),
-('50101', 'Long Term Borrowing', 'Non Current Liabilities', 2, 1, 0, 1, 'L', 0, 0, '0.00', 'admin', '2013-07-04 12:32:26', 'admin', '2015-10-15 19:47:40'),
-('4020608', 'Marketing & Promotion Exp.', 'Promonational Expence', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:53:59', '', '0000-00-00 00:00:00'),
-('4020901', 'Medical Allowance', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:11:33', '', '0000-00-00 00:00:00'),
-('1010411', 'Metal Ditector', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'Zoherul', '2016-08-22 10:55:22', '', '0000-00-00 00:00:00'),
-('4021413', 'Micro Oven', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'Zoherul', '2016-05-12 14:53:51', '', '0000-00-00 00:00:00'),
-('30202', 'Miscellaneous (Income)', 'Other Income', 2, 1, 1, 1, 'I', 0, 0, '0.00', 'anwarul', '2014-02-06 15:26:31', 'admin', '2016-09-25 11:04:35'),
-('4020909', 'Miscellaneous Benifit', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:13:53', '', '0000-00-00 00:00:00'),
-('4020701', 'Miscellaneous Exp', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2016-09-25 12:54:39', '', '0000-00-00 00:00:00'),
-('40207', 'Miscellaneous Expenses', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'anwarul', '2014-04-26 16:49:56', 'admin', '2016-09-25 12:54:19'),
-('1010401', 'Mobile Phone', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-01-29 10:43:30', '', '0000-00-00 00:00:00'),
-('102020101', 'Mr Ashiqur Rahman', 'Advance', 4, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-12-31 16:47:23', 'admin', '2016-09-25 11:55:13'),
-('1010212', 'Network Accessories', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-01-02 16:23:32', '', '0000-00-00 00:00:00'),
-('4020408', 'News Paper Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2016-01-02 15:55:57', '', '0000-00-00 00:00:00'),
 ('101', 'Non Current Assets', 'Assets', 1, 1, 0, 0, 'A', 0, 0, '0.00', '', '0000-00-00 00:00:00', 'admin', '2015-10-15 15:29:11'),
-('501', 'Non Current Liabilities', 'Liabilities', 1, 1, 0, 0, 'L', 0, 0, '0.00', 'anwarul', '2014-08-30 13:18:20', 'admin', '2015-10-15 19:49:21'),
-('1010404', 'Office Decoration', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:40:02', '', '0000-00-00 00:00:00'),
-('10102', 'Office Equipment', 'Non Current Assets', 2, 1, 0, 1, 'A', 0, 0, '0.00', 'anwarul', '2013-12-06 18:08:00', 'admin', '2015-10-15 15:48:21'),
-('4021401', 'Office Repair & Maintenance', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:33:15', '', '0000-00-00 00:00:00'),
-('30201', 'Office Stationary (Income)', 'Other Income', 2, 1, 1, 1, 'I', 0, 0, '0.00', 'anwarul', '2013-07-17 15:21:06', 'admin', '2016-09-25 11:04:50'),
-('402', 'Other Expenses', 'Expence', 1, 1, 0, 0, 'E', 0, 0, '0.00', '2', '2018-07-07 14:00:16', 'admin', '2015-10-15 18:37:42'),
-('302', 'Other Income', 'Income', 1, 1, 0, 0, 'I', 0, 0, '0.00', '2', '2018-07-07 13:40:57', 'admin', '2016-09-25 11:04:09'),
-('40211', 'Others (Non Academic Expenses)', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'Obaidul', '2014-12-03 16:05:42', 'admin', '2015-10-15 19:22:09'),
-('30205', 'Others (Non-Academic Income)', 'Other Income', 2, 1, 0, 1, 'I', 0, 0, '0.00', 'admin', '2015-10-15 17:23:49', 'admin', '2015-10-15 17:57:52'),
-('10104', 'Others Assets', 'Non Current Assets', 2, 1, 0, 1, 'A', 0, 0, '0.00', 'admin', '2016-01-29 10:43:16', '', '0000-00-00 00:00:00'),
-('4020910', 'Outstanding Salary', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'Zoherul', '2016-04-24 11:56:50', '', '0000-00-00 00:00:00'),
-('4021405', 'Oven', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:34:31', '', '0000-00-00 00:00:00'),
-('4021412', 'PABX-Repair', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'Zoherul', '2016-04-24 14:40:18', '', '0000-00-00 00:00:00'),
-('4020902', 'Part-time Staff Salary', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:12:06', '', '0000-00-00 00:00:00'),
-('1010202', 'Photocopy & Fax Machine', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:47:27', 'admin', '2016-05-23 12:14:40'),
-('4021411', 'Photocopy Machine Repair', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'Zoherul', '2016-04-24 12:40:02', 'admin', '2017-04-27 17:03:17'),
-('3020503', 'Practical Fee', 'Others (Non-Academic Income)', 3, 1, 1, 1, 'I', 0, 0, '0.00', 'admin', '2017-07-22 18:00:37', '', '0000-00-00 00:00:00'),
-('1020203', 'Prepayment', 'Advance, Deposit And Pre-payments', 3, 1, 0, 1, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:40:51', 'admin', '2015-12-31 16:49:58'),
-('1010201', 'Printer', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:47:15', '', '0000-00-00 00:00:00'),
-('40202', 'Printing and Stationary', 'Other Expenses', 2, 1, 1, 1, 'E', 0, 0, '0.00', 'admin', '2013-07-08 16:21:45', 'admin', '2016-09-19 14:39:32'),
-('3020502', 'Professional Training Course(Oracal-1)', 'Others (Non-Academic Income)', 3, 1, 1, 0, 'I', 0, 0, '0.00', 'nasim', '2017-06-22 13:28:05', '', '0000-00-00 00:00:00'),
-('30207', 'Professional Training Course(Oracal)', 'Other Income', 2, 1, 0, 1, 'I', 0, 0, '0.00', 'nasim', '2017-06-22 13:24:16', 'nasim', '2017-06-22 13:25:56'),
-('1010208', 'Projector', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:51:44', '', '0000-00-00 00:00:00'),
-('40206', 'Promonational Expence', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'anwarul', '2013-07-11 13:48:57', 'anwarul', '2013-07-17 14:23:03'),
-('40214', 'Repair and Maintenance', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:32:46', '', '0000-00-00 00:00:00'),
-('202', 'Reserve & Surplus', 'Equity', 1, 1, 0, 1, 'L', 0, 0, '0.00', 'admin', '2016-09-25 14:06:34', 'admin', '2016-10-02 17:48:57'),
-('20102', 'Retained Earnings', 'Share Holders Equity', 2, 1, 1, 1, 'L', 0, 0, '0.00', 'admin', '2016-05-23 11:20:40', 'admin', '2016-09-25 14:05:06'),
-('4020708', 'River Cruse', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2017-04-24 15:35:25', '', '0000-00-00 00:00:00'),
-('102020105', 'Salary', 'Advance', 4, 1, 0, 0, 'A', 0, 0, '0.00', 'admin', '2018-07-05 11:46:44', '', '0000-00-00 00:00:00'),
-('40209', 'Salary & Allowances', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'anwarul', '2013-12-12 11:22:58', '', '0000-00-00 00:00:00'),
-('404', 'Sale Discount', 'Expence', 1, 1, 1, 0, 'E', 0, 0, '0.00', '2', '2018-07-19 10:15:11', '', '0000-00-00 00:00:00'),
-('1010406', 'Security Equipment', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:41:30', '', '0000-00-00 00:00:00'),
-('20101', 'Share Capital', 'Share Holders Equity', 2, 1, 0, 1, 'L', 0, 0, '0.00', 'anwarul', '2013-12-08 19:37:32', 'admin', '2015-10-15 19:45:35'),
-('201', 'Share Holders Equity', 'Equity', 1, 1, 0, 0, 'L', 0, 0, '0.00', '', '0000-00-00 00:00:00', 'admin', '2015-10-15 19:43:51'),
-('50201', 'Short Term Borrowing', 'Current Liabilities', 2, 1, 0, 1, 'L', 0, 0, '0.00', 'admin', '2015-10-15 19:50:30', '', '0000-00-00 00:00:00'),
-('40208', 'Software Development Expenses', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'anwarul', '2013-11-21 14:13:01', 'admin', '2015-10-15 19:02:51'),
-('4020906', 'Special Allowances', 'Salary & Allowances', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:13:13', '', '0000-00-00 00:00:00'),
-('50102', 'Sponsors Loan', 'Non Current Liabilities', 2, 1, 0, 1, 'L', 0, 0, '0.00', 'admin', '2015-10-15 19:48:02', '', '0000-00-00 00:00:00'),
-('4020706', 'Sports Expense', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'nasmud', '2016-11-09 13:16:53', '', '0000-00-00 00:00:00'),
-('102010203', 'Standard Bank', 'Cash At Bank', 4, 1, 1, 1, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:33:33', 'admin', '2015-10-15 15:33:48'),
-('102010204', 'State Bank', 'Cash At Bank', 4, 1, 1, 1, 'A', 0, 0, '0.00', 'admin', '2015-12-31 16:44:14', '', '0000-00-00 00:00:00'),
-('401', 'Store Expenses', 'Expence', 1, 1, 0, 0, 'E', 0, 0, '0.00', '2', '2018-07-07 13:38:59', 'admin', '2015-10-15 17:58:46'),
-('301', 'Store Income', 'Income', 1, 1, 0, 0, 'I', 0, 0, '0.00', '2', '2018-07-07 13:40:37', 'admin', '2015-09-17 17:00:02'),
-('3020501', 'Students Info. Correction Fee', 'Others (Non-Academic Income)', 3, 1, 1, 0, 'I', 0, 0, '0.00', 'admin', '2015-10-15 17:24:45', '', '0000-00-00 00:00:00'),
-('1010601', 'Sub Station', 'Electrical Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:44:11', '', '0000-00-00 00:00:00'),
-('4020704', 'TB Care Expenses', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2016-10-08 13:03:04', '', '0000-00-00 00:00:00'),
-('30206', 'TB Care Income', 'Other Income', 2, 1, 1, 1, 'I', 0, 0, '0.00', 'admin', '2016-10-08 13:00:56', '', '0000-00-00 00:00:00'),
-('4020501', 'TDS on House Rent', 'House Rent', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:44:07', 'admin', '2016-09-19 14:40:16'),
-('502030201', 'TDS Payable House Rent', 'Income Tax Payable', 4, 1, 1, 0, 'L', 0, 0, '0.00', 'admin', '2016-09-19 11:19:42', 'admin', '2016-09-28 13:19:37'),
-('502030203', 'TDS Payable on Advertisement Bill', 'Income Tax Payable', 4, 1, 1, 0, 'L', 0, 0, '0.00', 'admin', '2016-09-28 13:20:51', '', '0000-00-00 00:00:00'),
-('502030202', 'TDS Payable on Salary', 'Income Tax Payable', 4, 1, 1, 0, 'L', 0, 0, '0.00', 'admin', '2016-09-28 13:20:17', '', '0000-00-00 00:00:00'),
-('4021402', 'Tea Kettle', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:33:45', '', '0000-00-00 00:00:00'),
-('4020402', 'Telephone Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:57:59', '', '0000-00-00 00:00:00'),
-('1010209', 'Telephone Set & PABX', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:51:57', 'admin', '2016-10-02 17:10:40'),
-('102020104', 'Test', 'Advance', 4, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2018-07-05 11:42:48', '', '0000-00-00 00:00:00'),
-('40203', 'Travelling & Conveyance', 'Other Expenses', 2, 1, 1, 1, 'E', 0, 0, '0.00', 'admin', '2013-07-08 16:22:06', 'admin', '2015-10-15 18:45:13'),
-('4021406', 'TV', 'Repair and Maintenance', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 19:35:07', '', '0000-00-00 00:00:00'),
-('1010205', 'UPS', 'Office Equipment', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:50:38', '', '0000-00-00 00:00:00'),
-('40204', 'Utility Expenses', 'Other Expenses', 2, 1, 0, 1, 'E', 0, 0, '0.00', 'anwarul', '2013-07-11 16:20:24', 'admin', '2016-01-02 15:55:22'),
-('4020503', 'VAT on House Rent Exp', 'House Rent', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:49:22', 'admin', '2016-09-25 14:00:52'),
-('5020301', 'VAT Payable', 'Liabilities for Expenses', 3, 1, 0, 1, 'L', 0, 0, '0.00', 'admin', '2015-10-15 19:51:11', 'admin', '2016-09-28 13:23:53'),
-('1010409', 'Vehicle A/C', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'Zoherul', '2016-05-12 12:13:21', '', '0000-00-00 00:00:00'),
-('1010405', 'Voltage Stablizer', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-03-27 10:40:59', '', '0000-00-00 00:00:00'),
-('1010105', 'Waiting Sofa - Steel', 'Furniture & Fixturers', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2015-10-15 15:46:29', '', '0000-00-00 00:00:00'),
-('4020405', 'WASA Bill', 'Utility Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2015-10-15 18:58:51', '', '0000-00-00 00:00:00'),
-('1010402', 'Water Purifier', 'Others Assets', 3, 1, 1, 0, 'A', 0, 0, '0.00', 'admin', '2016-01-29 11:14:11', '', '0000-00-00 00:00:00'),
-('4020705', 'Website Development Expenses', 'Miscellaneous Expenses', 3, 1, 1, 0, 'E', 0, 0, '0.00', 'admin', '2016-10-15 12:42:47', '', '0000-00-00 00:00:00');
+('501', 'Non Current Liabilities', 'Liabilities', 1, 1, 0, 0, 'L', 0, 0, '0.00', 'anwarul', '2014-08-30 13:18:20', 'admin', '2015-10-15 19:49:21');
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `acc_transaction`
@@ -253,19 +71,17 @@ CREATE TABLE IF NOT EXISTS `acc_transaction` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `acn_account_transaction`
+-- Table structure for table `attendance_history`
 --
 
-CREATE TABLE IF NOT EXISTS `acn_account_transaction` (
-  `account_tran_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `account_id` int(11) NOT NULL,
-  `transaction_description` varchar(255) NOT NULL,
-  `amount` varchar(25) NOT NULL,
-  `tran_date` date NOT NULL,
-  `payment_id` int(11) NOT NULL,
-  `create_by_id` varchar(25) NOT NULL,
-  PRIMARY KEY (`account_tran_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `attendance_history` (
+  `atten_his_id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `id` int(11) NOT NULL DEFAULT '0',
+  `state` text NOT NULL,
+  `time` datetime NOT NULL,
+  PRIMARY KEY (`atten_his_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -282,6 +98,21 @@ CREATE TABLE IF NOT EXISTS `award` (
   `employee_id` varchar(30) NOT NULL,
   `awarded_by` varchar(30) NOT NULL,
   PRIMARY KEY (`award_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bank_information`
+--
+
+CREATE TABLE IF NOT EXISTS `bank_information` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bank_name` varchar(250) NOT NULL,
+  `account_name` varchar(200) DEFAULT NULL,
+  `account_number` varchar(100) NOT NULL,
+  `branch_name` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -306,6 +137,13 @@ CREATE TABLE IF NOT EXISTS `candidate_basic_info` (
   `zip` int(11) NOT NULL,
   PRIMARY KEY (`can_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `candidate_basic_info`
+--
+
+INSERT INTO `candidate_basic_info` (`can_id`, `first_name`, `last_name`, `email`, `phone`, `alter_phone`, `present_address`, `parmanent_address`, `picture`, `ssn`, `state`, `city`, `zip`) VALUES
+('15760461959057L', 'hdfg', 'sadfasd', 'asdfsd@gmail.com', '23423', '', '', '', NULL, '23423', 'Afghanistan', 'Dhs', 345);
 
 -- --------------------------------------------------------
 
@@ -344,9 +182,8 @@ CREATE TABLE IF NOT EXISTS `candidate_interview` (
   `selection` varchar(50) CHARACTER SET latin1 NOT NULL,
   `details` varchar(50) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`can_int_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `candidate_selection`
@@ -359,7 +196,8 @@ CREATE TABLE IF NOT EXISTS `candidate_selection` (
   `pos_id` varchar(30) CHARACTER SET latin1 NOT NULL,
   `selection_terms` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`can_sel_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -374,9 +212,9 @@ CREATE TABLE IF NOT EXISTS `candidate_shortlist` (
   `date_of_shortlist` varchar(50) CHARACTER SET latin1 NOT NULL,
   `interview_date` varchar(30) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`can_short_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+
 
 --
 -- Table structure for table `candidate_workexperience`
@@ -406,9 +244,9 @@ CREATE TABLE IF NOT EXISTS `custom_table` (
   `custom_data` text NOT NULL,
   `employee_id` varchar(20) NOT NULL,
   PRIMARY KEY (`custom_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+
 
 --
 -- Table structure for table `department`
@@ -420,6 +258,25 @@ CREATE TABLE IF NOT EXISTS `department` (
   `parent_id` int(11) NOT NULL,
   PRIMARY KEY (`dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deviceinfo`
+--
+
+CREATE TABLE IF NOT EXISTS `deviceinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `device_ip` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `deviceinfo`
+--
+
+INSERT INTO `deviceinfo` (`id`, `device_ip`) VALUES
+(1, '192.168.1.205.ewr');
 
 -- --------------------------------------------------------
 
@@ -602,6 +459,9 @@ CREATE TABLE IF NOT EXISTS `employee_salary_payment` (
   `working_period` varchar(50) CHARACTER SET latin1 NOT NULL,
   `payment_due` varchar(50) CHARACTER SET latin1 NOT NULL,
   `payment_date` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `salary_name` varchar(100) DEFAULT NULL,
+  `payment_type` int(11) DEFAULT NULL,
+  `bank_name` varchar(250) DEFAULT NULL,
   `paid_by` varchar(50) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`emp_sal_pay_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -666,9 +526,9 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `serial_no` varchar(50) NOT NULL,
   `is_assign` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`equipment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+
 
 --
 -- Table structure for table `equipment_type`
@@ -683,54 +543,14 @@ CREATE TABLE IF NOT EXISTS `equipment_type` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `events`
+-- Table structure for table `expense_information`
 --
 
-CREATE TABLE IF NOT EXISTS `events` (
-  `event_date` date NOT NULL,
-  `total_events` int(50) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`event_date`)
+CREATE TABLE IF NOT EXISTS `expense_information` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `expense_name` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`event_date`, `total_events`) VALUES
-('2017-08-02', 2),
-('2017-08-19', 2),
-('2017-08-21', 2),
-('2017-08-23', 1),
-('2017-10-12', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `event_detail`
---
-
-CREATE TABLE IF NOT EXISTS `event_detail` (
-  `idevent` int(11) NOT NULL AUTO_INCREMENT,
-  `event_date` date NOT NULL,
-  `event_time` time NOT NULL,
-  `event` varchar(200) NOT NULL,
-  PRIMARY KEY (`idevent`),
-  KEY `event_date` (`event_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `event_detail`
---
-
-INSERT INTO `event_detail` (`idevent`, `event_date`, `event_time`, `event`) VALUES
-(3, '2017-08-19', '02:11:13', 'good'),
-(4, '2017-10-12', '01:05:00', 'Hi'),
-(6, '2017-08-02', '02:02:00', 'gfdfg'),
-(7, '2017-08-19', '03:05:00', 'Hello alamin'),
-(10, '2017-08-21', '01:02:00', 'hj'),
-(11, '2017-08-21', '01:02:00', 'teas'),
-(13, '2017-08-02', '01:03:00', 'how'),
-(14, '2017-08-23', '03:03:00', 'how are you');
 
 -- --------------------------------------------------------
 
@@ -775,7 +595,19 @@ CREATE TABLE IF NOT EXISTS `grand_loan` (
   `updated_by` varchar(30) CHARACTER SET latin1 NOT NULL,
   `loan_status` varchar(30) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`loan_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+
+--
+-- Table structure for table `income_area`
+--
+
+CREATE TABLE IF NOT EXISTS `income_area` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `income_field` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -803,7 +635,7 @@ CREATE TABLE IF NOT EXISTS `language` (
   `phrase` varchar(100) NOT NULL,
   `english` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=720 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=799 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `language`
@@ -1020,7 +852,7 @@ INSERT INTO `language` (`id`, `phrase`, `english`) VALUES
 (210, 'sequence', 'Sequence'),
 (211, 'candidate_interview', 'Interview'),
 (212, 'interview_list', 'Interview list'),
-(213, 'add_interview', 'Add interview'),
+(213, 'add_interview', 'Interview'),
 (214, 'interviewer_id', 'Interviewer'),
 (215, 'interview_marks', 'Viva Marks'),
 (216, 'written_total_marks', 'Written Total Marks'),
@@ -1525,7 +1357,86 @@ INSERT INTO `language` (`id`, `phrase`, `english`) VALUES
 (716, 'employee_wise_report', 'Employee Wise Report'),
 (717, 'date_in_time_report', 'Date & In Time Report'),
 (718, 'report_view', 'Report View'),
-(719, 'notice_form', 'Notice Form');
+(719, 'notice_form', 'Notice Form'),
+(720, 'atn_log', 'Load Device Data'),
+(721, 'atn_log_datewise', 'Attendance Log'),
+(722, 'device_connection', 'Device Connection'),
+(723, 'user_name', 'User Name'),
+(724, 'in_time', 'In Time'),
+(725, 'out_time', 'Out Time'),
+(726, 'worked_hours', 'Worked Hours'),
+(727, 'wasteg_hour', 'Wastage Hours'),
+(728, 'net_hour', 'Net Hours'),
+(729, 'device_information', 'Device Information'),
+(730, 'plz_generate_an_ip', 'Please Generate an Ip'),
+(731, 'device_name', 'Device Name'),
+(732, 'device_ip', 'Device Ip'),
+(733, 'device_user', 'Device User'),
+(734, 'n_b_spendtime', 'N.B : You Spent'),
+(735, 'hours_out_of_workinghour', 'Hours out of Working hours'),
+(736, 'total_employee', 'Total Employee'),
+(737, 'present_employee', 'Present Employee'),
+(738, 'today_worked_hour', 'Today\'s Worked Hours'),
+(739, 'todays_transaction', 'Today\'s Transaction'),
+(740, 'device_model', 'Device Model'),
+(741, 'download_sample_file', 'Download Sample File'),
+(742, 'salar_month', 'Salary Month'),
+(743, 'bank', 'Bank'),
+(744, 'add_bank', 'Add Bank'),
+(745, 'bank_list', 'Bank List'),
+(746, 'update_bank', 'Update Bank'),
+(747, 'bank_name', 'Bank Name'),
+(748, 'account_number', 'Account Number'),
+(749, 'cash_adjustment', 'Cash Adjustment'),
+(750, 'adjustment_type', 'Adjustment Type'),
+(751, 'bank_adjustment', 'Bank Adjustment'),
+(752, 'expense', 'Expense'),
+(753, 'expense_item', 'Expense Item'),
+(754, 'expense_statement', 'Expense Statement'),
+(755, 'expense_name', 'Expense Name'),
+(756, 'add_expense', 'Add Expense'),
+(757, 'print', 'Print'),
+(758, 'income', 'Income'),
+(759, 'income_field', 'Income Field'),
+(760, 'update_income', 'Update Income'),
+(761, 'income_statement', 'Income Statement'),
+(762, 'attendence', 'Attendance'),
+(763, 'working_day', 'Working Day'),
+(764, 'salary_month', 'Salary Month'),
+(765, 'salary_slip', 'Salary Slip'),
+(766, 'head_code', 'Head Code'),
+(767, 'particular', 'Particulars'),
+(768, 'parent_type', 'Parent Type'),
+(769, 'expense_sheet', 'Expense Sheet'),
+(770, 'head_name', 'Head Name'),
+(771, 'income_sheet', 'Income Sheet'),
+(772, 'recruitment', ' Recruitment'),
+(773, 'ref_number', 'Reference Number'),
+(774, 'employee_signature', 'Employee Signature'),
+(775, 'name_of_bank', 'Name Of Bank'),
+(776, 'net_salary', 'Net Salary'),
+(777, 'in_word', 'In Word'),
+(778, 'total_deduction', 'Total Deduction'),
+(779, 'total_addition', 'Total Addition'),
+(780, 'basic_salary', 'Basic Salary'),
+(781, 'earnings', 'Earnings'),
+(782, 'salary_date', 'Salary Date'),
+(783, 'money_receipt', 'Money Receipt'),
+(784, 'balance_adjustment', 'Balance Adjustment'),
+(785, 'parent_head', 'Parent Head'),
+(786, 'child_head', 'Child Head'),
+(787, 'due_amount', 'Due Amount'),
+(788, 'loan_payment', 'Loan Payment'),
+(789, 'todays_notice', 'Today\'s Notice'),
+(790, 'attend_employee', 'Attend Employee'),
+(791, 'department_wise', 'Department Wise'),
+(792, 'income_expense', 'Income Expense'),
+(793, 'todays_leave', 'Today\'s Leave'),
+(794, 'leave_day', 'Leave Day'),
+(795, 'leave_finish', 'Leave Finish'),
+(796, 'loan_amount', 'Loan Amount'),
+(797, 'leave_employee', 'Leave Employee'),
+(798, 'absent_employee', 'Absent Employee');
 
 -- --------------------------------------------------------
 
@@ -1623,22 +1534,9 @@ CREATE TABLE IF NOT EXISTS `message` (
   `sender_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=unseen, 1=seen, 2=delete',
   `receiver_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=unseen, 1=seen, 2=delete',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `message`
---
 
-INSERT INTO `message` (`id`, `sender_id`, `receiver_id`, `subject`, `message`, `datetime`, `sender_status`, `receiver_status`) VALUES
-(1, 2, 1, 'TEST', '<p>Â TEST</p>', '2017-02-07 00:00:00', 2, 2),
-(3, 26, 3, 'TEST', '<p>receiver_id<strong></strong></p>', '2017-02-07 00:00:00', 0, 1),
-(10, 2, 17, 'TEST', '<p>bbjkjhjh</p>', '2017-02-07 11:34:41', 0, 0),
-(11, 2, 1, 'morning', '<p>sadefsdasdaff</p>', '2017-07-19 06:57:36', 1, 1),
-(12, 2, 7, 'hi', '<p>fgdfg</p>', '2017-07-23 10:08:55', 1, 0),
-(13, 2, 1, 'Salary report', '<p>Please send me salary report.....</p>', '2017-07-23 02:01:04', 1, 1),
-(14, 2, 7, 'fbhz', 'dzfhdfh', '2017-11-22 09:06:48', 2, 0);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `module`
@@ -1688,31 +1586,9 @@ CREATE TABLE IF NOT EXISTS `module_permission` (
   PRIMARY KEY (`id`),
   KEY `fk_module_id` (`fk_module_id`),
   KEY `fk_user_id` (`fk_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `module_permission`
---
 
-INSERT INTO `module_permission` (`id`, `fk_module_id`, `fk_user_id`, `create`, `read`, `update`, `delete`) VALUES
-(5, 39, 3, 1, 1, 1, 1),
-(6, 40, 3, 0, 0, 0, 0),
-(7, 41, 3, 0, 1, 1, 1),
-(8, 42, 3, 0, 0, 0, 0),
-(9, 43, 3, 0, 1, 1, 0),
-(10, 44, 3, 0, 0, 0, 0),
-(21, 39, 1, 1, 1, 1, 1),
-(22, 40, 1, 0, 0, 0, 0),
-(23, 41, 1, 0, 0, 0, 0),
-(24, 42, 1, 0, 0, 0, 0),
-(25, 43, 1, 0, 0, 0, 0),
-(26, 44, 1, 0, 0, 0, 0),
-(27, 46, 1, 0, 0, 0, 0),
-(28, 48, 1, 1, 1, 1, 0),
-(29, 49, 1, 0, 0, 0, 0),
-(30, 50, 1, 0, 0, 0, 0);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `notice_board`
@@ -1787,7 +1663,7 @@ CREATE TABLE IF NOT EXISTS `pay_frequency` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `frequency_name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pay_frequency`
@@ -1796,7 +1672,8 @@ CREATE TABLE IF NOT EXISTS `pay_frequency` (
 INSERT INTO `pay_frequency` (`id`, `frequency_name`) VALUES
 (1, 'Weekly'),
 (2, 'Biweekly'),
-(3, 'Annual');
+(3, 'Annual'),
+(4, 'Monthly');
 
 -- --------------------------------------------------------
 
@@ -1832,8 +1709,8 @@ CREATE TABLE IF NOT EXISTS `rate_type` (
 CREATE TABLE IF NOT EXISTS `salary_setup_header` (
   `s_s_h_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `employee_id` varchar(30) CHARACTER SET latin1 NOT NULL,
-  `salary_payable` varchar(30) CHARACTER SET latin1 NOT NULL,
-  `absent_deduct` varchar(30) CHARACTER SET latin1 NOT NULL,
+  `salary_payable` varchar(30) CHARACTER SET latin1 DEFAULT NULL,
+  `absent_deduct` varchar(30) CHARACTER SET latin1 DEFAULT NULL,
   `tax_manager` varchar(30) CHARACTER SET latin1 NOT NULL,
   `status` varchar(30) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`s_s_h_id`)
@@ -1847,7 +1724,6 @@ CREATE TABLE IF NOT EXISTS `salary_setup_header` (
 
 CREATE TABLE IF NOT EXISTS `salary_sheet_generate` (
   `ssg_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `employee_id` varchar(20) NOT NULL,
   `name` varchar(30) CHARACTER SET latin1 NOT NULL,
   `gdate` varchar(20) DEFAULT NULL,
   `start_date` varchar(30) CHARACTER SET latin1 NOT NULL,
@@ -1869,39 +1745,9 @@ CREATE TABLE IF NOT EXISTS `salary_type` (
   `default_amount` varchar(30) NOT NULL,
   `status` varchar(50) NOT NULL,
   PRIMARY KEY (`salary_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `salary_type`
---
 
-INSERT INTO `salary_type` (`salary_type_id`, `sal_name`, `emp_sal_type`, `default_amount`, `status`) VALUES
-(6, 'Medical', '1', '10000', ''),
-(10, 'house Rent', '1', '1000', ''),
-(12, 'Provident fund', '0', '200', ''),
-(13, 'Bima', '0', '1000', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sampledata`
---
-
-CREATE TABLE IF NOT EXISTS `sampledata` (
-  `brand` varchar(30) NOT NULL,
-  `dealer_name` varchar(30) NOT NULL,
-  `authorized` varchar(30) NOT NULL,
-  `address` varchar(30) NOT NULL,
-  `contact_no` varchar(30) NOT NULL,
-  `mobile_no` varchar(30) NOT NULL,
-  `fax` varchar(30) NOT NULL,
-  `email_id` varchar(30) NOT NULL,
-  `website_addr` varchar(30) NOT NULL,
-  `state` varchar(30) NOT NULL,
-  `city` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `sec_menu_item`
@@ -1917,35 +1763,28 @@ CREATE TABLE IF NOT EXISTS `sec_menu_item` (
   `createby` int(11) NOT NULL,
   `createdate` datetime NOT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=220 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `sec_menu_item`
 --
 
 INSERT INTO `sec_menu_item` (`menu_id`, `menu_title`, `page_url`, `module`, `parent_menu`, `is_report`, `createby`, `createdate`) VALUES
-(134, 'asset_type', '', 'asset', NULL, 0, 2, '2018-10-04 00:00:00'),
-(135, 'add_type', 'type_form', 'asset', 134, 0, 2, '2018-10-04 00:00:00'),
-(136, 'type_list', 'type_list', 'asset', 134, 0, 2, '2018-10-04 00:00:00'),
-(137, 'equipment', '', 'asset', 0, 0, 2, '2018-10-04 00:00:00'),
-(138, 'add_equipment', 'equipment_form', 'asset', 137, 0, 2, '2018-10-04 00:00:00'),
-(139, 'equipment_list', 'equipment_list', 'asset', 137, 0, 2, '2018-10-04 00:00:00'),
-(140, 'asset_assignment', '', 'asset', 0, 0, 2, '2018-10-04 00:00:00'),
-(141, 'assign_asset', 'maping_form', 'asset', 140, 0, 2, '2018-10-04 00:00:00'),
-(142, 'assign_list', 'maping_list', 'asset', 140, 0, 2, '2018-10-04 00:00:00'),
+(134, 'asset_type', 'type_form', 'asset', 0, 0, 2, '2018-10-04 00:00:00'),
+(137, 'equipment', 'equipment_form', 'asset', NULL, 0, 2, '2018-10-04 00:00:00'),
+(142, 'asset_assignment', 'maping_form', 'asset', NULL, 0, 2, '2018-10-04 00:00:00'),
 (143, 'return', '', 'asset', NULL, 0, 2, '2018-10-04 00:00:00'),
 (144, 'return_asset', 'asset_return_form', 'asset', 143, 0, 2, '2018-10-04 00:00:00'),
 (145, 'return_list', 'return_list', 'asset', 143, 0, 2, '2018-10-04 00:00:00'),
-(146, 'attendance', '', 'attendance', 0, 0, 2, '2018-10-04 00:00:00'),
-(147, 'atn_form', 'atnview', 'attendance', 146, 0, 2, '2018-10-04 00:00:00'),
-(148, 'atn_report', 'attendance_list', 'attendance', 146, 0, 2, '2018-10-04 00:00:00'),
+(147, 'attendance', '', 'attendance', 0, 0, 2, '2018-10-04 00:00:00'),
+(148, 'atn_form', 'atnview', 'attendance', 147, 0, 2, '2018-10-04 00:00:00'),
 (149, 'new_award', 'award_form', 'award', 0, 0, 2, '2018-10-04 00:00:00'),
-(150, 'candidate_basic_info', '', 'circularprocess', 0, 0, 2, '2018-10-04 00:00:00'),
-(151, 'add_canbasic_info', 'canInfo_form', 'circularprocess', 150, 0, 2, '2018-10-04 00:00:00'),
-(152, 'can_basicinfo_list', 'canInfoview', 'circularprocess', 150, 0, 2, '2018-10-04 00:00:00'),
-(153, 'candidate_shortlist', 'shortlist_form', 'circularprocess', 0, 0, 2, '2018-10-04 00:00:00'),
-(154, 'candidate_interview', 'interview_form', 'circularprocess', 0, 0, 2, '2018-10-04 00:00:00'),
-(155, 'candidate_selection', 'selection_form', 'circularprocess', 0, 0, 2, '2018-10-04 00:00:00'),
+(150, 'candidate_basic_info', '', 'recruitment', 0, 0, 2, '2018-10-04 00:00:00'),
+(151, 'add_canbasic_info', 'canInfo_form', 'recruitment', 150, 0, 2, '2018-10-04 00:00:00'),
+(152, 'can_basicinfo_list', 'canInfoview', 'recruitment', 150, 0, 2, '2018-10-04 00:00:00'),
+(153, 'candidate_shortlist', 'shortlist_form', 'recruitment', 0, 0, 2, '2018-10-04 00:00:00'),
+(154, 'candidate_interview', 'interview_form', 'recruitment', 0, 0, 2, '2018-10-04 00:00:00'),
+(155, 'candidate_selection', 'selection_form', 'recruitment', 0, 0, 2, '2018-10-04 00:00:00'),
 (156, 'department', 'dept_form', 'department', 0, 0, 2, '2018-10-04 00:00:00'),
 (157, 'division', '', 'department', 0, 0, 2, '2018-10-04 00:00:00'),
 (158, 'add_division', 'division_form', 'department', 157, 0, 2, '2018-10-04 00:00:00'),
@@ -1955,7 +1794,6 @@ INSERT INTO `sec_menu_item` (`menu_id`, `menu_title`, `page_url`, `module`, `par
 (163, 'add_employee', 'employ_form', 'employee', 162, 0, 2, '2018-10-04 00:00:00'),
 (164, 'manage_employee', 'employee_view', 'employee', 162, 0, 2, '2018-10-04 00:00:00'),
 (165, 'emp_performance', 'emp_performance_form', 'employee', 0, 0, 2, '2018-10-04 00:00:00'),
-(166, 'emp_sal_payment', 'paymentview', 'employee', 0, 0, 2, '2018-10-04 00:00:00'),
 (167, 'weekly_holiday', 'weeklyform', 'leave', 0, 0, 2, '2018-10-08 00:00:00'),
 (168, 'holiday', 'holiday_form', 'leave', 0, 0, 2, '2018-10-08 00:00:00'),
 (169, 'others_leave_application', '', 'leave', NULL, 0, 2, '2018-10-08 00:00:00'),
@@ -1973,25 +1811,38 @@ INSERT INTO `sec_menu_item` (`menu_id`, `menu_title`, `page_url`, `module`, `par
 (181, 'benifit_report', 'benifit_list', 'reports', 177, 0, 2, '2018-10-09 00:00:00'),
 (182, 'custom_report', 'custom_list', 'reports', 177, 0, 2, '2018-10-09 00:00:00'),
 (183, 'adhoc_report', 'adhoc_form', 'reports', 0, 0, 2, '2018-10-09 00:00:00'),
-(184, 'tax_setup', 'tax_setupform', 'tax', 0, 0, 2, '2018-10-09 00:00:00'),
-(185, 'tax_collection', 'tax_collection_view', 'tax', 0, 0, 2, '2018-10-09 00:00:00'),
 (186, 'add_leave_type', 'leave_type_form', 'leave', 169, 0, 2, '2018-10-16 00:00:00'),
 (187, 'leave_application', 'other_leave_application_form', 'leave', 169, 0, 2, '2018-10-16 00:00:00'),
 (188, 'c_o_a', 'treeview', 'accounts', NULL, 0, 2, '2018-10-18 00:00:00'),
-(189, 'debit_voucher', 'debit_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
-(190, 'credit_voucher', 'credit_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
-(191, 'contra_voucher', 'contra_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
-(192, 'journal_voucher', 'journal_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
-(193, 'voucher_approval', 'voucher_approve', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
-(194, 'account_report', '', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
-(195, 'voucher_report', 'coa', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
-(196, 'cash_book', 'cash_book', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
-(197, 'bank_book', 'bank_book', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
-(198, 'general_ledger', 'general_ledger', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
-(199, 'trial_balance', 'trial_balance', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
-(200, 'profit_loss', 'profit_loss_report', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
-(201, 'cash_flow', 'cash_flow_report', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
-(202, 'coa_print', 'coa_print', 'accounts', 194, 0, 2, '2018-10-18 00:00:00');
+(189, 'balance_adjustment', 'balance_adjustment', 'accounts', 0, 0, 2, '2019-12-14 00:00:00'),
+(190, 'cash_adjustment', 'cash_adjustment', 'accounts', 0, 0, 2, '2019-12-14 00:00:00'),
+(191, 'bank_adjustment', 'bank_adjustment', 'accounts', 0, 0, 2, '2019-12-14 00:00:00'),
+(192, 'payment_type', 'payment_type', 'accounts', 0, 0, 2, '2019-12-14 00:00:00'),
+(193, 'debit_voucher', 'debit_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
+(194, 'credit_voucher', 'credit_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
+(195, 'contra_voucher', 'contra_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
+(196, 'journal_voucher', 'journal_voucher', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
+(197, 'voucher_approval', 'voucher_approve', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
+(198, 'account_report', '', 'accounts', 0, 0, 2, '2018-10-18 00:00:00'),
+(199, 'voucher_report', 'coa', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(200, 'cash_book', 'cash_book', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(201, 'bank_book', 'bank_book', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(202, 'general_ledger', 'general_ledger', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(203, 'trial_balance', 'trial_balance', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(204, 'add_bank', 'add_bank', 'bank', 0, 0, 2, '2019-12-14 00:00:00'),
+(205, 'bank_list', 'bank_list', 'bank', 0, 0, 2, '2019-12-14 00:00:00'),
+(206, 'profit_loss', 'profit_loss_report', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(207, 'cash_flow', 'cash_flow_report', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(208, 'coa_print', 'coa_print', 'accounts', 194, 0, 2, '2018-10-18 00:00:00'),
+(211, 'atn_log_datewise', 'attendance_log_datewise', 'attendance', 147, 0, 2, '2019-12-14 00:00:00'),
+(212, 'device_connection', 'device_connect_form', 'attendance', 0, 0, 2, '2019-12-14 00:00:00'),
+(213, 'expense_item', 'add_expense', 'expense', 0, 0, 2, '2019-12-14 00:00:00'),
+(214, 'expense_sheet', 'expense_sheet', 'expense', 0, 0, 2, '2019-12-14 00:00:00'),
+(215, 'expense_statement', 'expense_statement_form', 'expense', 0, 0, 2, '2019-12-14 00:00:00'),
+(216, 'income_field', 'add_income', 'income', 0, 0, 2, '2019-12-14 00:00:00'),
+(217, 'income_sheet', 'income_sheet', 'income', 0, 0, 2, '2019-12-14 00:00:00'),
+(218, 'income_statement', 'income_statement_form', 'income', 0, 0, 2, '2019-12-14 00:00:00'),
+(219, 'emp_sal_payment', 'paymentview', 'payroll', 0, 0, 2, '2019-12-14 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -2010,81 +1861,13 @@ CREATE TABLE IF NOT EXISTS `sec_role_permission` (
   `createby` int(11) NOT NULL,
   `createdate` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1366 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1434 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `sec_role_permission`
 --
 
 INSERT INTO `sec_role_permission` (`id`, `role_id`, `menu_id`, `can_access`, `can_create`, `can_edit`, `can_delete`, `createby`, `createdate`) VALUES
-(1094, 4, 188, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1095, 4, 189, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1096, 4, 190, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1097, 4, 191, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1098, 4, 192, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1099, 4, 193, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1100, 4, 194, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1101, 4, 195, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1102, 4, 196, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1103, 4, 197, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1104, 4, 198, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1105, 4, 199, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1106, 4, 200, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1107, 4, 201, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1108, 4, 202, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1109, 4, 134, 1, 1, 1, 1, 2, '2018-10-24 08:07:37'),
-(1110, 4, 135, 1, 1, 1, 0, 2, '2018-10-24 08:07:37'),
-(1111, 4, 136, 1, 1, 1, 0, 2, '2018-10-24 08:07:37'),
-(1112, 4, 137, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1113, 4, 138, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1114, 4, 139, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1115, 4, 140, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1116, 4, 141, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1117, 4, 142, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1118, 4, 143, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1119, 4, 144, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1120, 4, 145, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1121, 4, 146, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1122, 4, 147, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1123, 4, 148, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1124, 4, 149, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1125, 4, 150, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1126, 4, 151, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1127, 4, 152, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1128, 4, 153, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1129, 4, 154, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1130, 4, 155, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1131, 4, 156, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1132, 4, 157, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1133, 4, 158, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1134, 4, 159, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1135, 4, 161, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1136, 4, 162, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1137, 4, 163, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1138, 4, 164, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1139, 4, 165, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1140, 4, 166, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1141, 4, 167, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1142, 4, 168, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1143, 4, 169, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1144, 4, 186, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1145, 4, 187, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1146, 4, 170, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1147, 4, 171, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1148, 4, 172, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1149, 4, 173, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1150, 4, 174, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1151, 4, 175, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1152, 4, 176, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1153, 4, 177, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1154, 4, 178, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1155, 4, 179, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1156, 4, 180, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1157, 4, 181, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1158, 4, 182, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1159, 4, 183, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1160, 4, 184, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
-(1161, 4, 185, 0, 0, 0, 0, 2, '2018-10-24 08:07:37'),
 (1298, 3, 188, 0, 0, 0, 0, 2, '2018-10-31 11:49:12'),
 (1299, 3, 189, 0, 0, 0, 0, 2, '2018-10-31 11:49:12'),
 (1300, 3, 190, 0, 0, 0, 0, 2, '2018-10-31 11:49:12'),
@@ -2152,7 +1935,75 @@ INSERT INTO `sec_role_permission` (`id`, `role_id`, `menu_id`, `can_access`, `ca
 (1362, 3, 182, 0, 0, 0, 0, 2, '2018-10-31 11:49:12'),
 (1363, 3, 183, 0, 0, 0, 0, 2, '2018-10-31 11:49:12'),
 (1364, 3, 184, 0, 0, 0, 0, 2, '2018-10-31 11:49:12'),
-(1365, 3, 185, 0, 0, 0, 0, 2, '2018-10-31 11:49:12');
+(1365, 3, 185, 0, 0, 0, 0, 2, '2018-10-31 11:49:12'),
+(1366, 4, 188, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1367, 4, 189, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1368, 4, 190, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1369, 4, 191, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1370, 4, 192, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1371, 4, 193, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1372, 4, 194, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1373, 4, 195, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1374, 4, 196, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1375, 4, 197, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1376, 4, 198, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1377, 4, 199, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1378, 4, 200, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1379, 4, 201, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1380, 4, 202, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1381, 4, 134, 1, 1, 1, 1, 2, '2019-12-14 06:56:01'),
+(1382, 4, 135, 1, 1, 1, 0, 2, '2019-12-14 06:56:01'),
+(1383, 4, 136, 1, 1, 1, 0, 2, '2019-12-14 06:56:01'),
+(1384, 4, 137, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1385, 4, 138, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1386, 4, 139, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1387, 4, 140, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1388, 4, 141, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1389, 4, 142, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1390, 4, 143, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1391, 4, 144, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1392, 4, 145, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1393, 4, 146, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1394, 4, 147, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1395, 4, 148, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1396, 4, 149, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1397, 4, 204, 0, 1, 0, 0, 2, '2019-12-14 06:56:01'),
+(1398, 4, 205, 1, 0, 1, 1, 2, '2019-12-14 06:56:01'),
+(1399, 4, 150, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1400, 4, 151, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1401, 4, 152, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1402, 4, 153, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1403, 4, 154, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1404, 4, 155, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1405, 4, 156, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1406, 4, 157, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1407, 4, 158, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1408, 4, 159, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1409, 4, 161, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1410, 4, 162, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1411, 4, 163, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1412, 4, 164, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1413, 4, 165, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1414, 4, 166, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1415, 4, 167, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1416, 4, 168, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1417, 4, 169, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1418, 4, 186, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1419, 4, 187, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1420, 4, 170, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1421, 4, 171, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1422, 4, 172, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1423, 4, 173, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1424, 4, 174, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1425, 4, 175, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1426, 4, 176, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1427, 4, 177, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1428, 4, 178, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1429, 4, 179, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1430, 4, 180, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1431, 4, 181, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1432, 4, 182, 0, 0, 0, 0, 2, '2019-12-14 06:56:01'),
+(1433, 4, 183, 0, 0, 0, 0, 2, '2019-12-14 06:56:01');
 
 -- --------------------------------------------------------
 
@@ -2217,7 +2068,7 @@ CREATE TABLE IF NOT EXISTS `setting` (
 --
 
 INSERT INTO `setting` (`id`, `title`, `address`, `email`, `phone`, `logo`, `favicon`, `language`, `timezone`, `site_align`, `footer_text`) VALUES
-(2, 'Human Resource Management', '98 Green Road, Farmgate, Dhaka-1215.', 'bdtask@gmail.com', '0123456789', 'assets/img/icons/2017-07-22/HRM.png', 'assets/img/icons/2017-04-03/m.png', 'english', 'Europe/London', 'LTR', '2017Â©Copyright');
+(2, 'Bdtask Ltd', '4 th Floor  Mannan Plaza ,Khilkhet,Dhaka-1229', 'bdtask@gmail.com', '0123456789', 'assets/img/icons/2017-07-22/HRM.png', 'assets/img/icons/2017-04-03/m.png', 'english', 'Asia/Dhaka', 'LTR', '2019Ã‚Â©Copyright');
 
 -- --------------------------------------------------------
 
@@ -2234,14 +2085,7 @@ CREATE TABLE IF NOT EXISTS `synchronizer_setting` (
   `debug` varchar(10) NOT NULL,
   `project_root` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `synchronizer_setting`
---
-
-INSERT INTO `synchronizer_setting` (`id`, `hostname`, `username`, `password`, `port`, `debug`, `project_root`) VALUES
-(8, '70.35.198.244', 'spreadcargo', 'SpreadShorob1@', '21', 'true', './public_html/');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2251,12 +2095,12 @@ INSERT INTO `synchronizer_setting` (`id`, `hostname`, `username`, `password`, `p
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
   `about` text,
   `email` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL,
-  `password_reset_token` varchar(20) NOT NULL,
+  `password_reset_token` varchar(20) DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `last_logout` datetime DEFAULT NULL,
@@ -2264,17 +2108,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `is_admin` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `user`
---
 
-INSERT INTO `user` (`id`, `firstname`, `lastname`, `about`, `email`, `password`, `password_reset_token`, `image`, `last_login`, `last_logout`, `ip_address`, `status`, `is_admin`) VALUES
-(1, 'AB', 'Doe', 'TEST', 'john@doe.com', '827ccb0eea8a706c4c34a16891f84e7b', '', './assets/img/user/images41.jpg', '2018-10-31 22:43:01', '2018-10-30 15:43:35', '69.73.17.222', 1, 0),
-(2, 'Jhon ', 'Doe', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'admin@example.com', '827ccb0eea8a706c4c34a16891f84e7b', '', './assets/img/user/profile_img1.png', '2018-11-10 04:02:04', '2018-10-31 11:49:17', '162.158.165.21', 1, 1);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `weekly_holiday`
@@ -2292,8 +2128,4 @@ CREATE TABLE IF NOT EXISTS `weekly_holiday` (
 
 INSERT INTO `weekly_holiday` (`wk_id`, `dayname`) VALUES
 (1, 'Friday,Satarday,Sunday');
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

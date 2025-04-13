@@ -58,6 +58,22 @@ class Loan_model extends CI_Model {
        	return $list;
 	}
 
+ public function supervisorlist()
+	{
+		$this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->where('is_super_visor',1);
+        $query = $this->db->get();
+        $data = $query->result();
+        $list = array('' => 'Select One...');
+       	if (!empty($data) ) {
+       		foreach ($data as $value) {
+       			$list[$value->employee_id] = $value->first_name. $value->last_name."(".$value->employee_id.")";
+       		} 
+       	}
+       	return $list;
+	}
+
 public function update_grndloan($data = array())
 	{
 		return $this->db->where('loan_id', $data["loan_id"])
@@ -118,6 +134,22 @@ public function emp_salstup_delete($id = null)
         $this->db->join('employee_history','grand_loan.employee_id =employee_history.employee_id','left');
         $this->db->group_by('grand_loan.loan_id');
         $this->db->order_by('grand_loan.loan_id','desc');
+        $query = $this->db->get();
+        $data = $query->result();
+        $list = array('' => 'Select One...');
+       	if (!empty($data) ) {
+       		foreach ($data as $value) {
+       			$list[$value->employee_id] = $value->first_name.' '.$value->last_name;
+       		} 
+       	}
+       	return $list;
+	}
+
+	 public function receiverdropdown()
+	{
+		$this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->where('is_super_visor',1);
         $query = $this->db->get();
         $data = $query->result();
         $list = array('' => 'Select One...');

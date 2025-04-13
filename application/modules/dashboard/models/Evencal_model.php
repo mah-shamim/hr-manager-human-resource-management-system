@@ -9,7 +9,7 @@ class Evencal_model extends CI_Model {
 			$data = array();
 			foreach($query->result_array() as $row){
 				$ddata = explode('-',$row['date_of_approve']);
-				$data[(int) end($ddata)] = $row[''];
+				$data[(int) end($ddata)] = [];
 			}
 			return $data;
 		}else{
@@ -19,9 +19,9 @@ class Evencal_model extends CI_Model {
 	
 	// get Attendance detail for selected date
 	function getEvent($year, $month, $day){
-		$day   = ($day < 10 && strlen($day) == 1)? "0$day" : $day;
-		$year  = ($month < 10 && strlen($month) == 1) ? "$year-0$month-$day" : "$year-$month-$day";
-		$query =$this->db->select("count(DISTINCT(e.att_id)) as att_id,count(DISTINCT(p.employee_id)) as employee_id,d.*")->join('employee_history p','e.employee_id = p.employee_id','left')->join('department d','d.dept_id = p.dept_id','left')->group_by('d.dept_id')->get_where('emp_attendance e', array("e.date" => $year));
+		$day   = ($day < 10 && strlen($day) == 1)? "$day" : $day;
+		$year  = ($month < 10 && strlen($month) == 1) ? "$year-$month-$day" : "$year-$month-$day";
+		$query =$this->db->select("count(DISTINCT(e.atten_his_id)) as att_id,count(DISTINCT(p.employee_id)) as employee_id,d.*")->join('employee_history p','e.uid = p.employee_id','left')->join('department d','d.dept_id = p.dept_id','left')->group_by('d.dept_id')->get_where('attendance_history e', array("DATE(e.time)" => $year));
 		if($query->num_rows() > 0){
 			return $query->result_array();
 		}else{
@@ -43,9 +43,19 @@ class Evencal_model extends CI_Model {
 	function getLeave($year, $month, $day){
 		$day   = ($day < 10 && strlen($day) == 1)? "0$day" : $day;
 		$year  = ($month < 10 && strlen($month) == 1) ? "$year-0$month-$day" : "$year-$month-$day";
-		$query =$this->db->select("count(DISTINCT(lf.leave_appl_id)) as leave_appl_id,lf.num_aprv_day,lf.leave_aprv_end_date,count(DISTINCT(p.employee_id)) as employee_id,p.first_name,p.last_name")->join('employee_history p','lf.employee_id = p.employee_id','left')->group_by('p.employee_id')->get_where('leave_apply lf', array("lf.apply_date" => $year));
+		$query =$this->db->select("count(DISTINCT(lf.leave_appl_id)) as leave_appl_id,lf.num_aprv_day,lf.leave_aprv_end_date,count(DISTINCT(p.employee_id)) as employee_id,p.first_name,p.last_name")->from('leave_apply lf')->join('employee_history p','lf.employee_id = p.employee_id','left')->where('lf.leave_aprv_strt_date <=',$year)->where('lf.leave_aprv_end_date >=',$year)->group_by('p.employee_id')->get();
 		if($query->num_rows() > 0){
 			return $query->result_array();
+		}else{
+			return null;
+		}
+	}
+	//Total leave Today
+	function leave_employee(){
+		$year  = date('Y-m-d');
+		$query =$this->db->select("count(employee_id) as leave_total")->from('leave_apply')->where('leave_aprv_strt_date <=',$year)->where('leave_aprv_end_date >=',$year)->get();
+		if($query->num_rows() > 0){
+			return $query->row();
 		}else{
 			return null;
 		}

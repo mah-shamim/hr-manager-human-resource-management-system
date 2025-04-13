@@ -23,11 +23,11 @@
                                     <td><?php echo $que->dayname; ?></td>
                                    
                                     <td class="center">
-                                    <?php if($this->permission->method('leave','update')->access()): ?> 
+                                    <?php if($this->permission->method('weekly_holiday','update')->access()): ?> 
                                         <a href="<?php echo base_url("leave/Leave/update_weekleave_form/$que->wk_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a> 
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('leave','delete')->access()): ?> 
+                                    <?php if($this->permission->method('weekly_holiday','delete')->access()): ?> 
                                         <a href="<?php echo base_url("leave/Leave/delete_weekleave/$que->wk_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
                                         <?php endif; ?> 
                                     </td>

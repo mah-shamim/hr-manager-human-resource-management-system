@@ -6,10 +6,12 @@ class Equipment_controller extends MX_Controller {
 public function __construct()
 	{
 		parent::__construct();
-		
+		$this->db->query('SET SESSION sql_mode = ""');
 		$this->load->model(array(
 			'asset_model'
-		));		 
+		));
+    if (! $this->session->userdata('isLogIn'))
+      redirect('login');		 
 	}
 
    public function equipment_list()
@@ -79,7 +81,7 @@ public function equipment_form($id = null)
           $this->permission->method('asset','create')->redirect();
     if ($this->asset_model->equipment_create($postData)) { 
      $this->session->set_flashdata('message', display('save_successfully'));
-     redirect('asset/Equipment_controller/equipment_list');
+     redirect('asset/Equipment_controller/equipment_form');
     } else {
      $this->session->set_flashdata('exception',  display('please_try_again'));
     }
@@ -91,7 +93,7 @@ public function equipment_form($id = null)
 
     if ($this->asset_model->update_equipment($postData)) { 
      $this->session->set_flashdata('message', display('update_successfully'));
-     redirect("asset/Equipment_controller/equipment_list/");  
+     redirect("asset/Equipment_controller/equipment_form/");  
     } else {
      $this->session->set_flashdata('exception',  display('please_try_again'));//
      redirect("asset/Equipment_controller/equipment_form/".$postData['equipment_id']);  
@@ -106,6 +108,7 @@ public function equipment_form($id = null)
    }
    $data['type']   =  $this->asset_model->type_dropdown();
    $data['module'] = "asset";
+   $data['equipment'] = $this->asset_model->equipment_list();
    $data['page']   = "equipment_form";   
    echo Modules::run('template/layout', $data); 
    }   
@@ -121,7 +124,7 @@ public function equipment_form($id = null)
             #set exception message
             $this->session->set_flashdata('exception',display('please_try_again'));
         }
-        redirect('asset/Equipment_controller/equipment_list');
+        redirect('asset/Equipment_controller/equipment_form');
     }
 
     

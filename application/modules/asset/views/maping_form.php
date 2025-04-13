@@ -1,15 +1,21 @@
-
-<div class="row">
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-11">
-            <div class="panel">
+ <style type="text/css">
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em;
+    display: inline-block;
+    width: 100px;
+}
+</style>
+ <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="panel panel-bd lobidrag">
                 
                 <div class="panel-body">
+                  <div class="col-sm-6 col-md-5">
+                      <center><h1><?php echo display('assign_asset') ?></h1></center>
                  <?= form_open_multipart('asset/equipment_maping/maping_form','id="asset_form"') ?>
                     <div class="row">
-                           <label for="type" class="col-sm-2 col-form-label"><?php echo display('employee') ?>*</label>
-                        <div class="col-sm-10">
+                           <label for="type" class="col-sm-3 col-form-label"><?php echo display('employee') ?>*</label>
+                        <div class="col-sm-6">
                              <?php echo form_dropdown('employee_id',$employee,$employee->id,'class="form-control" required') ?>
                         </div>
                                
@@ -19,6 +25,7 @@
 
                           <div class="row">
                                  <div class="col-sm-12">
+                            
                                     <table class="table table-bordered table-hover"  id="equipment_table">
                               <thead>
                                   <tr>
@@ -40,7 +47,7 @@
                                       
                                         </td>
                                         <td>  
-                                          <input type="button"name="sdfsd"  class="btn btn-info"  onclick="addasset('equipmnet_info');" value="add"  />
+                                          <button type="button"name="sdfsd"  class="btn btn-info"  onclick="addasset('equipmnet_info');" ><i class="fa fa-plus"></i></button>
                                      
                                         </td>
                                     </tr>
@@ -55,16 +62,63 @@
                     </div>
                    
     <?php echo form_close() ?>
+                </div>
+                <div class="col-sm-6 col-md-7">
+                  <center><h1><?php echo display('assign_list'); ?></h1></center>
+                    <table width="100%" id="datatable1" class="table table-striped table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                           <th><?php echo display('cid') ?></th>
+                           <th><?php echo display('employee_name') ?></th>
+                            <th><?php echo display('equipment_name') ?></th>
+                           <th><?php echo display('action') ?></th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($mappinglist)) { ?>
+                            <?php $sl = 1; ?>
+                            <?php foreach ($mappinglist as $row) { ?>
+                                <tr class="<?php echo ($sl & 1)?"odd gradeX":"even gradeC" ?>">
+                                    <td><?php echo $sl; ?></td>
+                                    <td><?php 
+                                      $employee =$this->db->select('first_name,last_name')->from('employee_history')->where('employee_id',$row->employee_id)->get()->row();
+                                      echo $employee->first_name.' '.$employee->last_name;
+                                     ?></td> 
+                                   <td><?php
+                             $eqments =$this->db->select('a.*,b.equipment_name')->from('employee_equipment a')->join('equipment b','b.equipment_id=a.equipment_id','left')->where('a.employee_id',$row->employee_id)->where('a.return_date','0000-00-00')->get()->result_array();
+                              $eqnamess= '';
+                              foreach ($eqments as $eq) {
+                               $eqnamess .= $eq['equipment_name'].',';
+                              }
+                                     if($eqnamess !=''){
+                                    echo $eqnamess;}else{
+                                      echo 'Returned All Equipments';
+                                    } ?></td>              
+                                   <td class="center">
+                                    <?php if($eqnamess !=''){?>
+                                    <?php if($this->permission->method('asset_assignment','update')->access()): ?>
+                                        <a href="<?php echo base_url("asset/Equipment_maping/maping_update/$row->employee_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
+                                        <?php endif; ?>
+                                    
+                                    <?php if($this->permission->method('asset_assignment','delete')->access()): ?>  
+                                        <a href="<?php echo base_url("asset/Equipment_maping/delete_maping/$row->employee_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-close"></i></a>
+                                         <?php endif; ?> 
+                                       <?php }?>
+                                    </td>
+                                </tr>
+                                <?php $sl++; ?>
+                            <?php } ?> 
+                        <?php } ?> 
+                    </tbody>
+                </table>  <!-- /.table-responsive -->
                 </div>  
             </div>
+          </div>
         </div>
     </div>
-   
 
-  
-
-</div>
-</div>
 <script type="text/javascript">
    
 ///###############
@@ -146,4 +200,17 @@
 
 }
 
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#datatable1').DataTable({ 
+        responsive: true, 
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp", 
+        "lengthMenu": [[ 10, 20,30, 100, 150, 200, 500, -1], [ 10, 20,30, 100, 150, 200, 500, "All"]], 
+        buttons: [  {extend: 'csv', title: 'Equipment LIst', className: 'btn-sm'}, 
+            {extend: 'excel', title: 'Equipment LIst', className: 'btn-sm', title: 'exportTitle'}, 
+            {extend: 'pdf', title: 'Mapping List', className: 'btn-sm'}
+        ] 
+    });
+          });
 </script>

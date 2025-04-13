@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-bd lobidrag">
@@ -7,7 +8,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <?= form_open_multipart('accounts/accounts/profit_loss_report_search') ?>
+                <?= form_open_multipart('accounts/profit_loss_report_search') ?>
                 <div class="row" id="">
                     <div class="col-sm-6">
      
@@ -34,6 +35,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     
      $(function(){

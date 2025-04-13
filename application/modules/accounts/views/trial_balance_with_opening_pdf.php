@@ -8,11 +8,38 @@
             </div>
             <div id="printArea">
                 <div class="panel-body">
+                   <table border="0" width="100%" style="margin-bottom: 10px;padding-bottom: 0px">
+                                                
+                                                <tr>
+                                                    <td align="left" style="border-bottom:2px #333 solid;text-align: left;">
+                                                     
+                                                        <img src="<?php echo base_url((!empty($setting->logo)?$setting->logo:'assets/img/icons/mini-logo.png')) ?>"  alt="logo" class="img">
+                                                    </td>
+                                                    <td style="border-bottom:2px #333 solid;text-align: center;">
+                                                        <span style="font-size: 17pt; font-weight:bold;">
+                                                            <?php echo $setting->title;?>
+                                                           
+                                                        </span><br>
+                                                        <?php echo $setting->address;?>
+                                                       
+                                                        
+                                                    </td>
+                                                   
+                                                     <td style="border-bottom:2px #333 solid;text-align: right;">
+                                                        <date>
+                                                        <?php echo display('date')?>: <?php
+                                                        echo date('d-M-Y');
+                                                        ?> 
+                                                    </date>
+                                                    </td>
+                                                </tr>            
+                                   
+                                </table>
                     <table width="100%" class="table_boxnew" style="padding: 5px">
                         <tr>
                             <td colspan="4" align="center">
                                 <h3 style="font-size:18px"><?php echo display('trial_balance_with_opening_as_on');?><br/>
-                               <?php echo display('as_on');?> <?php echo $dtpFromDate; ?> To <?php echo $dtpToDate;?></h3>
+                               <?php echo display('from');?> <?php echo $dtpFromDate; ?> To <?php echo $dtpToDate;?></h3>
                             </td>
                         </tr>
                         <tr class="table_head">

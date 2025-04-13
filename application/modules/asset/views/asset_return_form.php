@@ -34,11 +34,21 @@
                                       $employee =$this->db->select('first_name,last_name')->from('employee_history')->where('employee_id',$row->employee_id)->get()->row();
                                       echo $employee->first_name.' '.$employee->last_name;
                                      ?></td> 
-                                   <td><?php echo $row->equipment_name; ?></td>              
+                                   <td><?php  $eqments =$this->db->select('a.*,b.equipment_name')->from('employee_equipment a')->join('equipment b','b.equipment_id=a.equipment_id','left')->where('a.employee_id',$row->employee_id)->where('a.return_date','0000-00-00')->get()->result_array();
+                              $eqnamess= '';
+                              foreach ($eqments as $eq) {
+                               $eqnamess .= $eq['equipment_name'].',';
+                              }
+
+                                    echo $eqnamess; ?></td>              
                                    <td class="center">
-                                    <?php if($this->permission->method('asset','create')->access()): ?>
+                                    <?php if($eqnamess !=''){?>
+                                    <?php if($this->permission->method('return_list','create')->access()): ?>
                                         <a href="<?php echo base_url("asset/Equipment_maping/asset_return_form/$row->employee_id") ?>" class="btn btn-xs btn-success"><?php echo display('return_now');?></a>
                                         <?php endif; ?>
+                                      <?php }else{?>
+                                        <?php echo 'Returned All Equipments';?>
+                                      <?php }?>
                                     </td>
                                 </tr>
                                 <?php $sl++; ?>

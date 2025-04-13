@@ -4,7 +4,7 @@
         <div class="panel panel-bd ">
             <div class="panel-heading">
                 <div class="panel-title">
-                     <a href="<?php echo base_url('dashboard/role/user_access_role')?>" type="button" class="btn btn-primary my-modal pull-right" >
+                     <a href="<?php echo base_url('dashboard/role/user_access_role')?>" type="button" class="btn btn-success my-modal pull-right" style="color:#fff">
                       <i class="fa fa-plus"></i><?=display('user_access_role')?>
                     </a>
                     <h4><?php echo (!empty($title)?$title:null) ?></h4>

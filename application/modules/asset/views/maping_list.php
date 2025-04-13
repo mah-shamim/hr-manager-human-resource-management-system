@@ -35,11 +35,11 @@
                                      ?></td> 
                                    <td><?php echo $row->equipment_name; ?></td>              
                                    <td class="center">
-                                    <?php if($this->permission->method('asset','update')->access()): ?>
+                                    <?php if($this->permission->method('asset_assignment','update')->access()): ?>
                                         <a href="<?php echo base_url("asset/Equipment_maping/maping_update/$row->employee_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i></a>
                                         <?php endif; ?>
                                     
-                                    <?php if($this->permission->method('asset','delete')->access()): ?>  
+                                    <?php if($this->permission->method('asset_assignment','delete')->access()): ?>  
                                         <a href="<?php echo base_url("asset/Equipment_maping/delete_maping/$row->employee_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-close"></i></a>
                                          <?php endif; ?> 
                                     </td>

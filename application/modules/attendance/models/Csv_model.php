@@ -35,9 +35,22 @@ public function delete_attn($id = null)
         }
     } 
 
+    public function attendance_delete($id = null)
+    {
+        $this->db->where('atten_his_id',$id)
+            ->delete('attendance_history');
+
+        if ($this->db->affected_rows()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function atten_create($data = array())
     {
-        return $this->db->insert('emp_attendance', $data);
+       // return $this->db->insert('emp_attendance', $data);
+        return $this->db->insert('attendance_history', $data);
     }
 
    
@@ -123,14 +136,186 @@ $this->db->join('employee_history p','e.employee_id = p.employee_id','left');
     }
 
     public function atnrp($id){
-               $this->db->select('*');
+        $this->db->select('*');
         $this->db->from('employee_history');
         $this->db->where('employee_id',$id);
         $ab = $this->db->get();
         return $ab->result();
 }
 
+// Attendance Log info
+public function att_log($limit = null, $start = null){
+     $this->db->select('*');
+        $this->db->from('attendance_history');
+        $this->db->order_by('atten_his_id', 'desc');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();    
+        }
+        return false;
+    } 
+    // attendance count
+    public function count_atn()
+    {
+        $this->db->select('*');
+        $this->db->from('attendance_history');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return false;
+    }
+   
+// Attendance log report
+public function att_report($limit = null, $start = null){
+        $this->db->select('*,DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->group_by('mydate');
+        $this->db->order_by('time', 'desc');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();    
+        }
+        return false;
+}
 
+
+// count attendance log
+ public function count_att_report()
+    {
+        $this->db->select('*,DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->group_by('mydate');
+        $this->db->order_by('time', 'desc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return false;
+    }
+
+// Attendance log report user wise
+public function att_report_userwise($limit = null, $start = null,$id){
+// $att = "SELECT *, DATE(time) as mydate FROM `attendance_history` WHERE `uid`=$id GROUP BY mydate ORDER BY time desc";
+// $query = $this->db->limit($limit,$start)->query($att)->result();
+
+
+        $this->db->select('*,DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->where('uid',$id);
+        $this->db->group_by('mydate');
+        $this->db->order_by('time', 'desc');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();    
+        }
+        return false;
+    } 
+
+// count attendance log
+ public function count_atn_log($id)
+    {
+        $this->db->select('*,DATE(time) as mydate');
+        $this->db->from('attendance_history');
+        $this->db->where('uid',$id);
+        $this->db->group_by('mydate');
+        $this->db->order_by('time', 'desc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();  
+        }
+        return false;
+    }
+// attendance log datebetween search
+public function att_log_datebetween($id,$from_date,$to_date){
+    $att = "SELECT *, DATE(time) as mydate FROM `attendance_history` WHERE `uid`=$id AND DATE(time) BETWEEN '" . $from_date . "' AND  '" . $to_date . "' GROUP BY mydate ORDER BY time desc";
+    $query = $this->db->query($att)->result();
+    $att_in = [];
+$i=1;
+// print_r($query);exit();
+//return $query;
+    foreach ($query as $attendance) {
+        $att_in[$i] = $this->db->select('a.time,MIN(a.time) as intime,MAX(a.time) as outtime,a.uid')
+->from('attendance_history a')
+->like('a.time',date( "Y-m-d", strtotime($attendance->mydate)),'after')
+->where('a.uid',$attendance->uid)
+->order_by('a.time','DESC')
+->get()
+->result();
+$i++;
+    }
+    // echo '<pre>';
+    // print_r($att_in);exit();
+    return $att_in;
+    
+}
+// User inforamtion
+public function deviceuser($id){
+        $this->db->select('*');
+        $this->db->from('employee_history');
+        $this->db->where('employee_id',$id);
+        $ab = $this->db->get();
+        return $ab->row();
+}
+
+public function userlist()
+    {
+        $this->db->select('*');
+        $this->db->from('employee_history');
+        $query=$this->db->get();
+        $data=$query->result();
+        
+       $list = array('' => 'Select One...');
+        if(!empty($data)){
+            foreach ($data as $value){
+                $list[$value->employee_id]=$value->first_name.' '.$value->last_name;
+            }
+        }
+        return $list;
+    }
+
+    // User inforamtion
+public function company_info(){
+        $this->db->select('*');
+        $this->db->from('setting');
+        $ab = $this->db->get();
+        return $ab->row();
+}
+//Device Ip info
+    public function create_device_ip($data = [])
+    {    
+        return $this->db->insert('deviceinfo',$data);
+    }
+ public function devicinfoById($id = null)
+    {
+        return $this->db->select("*")
+            ->from('deviceinfo')
+            ->where('id',$id) 
+            ->get()
+            ->row();
+    } 
+ 
+    public function update_device_ip($postData = [])
+    {
+        return $this->db->where('id',$postData['id'])
+            ->update('deviceinfo',$postData); 
+    } 
+
+   public function attendance_editdata($id){
+        $this->db->where('atten_his_id',$id);
+        $query = $this->db->get('attendance_history');
+        return $query->row();
+    }
+
+     public function atten_update($postData = [])
+    {
+        return $this->db->where('atten_his_id',$postData['atten_his_id'])
+            ->update('attendance_history',$postData); 
+    } 
+    
 
 }
-/*END OF FILE*/
+

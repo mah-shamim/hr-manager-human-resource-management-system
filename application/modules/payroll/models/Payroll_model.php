@@ -42,9 +42,11 @@ public function emp_salstup_delete($id = null)
      public function salary_setupindex()
 	{
 
-			 return $this->db->select('count(DISTINCT(sstp.e_s_s_id)) as e_s_s_id,sstp.*,p.employee_id,p.first_name,p.last_name')   
+			 return $this->db->select('count(DISTINCT(sstp.e_s_s_id)) as e_s_s_id,sstp.*,p.employee_id,p.*,pos.position_name,dpt.department_name')   
             ->from('employee_salary_setup sstp')
             ->join('employee_history p', 'sstp.employee_id = p.employee_id', 'left')
+            ->join('position pos', 'pos.pos_id = p.pos_id', 'left')
+            ->join('department dpt', 'dpt.dept_id = p.dept_id', 'left')
             ->group_by('sstp.employee_id')
             ->order_by('sstp.salary_type_id', 'desc')
             ->get()
@@ -107,23 +109,25 @@ public function emp_salstup_delete($id = null)
 	}
 	
 
-	public function salary_generateView()
+	public function salary_generateView($limit = null, $start = null)
 	{
-
-
-			 return $this->db->select('count(DISTINCT(slg.ssg_id)) as ssg_id,slg.*,p.employee_id,p.first_name,p.last_name')   
-            ->from('salary_sheet_generate slg')
-            ->join('employee_history p', 'slg.employee_id = p.employee_id', 'left')
-            ->group_by('slg.ssg_id')
-            ->order_by('slg.ssg_id', 'desc')
+			 return $this->db->select('*')   
+            ->from('salary_sheet_generate')
+            ->group_by('ssg_id')
+            ->order_by('ssg_id', 'desc')
+            ->limit($limit, $start)
             ->get()
             ->result();
 	}
 
-	public function salary_gen_delete($id = null)
+	public function salary_gen_delete($id = null,$salname = null)
 	{
 		$this->db->where('ssg_id',$id)
 			->delete('salary_sheet_generate');
+		$this->db->where('salary_name',$salname)
+			->delete('employee_salary_payment');
+		$this->db->where('VNo',$salname)
+			->delete('acc_transaction');	
 
 		if ($this->db->affected_rows()) {
 			return true;
@@ -269,4 +273,44 @@ public function create_employee_payment($data = array())
                        ->row();
 
 	}
+
+
+	    public function salary_addition_fields($id)
+	{
+		return $result = $this->db->select('employee_salary_setup.*,salary_type.*')	
+			 ->from('employee_salary_setup')
+			 ->join('salary_type','salary_type.salary_type_id=employee_salary_setup.salary_type_id')
+	         ->where('employee_salary_setup.employee_id',$id)
+	         ->where('emp_sal_type',1)
+			 ->get()
+			 ->result();
+	}
+
+		 public function salary_deduction_fields($id)
+	{
+		return $result = $this->db->select('employee_salary_setup.*,salary_type.*')	
+			 ->from('employee_salary_setup')
+			 ->join('salary_type','salary_type.salary_type_id=employee_salary_setup.salary_type_id')
+	         ->where('employee_salary_setup.employee_id',$id)
+	         ->where('emp_sal_type',0)
+			 ->get()
+			 ->result();
+	}
+
+	public function salary_paymentinfo($id = null){
+			return $this->db->select('count(DISTINCT(pment.emp_sal_pay_id)) as emp_sal_pay_id,pment.*,p.employee_id,p.first_name,p.last_name,desig.position_name,p.rate as basic,p.rate_type as salarytype')   
+            ->from('employee_salary_payment pment')
+            ->join('employee_history p', 'pment.employee_id = p.employee_id', 'left')
+            ->join('position desig', 'desig.pos_id = p.pos_id', 'left')
+            ->where('pment.emp_sal_pay_id',$id)
+            ->group_by('pment.emp_sal_pay_id')
+            ->get()
+            ->result_array();
+
+	}
+public function setting()
+	{
+		return $this->db->get('setting')->row();
+	}
+
 }

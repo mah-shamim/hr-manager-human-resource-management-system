@@ -570,7 +570,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	{
 		if (file_exists($this->outgoingPath)) {
 			return true;
-		} else if (mkdir($this->outgoingPath, true)) { 
+		} else if (mkdir($this->outgoingPath,0777, true)) { 
 			chmod($this->outgoingPath, 0777);
 			return true;
 		} else {

@@ -6,6 +6,7 @@ class Role extends MX_Controller {
  	public function __construct()
  	{
  		parent::__construct();
+ 		$this->db->query('SET SESSION sql_mode = ""');
  		$this->load->model(array(
  			'module_permission_model',
  			'module_model', 
@@ -23,7 +24,7 @@ class Role extends MX_Controller {
 	{
 		$data['title']      = display('add_role');
 		$data['module'] 	= "dashboard"; 
-		$data['modules'] = $this->db->select('*')->from('sec_menu_item')->group_by('module')->get()->result();
+		$data['modules'] = $this->db->select('*')->from('sec_menu_item')->group_by('module')->order_by('module','asc')->get()->result();
 		$data['page']   	= "role/_create_system_role";   
 		echo Modules::run('template/layout', $data); 
 	}

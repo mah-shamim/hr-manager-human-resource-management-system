@@ -1,6 +1,7 @@
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <div class="panel panel-bd lobidrag">
+        <div class="panel panel-bd">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4>
@@ -9,7 +10,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <?= form_open_multipart('accounts/accounts/accounts_report_search') ?>
+                <?= form_open_multipart('accounts/accounts_report_search') ?>
                 <div class="row" id="">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -67,12 +68,13 @@
     </div>
 </div>
 
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('#cmbGLCode').on('change',function(){
            var Headid=$(this).val();
             $.ajax({
-                 url: '<?php echo site_url('accounts/accounts/general_led'); ?>',
+                 url: '<?php echo site_url('accounts/general_led'); ?>',
                 type: 'POST',
                 data: {
                     Headid: Headid

@@ -22,6 +22,18 @@ class Asset_model extends CI_Model {
         return false;
     } 
 
+     public function type_list()
+    {
+        $this->db->select('*');
+        $this->db->from('equipment_type');
+        $this->db->order_by('type_id', 'desc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();    
+        }
+        return false;
+    } 
+
     public function findById_type($id = null)
     { 
         return $this->db->select("*")->from("equipment_type")
@@ -130,6 +142,19 @@ public function count_equipment()
         return false;
     }
 
+     public function equipment_list()
+    {
+         $this->db->select('a.*,b.type_name');
+        $this->db->from('equipment a');
+        $this->db->join('equipment_type b','a.type_id = b.type_id');
+        $this->db->order_by('a.equipment_id', 'desc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();    
+        }
+        return false;
+    } 
+
     public function equipment_delete($id = null)
     {
         $this->db->where('equipment_id',$id)
@@ -153,7 +178,7 @@ public function count_equipment()
      $issue_date =  $this->input->post('dates');
       for ($i=0, $n=count($equip_id); $i < $n; $i++) {
       $equipment_id = $equip_id[$i];
-      $date         = $issue_date[$i];
+      $date         = date("Y-m-d", strtotime(!empty($issue_date[$i])?$issue_date[$i]:date('Y-m-d')));
         $equipment_maping = array(
      'equipment_id'     => $equipment_id, 
      'employee_id'      => $this->input->post('employee_id'),
@@ -189,12 +214,27 @@ public function count_equipment()
         return false;
     } 
 
+
+     public function eq_mapping_list()
+    {
+        $this->db->select('a.*,b.equipment_name');
+        $this->db->from('employee_equipment a');
+        $this->db->join('equipment b','a.equipment_id = b.equipment_id','left');
+        $this->db->group_by('a.employee_id');
+        $this->db->order_by('a.id', 'desc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();    
+        }
+        return false;
+    } 
+
     public function findById_maping($id = null)
     { 
         return $this->db->select("a.*,b.equipment_name")->from("employee_equipment a")
             ->join('equipment b','a.equipment_id = b.equipment_id')
             ->where('a.employee_id',$id) 
-            ->limit($limit, $start)
+            ->where('a.return_date','0000-00-00')
             ->get()
             ->result();
 
@@ -355,7 +395,7 @@ public function count_maping()
     { 
         return $this->db->select("*")->from("employee_equipment")
             ->where('employee_id',$id) 
-            ->where('return_date !=','')
+            ->where('return_date','')
             ->limit($limit, $start)
             ->get()
             ->result();

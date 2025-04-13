@@ -8,6 +8,7 @@ class Backup_restore extends MX_Controller {
 
  	public function __construct()
  	{
+ 		 $this->db->query('SET SESSION sql_mode = ""');
  		parent::__construct(); 
  		
 		if (! $this->session->userdata('isAdmin') )

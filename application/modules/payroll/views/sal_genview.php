@@ -5,12 +5,10 @@
         <div class="panel panel-default thumbnail"> 
 
             <div class="panel-body">
-                <table width="100%" class="datatable table table-striped table-bordered table-hover">
+                <table width="100%" class="table table-striped table-bordered table-hover">
                     <thead>
                             <tr>
                                 <th><?php echo display('cid') ?></th>
-                                <th><?php echo display('name') ?></th>
-                                <th><?php echo display('employee_id') ?></th>
                                 <th><?php echo display('sal_name') ?></th>
                                 <th><?php echo display('gdate') ?></th>
                                 <th><?php echo display('start_dates') ?></th>
@@ -25,8 +23,6 @@
                             <?php foreach ($salgen as $que) { ?>
                                 <tr class="<?php echo ($sl & 1)?"odd gradeX":"even gradeC" ?>">
                                     <td><?php echo $sl; ?></td>
-                                    <td><?php echo $que->first_name.' '.$que->last_name; ?></td>
-                                    <td><?php echo $que->employee_id; ?></td>
                                     <td><?php echo $que->name; ?></td>
                                     <td><?php echo $que->gdate; ?></td>
                                     <td><?php echo $que->start_date; ?></td>
@@ -48,6 +44,7 @@
                         <?php } ?> 
                     </tbody>
                 </table>  <!-- /.table-responsive -->
+                <?= $links ?> 
             </div>
         </div>
     </div>

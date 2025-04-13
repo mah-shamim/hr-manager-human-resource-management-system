@@ -111,6 +111,9 @@ $(document).ready(function () {
     });
 
 
+
+
+
     //tinymce editor
     tinymce.init({
       selector: '.tinymce',
@@ -126,6 +129,6 @@ $(document).ready(function () {
       image_advtab: true, 
      });
     //ends tinymce
- 
+      
     
 });

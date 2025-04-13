@@ -77,9 +77,9 @@ $active_record = TRUE;//ci version 2.x
 $db['default'] = array(
     'dsn'   => '',
     'hostname' => 'localhost',
-    'username' => 'softest8_hrmain',
-    'password' => '=d9CM%o4s)B,',
-    'database' => 'softest8_hrmain',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'undbs',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,

@@ -31,14 +31,13 @@
                     </div>
                 </div>
                     <div class="panel-body">
-
                     <?= form_open('tax/Tax/create_tax_setup') ?>
                     <table id="POITable" border="0">
         <tr style="text-align: center;">
             <td><?php echo display('no') ?></td>
             <td><?php echo display('start_amount') ?></td>
             <td><?php echo display('end_amount') ?></td>
-            <td><?php echo display('tax_rate') ?></td>
+            <td><?php echo display('tax_rate') ?> (%)</td>
             <td style="padding:5px"><?php echo display('delete') ?>?</td>
             <td><?php echo display('add_more') ?>?</td>
         </tr>

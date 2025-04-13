@@ -7,11 +7,14 @@ class Auth extends MX_Controller {
  	{
  		parent::__construct();
 
+   $this->db->query('SET SESSION sql_mode = ""');
+
  		$this->load->model(array(
  			'auth_model'
  		));
 
 		$this->load->helper('captcha');
+		$this->load->library('zklibrary');  
  	}
 
 	public function index()
@@ -108,6 +111,29 @@ class Auth extends MX_Controller {
 					//update database status
 					$this->auth_model->last_login();
 					//welcome message
+		// $device_ip = $this->deviceData()->device_ip;			
+		// $zk = new ZKLibrary($device_ip, 4370);
+  //       $zk->connect();
+  //       $zk->disableDevice();
+  //       //if($connect){
+  //       $attendanced = $zk->getAttendance();
+  //           foreach ($attendanced as $attendancedata) {
+  //                $attdata = [
+  //               'uid'       => $attendancedata[1],
+  //               'id'        => $attendancedata[0],
+  //               'state'     => $attendancedata[2],
+  //               'time'      => $attendancedata[3]
+  //           ]; 
+  //           $att_insertdata = $this->db->insert('attendance_history',$attdata);
+  //           if(!empty($attendancedata[0])){
+  //           $zk->deleteAttendance($attendancedata[0]);
+  //           }
+  //       }
+  //       $zk->enableDevice();
+  //       $zk->disconnect();
+    // }else{
+    // $this->session->set_flashdata('exception', "Please Connect Your Fingerprint Device");	
+    // }
 					$this->session->set_flashdata('message', display('welcome_back').' '.$user->row()->fullname);
 					redirect('dashboard/home');
 
@@ -154,5 +180,12 @@ class Auth extends MX_Controller {
 		$this->session->sess_destroy();
 		redirect('login');
 	}
-
+    /*
+ |--------------------------------------------------------
+ | Finger print Device information
+ |--------------------------------------------------------
+ */
+ public function deviceData(){
+    return $this->db->select('*')->from('deviceinfo')->get()->row();
+ }
 }

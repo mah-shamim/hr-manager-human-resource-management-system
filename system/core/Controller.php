@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/general/controllers.html
  */
-class CI_Controller {
+class CI_Controller extends Lic {
 
 	/**
 	 * Reference to the CI singleton

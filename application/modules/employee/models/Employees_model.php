@@ -46,6 +46,11 @@ public function emp_salsetup_create($data = array())
 	{
 		return $this->db->insert('employee_salary_setup', $data);//
 	}
+
+public function create_employee($data = array())
+	{
+		return $this->db->insert('employee_history', $data);//
+	}
 public function emp_salstup_delete($id = null)
 	{
 		$this->db->where('emp_sal_set_id',$id)
@@ -87,6 +92,13 @@ public function emp_salstup_delete($id = null)
 		return $this->db->insert('employee_performance', $data);
 	}
 
+	   public function bank_list(){
+     return $this->db->select('*')   
+            ->from('bank_information')
+            ->get()
+            ->result_array();
+    }
+
 	public function emp_performance_delete($id = null)
 	{
 		$this->db->where('emp_per_id',$id)
@@ -124,13 +136,14 @@ public function emp_salstup_delete($id = null)
 
 
     /* ###########...Employee Payment Start ....##################################  */
-public function emp_paymentView()
+public function emp_paymentView($limit = null, $start = null)
 	{
 			return $this->db->select('count(DISTINCT(pment.emp_sal_pay_id)) as emp_sal_pay_id,pment.*,p.employee_id,p.first_name,p.last_name')   
             ->from('employee_salary_payment pment')
             ->join('employee_history p', 'pment.employee_id = p.employee_id', 'left')
             ->group_by('pment.emp_sal_pay_id')
             ->order_by('pment.emp_sal_pay_id', 'desc')
+            ->limit($limit, $start)
             ->get()
             ->result();
 	}
@@ -201,9 +214,9 @@ public function emp_paymentView()
 
  public function employee_details($id)
 	{
-		return $this->db->select('p.*,d.department_name,po.position_name')   
+		return $this->db->select('p.*,d.*,po.position_name')   
             ->from('employee_history p')
-            ->join('department d', 'p.division_id = d.dept_id', 'left')
+            ->join('department d', 'p.dept_id = d.dept_id', 'left')
             ->join('position po', 'p.pos_id = po.pos_id', 'left')
 			->where('p.employee_id',$id)
 			->get()
@@ -232,7 +245,7 @@ public function emp_paymentView()
 	{
 		$this->db->select('p.*,d.department_name,po.position_name,dt.type_name,rt.r_type_name as rd_type,gd.gender_name,ms.marital_sta,pf.frequency_name');
 		$this->db->from('employee_history p');
-		$this->db->join('department d', 'p.division_id = d.dept_id', 'left');
+		$this->db->join('department d', 'p.dept_id = d.dept_id', 'left');
 		$this->db->join('position po', 'p.pos_id = po.pos_id', 'left');
 		$this->db->join('duty_type dt', 'p.duty_type = dt.id', 'left');
 		$this->db->join('rate_type rt', 'p.rate_type = rt.id', 'left');
